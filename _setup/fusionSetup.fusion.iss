@@ -1,5 +1,5 @@
-#define MyAppName "Sistema Fusion"
-#define MyAppURL "http://www.sistemafusion.com.br"
+#define MyAppName "EmissorCafe"
+#define MyAppURL "https://github.com/robertorp/EmissorCafe"
 #define WizSmallImage "files\wiz-small.bmp"
 #define WizLeftImage "files\wiz-left.bmp"
 #define SetupIconFile "files\setup.ico"

@@ -16,14 +16,14 @@
 #define SQLSetupName = "SQLSetup2008_R2.exe"
 
 #ifdef Release
-  #define BuildPath "build"
+  #define BuildPath "bin\Release"
 #endif
 
 #ifndef Release
   // #define Full "" ;Ativar para simular instalador full
   // #define ThirdPath "C:\ProgramData\FusionSetup\3rd" ;Definir pasta a uxiliar para executaveis
   #define AppVersion "v0.0.0"
-  #define BuildPath "build"
+  #define BuildPath "bin\Release"
   #define Workspace GetEnv("PROJETO_FUSION")
 #endif
 
@@ -140,11 +140,6 @@ Source: "{#FusionPath}\x86\*"; DestDir: "{app}\Fusion\x86"; Flags: ignoreversion
 Source: "{#FusionPath}\*.dll"; DestDir: "{app}\Fusion"; Flags: ignoreversion replacesameversion; Check: InstallAdmCheck
 Source: "{#FusionPath}\*.xml"; DestDir: "{app}\Fusion"; Flags: ignoreversion replacesameversion; Check: InstallAdmCheck
 Source: "{#FusionPath}\*.config"; Excludes: "*.vshost.exe.config"; DestDir: "{app}\Fusion"; Flags: ignoreversion replacesameversion; Check: InstallAdmCheck
-Source: "{#FusionPath}\Report\Fusion\*.dll"; DestDir: "{app}\Fusion\Report\Fusion"; Flags: ignoreversion replacesameversion; Check: InstallAdmCheck
-Source: "{#FusionPath}\Report\Fusion\*.lic"; DestDir: "{app}\Fusion\Report\Fusion"; Flags: ignoreversion replacesameversion; Check: InstallAdmCheck
-Source: "{#FusionPath}\Report\Fusion\*.ini"; DestDir: "{app}\Fusion\Report\Fusion"; Flags: ignoreversion replacesameversion; Check: InstallAdmCheck
-Source: "{#FusionPath}\Report\Fusion\taskreport.exe"; DestDir: "{app}\Fusion\Report\Fusion"; Flags: ignoreversion replacesameversion; Check: InstallAdmCheck
-Source: "{#FusionPath}\Report\Fusion\TaskReportFusion.exe"; DestDir: "{app}\Fusion\Report\Fusion"; Flags: ignoreversion replacesameversion; Check: InstallAdmCheck
 Source: "{#FusionPath}\{#NomeExeAdm}"; DestDir: "{app}\Fusion"; Flags: ignoreversion replacesameversion; Check: InstallAdmCheck
 Source: "{#FusionBackgroundPath}\{#NomeExeBackgroudApp}"; DestDir: "{app}\Fusion"; Flags: ignoreversion replacesameversion; Check: InstallServidorCheck
 Source: "{#FusionBackgroundPath}\icon.ico"; DestDir: "{app}\Fusion"; Flags: ignoreversion replacesameversion; Check: InstallServidorCheck
