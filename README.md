@@ -12,4 +12,8 @@ Executando o projeto pela primeira vez. <br/>
 8- Restaurado os pacotes nugets de acordo com os passos 6 e 7 ? Criou a variável de ambiente PROJETO_FUSION no seu sistema operacional setando o caminho do projeto ? <br>
 9- Execute o projeto Fusion ou FusionNfce , outros projetos também , mas os principais são esses. <br>
 10- Erros? Manda issue! <br>
-11- Para facilitar a vida se não quiser instalar na mão o banco de dados e o .net framework, basta executar o instalador full na pasta "_setup/Instalador" ele irá instalar tudo para você, mas entre no services.msc, desative os serviços Fusion que estiver lá, porque isso pode lhe atrapalhar no desenvolvimento. 
+11- Para facilitar a vida se não quiser instalar na mão o banco de dados e o .net framework, basta executar o instalador full na pasta "_setup/Instalador" ele irá instalar tudo para você, mas entre no services.msc, desative os serviços Fusion que estiver lá, porque isso pode lhe atrapalhar no desenvolvimento. <br>
+
+# Com o passar do tempo vamos mudando tudo para EmissorCafe #
+# Dentro da pasta compilada existe uma pasta chamada ResponsavelLegal dentro dela contem o json chamado responsaveltecnico.json , preencha com suas informações. #
+# Você é responsável por seu sistema, Não tem suporte, não me responsabilizo por você ao utilizar esses fontes. #
