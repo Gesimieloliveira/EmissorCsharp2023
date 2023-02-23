@@ -14,6 +14,10 @@ Executando o projeto pela primeira vez. <br/>
 10- Erros? Manda issue! <br>
 11- Para facilitar a vida se não quiser instalar na mão o banco de dados e o .net framework, basta executar o instalador full na pasta "_setup/Instalador" ele irá instalar tudo para você, mas entre no services.msc, desative os serviços Fusion que estiver lá, porque isso pode lhe atrapalhar no desenvolvimento. <br>
 
+
+<br>
+Observações: muitos relatórios foram deletados pois utilizam um sistema chamado taskreports que exclui ele definitivamente antes de abrir os fontes. fast report são dlls demo, tem que comprar se realmente deseja utilizar os fontes. Até mesmo os instaladores estão com dll demo do fastreport, a ideia é passar tudo para o open mas levará tempo. Conto com o apio da comunidade. 
+
 # Com o passar do tempo vamos mudando tudo para EmissorCafe #
 # Dentro da pasta compilada existe uma pasta chamada ResponsavelLegal dentro dela contem o json chamado responsaveltecnico.json , preencha com suas informações. #
 # Você é responsável por seu sistema, Não tem suporte, não me responsabilizo por você ao utilizar esses fontes. #
