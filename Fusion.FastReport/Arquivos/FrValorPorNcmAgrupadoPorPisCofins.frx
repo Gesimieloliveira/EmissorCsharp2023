@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" StartReportEvent="_StartReport" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="10/17/2020 15:52:57" ReportInfo.CreatorVersion="2020.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {        
+    private void _StartReport(object sender, EventArgs e)
+    {
+    }
+    
+    private void PageHeader1_BeforePrint(object sender, EventArgs e)
+    {
+      Report.GetDataSource(&quot;Empresa&quot;).Init();
+    }
+    
+    private void GroupHeader1_BeforePrint(object sender, EventArgs e)
+    {
+    }
+
+    private void DataHeader1_BeforePrint(object sender, EventArgs e)
+    {
+    }
+
+    private void Data1_BeforePrint(object sender, EventArgs e)
+    {
+    }
+
+    private void TbTotaisCfop_ManualBuild(object sender, EventArgs e)
+    { 
+      // get the data source by its name
+      DataSourceBase rowData = Report.GetDataSource(&quot;Cfops&quot;);
+      // init the data source
+      rowData.Init();
+      
+      // print the first table row - it is a header
+      TbTotaisCfop.PrintRow(0);
+      // each PrintRow call must be followed by either PrintColumn or PrintColumns call
+      // to print cells on the row
+      TbTotaisCfop.PrintColumns();
+      
+      // now enumerate the data source and print the table body
+      while (rowData.HasMoreRows)
+      {
+        // print the table body  
+        TbTotaisCfop.PrintRow(1);
+        TbTotaisCfop.PrintColumns();
+        
+        // go next data source row
+        rowData.Next();
+      }
+      
+      // print the last table row - it is a footer
+      TbTotaisCfop.PrintRow(2);
+      TbTotaisCfop.PrintColumns();
+    }
+    
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      DateTime mesAnterior = DateTime.Today.AddMonths(-1); 
+      int ultimoDiaMes = DateTime.DaysInMonth(mesAnterior.Year, mesAnterior.Month);
+      
+      DataInicial.Value = new DateTime(mesAnterior.Year, mesAnterior.Month, 1);
+      DataFinal.Value = new DateTime(mesAnterior.Year, mesAnterior.Month, ultimoDiaMes);
+    }
+
+    private void btnOk_Click(object sender, EventArgs e)
+    {
+      if (!string.IsNullOrEmpty(CbEmpresa.Text)) {
+        string[] partes = CbEmpresa.Text.Split(',');
+        string empresaId = partes[partes.Length - 1];
+      
+        Report.SetParameterValue(&quot;EmpresaId&quot;, int.Parse(empresaId));
+      }
+    }
+  }
+}</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2gYK6Hkm0rGycimQmi6PzTQCcYscRYXnbID4BSu7tAz6n4QWML7U1/pJQ0M7PqO0sPLvRp8pTy/q/HTB3WmN9EbDo8aWN0PSz3Hhu5gNcXtzxhxrbvNEsiapRU2SWvQW30igTvbbyJHG7d77jaCDwfuudQk4n9Gi8hajnSMwDYHIGo/Q8U22fuooKkNSC1zDHUE2GE9sT/9huRvmKUILwU5VH8yHtdoD0DrCF9ggk1lUf3cQJKxYcl+XS1LUpZ3othw==">
+      <TableDataSource Name="TbItens" Alias="Itens" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select&#13;&#10;	m.codigoNcm as ncm,&#13;&#10;	m.codigoCfop as cfop,&#13;&#10;	m.itemPis as pis,&#13;&#10;	m.itemCofins as cofins,&#13;&#10;	sum(m.itemQuantidade) as somaQuantidade,&#13;&#10;	sum(m.itemTotal) as somaTotal&#13;&#10;from view_vendas_com_itens m&#13;&#10;where &#13;&#10;	m.ehFiscal = 1&#13;&#10;	and m.empresa_id = @ep1 &#13;&#10;	and m.dataVenda between @da1 and @da2 &#13;&#10;	and m.estadoVenda = 1&#13;&#10;group by m.codigoNcm, m.codigoCfop, m.itemPis, m.itemCofins;">
+        <Column Name="cfop" DataType="System.String"/>
+        <Column Name="ncm" DataType="System.String"/>
+        <Column Name="pis" DataType="System.String"/>
+        <Column Name="cofins" DataType="System.String"/>
+        <Column Name="somaQuantidade" DataType="System.Decimal"/>
+        <Column Name="somaTotal" DataType="System.Decimal"/>
+        <CommandParameter Name="ep1" DataType="8" Expression="[EmpresaId]" DefaultValue="0"/>
+        <CommandParameter Name="da1" DataType="4" Expression="DataInicial.Value" DefaultValue="1900-01-01"/>
+        <CommandParameter Name="da2" DataType="4" Expression="DataFinal.Value" DefaultValue="1900-01-01"/>
+      </TableDataSource>
+      <TableDataSource Name="TbEmpresa" Alias="Empresa" DataType="System.Int32" PropName="Table1" Enabled="true" SelectCommand="select &#13;&#10;	(e.razaoSocial + ',' + cast(e.id as varchar)) as nome,&#13;&#10;	e.razaoSocial,&#13;&#10;	e.nomeFantasia,&#13;&#10;	e.logradouro,&#13;&#10;	e.cep,&#13;&#10;	e.bairro,&#13;&#10;	e.numero,&#13;&#10;	e.fone1,&#13;&#10;	e.fone2,&#13;&#10;	case when len(e.cnpj) = 14 then e.cnpj else e.cpf end as cpfnpj,&#13;&#10;	e.logo&#13;&#10;from empresa e">
+        <Column Name="bairro" DataType="System.String"/>
+        <Column Name="cep" DataType="System.String"/>
+        <Column Name="cpfnpj" DataType="System.String"/>
+        <Column Name="fone1" DataType="System.String"/>
+        <Column Name="fone2" DataType="System.String"/>
+        <Column Name="logo" DataType="System.Byte[]" BindableControl="Picture"/>
+        <Column Name="logradouro" DataType="System.String"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="nomeFantasia" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <Column Name="razaoSocial" DataType="System.String"/>
+      </TableDataSource>
+      <TableDataSource Name="Table" Alias="Cfops" DataType="System.Int32" Enabled="true" SelectCommand="select&#13;&#10;	m.codigoCfop as cfop,&#13;&#10;	sum(m.itemTotal) as somaTotal&#13;&#10;from view_vendas_com_itens m&#13;&#10;where &#13;&#10;	m.ehFiscal = 1&#13;&#10;	and m.empresa_id = @ep1 &#13;&#10;	and m.dataVenda between @da1 and @da2 &#13;&#10;	and m.estadoVenda = 1&#13;&#10;group by m.codigoCfop">
+        <Column Name="cfop" DataType="System.String"/>
+        <Column Name="somaTotal" DataType="System.Decimal"/>
+        <CommandParameter Name="ep1" DataType="8" Expression="[EmpresaId]" DefaultValue="0"/>
+        <CommandParameter Name="da1" DataType="4" Expression="DataInicial.Value" DefaultValue="1900-01-01"/>
+        <CommandParameter Name="da2" DataType="4" Expression="DataFinal.Value" DefaultValue="1900-01-01"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+    <Parameter Name="EmpresaId" DataType="System.Int32"/>
+    <Total Name="TotalGrupo" Expression="[Itens.somaTotal]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+  </Dictionary>
+  <DialogPage Name="Form1" Width="544" Height="224" AcceptButton="btnOk" CancelButton="btnCancel" Font="Tahoma, 8pt" LoadEvent="Form1_Load">
+    <ButtonControl Name="btnOk" Left="360" Top="146" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" AutoFill="false" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="443" Top="146" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="1" Text="Cancelar" DialogResult="Cancel"/>
+    <DateTimePickerControl Name="DataInicial" Left="8" Top="88" Width="236" Height="24" Font="Tahoma, 8pt" TabIndex="2" Text="06/09/2019" Format="Short" Value="09/06/2019 13:32:52"/>
+    <LabelControl Name="Label1" Left="8" Top="64" Width="88" Height="21" Font="Tahoma, 8pt" TabIndex="3" Text="Periodo inicial"/>
+    <DateTimePickerControl Name="DataFinal" Left="284" Top="88" Width="236" Height="24" Font="Tahoma, 8pt" TabIndex="2" Text="06/09/2019" Format="Short" Value="09/06/2019 13:31:29"/>
+    <LabelControl Name="Label2" Left="284" Top="68" Width="80" Height="21" Font="Tahoma, 8pt" TabIndex="3" Text="Periodo final"/>
+    <LabelControl Name="Label3" Left="8" Top="12" Width="115" Height="21" Font="Tahoma, 8pt" TabIndex="3" Text="Empresa emissora" ClickEvent="Label3_Click"/>
+    <ComboBoxControl Name="CbEmpresa" Left="8" Top="32" Width="513" Height="24" Font="Tahoma, 8pt" TabIndex="4" Text="Escolha uma empresa" DataColumn="Empresa.nome" DropDownWidth="513" ItemHeight="16"/>
+  </DialogPage>
+  <ReportPage Name="Page1" RawPaperSize="9" Guides="716.31,0" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PageHeader1" Width="718.2" Height="73.71" Border.Lines="All" Border.Width="0.25" BeforePrintEvent="PageHeader1_BeforePrint">
+      <PictureObject Name="Picture1" Left="1" Top="5.67" Width="114.41" Height="65.39" DataColumn="Empresa.logo"/>
+      <TextObject Name="Text35" Left="119.07" Top="5.67" Width="597.24" Height="17.01" Text="[Empresa.nomeFantasia]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text36" Left="119.07" Top="22.68" Width="597.24" Height="17.01" Text="Cnpj / Cpf: [Empresa.cpfnpj]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text37" Left="119.07" Top="39.69" Width="597.24" Height="17.01" Text="Endereço: [Empresa.logradouro], [Empresa.numero], [Empresa.bairro], [Empresa.cep]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text38" Left="119.07" Top="56.7" Width="597.24" Height="17.01" Text="Fone 1: [Empresa.fone1] / Fone 2: [Empresa.fone2]" Font="Arial Narrow, 10pt"/>
+      <ChildBand Name="Child1" Top="75.98" Width="718.2" Height="51.03">
+        <TextObject Name="Text27" Top="28.35" Width="716.31" Height="13.23" Text="Periodo das emissões: [DataInicial.Value] à [DataFinal.Value]" HorzAlign="Center" Font="Arial Narrow, 9pt, style=Italic">
+          <Formats>
+            <DateFormat/>
+            <DateFormat/>
+          </Formats>
+        </TextObject>
+        <TextObject Name="Text22" Top="11.34" Width="716.31" Height="17.01" Text="[DescricaoRelatorio]" HorzAlign="Center" Font="Arial Narrow, 11pt, style=Bold"/>
+      </ChildBand>
+    </PageHeaderBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="129.29" Width="718.2" Height="18.9" BeforePrintEvent="GroupHeader1_BeforePrint" Condition="Format(&quot;{0}{1}{2}&quot;,[Itens.cfop],[Itens.pis],[Itens.cofins])">
+      <TextObject Name="Text28" Top="3.78" Width="151.2" Height="15.12" Text="CFOP: [Itens.cfop]" Font="Arial Narrow, 10pt, style=Italic">
+        <Formats>
+          <DateFormat/>
+          <DateFormat/>
+        </Formats>
+      </TextObject>
+      <TextObject Name="Text29" Left="154.98" Top="3.78" Width="151.2" Height="15.12" Text="CST PIS: [Itens.pis]" Font="Arial Narrow, 10pt, style=Italic">
+        <Formats>
+          <DateFormat/>
+          <DateFormat/>
+        </Formats>
+      </TextObject>
+      <TextObject Name="Text30" Left="309.96" Top="3.78" Width="151.2" Height="15.12" Text="CST COFINS: [Itens.cofins]" Font="Arial Narrow, 10pt, style=Italic">
+        <Formats>
+          <DateFormat/>
+          <DateFormat/>
+        </Formats>
+      </TextObject>
+      <DataBand Name="Data1" Top="173.52" Width="359.1" Height="20.79" CanGrow="true" CanShrink="true" BeforePrintEvent="Data1_BeforePrint" DataSource="TbItens" Columns.Count="2" Columns.Layout="DownThenAcross">
+        <TextObject Name="Text5" Width="126.63" Height="13.23" Text="[Itens.ncm]" Font="Arial Narrow, 8pt"/>
+        <TextObject Name="Text7" Left="126.63" Width="81.27" Height="13.23" Text="[Itens.somaQuantidade]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial Narrow, 8pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text9" Left="207.9" Width="86.94" Height="13.23" Text="[Itens.somaTotal]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" WordWrap="false" Font="Arial Narrow, 8pt" Trimming="EllipsisCharacter"/>
+        <DataHeaderBand Name="DataHeader1" Top="150.46" Width="718.2" Height="20.79" Border.Lines="Top, Bottom" Border.Width="0.25" BeforePrintEvent="DataHeader1_BeforePrint">
+          <TextObject Name="Text6" Width="126.63" Height="20.79" Text="NCM" VertAlign="Center" Font="Arial Narrow, 9pt, style=Bold"/>
+          <TextObject Name="Text8" Left="126.63" Width="81.27" Height="20.79" Text="Qtde" HorzAlign="Right" VertAlign="Center" Font="Arial Narrow, 9pt, style=Bold"/>
+          <TextObject Name="Text10" Left="207.9" Width="86.94" Height="20.79" Text="Total" HorzAlign="Right" VertAlign="Center" Font="Arial Narrow, 9pt, style=Bold"/>
+          <TextObject Name="Text40" Left="359.1" Width="126.63" Height="20.79" Text="NCM" VertAlign="Center" Font="Arial Narrow, 9pt, style=Bold"/>
+          <TextObject Name="Text41" Left="485.73" Width="81.27" Height="20.79" Text="Qtde" HorzAlign="Right" VertAlign="Center" Font="Arial Narrow, 9pt, style=Bold"/>
+          <TextObject Name="Text42" Left="567" Width="86.94" Height="20.79" Text="Total" HorzAlign="Right" VertAlign="Center" Font="Arial Narrow, 9pt, style=Bold"/>
+        </DataHeaderBand>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="196.58" Width="718.2" Height="20.79" CanShrink="true">
+        <TextObject Name="Text43" Left="568.89" Top="1.89" Width="147.42" Height="15.12" Text="Total: [TotalGrupo]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" Font="Arial Narrow, 8pt, style=Italic"/>
+      </GroupFooterBand>
+    </GroupHeaderBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="219.65" Width="718.2" Height="96">
+      <TableObject Name="TbTotaisCfop" Left="1.89" Top="18.9" Width="714.42" Height="58.2" ManualBuildEvent="TbTotaisCfop_ManualBuild">
+        <TableColumn Name="Column1" Width="93.02"/>
+        <TableColumn Name="Column2" Width="153.5"/>
+        <TableColumn Name="Column3" Width="467.9"/>
+        <TableRow Name="Row1" Height="21.54">
+          <TableCell Name="Cell1" Border.Lines="Top, Bottom" Border.Width="0.25" Text="CFOP" VertAlign="Center" Font="Arial Narrow, 9pt, style=Bold"/>
+          <TableCell Name="Cell2" Border.Lines="Top, Bottom" Border.Width="0.25" Text="Total" HorzAlign="Right" VertAlign="Center" Font="Arial Narrow, 9pt, style=Bold"/>
+          <TableCell Name="Cell7" Border.Lines="Top, Bottom" Border.Width="0.25" Font="Arial Narrow, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row2" Height="17.76">
+          <TableCell Name="Cell3" Text="[Cfops.cfop]" Font="Arial Narrow, 9pt"/>
+          <TableCell Name="Cell4" Text="[Cfops.somaTotal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial Narrow, 9pt"/>
+          <TableCell Name="Cell8" Font="Arial Narrow, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell5" Text="total:" Font="Arial Narrow, 9pt, style=Bold"/>
+          <TableCell Name="Cell6" Text="[Sum(Cell4)]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial Narrow, 9pt, style=Bold"/>
+          <TableCell Name="Cell9" Font="Arial Narrow, 10pt"/>
+        </TableRow>
+      </TableObject>
+    </ReportSummaryBand>
+    <PageFooterBand Name="PageFooter1" Top="317.92" Width="718.2" Height="13.23" CanShrink="true">
+      <TextObject Name="Text44" Width="291.06" Height="13.23" Text="Impresso em: [Date]" Font="Arial Narrow, 8pt, style=Italic"/>
+      <TextObject Name="Text34" Left="451.71" Width="264.6" Height="13.23" Text="Pagina: [Page#]/[TotalPages#]" HorzAlign="Right" Font="Arial Narrow, 8pt, style=Italic"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

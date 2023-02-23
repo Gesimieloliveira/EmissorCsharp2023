@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Pdv"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ProdutoAliasDt" table="produto_alias">
+    <id name="Id" column="id" />
+
+    <many-to-one column="produto_id" name="Produto" not-null="true"
+                 cascade="none" fetch="join" class="FusionCore.Repositorio.Legacy.Entidades.Pdv.ProdutoDt" />
+
+    <property name="IsCodigoBarras">
+      <column name="isCodigoBarra" not-null="true" />
+    </property>
+
+    <property name="Alias">
+      <column name="alias" sql-type="varchar" length="25" not-null="true" />
+    </property>
+    
+  </class>
+</hibernate-mapping>

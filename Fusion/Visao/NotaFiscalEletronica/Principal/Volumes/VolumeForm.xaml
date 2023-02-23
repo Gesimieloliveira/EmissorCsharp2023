@@ -1,0 +1,66 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.NotaFiscalEletronica.Principal.Volumes.VolumeForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:volumes="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Principal.Volumes"
+                      mc:Ignorable="d"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      WindowStartupLocation="CenterScreen"
+                      Title="Cadastro de Volumes" Height="360" Width="456"
+                      d:DataContext="{d:DesignInstance volumes:VolumeFormModel}"
+                      Name="this">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+
+
+            <StackPanel Grid.Row="0" Grid.Column="0" Margin="5">
+                <TextBlock Text="Quantidade Volume" />
+                <TextBox
+                    Text="{Binding Quantidade, Mode=TwoWay, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                    controls:TextBoxHelper.SelectAllOnFocus="True" MaxLength="11" />
+
+                <TextBlock Text="Peso Bruto" />
+                <TextBox
+                    Text="{Binding PesoBruto, StringFormat=N2, Mode=TwoWay, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                    controls:TextBoxHelper.SelectAllOnFocus="True" MaxLength="11" />
+
+                <TextBlock Text="Peso Liquído" />
+                <TextBox
+                    Text="{Binding PesoLiquido, StringFormat=N2, Mode=TwoWay, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                    controls:TextBoxHelper.SelectAllOnFocus="True" MaxLength="11" />
+
+                <TextBlock Text="Espécie" />
+                <TextBox Text="{Binding Especie, Mode=TwoWay, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                         MaxLength="60" />
+
+                <TextBlock Text="Numeração" />
+                <TextBox
+                    Text="{Binding Numeracao, Mode=TwoWay, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                    MaxLength="60" />
+
+                <TextBlock Text="Marca" />
+                <TextBox Text="{Binding Marca, Mode=TwoWay, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                         MaxLength="60" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+
+                <Button Margin="3" IsEnabled="{Binding BotaoSalvar}" Style="{DynamicResource FusionAccentedButton}" 
+                        HorizontalAlignment="Right"
+                        Command="{Binding CommandAdicionarVolume}"
+                        CommandParameter="{Binding ElementName=this}" 
+                        Content="Adicionar Volume"/>
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</controls:MetroWindow>

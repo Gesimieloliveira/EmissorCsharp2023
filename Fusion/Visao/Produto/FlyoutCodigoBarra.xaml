@@ -1,0 +1,67 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.Produto.FlyoutCodigoBarra"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:local="clr-namespace:Fusion.Visao.Produto"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 mc:Ignorable="d" d:DesignWidth="600"
+                 d:DataContext="{d:DesignInstance local:FlyoutCodigoBarraModel}"
+                 IsOpen="{Binding IsOpen}"
+                 IsModal="True" Theme="Light" Position="Top"
+                 IsOpenChanged="IsOpenChangedHandler"
+                 Height="Auto"
+                 Background="White">
+    
+    <DockPanel Margin="5">
+        <StackPanel DockPanel.Dock="Top" Margin="0,25,0,0">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Código, Código de barras ou Apelido do produto para buscas" />
+                    <TextBox 
+                        x:Name="TextBoxAlias" Text="{Binding Alias}" 
+                        MaxLength="25" 
+                        IsReadOnly="{Binding ModoEdicao}"/>
+                </StackPanel>
+
+                <DockPanel Margin="0,5,0,0" IsEnabled="{Binding PermiteEditarFlagCodigoBarras}">
+                    <controls:ToggleSwitch DockPanel.Dock="Right" 
+                                           Focusable="False"
+                                           OnContent="Sim" OffContent="Não"
+                                           IsOn="{Binding IsCodigoBarras}" />
+                    
+                    <TextBlock DockPanel.Dock="Right" Text="Esse é um código de barras válido?" VerticalAlignment="Center" />
+                </DockPanel>
+
+                <DockPanel Margin="0,5,0,0">
+                    <controls:ToggleSwitch DockPanel.Dock="Right" 
+                                           Focusable="False"
+                                           OnContent="Sim" OffContent="Não"
+                                           IsOn="{Binding IsGTIN}" />
+
+                    <TextBlock DockPanel.Dock="Right" Text="Esse é um GTIN válido?" VerticalAlignment="Center" />
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Margin="0,0,0,20" controls:VisibilityHelper.IsVisible="{Binding IsGTIN}">
+                <TextBlock 
+                    TextWrapping="Wrap"
+                    Text="Selecione um emissor fiscal NF-e para validar o Código GTIN com a Sefaz"></TextBlock>
+                <ComboBox 
+                        Margin="0,5,0,0"
+                        ItemsSource="{Binding Path=ListaEmissorFiscal}"
+                          SelectedItem="{Binding EmissorSelecionado, Mode=TwoWay}"
+                          SelectedValuePath="Id"
+                          IsEditable="True"
+                          SelectedValue="{Binding EmissorSelecionado.Id}" />
+            </StackPanel>
+        </StackPanel>
+
+        <Border DockPanel.Dock="Top" Margin="0,10,0,0">
+            <Button 
+                Style="{DynamicResource FusionAccentedButton}"
+                HorizontalAlignment="Right"
+                Width="150" Click="ClickSalvarCodigoBarraHandler" 
+                Content="Salvar alterações"/>
+        </Border>
+    </DockPanel>
+</controls:Flyout>

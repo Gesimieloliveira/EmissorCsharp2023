@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="Fusion.Visao.NotaFiscalEletronica.Principal.Controles.PisCofinsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             xmlns:local="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Principal.Controles"
+             mc:Ignorable="d" d:DesignWidth="950"
+             d:DataContext="{d:DesignInstance local:PisCofinsContexto, IsDesignTimeCreatable=False}"
+             Background="White"
+             Loaded="LoadedHandler">
+
+    <DockPanel>
+        <controles:TituloDivisor
+            DockPanel.Dock="Top"
+            BorderBrush="{DynamicResource AccentColorBrush}"
+            Text="Configuração de PIS/COFINS" />
+
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Tributação PIS" />
+                    <ComboBox
+                        ItemsSource="{Binding PisDisponiveis}"
+                        SelectedItem="{Binding PisSelecionado}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="3,0,0,0">
+                    <TextBlock Text="% Alíquota" />
+                    <controles:DecimalTextBox Text="{Binding AliquotaPis, StringFormat=N4}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Margin="3,0,0,0">
+                    <TextBlock Text="$ Base Cálculo" />
+                    <controles:DecimalTextBox
+                        IsReadOnly="{Binding AutoAjusteImposto}"
+                        Text="{Binding BaseCalculoPis, StringFormat=N2}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="3" Margin="3,0,0,0">
+                    <TextBlock Text="$ Valor Pis" />
+                    <controles:DecimalTextBox
+                        IsReadOnly="{Binding AutoAjusteImposto}"
+                        Text="{Binding ValorPis, StringFormat=N2}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="5,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Tributação COFINS" />
+                    <ComboBox
+                        ItemsSource="{Binding CofinsDisponiveis}"
+                        SelectedItem="{Binding CofinsSelecionado}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="3,0,0,0">
+                    <TextBlock Text="% Alíquota" />
+                    <controles:DecimalTextBox Text="{Binding AliquotoCofins, StringFormat=N4}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Margin="3,0,0,0">
+                    <TextBlock Text="$ Base Cálculo" />
+                    <controles:DecimalTextBox
+                        IsReadOnly="{Binding AutoAjusteImposto}"
+                        Text="{Binding BaseCalculoCofins, StringFormat=N2}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="3" Margin="3,0,0,0">
+                    <TextBlock Text="$ Valor Pis" />
+                    <controles:DecimalTextBox
+                        IsReadOnly="{Binding AutoAjusteImposto}"
+                        Text="{Binding ValorCofins, StringFormat=N2}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</UserControl>

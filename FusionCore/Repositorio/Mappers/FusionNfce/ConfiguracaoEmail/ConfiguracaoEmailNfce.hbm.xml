@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.ConfiguracaoEmail"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ConfiguracaoEmailNfce" table="configuracao_email">
+    <id name="Id" column="id" />
+    
+    <property name="Email">
+      <column name="email" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="Senha">
+      <column name="senha" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="Porta">
+      <column name="porta" sql-type="int" not-null="true" />
+    </property>
+    
+    <property name="Ssl">
+      <column name="ssl" sql-type="bit" not-null="true" />
+    </property>
+    
+    <property name="UrlServidorEmail">
+      <column name="urlServidorEmail" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="ProtocoloSeguranca">
+      <column name="protocoloSeguranca" not-null="true" />
+    </property>
+
+    <property name="UsarFusionZohoo">
+      <column name="usarFusionZohoo" not-null="true" />
+    </property>
+
+    <property name="EmailResposta">
+      <column name="emailResposta" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

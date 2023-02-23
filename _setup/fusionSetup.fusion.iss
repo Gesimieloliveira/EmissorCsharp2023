@@ -1,0 +1,5 @@
+#define MyAppName "Sistema Fusion"
+#define MyAppURL "http://www.sistemafusion.com.br"
+#define WizSmallImage "files\wiz-small.bmp"
+#define WizLeftImage "files\wiz-left.bmp"
+#define SetupIconFile "files\setup.ico"

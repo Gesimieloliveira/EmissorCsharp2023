@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.CCe"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteInformacaoCorrecao" table="cte_info_correcao">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="CteCartaCorrecao" cascade="none">
+      <column name="cteCartaCorrecao_id" not-null="true" />
+    </many-to-one>
+
+    <property name="Grupo" not-null="true">
+      <column name="grupo"/>
+    </property>
+
+    <property name="Campo" not-null="true">
+      <column name="campo"/>
+    </property>
+
+    <property name="NovoValor" not-null="true">
+      <column name="novoValor"/>
+    </property>
+
+    <property name="NumeroItem" not-null="true">
+      <column name="numeroItem"/>
+    </property>
+  </class>
+</hibernate-mapping>

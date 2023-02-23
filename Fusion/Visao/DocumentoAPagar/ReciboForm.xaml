@@ -1,0 +1,120 @@
+﻿<simpleChildWindow:ChildWindow
+    x:Class="Fusion.Visao.DocumentoAPagar.ReciboForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Fusion.Visao.DocumentoAPagar"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:fa="http://schemas.fontawesome.io/icons/"
+    xmlns:simpleChildWindow="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+    xmlns:controles="clr-namespace:Fusion.Controles"
+    xmlns:fcs="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+    mc:Ignorable="d"
+    Title="Recibo"
+    EnableDropShadow="False"
+    ChildWindowWidth="600" ChildWindowHeight="430"
+    d:DataContext="{d:DesignInstance local:ReciboFormModel}"
+    Style="{DynamicResource ChildWindowStyle}">
+
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock>Empresa</TextBlock>
+            <ComboBox ItemsSource="{Binding Path=Empresas}"
+                      DisplayMemberPath="Nome"
+                      IsEditable="False"
+                      SelectedItem="{Binding EmpresaSelecionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                      SelectedValuePath="Id"
+                      SelectedValue="{Binding EmpresaSelecionada.Id}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <TextBlock>Pessoa</TextBlock>
+
+            <fcs:SearchTextBox 
+                Text="{Binding NomePessoa}" 
+                SearchCommand="{Binding BuscarPessoaCommand}" />
+
+            <TextBox Text="{Binding DocumentoUnico}" Margin="0,5,0,0"
+                     controls:TextBoxHelper.Watermark="CPF/CNPJ ou OUTRO DOCUMENTO"/>
+
+        </StackPanel>
+
+        <StackPanel Margin="0,5,0,0" Grid.Row="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock>Local/Data Pagamento</TextBlock>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <controles:CidadeComboPicker Selecionado="{Binding CidadeSelecionada}"></controles:CidadeComboPicker>
+
+                    <DatePicker Grid.Column="1"
+                                SelectedDate="{Binding DataPagamento}">
+                        <DatePicker.Resources>
+                            <Style TargetType="DatePickerTextBox">
+                                <Setter Property="IsReadOnly" Value="True" />
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
+
+                </Grid>
+
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Margin="0,5,0,0" Grid.Row="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock>Valor</TextBlock>
+                    <TextBox Text="{Binding Valor, StringFormat=N2, UpdateSourceTrigger=LostFocus}" Width="150"
+                             HorizontalAlignment="Left" TextAlignment="Right" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <controls:ToggleSwitch OnContent="Estou Pagando" OffContent="Estou Recebendo"
+                                           IsOn="{Binding IsPagando}" />
+                </StackPanel>
+
+            </Grid>
+        </StackPanel>
+
+        <DockPanel Margin="0,5,0,0" Grid.Row="4">
+            <TextBlock DockPanel.Dock="Top">Referente a(o)</TextBlock>
+            <TextBox TextWrapping="Wrap" Text="{Binding Referente}" AcceptsReturn="True" />
+        </DockPanel>
+
+        <StackPanel Margin="0,5,0,0" Grid.Row="5">
+            <Button Style="{DynamicResource FusionAccentedButton}" Command="{Binding GerarReciboCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Repeat" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Gerar Recibo" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+
+    </Grid>
+</simpleChildWindow:ChildWindow>

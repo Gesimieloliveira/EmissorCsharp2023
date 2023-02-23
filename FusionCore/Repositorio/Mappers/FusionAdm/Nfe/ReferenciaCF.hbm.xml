@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ReferenciaCf" table="nfe_referencia_cf">
+    <id name="Id" column="id" generator="identity" />
+
+    <many-to-one name="Nfe" class="Nfeletronica" cascade="none" outer-join="true">
+      <column name="nfe_id" sql-type="int" not-null="true" />
+    </many-to-one>
+
+    <property name="ModeloCupom">
+      <column name="modeloCupom" sql-type="varchar" length="2" not-null="true" />
+    </property>
+
+    <property name="NumeroEcf">
+      <column name="numeroEcf" sql-type="varchar" length="3" not-null="true" />
+    </property>
+
+    <property name="NumeroCoo">
+      <column name="numeroCoo" sql-type="int" not-null="true" />
+    </property>
+  </class>
+
+</hibernate-mapping>

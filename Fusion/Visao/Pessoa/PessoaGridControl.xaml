@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="Fusion.Visao.Pessoa.PessoaGridControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:pessoa="clr-namespace:Fusion.Visao.Pessoa"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance pessoa:PessoaGridModel}"
+             d:DesignWidth="1025"
+             Loaded="LoadedHandler">
+
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border x:Name="PainelFiltro" DockPanel.Dock="Top" Background="{DynamicResource GrayBrush9}" Padding="5" controls:VisibilityHelper.IsVisible="{Binding IsPessoaListar}">
+            <Grid HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal">
+
+                    <StackPanel Width="60" Margin="5,0,0,0">
+                        <TextBlock Text="Id igual á" />
+                        <TextBox MaxLength="6" Text="{Binding Filtro.Codigo, TargetNullValue=''}" />
+                    </StackPanel>
+
+                    <StackPanel Width="155" Margin="5,0,0,0">
+                        <TextBlock Text="Nome pessoa que contenha" />
+                        <TextBox MaxLength="60" Text="{Binding Filtro.NomePessoaContenha}" />
+                    </StackPanel>
+
+                    <StackPanel Width="160" Margin="5,0,0,0">
+                        <TextBlock Text="Nome Fantasia que contenha" />
+                        <TextBox MaxLength="60" Text="{Binding Filtro.NomeFantasiaPessoaContenha}" />
+                    </StackPanel>
+
+                    <StackPanel Width="120" Margin="5,0,0,0">
+                        <TextBlock Text="Cpf/Cnpj igual á" />
+                        <TextBox MaxLength="14" Text="{Binding Filtro.DocumentoUnicoIgualA, Converter={conversores:CpfCnpjMaskConverter}}" />
+                    </StackPanel>
+
+                    <StackPanel Width="170" Margin="5,0,0,0">
+                        <TextBlock Text="E-mail da pessoa que contenha" />
+                        <TextBox CharacterCasing="Lower" Text="{Binding Filtro.EmailPessoaContenha}" />
+                    </StackPanel>
+
+                    <StackPanel Width="100" Margin="5,0,0,0">
+                        <TextBlock Text="Telefone igual á" />
+                        <TextBox Text="{Binding Filtro.TelefoneIgualA, Converter={conversores:TelefoneMaskConverter}}" />
+                    </StackPanel>
+
+                    <StackPanel Width="60" Margin="5,0,0,0">
+                        <TextBlock Text="Ativos" />
+                        <ComboBox IsEditable="False" SelectedIndex="1">
+                            <ComboBoxItem Content="Sim" IsSelected="{Binding Filtro.Ativos}" />
+                            <ComboBoxItem Content="Não" />
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Width="123" Margin="5,0,0,0" VerticalAlignment="Bottom">
+                        <Button
+                            x:Name="BotaoFiltro"
+                            HorizontalAlignment="Left" Width="120"
+                            Style="{DynamicResource FusionCleanButton}"
+                            Click="AplicarFiltroManipulador" controls:VisibilityHelper.IsVisible="{Binding IsPessoaListar}">
+
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Icon="Filter" Width="15" Margin="-4,0,0,0" />
+                                <TextBlock Text="Aplicar Busca" Margin="5,-1,0,-1" />
+                            </StackPanel>
+                        </Button>
+
+                    </StackPanel>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,5,0,0" Orientation="Horizontal" Grid.Row="1">
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Width="150" Margin="0,0,0,0" controls:VisibilityHelper.IsVisible="{Binding IsPessoaInserir}">
+                <Button Click="ClickNovoHandler" Style="{DynamicResource FusionAccentedButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Plus" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                        <TextBlock Text="Cadastrar Pessoa" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+        <DataGrid 
+            controls:VisibilityHelper.IsVisible="{Binding IsPessoaListar}"
+            Margin="0,10,0,0"
+            Grid.Row="2"
+            HorizontalScrollBarVisibility="Auto"
+            ItemsSource="{Binding Pessoas}"
+            AutoGenerateColumns="False"
+            SelectedItem="{Binding Selecionado}"
+            IsReadOnly="True">
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DoubleClickRowHandler" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Width="50" Binding="{Binding Id, StringFormat=D6}" helpers:DataGridColumnHelper.Align="Left" />
+                <DataGridTextColumn Header="Nome" Width="350" Binding="{Binding Nome}" />
+                <DataGridTextColumn Header="Extensão" Width="Auto" Binding="{Binding ExtensaoString}" />
+                <DataGridTextColumn Header="Tipo" Width="Auto" Binding="{Binding DescricaoTipo}" />
+                <DataGridTextColumn Header="Documento" Width="Auto" Binding="{Binding DocumentoUnicoString}" />
+                <DataGridTextColumn Header="RG" Width="Auto" Binding="{Binding Rg}" />
+                <DataGridTextColumn Header="IE" Width="Auto" Binding="{Binding InscricaoEstadual}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

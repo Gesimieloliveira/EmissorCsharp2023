@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MDFeRodoviario" table="mdfe_rodoviario">
+
+    <id column="mdfe_id" name="MDFeId">
+      <generator class="foreign">
+        <param name="property">MDFeEletronico</param>
+      </generator>
+    </id>
+
+    <one-to-one name="MDFeEletronico" class="MDFeEletronico" constrained="true"/>
+    
+    <one-to-one name="VeiculoTracao" class="MDFeVeiculoTracao" cascade="none"/>
+    
+    <property name="Rntrc" not-null="true">
+      <column name="rntrc"/>
+    </property>
+    
+    <property name="CodigoAgendamentoPorto" not-null="true">
+      <column name="codigoAgendamentoPorto"/>
+    </property>
+
+    <bag name="ValesPedagios" table="mdfe_vale_pedagio" inverse="true" cascade="none">
+      <key column="mdfeRodoviario_id"/>
+      <one-to-many class="MDFeValePedagio"/>
+    </bag>
+
+    <bag name="VeiculosReboques" table="mdfe_veiculo_reboque" inverse="true" cascade="none">
+      <key column="mdfeRodoviario_id"/>
+      <one-to-many class="MDFeVeiculoReboque"/>
+    </bag>
+
+    <bag name="Contratantes" table="mdfe_contratante" inverse="true" cascade="none">
+      <key column="mdfeRodoviario_id"/>
+      <one-to-many class="MDFeContratante"/>
+    </bag>
+    
+    <bag name="Ciots" table="mdfe_ciot" inverse="true" cascade="none">
+      <key column="mdfeRodoviario_id" />
+      <one-to-many class="MDFeCiot" />
+    </bag>
+    
+  </class>
+</hibernate-mapping>

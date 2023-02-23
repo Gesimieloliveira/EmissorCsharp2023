@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Tributacoes.Regras"
+                   xmlns="urn:nhibernate-mapping-2.2" 
+                   default-cascade="none">
+
+  <class name="RegraTributacaoSaida" table="regra_tributacao_saida" lazy="false">
+    <id name="Id" generator="identity">
+      <column name="id" sql-type="smallint" />
+    </id>
+
+    <property name="Ativo">
+      <column name="ativo" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" not-null="true" />
+    </property>
+
+    <many-to-one name="Cst">
+      <column name="situacaoTributariaIcms_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="Csosn">
+      <column name="situacaoTributariaCsosn_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="CfopIntermunicipal">
+      <column name="intermunicipalPerfilCfop_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="CfopInterestadual">
+      <column name="interestadualPerfilCfop_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="CfopExterior">
+      <column name="exteriorPerfilCfop_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="CfopNfce">
+      <column name="nfceCfop_id" not-null="true" />
+    </many-to-one>
+  </class>
+</hibernate-mapping>

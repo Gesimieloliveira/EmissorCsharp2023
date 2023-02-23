@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="Fusion.Visao.CteEletronicoOs.Perfil.AbaGeral"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Fusion.Visao.CteEletronicoOs.Perfil"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:flags="FusionCore.FusionAdm.CteEletronicoOs.Flags;assembly=FusionCore"
+             xmlns:flags1="clr-namespace:FusionCore.FusionAdm.CteEletronico.Flags;assembly=FusionCore"
+             xmlns:flags2="clr-namespace:FusionCore.FusionAdm.CteEletronicoOs.Flags;assembly=FusionCore"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:PerfilCteOsFormModel}"
+             Background="{StaticResource WhiteBrush}"
+             d:DesignWidth="500">
+    <AdornerDecorator>
+        <DockPanel>
+            <GroupBox DockPanel.Dock="Top" Header="Descrição do perfil">
+                <StackPanel>
+                    <TextBox
+                        Text="{Binding Descricao, Mode=TwoWay}"
+                        MaxLength="255" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox DockPanel.Dock="Top" Header="Modelo da NF-e">
+                <StackPanel>
+                    <StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+
+                            <StackPanel>
+                                <TextBlock Text="Emissor Fiscal" />
+                                <ComboBox
+                                    ItemsSource="{Binding ListaEmissorFiscal}"
+                                    SelectedItem="{Binding EmissorSelecionado}" />
+
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" VerticalAlignment="Bottom"
+                                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarEmissorFiscal}">
+                                <Button Focusable="False" Height="28" Width="40">
+                                    <fa:ImageAwesome Icon="Plus" Width="16" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+
+                    <TextBlock Text="CFOP" />
+
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Width="100"
+                                     Text="{Binding CodigoPerfilCfop, Mode=TwoWay}"
+                                     IsReadOnly="True" />
+
+                            <controles:SearchTextBox
+                                Grid.Column="1" Margin="5,0,0,0" 
+                                IsReadOnly="True"
+                                Text="{Binding DescricaoPerfilCfop, Mode=TwoWay}"
+                                SearchCommand="{Binding CommandBuscaPerfilCfop, Mode=OneWay}" />
+                        </Grid>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Natureza da Operação" />
+                        <TextBox
+                            Text="{Binding NaturezaOperacao, Mode=TwoWay}"
+                            MaxLength="60" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Margin="0,0,10,0" Width="110">
+                            <TextBlock Text="Tipo CT-e" />
+                            <ComboBox IsEditable="False"
+                                      ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags1:TipoCte}}}"
+                                      SelectedItem="{Binding TipoCte}" />
+                        </StackPanel>
+
+                        <StackPanel>
+                            <TextBlock Text="Tipo Serviço" />
+                            <ComboBox IsEditable="False"
+                                      ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags2:TipoServico}}}"
+                                      SelectedItem="{Binding TipoServico}" Width="150" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Observação" />
+                        <TextBox
+                            Text="{Binding Observacao, Mode=TwoWay}"
+                            MaxLength="2000"
+                            TextWrapping="Wrap"
+                            AcceptsReturn="True"
+                            Height="125" />
+                    </StackPanel>
+
+                </StackPanel>
+            </GroupBox>
+        </DockPanel>
+    </AdornerDecorator>
+</UserControl>

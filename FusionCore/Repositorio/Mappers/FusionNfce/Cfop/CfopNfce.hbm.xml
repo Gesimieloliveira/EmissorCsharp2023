@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Cfop"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CfopNfce" table="cfop">
+    <id name="Id" column="id" length="4" />
+
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" length="255" not-null="true" />
+    </property>
+
+    <property name="ElegivelNfce">
+      <column name="elegivelNfce" sql-type="bit" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

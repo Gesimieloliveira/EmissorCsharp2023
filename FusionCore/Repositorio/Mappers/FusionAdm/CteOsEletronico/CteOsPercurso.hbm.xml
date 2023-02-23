@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronicoOs.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteOsPercurso" table="cte_os_percurso">
+    <id name="Id" column="id" generator="identity" />
+
+    <many-to-one name="CteOs" cascade="none">
+      <column name="cteOs_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="Estado" cascade="none">
+      <column name="uf_id" not-null="true" />
+    </many-to-one>
+  </class>
+</hibernate-mapping>

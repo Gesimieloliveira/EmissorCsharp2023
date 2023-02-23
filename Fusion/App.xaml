@@ -1,0 +1,15 @@
+﻿<Application x:Class="Fusion.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="Visao/Splash/SplashFusion.xaml">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/ThemaFusion.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Controles/Styles/CustomControles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources/Styles/RibbonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

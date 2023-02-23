@@ -1,0 +1,96 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.NotaFiscalEletronica.Exportacao.ExportacaoXmlView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                      xmlns:flags2="clr-namespace:FusionCore.FusionAdm.Fiscal.Exportacoes.Contratos;assembly=FusionCore"
+                      xmlns:exportacao="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Exportacao"
+                      xmlns:mes="clr-namespace:FusionCore.Core.Flags;assembly=FusionCore"
+                      xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                      mc:Ignorable="d" d:DataContext="{d:DesignInstance exportacao:ExportacaoXmlModel}"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      Title="Exportação de Nota Fiscal Eletrônica para Xml"
+                      SizeToContent="Height" Width="675"
+                      Loaded="LoadedHandler"
+                      WindowStartupLocation="CenterScreen">
+
+    <DockPanel Margin="10,5">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Informe o filtro desejado" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"
+                       Foreground="{DynamicResource AccentColorBrush}" />
+
+            <StackPanel Margin="0,0,0,5">
+                <TextBlock Text="Qual empresa que deseja exportar?" />
+                <ComboBox IsEditable="True"
+                          ItemsSource="{Binding ListaDeEmpresas}"
+                          SelectedItem="{Binding EmpresaSelecionada}"
+                          DisplayMemberPath="RazaoSocial" />
+            </StackPanel>
+
+
+            <StackPanel Margin="0,0,0,5">
+                <TextBlock Text="Qual tipo de documento deseja exportar?" />
+                <ComboBox IsEditable="False"
+                          ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type exportacao:TipoDocumentoFiscalEletronicoSelecao}}}"
+                          SelectedItem="{Binding DocumentoFiscalEletronico}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="-1,0,1,0">
+                <TextBlock Text="Qual periodo: " VerticalAlignment="Center" Width="133" />
+
+                <ComboBox
+                    Width="150"
+                    Margin="0,0,5,0"
+                    Focusable="False"
+                    ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type mes:Mes}}}"
+                    SelectedValue="{Binding Mes}"
+                    IsEditable="False" />
+
+                <DatePicker Width="167" SelectedDate="{Binding FiltroDataInicio}" />
+
+                <TextBlock Text="e" VerticalAlignment="Center" Margin="10,0" />
+                <DatePicker Width="167" SelectedDate="{Binding FiltroDataFinal}" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Armazenar em arquivo" FontSize="14" FontWeight="Bold" Margin="0,15,0,10"
+                       Foreground="{DynamicResource AccentColorBrush}" />
+
+            <controles:SearchTextBox
+                SearchCommand="{Binding ChoseArquivoCommand, Mode=OneWay}"
+                Text="{Binding CaminhoArquivo}"
+                IsReadOnly="True" />
+
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Enviar por email" FontSize="14" FontWeight="Bold" Margin="0,15,0,10"
+                       Foreground="{DynamicResource AccentColorBrush}" />
+
+            <TextBox controls:TextBoxHelper.Watermark="Email de destino"
+                     controls:TextBoxHelper.UseFloatingWatermark="True"
+                     CharacterCasing="Normal"
+                     Text="{Binding EmailDestino}"
+                     MaxLength="255" />
+
+            <TextBox Margin="0,5,0,0" Text="{Binding AssuntoEmail}"
+                     MaxLength="255"
+                     Height="140"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     CharacterCasing="Normal"
+                     controls:TextBoxHelper.Watermark="Assunto do email"
+                     controls:TextBoxHelper.UseFloatingWatermark="True" />
+
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Bottom" Margin="0,10,0,0">
+            <Button Content="Processar" HorizontalAlignment="Right" Width="120" Margin="0,0,10,0"
+                    Command="{Binding ExportacaoCommand, Mode=OneWay}"
+                    Style="{DynamicResource FusionAccentedButton}" />
+        </StackPanel>
+    </DockPanel>
+</controls:MetroWindow>

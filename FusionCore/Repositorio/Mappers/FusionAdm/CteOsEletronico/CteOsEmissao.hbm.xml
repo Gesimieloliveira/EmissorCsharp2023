@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronicoOs.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteOsEmissaoFinalizada" table="cte_os_emissao_finalizada">
+    <id name="CteOsId" column="cteOs_id">
+      <generator class="foreign">
+        <param name="property">CteOs</param>
+      </generator>
+    </id>
+
+    <one-to-one name="CteOs" constrained="true" outer-join="true"/>
+   
+    <property name="AmbienteSefaz" column="ambienteSefaz" not-null="true" />
+
+    <property name="TipoEmissao" column="tipoEmissao" not-null="true" />
+    
+    <property name="Chave" column="chave" not-null="true" />
+
+    <property name="Autorizado" column="autorizado" not-null="true" />
+
+    <property name="XmlAutorizado" column="xmlAutorizado" not-null="true" length="2147483647"/>
+
+    <property name="CriadoEm" column="criadoEm" not-null="true" />
+
+    <property name="EnviadoEm" column="enviadoEm" not-null="true" />
+
+    <property name="Protocolo" column="protocolo" not-null="true" />
+    
+  </class>
+</hibernate-mapping>

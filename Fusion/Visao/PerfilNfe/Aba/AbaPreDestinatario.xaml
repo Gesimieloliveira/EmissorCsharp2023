@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="Fusion.Visao.PerfilNfe.Aba.AbaPreDestinatario"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             mc:Ignorable="d" d:DesignWidth="500">
+
+    <Grid>
+        <StackPanel Grid.Column="0">
+            <GroupBox Header="Destinatário">
+                <StackPanel>
+                    <StackPanel>
+                        <controles:SearchTextBox 
+                            IsReadOnly="True"
+                            Text="{Binding DestinatarioNome}" 
+                            ButtonClearEnabledWhenHasText="True"
+                            SearchCommand="{Binding CommandBuscaDestinatario}" 
+                            ClearCommand="{Binding CommandLimpaDestinatario}"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Transportadora">
+                <StackPanel>
+                    <TextBlock Text="Transportadora" />
+                    <StackPanel>
+                        <controles:SearchTextBox 
+                            IsReadOnly="True"
+                            Text="{Binding TransportadoraNome}" 
+                            ButtonClearEnabledWhenHasText="True"
+                            SearchCommand="{Binding CommandBuscaTransportadora}" 
+                            ClearCommand="{Binding CommandLimpaTransportadora}"/>
+                    </StackPanel>
+
+                    <TextBlock Text="Veículo" />
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <controles:SearchTextBox 
+                                Grid.Column="0"
+                                IsReadOnly="True"
+                                Text="{Binding VeiculoDescricao}" 
+                                ButtonClearEnabledWhenHasText="True"
+                                SearchCommand="{Binding CommandBuscaVeiculoTransportadora}" 
+                                ClearCommand="{Binding CommandLimpaVeiculoTransportadora}"/>
+
+                            <TextBox 
+                                Focusable="False"
+                                Width="120"
+                                Grid.Column="1" 
+                                Margin="5,0,0,0"
+                                IsReadOnly="True" 
+                                Text="{Binding VeiculoPlaca}" />
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

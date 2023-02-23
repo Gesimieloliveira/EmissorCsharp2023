@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.FusionAdm.PedidoVenda"
+  default-lazy="false" default-cascade="none"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PedidoVendaPreferencia" table="pedido_venda_preferencia">
+    <id name="Id" generator="identity">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="IdentificadorMaquina">
+      <column name="identificadorMaquina" length="40" not-null="true" />
+    </property>
+
+    <property name="Impressora">
+      <column name="impressora" not-null="true" />
+    </property>
+
+    <property name="ImprimeAposFinalizar">
+      <column name="imprimeAposFinalizar" not-null="true" />
+    </property>
+
+    <property name="VisualizarAposFinalizar">
+      <column name="visualizarAposFinalizar" not-null="true" />
+    </property>
+
+    <property name="ImprimeDuasVias">
+      <column name="imprimeDuasVias" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

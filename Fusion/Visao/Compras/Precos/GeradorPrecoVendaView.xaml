@@ -1,0 +1,119 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.Compras.Precos.GeradorPrecoVendaView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:vm="clr-namespace:Fusion.Visao.Compras.Precos"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                      xmlns:tools="clr-namespace:FusionLibrary.Wpf.Tools;assembly=FusionLibrary"
+                      mc:Ignorable="d" d:DataContext="{d:DesignInstance vm:GeradorPrecoVendaViewModel}"
+                      Title="Gerador de preço de venda de mercadorias"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      Loaded="LoadedHandler"
+                      KeyDown="KeyDown_Window"
+                      Height="650" Width="940">
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock
+                Text="Gerador de preço de compra com base em nota fiscal de compra"
+                HorizontalAlignment="Center" FontSize="16" Foreground="{DynamicResource AccentColorBrush}" />
+
+            <TextBlock
+                Text="Dica: Possível alteração manual das colunas NOVO LUCRO e NOVA VENDA. Clique no valor para edita-los!"
+                HorizontalAlignment="Center" FontSize="12" Foreground="{DynamicResource GrayBrush2}"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,30,0,0" HorizontalAlignment="Center">
+                <controles:DecimalTextBox
+                    x:Name="TbLucroGeral"
+                    Width="100" Margin="5,0,0,0"
+                    Text="{Binding LucroGeral, StringFormat=N6}"
+                    tools:FocusAdvancement.AdvancesByEnterKey="False"
+                    PreviewKeyDown="KeyDown_TbLucroGeral"
+                    VerticalContentAlignment="Center" />
+
+                <Button Style="{DynamicResource FusionSuccessButton}" Click="AplicarLucroHandler" Focusable="False">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Play" Height="12" Foreground="{DynamicResource WhiteBrush}" />
+                        <TextBlock Text="Aplicar percentual (F2)" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+
+                <TextBlock Text="|" VerticalAlignment="Center" Margin="25,0" />
+
+                <Button Style="{DynamicResource FusionCleanButton}" Margin="5,0,0,0" Click="ManterLucroHandler" Focusable="False">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Stop" Height="12" Foreground="{DynamicResource BlackBrush}" />
+                        <TextBlock Text="Manter lucro atual (F3)" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+
+                <TextBlock Text="|" VerticalAlignment="Center" Margin="25,0" />
+
+                <Button Style="{DynamicResource FusionCleanButton}" Margin="5,0,0,0" Click="ManterVendaHandler" Focusable="False">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Circle" Height="12" Foreground="{DynamicResource BlackBrush}" />
+                        <TextBlock Text="Manter venda atual (F4)" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,15,0,0">
+            <DataGrid
+                CanUserSortColumns="False"
+                CanUserReorderColumns="False"
+                Name="DataGridPrecos"
+                ItemsSource="{Binding Itens}"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False" CanUserDeleteRows="False"
+                Style="{DynamicResource AzureDataGrid}"
+                GotFocus="DataGrid_GotFocus"
+                Height="400">
+
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                        <EventSetter Event="GotFocus" Handler="DataGridCell_GotFocus" />
+                        <EventSetter Event="KeyDown" Handler="DataGridCell_KeyDown" />
+                    </Style>
+                </DataGrid.Resources>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding NomeProduto}" Header="Produto" Width="*"
+                                        IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding CustoAtual, StringFormat=N4}" Header="$ Custo Atual"
+                                        IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding LucroAtual, StringFormat=N6}" Header="% Lucro Atual"
+                                        IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding VendaAtual, StringFormat=N4}" Header="$ Venda Atual"
+                                        IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding NovoCusto, StringFormat=N4}" Header="$ Novo Custo"
+                                        IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding NovoLucro, StringFormat=N6}" Header="% Novo Lucro" />
+                    <DataGridTextColumn Binding="{Binding NovaVenda, StringFormat=N2}" Header="$ Nova Venda" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <DockPanel DockPanel.Dock="Top" Background="{DynamicResource AccentColorBrush4}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Style="{DynamicResource FusionAccentedButton}" Name="BtnSalvar"  Click="GravarPrecosHandler">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Save" Height="12" Foreground="{DynamicResource WhiteBrush}" />
+                        <TextBlock Text="Gravar preços (F5)" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{DynamicResource FusionCleanButton}" Width="150" Margin="20,0,0,0" Click="FecharHandler">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Save" Height="12" Foreground="{DynamicResource BlackBrush}" />
+                        <TextBlock Text="Fechar (ESC)" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </DockPanel>
+    </DockPanel>
+
+</controls:MetroWindow>

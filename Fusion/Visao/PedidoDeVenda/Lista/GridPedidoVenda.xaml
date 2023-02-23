@@ -1,0 +1,196 @@
+﻿<UserControl x:Class="Fusion.Visao.PedidoDeVenda.Lista.GridPedidoVenda"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+             xmlns:rpv="clr-namespace:FusionCore.Repositorio.Dtos.Consultas.PedidoDeVenda;assembly=FusionCore"
+             xmlns:pv="clr-namespace:FusionCore.FusionAdm.PedidoVenda;assembly=FusionCore"
+             mc:Ignorable="d" 
+             d:DesignWidth="1200"
+             Margin="0,10,0,0" Background="White"
+             Loaded="LoadedHandler">
+
+    <DockPanel>
+        <Border x:Name="PainelFiltro" DockPanel.Dock="Top" Background="{DynamicResource GrayBrush9}" Padding="5">
+            <StackPanel>
+                <Grid HorizontalAlignment="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Width="125">
+                            <TextBlock Text="Estado igual á" />
+                            <ComboBox
+                                SelectedItem="{Binding FiltroEstadoAtual}"
+                                ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type pv:EstadoAtual}}}" />
+                        </StackPanel>
+
+                        <StackPanel Width="130" Margin="5,0,0,0">
+                            <TextBlock Text="Criados apartir de" />
+                            <DatePicker SelectedDate="{Binding FiltroCriadoApartir }" />
+                        </StackPanel>
+
+                        <StackPanel Width="110" Margin="5,0,0,0">
+                            <TextBlock Text="Número igual á" />
+                            <TextBox Text="{Binding FiltroNumero, Converter={conversores:TextToDecimalOrNull}}" />
+                        </StackPanel>
+
+                        <StackPanel Width="270" Margin="5,0,0,0">
+                            <TextBlock Text="Nome do cliente contenha" />
+                            <TextBox Text="{Binding FiltroNomeCliente}" />
+                        </StackPanel>
+
+                        <StackPanel Width="270" Margin="5,0,0,0">
+                            <TextBlock Text="Referência" />
+                            <TextBox Text="{Binding FiltroReferencia}" />
+                        </StackPanel>
+
+
+                        <StackPanel DockPanel.Dock="Top" Margin="0,5,0,0" Orientation="Horizontal">
+                            <Button
+                                x:Name="BotaoFiltro"
+                                Margin="5,0,0,0" 
+                                Height="28"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Left" Width="140"
+                                Style="{DynamicResource FusionCleanButton}"
+                                Click="AplicarBuscaClickHandler">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome Icon="Filter" Width="15" />
+                                    <TextBlock Text="Aplicar o filtro" Margin="5,0,0,0" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+
+
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Margin="0,5" DockPanel.Dock="Top" Orientation="Horizontal">
+            <Button
+                Margin="5,0,0,0"
+                Click="ClickNovoHandler"
+                Style="{DynamicResource FusionAccentedButton}">
+
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Plus" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Novo Pedido" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <DataGrid
+            DockPanel.Dock="Top"
+            ItemsSource="{Binding PedidosDeVenda}"
+            SelectedItem="{Binding Selecionado}"
+            AutoGenerateColumns="False"
+            IsReadOnly="True">
+
+            <DataGrid.Resources>
+                <DataTemplate x:Key="CellEstadoAtualPedidoVenda" DataType="{x:Type rpv:PedidoVendaDTO}">
+                    <Grid>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding EstadoAtual}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextAlignment" Value="Center" />
+                                    <Setter Property="MinWidth" Value="90" />
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                    <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+                                    <Setter Property="Background" Value="{DynamicResource GrayBrush5}" />
+                                    <Setter Property="Padding" Value="3,1" />
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding EstadoAtual}" Value="{x:Static pv:EstadoAtual.Aberto}">
+                                            <Setter Property="Background" Value="{DynamicResource InfoBrush}"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding EstadoAtual}" Value="{x:Static pv:EstadoAtual.Cancelado}">
+                                            <Setter Property="Background" Value="{DynamicResource DangerBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding EstadoAtual}" Value="{x:Static pv:EstadoAtual.Faturado}">
+                                            <Setter Property="Background" Value="{DynamicResource SuccessBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding EstadoAtual}" Value="{x:Static pv:EstadoAtual.Finalizado}">
+                                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+
+                <DataTemplate x:Key="CellTipoPedidoVenda" DataType="{x:Type rpv:PedidoVendaDTO}">
+                    <Grid>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding TipoPedido}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Background" Value="{DynamicResource GrayBrush6}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />
+                                    <Setter Property="TextAlignment" Value="Center" />
+                                    <Setter Property="MinWidth" Value="90" />
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                    <Setter Property="Padding" Value="3,1" />
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </DataGrid.Resources>
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DoubleClickRowHandler" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn
+                    helpers:DataGridColumnHelper.Align="Left"
+                    Header="Estado" Width="Auto" CellTemplate="{StaticResource CellEstadoAtualPedidoVenda}" />
+
+                <DataGridTemplateColumn
+                    helpers:DataGridColumnHelper.Align="Left"
+                    Header="Tipo" Width="Auto" CellTemplate="{StaticResource CellTipoPedidoVenda}" />
+
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Left"
+                    Header="Pedido" Width="63" MinWidth="63" Binding="{Binding Id, StringFormat=000000}" />
+
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Left"
+                    Header="Referência" Width="100"  MinWidth="100" Binding="{Binding Referencia}" />
+
+                <DataGridTextColumn 
+                    Width="Auto" MaxWidth="250" MinWidth="250" Header="Cliente" Binding="{Binding NomeCliente}"/>
+
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="Total Bruto" Width="97" MinWidth="97" Binding="{Binding TotalProdutos, StringFormat=N2}" />
+
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="% Desconto" Width="96" MinWidth="96" Binding="{Binding PercentualDesconto, StringFormat=N2}" />
+
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="Total Liquido" Width="106" MinWidth="106" Binding="{Binding Total, StringFormat=N2}" />
+
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Left"
+                    Header="Criado em" Width="100" MinWidth="100" Binding="{Binding CriadoEm, StringFormat=dd/MM/yyyy HH:mm}" />
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

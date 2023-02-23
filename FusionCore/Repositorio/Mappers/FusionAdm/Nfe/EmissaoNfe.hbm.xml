@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF.Autorizacao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="EmissaoNfe" table="nfe_historico_emissao">
+    <id name="Id" generator="identity" unsaved-value="0">
+      <column name="id" sql-type="int" />
+    </id>
+
+    <property name="NfeId">
+      <column name="nfe_id" not-null="true" sql-type="int"/>
+    </property>
+
+    <many-to-one name="EmissorFiscal" cascade="none" outer-join="true">
+      <column name="emissorFiscal_id" not-null="true" sql-type="tinyint" />
+    </many-to-one>
+
+    <many-to-one name="Empresa" cascade="none" outer-join="true">
+      <column name="empresa_id" not-null="true" sql-type="smallint" />
+    </many-to-one>
+
+    <property name="Cnpj">
+      <column name="cnpj" sql-type="varchar" not-null="true" length="14" />
+    </property>
+
+    <property name="Cpf">
+      <column name="cpf" not-null="true" />
+    </property>
+
+    <property name="Ambiente">
+      <column name="tipoAmbiente" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="TipoEmissao">
+      <column name="tipoEmissao" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <component name="Chave" class="FusionCore.FusionAdm.Fiscal.ChaveEletronica.ChaveSefaz">
+      <property name="Chave">
+        <column name="chave" sql-type="varchar" not-null="true" length="44" />
+      </property>
+    </component>
+
+    <property name="Finalizada">
+      <column name="finalizada" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="XmlEnvio">
+      <column name="xmlEnvio" sql-type="xml" not-null="true" length="2147483647" />
+    </property>
+
+    <property name="XmlLote">
+      <column name="xmlLote" sql-type="xml" not-null="false" length="2147483647" />
+    </property>
+
+    <property name="XmlAutorizacao">
+      <column name="xmlAutorizacao" sql-type="xml" not-null="false" length="2147483647" />
+    </property>
+
+    <property name="FalhaReceberLote">
+      <column name="falhaReceberLote" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="CriadoEm">
+      <column name="criadoEm" sql-type="datetime" not-null="true" />
+    </property>
+
+    <property name="EnviadoEm">
+      <column name="enviadoEm" sql-type="datetime" not-null="false" />
+    </property>
+
+    <property name="InicioContingencia">
+      <column name="inicioContingencia" sql-type="datetime" not-null="false" />
+    </property>
+
+    <property name="MotivoContingencia">
+      <column name="motivoContingencia" sql-type="varchar" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Fusion.Visao.Pessoa.Aba.PessoaJuridicaAba"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:nfee="clr-namespace:FusionCore.FusionAdm.Fiscal.Flags;assembly=FusionCore"
+             mc:Ignorable="d" d:DesignWidth="900" Background="White">
+
+    <UserControl.Resources>
+        <conversores:CnpjMaskConverter x:Key="CnpjMaskConverter" />
+    </UserControl.Resources>
+
+    <AdornerDecorator>
+        <DockPanel>
+
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock Text="Nome fantasia" />
+                <TextBox Text="{Binding NomeFantasia}" MaxLength="255" />
+            </StackPanel>
+
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                    <StackPanel>
+                        <TextBlock Text="CNPJ" />
+                        <TextBox
+                            Text="{Binding Cnpj, Converter={StaticResource CnpjMaskConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                            MaxLength="18" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                    <TextBlock Text="Inscrição estadual (IE)" />
+                    <TextBox
+                        Text="{Binding InscricaoEstadual, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                        MaxLength="14" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Margin="0,0,5,0">
+                    <TextBlock Text="Indicador IE" />
+                    <ComboBox
+                        IsEditable="False"
+                        ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type nfee:IndicadorIE}}}"
+                        SelectedValue="{Binding IndicadorIEDestinatario}"
+                    />
+                </StackPanel>
+
+                <StackPanel Grid.Column="3" Margin="0,0,5,0">
+                    <TextBlock Text="Inscrição municipal (IM)" />
+                    <TextBox
+                        Text="{Binding InscricaoMunicipal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                        MaxLength="15"
+                        wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" />
+                </StackPanel>
+            </Grid>
+
+        </DockPanel>
+    </AdornerDecorator>
+</UserControl>

@@ -1,0 +1,93 @@
+﻿<c:MetroWindow x:Class="Fusion.Visao.Usuario.UsuarioForm"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:c="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+               Title="Formulario de usuario"
+               xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+               xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+               ResizeMode="NoResize"
+               SizeToContent="Height" Width="470"
+               Style="{DynamicResource MetroWindowStyle}"
+               WindowStartupLocation="CenterScreen"
+               Loaded="LoadedHandler">
+
+    <DockPanel Margin="0,5" IsEnabled="{Binding EdicaoIsEnabled}">
+        <StackPanel DockPanel.Dock="Top" Margin="5,0">
+            <TextBlock Text="Login do usuario" />
+            <TextBox
+                IsReadOnly="{Binding LoginIsReadOnly}"
+                Text="{Binding Login, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                MaxLength="20"
+                CharacterCasing="Normal"
+                x:Name="TbLogin" />
+
+        </StackPanel>
+
+        <DockPanel DockPanel.Dock="Top" Margin="5,0" c:VisibilityHelper.IsCollapsed="{Binding IsNovo}">
+            <TextBlock Text="Alterar senha atual" VerticalAlignment="Center" />
+            <c:ToggleSwitch
+                Focusable="False"
+                IsOn="{Binding AlterarSenhaAtual}"
+                OnContent="Sim" OffContent="Não"
+                ContentDirection="LeftToRight" HorizontalAlignment="Right" />
+        </DockPanel>
+
+        <GroupBox Header="Senha" DockPanel.Dock="Top" IsEnabled="{Binding AlterarSenhaAtual}">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Senha de acesso" />
+                    <PasswordBox
+                        MaxLength="40" wpf:PasswordHelper.Attach="True"
+                        wpf:PasswordHelper.Password="{Binding Senha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Confirmar senha" />
+                    <PasswordBox
+                        MaxLength="40"
+                        wpf:PasswordHelper.Attach="True"
+                        wpf:PasswordHelper.Password="{Binding ConfirmarSenha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox DockPanel.Dock="Top" Header="Restrições" c:VisibilityHelper.IsCollapsed="{Binding IsAdmin}">
+            <StackPanel>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock 
+                        VerticalAlignment="Center"
+                        TextWrapping="Wrap"
+                        Text="Modo faturamento (abre apenas o faturamento)" />
+
+                    <c:ToggleSwitch
+                        Grid.Column="1"
+                        OnContent="Sim"
+                        OffContent="Não"
+                        IsOn="{Binding ApenasFaturamento}"
+                        HorizontalContentAlignment="Right"
+                        ContentDirection="LeftToRight" />
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+
+        <Grid DockPanel.Dock="Top" MinHeight="40">
+            <StackPanel VerticalAlignment="Center">
+                <Button
+                    Width="150"
+                    IsEnabled="{Binding }"
+                    Style="{DynamicResource FusionAccentedButton}"
+                    Content="Salvar alterações"
+                    Click="OnClickSalvar" />
+
+            </StackPanel>
+        </Grid>
+
+    </DockPanel>
+</c:MetroWindow>

@@ -1,0 +1,83 @@
+﻿<scw:ChildWindow x:Class="Fusion.Visao.DocumentoAReceber.QuitarSelecionadosView"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                 xmlns:local="clr-namespace:Fusion.Visao.DocumentoAReceber"
+                 xmlns:core="clr-namespace:FusionCore.FusionAdm.Financeiro.Flags;assembly=FusionCore"
+                 xmlns:scw="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+                 xmlns:fcs="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 mc:Ignorable="d" d:DataContext="{d:DesignInstance local:QuitarSelecionadosContexto}"
+                 Style="{DynamicResource ChildWindowStyle}"
+                 Title="Quitar documentos selecionados"
+                 Loaded="LoadedHandler">
+
+    <DockPanel Width="700" Margin="5">
+        <DockPanel DockPanel.Dock="Top">
+            <GroupBox Header="Informações do cliente" DockPanel.Dock="Left" Width="410">
+                <StackPanel>
+                    <StackPanel Margin="2">
+                        <TextBlock Text="Nome do cliente" />
+                        <TextBlock Text="{Binding NomeDoCliente}" FontSize="14" />
+                    </StackPanel>
+
+                    <StackPanel Margin="2">
+                        <TextBlock Text="Documento do cliente" />
+                        <TextBlock Text="{Binding DocumentoDoCliente}" FontSize="14" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Recebimento" DockPanel.Dock="Right">
+                <StackPanel>
+                    <TextBlock FontSize="14" Text="Total aberto que foi selecionado" />
+                    <TextBlock TextAlignment="Right" FontSize="14"
+                               Text="{Binding TotalAbertoSelecionado, StringFormat=C2}" />
+
+                    <TextBlock FontSize="14" Text="Total vencido que foi selecionado" />
+                    <TextBlock TextAlignment="Right" FontSize="14" Text="{Binding TotalVencido, StringFormat=C2}" />
+
+                    <TextBlock Text="Juros pendente" FontSize="14" />
+                    <TextBlock TextAlignment="Right" FontSize="14" Text="{Binding JurosPendente, StringFormat=C2}" />
+
+                    <TextBlock Text="Total restante (com os juros)" FontSize="14" />
+                    <TextBlock TextAlignment="Right" FontSize="14" Text="{Binding TotalAbertoBruto, StringFormat=C2}" />
+
+                    <TextBlock Text="Desconto concedido" FontSize="14" />
+                    <fcs:DecimalTextBox
+                        LimiteDecimal="2"
+                        TabIndex="0" Text="{Binding ValorDesconto, StringFormat=N2 }" FontSize="14" />
+
+                    <TextBlock Text="Total devedor" FontSize="14" />
+                    <TextBlock TextAlignment="Right" FontSize="14" Text="{Binding TotalRestante, StringFormat=C2}" />
+
+                    <TextBlock Margin="0,8,0,0" Text="Tipo Recebimento" FontSize="14" />
+                    <ComboBox
+                        TabIndex="1"
+                        IsEditable="False"
+                        SelectedItem="{Binding TipoRecebimento}"
+                        ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type core:ETipoRecebimento}}}" />
+
+                    <TextBlock Text="Qual o valor deseja receber?" FontSize="16" />
+                    <fcs:DecimalTextBox
+                        LimiteDecimal="2"
+                        x:Name="TbValorRecebimento"
+                        TabIndex="2" Text="{Binding ValorRecebimento, StringFormat=N2 }" FontSize="22" />
+
+                </StackPanel>
+            </GroupBox>
+        </DockPanel>
+
+        <Border DockPanel.Dock="Top" Padding="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button
+                    TabIndex="99"
+                    Style="{DynamicResource FusionAccentedButton}"
+                    Content="Continuar com pagamento"
+                    Click="FazerQuitacaoClickHandler" />
+            </StackPanel>
+        </Border>
+    </DockPanel>
+</scw:ChildWindow>

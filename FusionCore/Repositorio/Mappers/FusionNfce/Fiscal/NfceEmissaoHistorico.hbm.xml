@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceEmissaoHistorico" table="nfce_emissao_historico">
+    <id name="Id" column="id" access="nosetter.camelcase-underscore">
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="Nfce" class="Nfce" access="nosetter.camelcase-underscore" cascade="none"
+                 column="nfce_id" not-null="true" fetch="join" />
+
+    <component name="XmlEnvio" access="nosetter.camelcase-underscore">
+      <property access="nosetter.camelcase-underscore"
+                name="Valor"
+                not-null="true">
+        <column name="xmlEnvio" sql-type="xml" not-null="true" length="2147483647" />
+      </property>
+    </component>
+    
+    <component name="XmlRetorno" access="nosetter.camelcase-underscore">
+      <property access="nosetter.camelcase-underscore"
+                name="Valor"
+                not-null="false">
+        <column name="xmlRetorno" sql-type="xml" not-null="false" length="2147483647" />
+      </property>
+    </component>
+    
+    <component name="Finalizou" access="nosetter.camelcase-underscore">
+      <property access="nosetter.camelcase-underscore"
+                name="Valor"
+                not-null="true"
+                column="finalizou"/>
+    </component>
+    
+    <component name="CodigoAutorizacao" access="nosetter.camelcase-underscore">
+      <property access="nosetter.camelcase-underscore"
+                name="Valor"
+                not-null="true"
+                column="codigoAutorizacao"/>
+    </component>
+    
+    <component name="Motivo" access="nosetter.camelcase-underscore">
+      <property access="nosetter.camelcase-underscore"
+                name="Valor"
+                not-null="true"
+                column="motivo" length="255"/>
+    </component>
+
+    <component name="Chave" access="nosetter.camelcase-underscore">
+      <property access="field"
+                name="_codigoIbgeUf"
+                not-null="true"
+                column="codigoIbgeUf"/>
+
+      <property access="field"
+                name="_anoMes"
+                not-null="true"
+                column="anoMes"/>
+
+      <property access="field"
+                name="_cnpj"
+                not-null="true"
+                column="cnpjEmitente"/>
+
+      <property access="field"
+                name="_modeloDocumento"
+                not-null="true"
+                column="modeloDocumento"/>
+
+      <property access="field"
+                name="_serie"
+                not-null="true"
+                column="serie"/>
+
+      <property access="field"
+                name="_numeroFiscal"
+                not-null="true"
+                column="numeroFiscal"/>
+
+      <property access="field"
+                name="_formaEmissao"
+                not-null="true"
+                column="formaEmissao"/>
+
+      <property access="field"
+                name="_codigoNumerico"
+                not-null="true"
+                column="codigoNumerico"/>
+
+      <property access="field"
+                name="_digitoVerificador"
+                not-null="true"
+                column="digitoVerificador"/>
+    </component>
+
+    <component name="Contingencia" access="nosetter.camelcase-underscore">
+      <property access="nosetter.camelcase-underscore"
+                name="Justificativa"
+                not-null="true"
+                column="justificativaContingencia" length="256"/>
+
+      <property access="nosetter.camelcase-underscore"
+                name="EntrouEm"
+                not-null="false"
+                column="entrouEmContingenciaEm"/>
+    </component>
+    
+    <component name="TentouEm" access="nosetter.camelcase-underscore">
+      <property access="nosetter.camelcase-underscore"
+                name="Valor"
+                not-null="true"
+                column="tentouEm"/>
+    </component>
+
+    <component name="ChaveTexto" access="nosetter.camelcase-underscore">
+      <property access="nosetter.camelcase-underscore"
+                name="Valor"
+                not-null="true"
+                column="chaveTexto"/>
+    </component>
+    
+    <property access="nosetter.camelcase-underscore"
+              name="Versao"
+              not-null="true"
+              column="versao"/>
+    
+    <property name="AmbienteSefaz" access="nosetter.camelcase-underscore"
+              column="ambienteSefaz" not-null="true"></property>
+
+    <property name="XmlLote" access="nosetter.camelcase-underscore"
+              column="xmlLote" not-null="false" length="2147483647"></property>
+
+	  <property name="FalhaReceberLote" access="nosetter.camelcase-underscore"
+	            column="falhaReceberLote" not-null="true"></property>
+    
+  </class>
+</hibernate-mapping>

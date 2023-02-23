@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Tributacoes.Estadual"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="AliquotaInterna" table="aliquota_interna">
+    <id name="Id" column="id" />
+
+    <many-to-one name="EstadoUf" not-null="true" fetch="join">
+      <column name="uf_id" />
+    </many-to-one>
+
+    <property name="Aliquota" not-null="true">
+      <column name="aliquota" precision="5" scale="2" />
+    </property>
+
+    <property name="AliquotaFcp" not-null="true">
+      <column name="aliquotaFcp" precision="5" scale="2" />
+    </property>
+
+  </class>
+</hibernate-mapping>

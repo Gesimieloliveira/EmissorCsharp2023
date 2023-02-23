@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.Vendas.Faturamentos"
+  default-cascade="none" default-lazy="false"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="FPagamento" table="faturamento_pagamento">
+    <id name="Id" generator="identity" unsaved-value="0">
+      <column name="id" not-null="true" />
+    </id>
+
+    <many-to-one name="Faturamento" cascade="none" update="false">
+      <column name="faturamentoVenda_id" sql-type="int" not-null="true" />
+    </many-to-one>
+
+    <property name="Especie">
+      <column name="especie" not-null="true" sql-type="tinyint" />
+    </property>
+
+    <property name="CriadoEm">
+      <column name="criadoEm" not-null="true" />
+    </property>
+
+    <many-to-one name="CriadoPor" cascade="none">
+      <column name="usuario_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="TipoDocumento" class="FusionCore.FusionAdm.Financeiro.TipoDocumento" cascade="none">
+      <column name="tipoDocumento_id" not-null="false" />
+    </many-to-one>
+
+    <property name="Valor">
+      <column name="valor" not-null="false" precision="15" scale="2" />
+    </property>
+
+    <property name="PossuiParcelas">
+      <column name="possuiParcelas" not-null="true" />
+    </property>
+
+    <property name="RegistraFinanceiro">
+      <column name="registraFinanceiro" not-null="true" />
+    </property>
+
+    <set name="Parcelas" access="nosetter.camelcase-underscore" inverse="true" cascade="all-delete-orphan">
+      <key column="pagamento_id" />
+      <one-to-many class="FParcela" />
+    </set>
+  </class>
+</hibernate-mapping>

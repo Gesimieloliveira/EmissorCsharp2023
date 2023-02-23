@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Pdv"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ProdutoDt" table="produto">
+    <id name="Id" column="id" />
+    <property name="Nome" column="nome" not-null="true" length="100" />
+    <property name="PrecoCompra" column="precoCompra" not-null="true" length="18" />
+    <property name="PrecoVenda" column="precoVenda" not-null="true" length="18" />
+
+    <property name="Ativo" not-null="true">
+      <column name="ativo" sql-type="bit" />
+    </property>
+
+    <property name="AliquotaIcmsPaf" column="aliquotaIcmsPaf" not-null="true" length="6" />
+    <property name="SituacaoTributariaIcms" column="situacaoTributariaIcms" not-null="true" length="5" />
+    <property name="IcmsEcf" column="icmsEcf" not-null="true" length="5" />
+    <property name="SiglaUnidade" column="siglaUnidade" not-null="true" length="10" />
+
+    <property name="PodeFracionar" not-null="true">
+      <column name="podeFracionar" sql-type="bit" />
+    </property>
+
+    <property name="CodigoNcm" column="codigoNcm" not-null="true" length="10" />
+    <property name="TributacaoNacional" column="tributacaoNacional" not-null="true" />
+    <property name="TributacaoImportado" column="tributacaoImportado" not-null="true" />
+    <property name="TributacaoEstadual" column="tributacaoEstadual" not-null="true" />
+    <property name="ChaveIbpt" column="chaveIbpt" not-null="true" length="10" />
+    <property name="Estoque" column="estoque" not-null="true" />
+
+    <property name="SolicitaTotal" not-null="true">
+      <column name="solicitaTotal" sql-type="bit" />
+    </property>
+
+    <property name="CodigoBalanca" column="codigoBalanca" not-null="true" />
+
+    <bag table="produto_alias" name="ProdutosAlias" lazy="true" inverse="true" cascade="all-delete-orphan">
+      <key column="produto_id" not-null="true" />
+      <one-to-many class="FusionCore.Repositorio.Legacy.Entidades.Pdv.ProdutoAliasDt"/>
+    </bag>
+  </class>
+</hibernate-mapping>

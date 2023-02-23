@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico.EventoPagamento.Entidades"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="InformacaoPagamento" table="mdfe_informacao_pagamento">
+    
+    <id name="Id" column="id" >
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="EventoPagamento" cascade="none">
+      <column name="mdfeEventoPagamento_id" not-null="true"></column>
+    </many-to-one>
+
+    <property name="NomeContratante" column="nomeContratante" not-null="true"></property>
+
+    <property name="DocumentoUnicoContratante" column="documentoUnico" not-null="true" />
+
+    <property name="ValorTotalContrato" column="valorContrato" not-null="true" />
+
+    <property name="IndicadorPagamento" column="indicadorFormaPagamento" not-null="true" />
+
+    <property name="ContaBancaria" column="contaBancaria" not-null="true" />
+
+    <property name="AgenciaBancaria" column="agenciaBancaria" not-null="true" />
+
+    <property name="CnpjIpef" column="cnpjIpef" not-null="true" />
+
+    <property name="InformarApenasCnpjIpef" column="informarApenasCnpjIpef" not-null="true" />
+
+    <bag name="ComponentePagamentoFrete" table="mdfe_componente_pagamento_frete" cascade="none" inverse="true" batch-size="50">
+      <key column="mdfeInformacaoPagamento_id" />
+      <one-to-many class="ComponentePagamentoFrete" />
+    </bag>
+
+    <bag name="Parcelas" table="mdfe_pagamento_parcela" cascade="none" inverse="true" batch-size="50">
+      <key column="mdfeInformacaoPagamento_id" />
+      <one-to-many class="MdfeParcela" />
+    </bag>
+    
+  </class>
+</hibernate-mapping>

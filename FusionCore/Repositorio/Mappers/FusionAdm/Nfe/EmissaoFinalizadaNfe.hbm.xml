@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="EmissaoFinalizadaNfe" table="nfe_emissao">
+    <id access="field" name="_nfeId">
+      <column name="nfe_id" sql-type="int" />
+      <generator class="foreign">
+        <param name="property">Nfe</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfe" class="Nfeletronica" constrained="true" cascade="none" />
+
+    <many-to-one name="Empresa" cascade="none">
+      <column name="empresa_id" not-null="true" />
+    </many-to-one>
+
+    <property name="Cnpj">
+      <column name="cnpj" sql-type="varchar" not-null="true" length="14" />
+    </property>
+
+    <property name="Cpf">
+      <column name="cpf" not-null="true" />
+    </property>
+
+    <property name="TipoEmissao">
+      <column name="tipoEmissao" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="TipoAmbiente">
+      <column name="tipoAmbiente" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <component name="Chave" class="FusionCore.FusionAdm.Fiscal.ChaveEletronica.ChaveSefaz">
+      <property name="Chave">
+        <column name="chave" sql-type="varchar" not-null="true" length="44" />
+      </property>
+    </component>
+
+    <property name="Protocolo">
+      <column name="protocolo" sql-type="varchar" not-null="true" length="15" />
+    </property>
+
+    <property name="DigestValue">
+      <column name="digestValue" sql-type="varchar" not-null="true" length="28" />
+    </property>
+
+    <property name="RecebidoEm">
+      <column name="recebidoEm" sql-type="datetime" not-null="true" />
+    </property>
+
+    <property name="XmlAutorizado">
+      <column name="xmlAutorizado" sql-type="xml" not-null="false" length="2147483647" />
+    </property>
+  
+    <property name="IsDenegado">
+      <column name="isDenegado" sql-type="bit" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

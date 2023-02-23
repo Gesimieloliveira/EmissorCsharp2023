@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.EmissorFiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+
+  <class name="NfceEmissorFiscalSat" table="emissor_fiscal_sat">
+
+    <id name="EmissorFiscalId" column="emissorFiscal_id"/>
+
+    <property name="Ambiente">
+      <column name="ambienteSat" not-null="true" />
+    </property>
+    <property name="ArquivoLogo">
+      <column name="logo" sql-type="image" not-null="false" length="2147483647" />
+    </property>
+    <property name="ModeloDocumento">
+      <column name="modeloDocumento" not-null="true" />
+    </property>
+    <property name="NumeroCaixa">
+      <column name="numeroCaixa" not-null="true" />
+    </property>
+    <property name="CodificacaoArquivoXml">
+      <column name="codificacaoArquivoXml" not-null="true" />
+    </property>
+    <property name="VersaoLayoutSat">
+      <column name="versaoLayoutSat" not-null="true" />
+    </property>
+    <property name="CodigoAtivacao">
+      <column name="codigoAtivacao" not-null="true" />
+    </property>
+    <property name="CodigoAcossiacao">
+      <column name="codigoAcossiacao" not-null="true" />
+    </property>
+    <property name="Fabricante">
+      <column name="fabricanteModelo" not-null="true" />
+    </property>
+    <property name="IsMFe">
+      <column name="isMFe" not-null="true" />
+    </property>
+    <property name="ChaveAcessoValidador">
+      <column name="chaveAcessoValidador" not-null="true"/>
+    </property>
+
+    <one-to-one name="EmissorFiscal"
+                class="NfceEmissorFiscal"
+                constrained="true" />
+  </class>
+
+</hibernate-mapping>

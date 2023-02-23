@@ -1,0 +1,48 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.ImportarIbpt.JanelaImportarIbpt"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+                      xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                      Title="Importar Tabela de Ibpt" Height="203.184" Width="603.289" ResizeMode="NoResize"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowStyle}"
+                      FocusManager.FocusedElement="{Binding ElementName=CCaminhoArquivo}">
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="25" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Image Source="/Resources/Imagens/adm-de-olho-no-imposto.jpg" Grid.Column="0" Grid.Row="0" Margin="0,0,10,0" />
+        <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
+            <TextBlock Text="Informe o caminho do arquivo fornecido pelo Ibpt (csv)" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <controles:SearchTextBox
+                    Grid.Column="0"
+                    CharacterCasing="Normal"
+                    Text="{Binding CaminhoArquivo}"
+                    SearchCommand="{Binding CommandBuscarArquivo, Mode=OneWay}"
+                    x:Name="CCaminhoArquivo" />
+            </Grid>
+        </StackPanel>
+
+        <controls:MetroProgressBar Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1"
+                                   IsIndeterminate="{Binding ImportacaoEmAndamento}" />
+        <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center">
+            <Button Width="130" Content="Fazer importação" Click="OnClickImportar"
+                    IsEnabled="{Binding ImportacaoEmAndamento, Converter={conversores:InverseBooleanConverter}, Mode=OneWay}" />
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>

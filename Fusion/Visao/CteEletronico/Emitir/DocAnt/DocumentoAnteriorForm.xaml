@@ -1,0 +1,191 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.CteEletronico.Emitir.DocAnt.DocumentoAnteriorForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:Fusion.Visao.CteEletronico.Emitir.DocAnt"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+                      mc:Ignorable="d"
+                      WindowStartupLocation="CenterScreen" WindowState="Normal"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      Title="Documento Anterior" Width="950" Height="580"
+                      d:DataContext="{d:DesignInstance local:DocumentoAnteriorFormModel}"
+                      x:Name="This">
+
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <local:FlyoutAddDocumentoAnterior DataContext="{Binding FlyoutAddDocumentoAnteriorModel}" />
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+
+    <DockPanel>
+
+        <GroupBox Header="Emitente dos documento anterior" DockPanel.Dock="Top">
+            <StackPanel>
+                <TextBlock Text="Nome" />
+                <TextBox Text="{Binding NomeOuRazaoSocial}" MaxLength="60" />
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                        <TextBlock>CPF ou CNPJ</TextBlock>
+                        <TextBox Text="{Binding DocumentoUnico}"
+                                 wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True"
+                                 MaxLength="14" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock>Insicrção Estadual</TextBlock>
+                        <TextBox Text="{Binding InscricaoEstadual}"
+                                 wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True"
+                                 MaxLength="14" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Margin="4,0,0,0">
+                        <TextBlock Text="Estado (UF)" />
+                        <ComboBox ItemsSource="{Binding Estados}"
+                                  SelectedItem="{Binding EstadoUf, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedValuePath="Sigla"
+                                  SelectedValue="{Binding EstadoUf.Sigla}"
+                                  DisplayMemberPath="Sigla" />
+                    </StackPanel>
+
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Documentos anteriores" DockPanel.Dock="Top">
+            <StackPanel>
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0,0,5,0">
+                            <TextBlock>Quantidade de documento em papel</TextBlock>
+                            <TextBox Text="{Binding QtdPapel}" IsEnabled="False" Focusable="False" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                            <TextBlock>Quantidade de documentos CT-E</TextBlock>
+                            <TextBox Text="{Binding QtdCte}" IsEnabled="False" Focusable="False" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Right">
+                            <Button Command="{Binding CommandFlyoutAddDocumento}"
+                                    Style="{DynamicResource FusionAccentedButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome Icon="Plus" Width="13" Height="13"
+                                                     Foreground="{DynamicResource WhiteBrush}" />
+                                    <TextBlock Text="Adicionar Documento" Margin="5,0,0,0" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <TextBlock Text="Documentos adicionados" TextAlignment="Center"
+                           Background="{DynamicResource AccentColorBrush4}"
+                           FontWeight="Bold" Margin="0,5,0,0" />
+
+                <ListBox
+                    Margin="0,5,-0.2,0"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    SelectedItem="{Binding Path=DocumentoTransporteSelecionado, Mode=TwoWay}"
+                    ItemsSource="{Binding GridDocumentosTransportes}" Focusable="False"
+                    Height="265">
+
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <EventSetter Event="PreviewMouseUp" Handler="SelectCurrentItem" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <StackPanel controls:VisibilityHelper.IsVisible="{Binding IsCTe}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button
+                                            Grid.Column="0"
+                                            Content="Excluir"
+                                            Style="{StaticResource FusionDangerButton}"
+                                            Click="ButtonDeletar_OnClick" />
+
+                                        <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                            <TextBlock FontWeight="Bold" Text="{Binding TipoDocumentoAnterior}" />
+                                            <TextBlock Text="{Binding ChaveCTe}" />
+                                        </StackPanel>
+
+                                    </Grid>
+                                </StackPanel>
+
+                                <Grid controls:VisibilityHelper.IsVisible="{Binding IsNotCTe}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button
+                                        Grid.Column="0"
+                                        Content="Excluir"
+                                        Click="ButtonDeletar_OnClick"
+                                        Style="{StaticResource FusionDangerButton}" />
+
+                                    <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                        <TextBlock Text="{Binding TipoDocumentoAnterior}" FontWeight="Bold" />
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock>
+                                                <Run Text="Série: " />
+                                                <Run Text="{Binding Serie, StringFormat=D3}" />
+                                            </TextBlock>
+
+                                            <TextBlock Margin="10,0,0,0">
+                                                <Run Text="Sub-Série: " />
+                                                <Run Text="{Binding SubSerie, StringFormat=D3}" />
+                                            </TextBlock>
+
+                                            <TextBlock Margin="10,0,0,0">
+                                                <Run Text="Número Fiscal: " />
+                                                <Run Text="{Binding NumeroDocumentoFiscal}" />
+                                            </TextBlock>
+
+                                            <TextBlock Margin="10,0,0,0">
+                                                <Run Text="Emissão: " />
+                                                <Run Text="{Binding DataDeEmissao}" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Button
+                    HorizontalAlignment="Center"
+                    Margin="2" Width="200"
+                    Style="{StaticResource FusionAccentedButton}"
+                    Command="{Binding CommandSalvar}"
+                    Content="Salvar alterações" />
+            </StackPanel>
+        </GroupBox>
+    </DockPanel>
+</controls:MetroWindow>

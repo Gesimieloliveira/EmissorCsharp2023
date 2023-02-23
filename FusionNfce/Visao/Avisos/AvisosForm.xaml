@@ -1,0 +1,72 @@
+﻿<controls:MetroWindow x:Class="FusionNfce.Visao.Avisos.AvisosForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:avisos="clr-namespace:FusionNfce.Visao.Avisos"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        Style="{DynamicResource MetroWindowDialogStyle}"
+        WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance avisos:AvisosFormModel}"
+        Title="Mensagens de Aviso" Height="500" Width="800">
+    <Grid>
+        <ListBox ItemsSource="{Binding Itens}" Focusable="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 >
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <Style.Resources>
+                        <!-- SelectedItem with focus -->
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                                             Color="Transparent" />
+                        <!-- SelectedItem without focus -->
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
+                                                             Color="Transparent" />
+                        <!-- SelectedItem text foreground -->
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                                                             Color="Black" />
+                    </Style.Resources>
+
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                    <Setter Property="Focusable" Value="False" />
+                </Style>
+            </ListBox.Resources>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel
+                                Focusable="False" 
+                                Margin="0,5,5,5" >
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <fa:ImageAwesome Icon="{Binding Icone}" Focusable="False" Margin="5" />
+
+                            <TextBlock Grid.Column="1" FontSize="25" Text="{Binding Mensagem}" Margin="5" TextWrapping="Wrap"></TextBlock>
+
+
+
+                            <controls:Tile Grid.Column="2"
+                                           controls:VisibilityHelper.IsVisible="{Binding BotaoAcaoAtivo}"
+                                           VerticalContentAlignment="Top"
+                                           Title="Clique aqui"
+                                           Height="Auto"
+                                           Background="{DynamicResource AccentColorBrush3}"
+                                           Width="100" Command="{Binding Action}" >
+                                <fa:ImageAwesome Width="40" Height="40" Foreground="DarkMagenta" Icon="Bolt" Focusable="False" Margin="5" />
+                            </controls:Tile>
+                        </Grid>
+                        
+                        
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</controls:MetroWindow>

@@ -1,0 +1,204 @@
+﻿<controls:MetroWindow x:Class="FusionWPF.Base.GridPicker.GridPicker"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:componentes="clr-namespace:FusionLibrary.Wpf.Componentes;assembly=FusionLibrary"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
+                      xmlns:flyout="clr-namespace:FusionWPF.Base.GridPicker.Flyout"
+                      xmlns:gp="clr-namespace:FusionWPF.Base.GridPicker"
+                      xmlns:tools="clr-namespace:FusionLibrary.Wpf.Tools;assembly=FusionLibrary"
+                      xmlns:controles="clr-namespace:FusionWPF.Controles"
+                      d:DataContext="{d:DesignInstance gp:GridPickerModel}"
+                      Title="{Binding Titulo}" Height="500" Width="968"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      WindowStartupLocation="CenterScreen"
+                      PreviewKeyDown="PreviewKeyDownHandler"
+                      Loaded="LoadedHandler"
+                      Name="Form">
+
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <flyout:FlyoutGridPicker x:Name="FlyoutGridPickerFiltro" DataContext="{Binding FlyoutGridPickerModel}" />
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Margin="5">
+            <StackPanel DockPanel.Dock="Left" controls:VisibilityHelper.IsVisible="{Binding HabilitaBotaoNovo}"
+                        VerticalAlignment="Center">
+                <Button ClickMode="Release" Command="{Binding CommandNovo}"
+                        Height="28"
+                        Style="{DynamicResource FusionAccentedButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Plus" Height="12" Width="12" Foreground="{DynamicResource WhiteBrush}" />
+                        <TextBlock Text="Novo" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <Grid DockPanel.Dock="Left" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Width="150" Margin="0,0,2,0"
+                            controls:VisibilityHelper.IsVisible="{Binding IsTemTipoBuscas}" Focusable="False">
+                    <ComboBox
+                        Focusable="False"
+                        IsEditable="False"
+                        Width="150"
+                        ItemsSource="{Binding TipoBuscas}"
+                        SelectedItem="{Binding BuscaSelecionada}" />
+                </StackPanel>
+
+                <controles:SearchTextBox
+                    Grid.Column="1"
+                    Width="500"
+                    Focusable="True"
+                    x:Name="SearchTextBox"
+                    PreviewKeyDown="SearchTextBox_OnPreviewKeyDown"
+                    tools:FocusAdvancement.AdvancesByEnterKey="False"
+                    CharacterCasing="Normal"
+                    controls:TextBoxHelper.Watermark="{Binding BuscaSelecionada.Watermark}"
+                    controls:TextBoxHelper.ButtonCommand="{Binding AplicarPesquisaGridCommand}"
+                    Text="{Binding TextoPesquisado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <StackPanel Grid.Column="2" controls:VisibilityHelper.IsVisible="{Binding AtivaFiltro}"
+                            VerticalAlignment="Center">
+                    <Button ClickMode="Release" Command="{Binding CommandFiltro}" CommandParameter="ViewImportProgress"
+                            Style="{DynamicResource FusionAccentedButton}"
+                            Height="28">
+                        <StackPanel>
+                            <fa:ImageAwesome Icon="Filter" Height="12" Width="12"
+                                             Foreground="{DynamicResource WhiteBrush}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+
+        <ListBox
+            Height="395"
+            x:Name="ListBoxItens"
+            DockPanel.Dock="Top" HorizontalContentAlignment="Stretch"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            VirtualizingStackPanel.IsVirtualizing="True"
+            VirtualizingStackPanel.VirtualizationMode="Recycling"
+            SelectedItem="{Binding ItemSelecionado, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding ItensLista}">
+
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <EventSetter Event="PreviewKeyDown" Handler="PreviewKeyDownItemHandler" />
+                    <EventSetter Event="MouseDoubleClick" Handler="DoubleClickItemHandler" />
+                </Style>
+            </ListBox.Resources>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        BorderBrush="{DynamicResource AccentColorBrush4}"
+                        BorderThickness="2"
+                        Padding="2">
+
+                        <DockPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Tag="DadosGrid" Margin="5,0" Background="Transparent">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Titulo}" TextWrapping="WrapWithOverflow"
+                                                   FontWeight="Bold"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource AccentColorBrush}" />
+
+                                        <TextBlock 
+                                            FontSize="11"
+                                            FontWeight="Bold"
+                                            Foreground="{DynamicResource AccentColorBrush2}"
+                                            Text="{Binding Subtitulo}"
+                                                   controls:VisibilityHelper.IsVisible="{Binding TemSubtitulo}" />
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0" Text="{Binding Coluna1}" />
+                                            <TextBlock Grid.Column="1" Text="{Binding Coluna2}" />
+                                            <TextBlock Grid.Column="2" Text="{Binding Coluna3}" />
+                                            <TextBlock Grid.Column="3" Text="{Binding Coluna4}" />
+                                        </Grid>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel
+                                    Background="{DynamicResource WhiteBrush}"
+                                    Grid.Column="1" Tag="BotoesGrid"
+                                    HorizontalAlignment="Right"
+                                    Orientation="Horizontal">
+
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="Visibility" Value="Hidden" />
+
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}"
+                                                    Value="True">
+
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+
+                                    <Button
+                                        DockPanel.Dock="Top" ClickMode="Release" Tag="{Binding}"
+                                        Click="ClickBtnEditarItemHandler"
+                                        controls:VisibilityHelper.IsVisible="{Binding Path=DataContext.HabilitaBotaoEditar, ElementName=Form}"
+                                        Style="{DynamicResource FusionWarningButton}"
+                                        Content="editar"
+                                        Margin="0,0,5,0" />
+
+                                    <Button
+                                        Tag="{Binding}" ClickMode="Release"
+                                        Style="{DynamicResource FusionAccentedButton}"
+                                        Click="ClickBtnItemHandler">
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="selecionar" VerticalAlignment="Center" />
+                                            <fa:ImageAwesome Icon="PlayCircle" Height="14"
+                                                             Foreground="{DynamicResource WhiteBrush}" Margin="5,0,0,0" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </DockPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel
+            DockPanel.Dock="Top" Height="40" Margin="0,5,0,0"
+            Background="{DynamicResource WarningBrush}"
+            controls:VisibilityHelper.IsVisible="{Binding QtdeMaximaFoiAlcancada}">
+
+            <TextBlock
+                Padding="4" Foreground="{DynamicResource WhiteBrush}"
+                TextAlignment="Center" FontWeight="Bold" FontSize="16"
+                Text="{Binding QtdeMaximaItens, StringFormat='Exibindo apenas os {0} primeiros itens'}" />
+        </StackPanel>
+    </DockPanel>
+</controls:MetroWindow>

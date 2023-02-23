@@ -1,0 +1,254 @@
+﻿<UserControl x:Class="Fusion.Visao.DocumentoAPagar.GridDocumentoPagar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:controlzex="urn:controlzex"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:flags="clr-namespace:FusionCore.FusionAdm.Financeiro.Flags;assembly=FusionCore"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             mc:Ignorable="d"
+             Loaded="GridDocumento_OnLoaded">
+
+    <Grid Margin="5">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Center"
+                    Margin="0,5,0,0">
+
+            <Button Margin="0,0,5,0" Command="{Binding NovoCommand}" Style="{DynamicResource FusionAccentedButton}"
+                    controls:VisibilityHelper.IsVisible="{Binding IsGerarAvulso}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Plus" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Novo registro" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+
+            <Button Margin="0,0,5,0" Click="GerarDocumentosClick" Style="{DynamicResource FusionAccentedButton}" controls:VisibilityHelper.IsVisible="{Binding IsGerarAvulso}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Repeat" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Gerar parcelas" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+
+            <Button Margin="0,0,5,0" Command="{Binding FiltroCommand}" Style="{DynamicResource FusionAccentedButton}"
+                    controls:VisibilityHelper.IsVisible="{Binding IsPermissaoListar}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Filter" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Filtro" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+
+            <Button Command="{Binding LimparFiltrosCommand}" Style="{DynamicResource FusionAccentedButton}"
+                    controls:VisibilityHelper.IsVisible="{Binding IsPermissaoListar}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Trash" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Limpar Filtros" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+
+            <Button Margin="5,0,0,0" Command="{Binding ImprimirReciboCommand}"
+                    controls:VisibilityHelper.IsVisible="{Binding IsGerenciarRecibo}"
+                    Style="{DynamicResource FusionAccentedButton}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Print" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Recibo" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+
+            <controlzex:PopupEx IsOpen="{Binding IsAbrirFiltro}" StaysOpen="True">
+                <Border Background="{DynamicResource WhiteBrush}" BorderThickness="1"
+                        BorderBrush="{DynamicResource AccentColorBrush}">
+                    <StackPanel Width="600" Margin="25">
+                        <StackPanel>
+                            <TextBlock>Empresa</TextBlock>
+                            <ComboBox
+                                ItemsSource="{Binding Path=Empresas}"
+                                DisplayMemberPath="Nome"
+                                SelectedItem="{Binding EmpresaSelecionada}" 
+                                controls:TextBoxHelper.ClearTextButton="True"/>
+                            
+
+                            <TextBlock>Buscar Fornecedor</TextBlock>
+
+                            <controles:SearchTextBox
+                                MaxLength="120" 
+                                Text="{Binding FiltroFornecedor}"
+                                ButtonClearEnabledWhenHasText="True"
+                                SearchCommand="{Binding BuscarFornecedorCommand}"
+                                ClearCommand="{Binding LimparFornecedorCommand}" />
+
+                        </StackPanel>
+
+
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Margin="0,0,5,0">
+
+                                <StackPanel>
+                                    <TextBlock>Situação</TextBlock>
+                                    <ComboBox TabIndex="1"
+                                              ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags:Situacao}}}"
+                                              SelectedValue="{Binding Situacao}" />
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <TextBlock>Número Documento</TextBlock>
+                                    <TextBox MaxLength="50" Text="{Binding NumeroDocumento}" />
+                                </StackPanel>
+
+                            </StackPanel>
+
+
+                            <StackPanel Grid.Column="1">
+
+                                <StackPanel>
+                                    <TextBlock>Data Vencimento Inicial</TextBlock>
+                                    <DatePicker
+                                        SelectedDate="{Binding DataVencimentoInicial}" />
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <TextBlock>Data Vencimento Final</TextBlock>
+                                    <DatePicker
+                                        SelectedDate="{Binding DataVencimentoFinal}" />
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </Grid>
+                        <Button Command="{Binding AplicarPesquisaCommand}" Margin="0,5,0,0"
+                                Style="{DynamicResource FusionAccentedButton}">
+                            Aplicar
+                        </Button>
+                        <Button Command="{Binding FecharPesquisaCommand}" Margin="0,5,0,0"
+                                Style="{DynamicResource FusionDangerButton}">
+                            Fechar
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </controlzex:PopupEx>
+
+
+        </StackPanel>
+
+        <Grid Grid.Row="1" DockPanel.Dock="Bottom" controls:VisibilityHelper.IsVisible="{Binding IsPermissaoListar}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+            <StackPanel Width="200" HorizontalAlignment="Center">
+                <TextBlock>Total Geral</TextBlock>
+                <TextBox IsReadOnly="True"
+                         Text="{Binding ValorTotal, StringFormat=N2}" TextAlignment="Right" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Width="200" HorizontalAlignment="Center">
+                <TextBlock>Total Quitado</TextBlock>
+                <TextBox IsReadOnly="True"
+                         Text="{Binding ValorTotalAQuitado, StringFormat=N2}" TextAlignment="Right" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Width="200" HorizontalAlignment="Center">
+                <TextBlock>Total A Pagar</TextBlock>
+                <TextBox IsReadOnly="True"
+                         Text="{Binding ValorTotalAPagar, StringFormat=N2}" TextAlignment="Right" />
+            </StackPanel>
+        </Grid>
+
+        <DataGrid Grid.Row="2" DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto"
+                  controls:VisibilityHelper.IsVisible="{Binding IsPermissaoListar}"
+                  ItemsSource="{Binding DocumentosAPagar}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectedItem="{Binding Selecionado}">
+
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DoubleClickDataGridRow" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="SizeToCells">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Style="{DynamicResource FusionAccentedButton}" ClickMode="Release"
+                                        Click="ClickBtnOpcoesHandler" Padding="7,4">
+                                    <fa:ImageAwesome Icon="List" Foreground="{DynamicResource WhiteBrush}" Height="12" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Situação" Binding="{Binding Situacao}"
+                                    Width="100" />
+
+                <DataGridTextColumn Header="Número" Binding="{Binding Numero}"
+                                    Width="120" />
+
+                <DataGridTextColumn Header="Nome do Fornecedor"
+                                    Width="Auto"
+                                    Binding="{Binding NomeFornecedor}" />
+
+                <DataGridTextColumn Header="Empresa"
+                                    Width="100"
+                                    Binding="{Binding NomeEmpresa}" />
+
+                <DataGridTextColumn Header="Nº Parcela" Binding="{Binding Parcela}"
+                                    Width="100" />
+
+                <DataGridTextColumn Header="Valor Doc." Binding="{Binding ValorAjustado}"
+                                    Width="100" />
+
+                <DataGridTextColumn Header="Quitado" Binding="{Binding ValorQuitado}"
+                                    Width="100" />
+
+                <DataGridTextColumn Header="Vencimento" Binding="{Binding VencimentoEm, StringFormat=d}"
+                                    Width="100" />
+
+                <DataGridTextColumn Header="Valor Original" Binding="{Binding ValorOriginal}"
+                                    Width="120" />
+
+                <DataGridTextColumn Header="Juros" Binding="{Binding Juros}"
+                                    Width="130" />
+
+                <DataGridTextColumn Header="Desconto" Binding="{Binding Desconto}"
+                                    Width="130" />
+
+                <DataGridTextColumn Header="Codigo/ID" Binding="{Binding Id, StringFormat=D11}"
+                                    Width="100" />
+                
+                <DataGridTextColumn Header="Descrição" Binding="{Binding Descricao}"
+                                    Width="Auto" />
+
+            </DataGrid.Columns>
+
+
+        </DataGrid>
+    </Grid>
+
+</UserControl>

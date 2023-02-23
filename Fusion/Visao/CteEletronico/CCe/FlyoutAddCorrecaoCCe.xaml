@@ -1,0 +1,63 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.CteEletronico.CCe.FlyoutAddCorrecaoCCe"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                 mc:Ignorable="d" d:DesignWidth="1000"
+                 Position="Top" IsOpen="{Binding IsOpen}" IsModal="True" MaxHeight="662" Theme="Adapt">
+    
+    <GroupBox Header="Informações da correção">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <GroupBox Header="Não poderão ser sanados erros relacionados" DockPanel.Dock="Top" Margin="0,0,0,10" Foreground="Black">
+                    <StackPanel>
+                        <TextBlock TextWrapping="Wrap">1. as variáveis que determinam o valor do imposto tais como: base de cálculo, alíquota, diferença de preço, quantidade, valor da prestação;</TextBlock>
+                        <TextBlock TextWrapping="Wrap">2. a correção de dados cadastrais que implique mudança do emitente, tomador, remetente ou do destinatário;</TextBlock>
+                        <TextBlock TextWrapping="Wrap">3. a data de emissão ou de saída.</TextBlock>
+                    </StackPanel>
+                </GroupBox>
+
+                <controles:SearchTextBox 
+                    IsReadOnly="True" 
+                    Text="{Binding ElementoCorrigido}"
+                    SearchCommand="{Binding CommandBuscarPreCorrecao}" />
+
+                <TextBlock Text="Grupo alterado" controls:VisibilityHelper.IsVisible="{Binding AdicionarManual}" />
+                <TextBox CharacterCasing="Normal" Text="{Binding GrupoAlterado}" MaxLength="20"
+                         controls:VisibilityHelper.IsVisible="{Binding AdicionarManual}" />
+                <TextBlock Text="Campo alterado"
+                           controls:VisibilityHelper.IsVisible="{Binding AdicionarManual}" />
+                <TextBox CharacterCasing="Normal" Text="{Binding CampoAlterado}" MaxLength="20"
+                         controls:VisibilityHelper.IsVisible="{Binding AdicionarManual}" />
+                <TextBlock Text="Valor alterado" />
+                <TextBox CharacterCasing="Normal" Text="{Binding ValorAlterado}" MaxLength="500" />
+                <TextBlock Text="Número item alterado" />
+                <TextBox CharacterCasing="Normal" Text="{Binding NumeroItem}" MaxLength="2" />
+                <CheckBox Margin="0,5,0,0" IsChecked="{Binding AdicionarManual}">Adicionar manual</CheckBox>
+            </StackPanel>
+
+            <!-- toolbar-bottom -->
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right">
+                <Button Width="50" Height="50"
+                        Style="{DynamicResource MetroCircleButtonStyle}"
+                        Command="{Binding CommandAdicionarCorrecao}">
+                    <Rectangle Width="20" Height="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill">
+                                <VisualBrush.Visual>
+                                    <fa:ImageAwesome Icon="Save" />
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </DockPanel>
+            <!-- /toolbar-bottom -->
+        </DockPanel>
+
+    </GroupBox>
+</controls:Flyout>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Tributacoes.Estadual"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="TributacaoCst" table="tributacao_cst" mutable="false">
+    <id name="Id">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="Descricao" column="descricao" not-null="true" />
+
+    <property name="RegimeTributario" column="regimeTributario" not-null="true" />
+
+  </class>
+</hibernate-mapping>

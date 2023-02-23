@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:fcs="clr-namespace:FusionWPF.Controles"
+                    xmlns:editors="http://wpfcontrols.com/">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/Controles/Controles.ListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/Controles/Controles.ComboBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/Controles/Controles.SearchTextBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/Controles/Controles.DecimalTextBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/Controles/Controles.FatorConversao.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/Controles/Controles.AutoCompleteTextBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/Controles/Controles.TituloDivisor.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/Controles/Controles.BotaoIcone.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/Controles/Controles.FusionWindowProgresso.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="fcs:ComboBoxEditavel" BasedOn="{StaticResource ComboBoxEditavel}" />
+    <Style TargetType="fcs:SearchTextBox" BasedOn="{StaticResource SearchTextBox}" />
+    <Style TargetType="fcs:DecimalTextBox" BasedOn="{StaticResource DecimalTextBox}" />
+    <Style TargetType="fcs:FatorConversao" BasedOn="{StaticResource FatorConversao}" />
+    <Style TargetType="editors:AutoCompleteTextBox" BasedOn="{StaticResource MetroAutoCompleteTextBox}" />
+    <Style TargetType="fcs:TituloDivisor" BasedOn="{StaticResource TituloDivisor}" />
+    <Style TargetType="fcs:BotaoIcone" BasedOn="{StaticResource BotaoIcone}" />
+    <Style TargetType="fcs:FusionWindowProgresso" BasedOn="{StaticResource FusionWindowProgresso}" />
+
+</ResourceDictionary>

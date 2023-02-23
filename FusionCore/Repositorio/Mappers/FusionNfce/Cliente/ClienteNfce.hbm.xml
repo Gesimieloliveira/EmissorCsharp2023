@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Cliente"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ClienteNfce" table="cliente">
+    <id name="Id" column="id" />
+    
+    <property name="Nome">
+      <column name="nome" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="DocumentoUnico">
+      <column name="documentoUnico" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="InscricaoEstadual">
+      <column name="inscricaoEstadual" not-null="true" />
+    </property>
+
+    <property name="Ativo">
+      <column name="ativo"/>
+    </property>
+
+    <bag name="Enderecos" inverse="true" table="cliente_endereco" cascade="all-delete-orphan">
+      <key column="cliente_id" />
+      <one-to-many class="ClienteEnderecoNfce" />
+    </bag>
+    
+    <bag name="Emails" inverse="true" table="cliente_email" cascade="all-delete-orphan">
+      <key column="cliente_id" />
+      <one-to-many class="ClienteEmailNfce" />
+    </bag>
+  </class>
+</hibernate-mapping>

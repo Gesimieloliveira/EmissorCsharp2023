@@ -1,0 +1,22 @@
+﻿<controls:MetroWindow x:Class="FusionNfce.Visao.BarraDeProgresso.ProgressBarAgil4"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      mc:Ignorable="d"
+                      Style="{DynamicResource MetroWindowStyle}"
+                      WindowStartupLocation="CenterScreen"
+                      ResizeMode="NoResize"
+                      IsCloseButtonEnabled="False"
+                      ShowIconOnTitleBar="False"
+                      Title="Aguarde processando solicitação..."
+                      Height="164.662" Width="566.165">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <controls:MetroProgressBar IsIndeterminate="True" />
+    </Grid>
+</controls:MetroWindow>

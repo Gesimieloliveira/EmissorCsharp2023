@@ -1,0 +1,40 @@
+﻿<UserControl
+    x:Class="Fusion.Visao.Pessoa.PessoaFormInicio"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Fusion.Visao.Pessoa"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:fa="http://schemas.fontawesome.io/icons/"
+    KeyDown="ControlKeyDown"
+    mc:Ignorable="d">
+
+    <Grid Width="550" Height="170">
+        <WrapPanel Height="Auto" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <controls:Tile Title="[F2] Pessoa física" TitleFontSize="13" Click="PessoaFisicaClick">
+                <StackPanel>
+                    <fa:ImageAwesome Icon="User" Width="50" Foreground="{DynamicResource WhiteBrush}" />
+                </StackPanel>
+            </controls:Tile>
+
+            <controls:Tile Title="[F3] Pessoa júridica" TitleFontSize="13" Click="PessoaJuridicaClick">
+                <StackPanel>
+                    <fa:ImageAwesome Icon="Bank" Width="50" Foreground="{DynamicResource WhiteBrush}" />
+                </StackPanel>
+            </controls:Tile>
+
+            <controls:Tile
+                Click="ConsultaCnpjClick"
+                Title=" [F4] Consulta por CNPJ"
+                TitleFontSize="11"
+                Background="{DynamicResource SuccessBrush}">
+
+                <StackPanel>
+                    <fa:ImageAwesome Icon="InternetExplorer" Width="50" Foreground="{DynamicResource WhiteBrush}" />
+                </StackPanel>
+            </controls:Tile>
+        </WrapPanel>
+    </Grid>
+
+</UserControl>

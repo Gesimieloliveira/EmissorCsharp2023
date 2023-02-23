@@ -1,0 +1,67 @@
+﻿<controles:FusionWindow x:Class="Fusion.Visao.Cfop.CfopPickerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+        xmlns:cfop="clr-namespace:Fusion.Visao.Cfop"
+        xmlns:tools="clr-namespace:FusionLibrary.Wpf.Tools;assembly=FusionLibrary"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance cfop:CfopPickerContexto, IsDesignTimeCreatable=False}"
+        Title="Listagem de CFOP" 
+        Height="550" Width="930"
+        Loaded="LoadedHandler">
+
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock FontSize="14" Text="Pesquisa rápida (F6 - focar) " TextAlignment="Center" />
+            <controles:SearchTextBox 
+                Name="TbPesquisa"
+                FontSize="14"
+                tools:FocusAdvancement.AdvancesByEnterKey="False"
+                SearchEvent="PesquisaRapidaClickHandler"
+                PreviewKeyDown="PesquiaRapidaKeyDownHandler"
+                Text="{Binding TextoPesquisa, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+
+        <ListBox 
+            x:Name="ListBoxCfop"
+            DockPanel.Dock="Top" Margin="0,10,0,0"
+            SelectedItem="{Binding CfopSelecionado}"
+            ItemsSource="{Binding Cfops}"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <EventSetter Event="PreviewKeyDown" Handler="ItemKeyDownHandler" />
+                    <EventSetter Event="MouseDoubleClick" Handler="ItemDoubleClickHandler" />
+                </Style>
+            </ListBox.Resources>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel Margin="0,1">
+                        <Grid DockPanel.Dock="Left" Background="{DynamicResource AccentColorBrush3}">
+                            <StackPanel VerticalAlignment="Center" Margin="2">
+                                <TextBlock 
+                                    Padding="5,1" Width="70"
+                                    FontSize="18" FontWeight="Bold" TextAlignment="Center"
+                                    Text="{Binding Id}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid DockPanel.Dock="Left" Margin="5,0">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock 
+                                    FontSize="14"
+                                    Text="{Binding Descricao}" TextWrapping="WrapWithOverflow" />
+                            </StackPanel>
+                        </Grid>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+
+</controles:FusionWindow>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Vendedores"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="VendedorNfce" table="vendedor">
+    <id name="Id" column="id" />
+    
+    <property name="Nome">
+      <column name="nome" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="DocumentoUnico">
+      <column name="documentoUnico" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="Ativo">
+      <column name="ativo"/>
+    </property>
+  </class>
+</hibernate-mapping>

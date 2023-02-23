@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Configuracoes"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ConfiguracaoFrenteCaixa" table="configuracao_frente_caixa">
+    <id name="Id" unsaved-value="0"/>
+    
+    <property name="Logo" not-null="true">
+      <column name="logo" sql-type="image" length="2147483647"></column>
+    </property>
+
+    <property name="AlteradoEm" not-null="true">
+      <column name="alteradoEm" ></column>
+    </property>
+
+    <property name="IsBloquearVendaParaResolverPendencia" not-null="true">
+      <column name="isBloquearVendaParaResolverPendencia"></column>
+    </property>
+    
+    <property name="ValorMinimoParaForcarClienteNaVenda" not-null="false">
+      <column name="valorMinimoParaForcarClienteNaVenda" />
+    </property>
+
+    <property name="IsSegundaViaContingencia" not-null="true">
+      <column name="isSegundaViaContingencia" />
+    </property>
+
+  </class>
+</hibernate-mapping>

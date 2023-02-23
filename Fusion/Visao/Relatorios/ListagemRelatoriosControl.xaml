@@ -1,0 +1,230 @@
+﻿<UserControl x:Class="Fusion.Visao.Relatorios.ListagemRelatoriosControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fcs="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:local="clr-namespace:Fusion.Visao.Relatorios"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             mc:Ignorable="d" d:DesignWidth="980"
+             d:DataContext="{d:DesignInstance local:ListagemRelatoriosContexto, IsDesignTimeCreatable=False}"
+             Background="White"
+             Padding="5"
+             Loaded="LoadedHandler"
+             x:Name="View">
+
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="ListBoxSource" Source="{Binding Path=Relatorios}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Grupo" Converter="{conversores:RemoveAccentsConverter}" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+            <fcs:SearchTextBox
+                mah:TextBoxHelper.Watermark="Pesquisa rápida nos relatórios"
+                Name="Search" Width="400"
+                SearchEvent="FiltroClickHandler"
+                PreviewKeyDown="FiltroKeyDownHandler" 
+                Text="{Binding StringFiltro, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <StackPanel
+                x:Name="ToolbarModoDesign"
+                Orientation="Horizontal"
+                Margin="0,5,0,0">
+
+                <Button
+                    Margin="0,0,5,0"
+                    Style="{DynamicResource FusionSuccessButton}"
+                    Click="AtivarModoDesignerClickHandler"
+                    x:Name="BtnAtivarDesign">
+
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome
+                            Icon="PaintBrush" Width="13" Height="13"
+                            Foreground="{DynamicResource WhiteBrush}" />
+
+                        <TextBlock Text="Ativar Modo Design" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+
+                <StackPanel x:Name="GrupoBtnsDesignAtivo" Orientation="Horizontal">
+
+                    <Button
+                        Style="{DynamicResource FusionAccentedButton}"
+                        Click="SairModoDesignClickHandler">
+
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome
+                                Icon="ArrowLeft" Width="13" Height="13"
+                                Foreground="{DynamicResource WhiteBrush}" />
+
+                            <TextBlock Text="Sair Modo Design" Margin="5,0,0,0" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button
+                        Style="{DynamicResource FusionSuccessButton}"
+                        Click="NovoFastReportHandler"
+                        Margin="5,0,0,0"
+                        ToolTip="Criar novo relatório (fastreport)">
+
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="Plus" Width="13" Height="13"
+                                             Foreground="{DynamicResource WhiteBrush}" />
+                            <TextBlock Text="Novo Relatório" Margin="5,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <DockPanel DockPanel.Dock="Top">
+            <ListBox
+                DockPanel.Dock="Top"
+                Name="LbRelatorios"
+                VirtualizingPanel.IsVirtualizing='True'
+                VirtualizingPanel.IsVirtualizingWhenGrouping='True'
+                VirtualizingPanel.ScrollUnit='Pixel'
+                VirtualizingPanel.VirtualizationMode="Recycling"
+                ItemsSource="{Binding Source={StaticResource ListBoxSource}}"
+                SelectedItem="{Binding ItemSelecionado}"
+                SelectionMode="Single">
+
+                <ListBox.Resources>
+                    <Style TargetType="ListBoxItem">
+                        <EventSetter Event="MouseDoubleClick" Handler="RelatorioDoubleClickHandler" />
+                    </Style>
+                </ListBox.Resources>
+
+                <ListBox.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <DockPanel>
+                                                <Border
+                                                    DockPanel.Dock="Top"
+                                                    BorderThickness="0,0,0,2"
+                                                    BorderBrush="{DynamicResource GrayBrush3}"
+                                                    Padding="0,3">
+
+                                                    <TextBlock
+                                                        Text="{Binding Name}"
+                                                        FontSize="16" FontWeight="Bold"
+                                                        Foreground="{DynamicResource AccentColorBrush}" />
+                                                </Border>
+
+                                                <ItemsPresenter Margin="15,5,0,0" DockPanel.Dock="Top" />
+
+                                            </DockPanel>
+
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </ListBox.GroupStyle>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- grid modo designer -->
+                            <Grid
+                                Grid.Column="0"
+                                mah:VisibilityHelper.IsVisible="{Binding Path=DataContext.ModoDesigner, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+
+                                <StackPanel
+                                    Grid.Column="0"
+                                    DockPanel.Dock="Left"
+                                    Orientation="Horizontal">
+
+                                    <Button
+                                        Style="{DynamicResource FusionWarningButton}"
+                                        Tag="{Binding}" ClickMode="Release"
+                                        Click="ClickEditarDevHandler"
+                                        mah:VisibilityHelper.IsVisible="{Binding Path=DataContext.ModoDesenvolvimento, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+
+                                        <TextBlock Text="[dev]" />
+                                    </Button>
+
+                                    <Button
+                                        Margin="5,0,0,0" Style="{DynamicResource FusionDangerButton}"
+                                        Tag="{Binding}" ClickMode="Release"
+                                        Click="ExcluirClickHandler"
+                                        ToolTip="Excluir relatório ou template">
+
+                                        <fa:ImageAwesome
+                                            Icon="Trash" Height="14" Foreground="{DynamicResource WhiteBrush}" />
+                                    </Button>
+
+                                    <Button
+                                        Margin="5,0,0,0" Style="{DynamicResource FusionAccentedButton}"
+                                        Tag="{Binding}" ClickMode="Release"
+                                        Click="EditarInformacoesClickHandler"
+                                        ToolTip="Editar descrição do relatório">
+
+                                        <fa:ImageAwesome
+                                            Icon="Pencil" Height="14" Foreground="{DynamicResource WhiteBrush}" />
+                                    </Button>
+
+                                    <Button
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource FusionCleanButton}"
+                                        Tag="{Binding}"
+                                        Click="EditarDesenhoClickHandler" ClickMode="Release"
+                                        ToolTip="Editar desenho template">
+
+                                        <fa:ImageAwesome
+                                            Icon="PaintBrush" Height="14"
+                                            Foreground="{DynamicResource BlackBrush}" />
+                                    </Button>
+
+                                    <Button
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource FusionCleanButton}"
+                                        Tag="{Binding}"
+                                        Click="ExportarClickHandler" ClickMode="Release"
+                                        ToolTip="Exportar template">
+
+                                        <fa:ImageAwesome
+                                            Icon="Download" Height="14" Foreground="{DynamicResource BlackBrush}" />
+                                    </Button>
+
+                                    <Button
+                                        Margin="5,0,0,0"
+                                        Style="{DynamicResource FusionCleanButton}"
+                                        Tag="{Binding}"
+                                        Click="ImportarTemplateClickHandler" ClickMode="Release"
+                                        ToolTip="Importar template">
+
+                                        <fa:ImageAwesome
+                                            Icon="Upload" Height="14" Foreground="{DynamicResource BlackBrush}" />
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding Descricao}" FontSize="16" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

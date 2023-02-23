@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Adm"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PdvVendaItemDTO" table="pdv_venda_ecf_item">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="PdvVendaDTO" column="pdvVendaEcf_id" not-null="true" fetch="join" />
+    <many-to-one name="PdvEcfDTO" column="pdvEcf_id" not-null="true" fetch="join" />
+    <property name="Ccf" not-null="true">
+      <column name="ccf" sql-type="int" />
+    </property>
+    <property name="Coo" not-null="true">
+      <column name="coo" sql-type="int" />
+    </property>
+    <property name="SerieEcf" column="serieEcf" not-null="true" length="20" />
+    <many-to-one name="ProdutoDt" column="produto_id" not-null="true" fetch="join" />
+    <property name="NomeProduto" column="nomeProduto" not-null="true" length="100" />
+    <property name="SiglaUnidadeProduto" not-null="true" length="10">
+      <column name="siglaUnidade"></column>
+    </property>
+    <property name="Cfop" column="cfop" not-null="true" />
+    <property name="CodigoBarra" column="codigoBarra" not-null="true" length="14" />
+    <property name="NumeroItem" not-null="true">
+      <column name="numeroItem" sql-type="smallint" />
+    </property>
+    <property name="Quantidade" column="quantidade" not-null="true" length="18" />
+    <property name="PrecoUnitario" column="precoUnitario" not-null="true" length="18" />
+    <property name="Total" column="total" not-null="true" length="18" />
+    <property name="BaseIcms" column="baseIcms" not-null="true" length="18" />
+    <property name="TaxaIcms" column="taxaIcms" not-null="true" length="18" />
+    <property name="Icms" column="icms" not-null="true" length="18" />
+    <property name="TaxaDesconto" column="taxaDesconto" not-null="true" length="18" />
+    <property name="Desconto" column="desconto" not-null="true" length="18" />
+    <property name="TaxaIssqn" column="taxaIssqn" not-null="true" length="18" />
+    <property name="Issqn" column="issqn" not-null="true" length="18" />
+    <property name="TaxaPis" column="taxaPis" not-null="true" length="18" />
+    <property name="Pis" column="pis" not-null="true" length="18" />
+    <property name="TaxaCofins" column="taxaCofins" not-null="true" length="18" />
+    <property name="Cofins" column="cofins" not-null="true" length="18" />
+    <property name="TaxaAcrescimo" column="taxaAcrescimo" not-null="true" length="18" />
+    <property name="Acrescimo" column="acrescimo" not-null="true" length="18" />
+    <property name="AcrescimoRateio" column="acrescimoRateio" not-null="true" length="18" />
+    <property name="DescontoRateio" column="descontoRateio" not-null="true" length="18" />
+    <property name="TotalizadorParcial" column="totalizadorParcial" not-null="true" length="10" />
+    <property name="Cst" not-null="true" length="3">
+      <column name="cst" sql-type="char(3)" />
+    </property>
+    <property name="SituacaoTributariaIcms" column="situacaoTributariaIcms" length="5" not-null="true" />
+    <property name="IcmsEcf" column="icmsEcf" length="5" not-null="true" />
+    <property name="Cancelado" not-null="true">
+      <column name="cancelado" sql-type="bit" />
+    </property>
+    <property name="AlteradoEm" column="alteradoEm" not-null="true" />
+  </class>
+</hibernate-mapping>

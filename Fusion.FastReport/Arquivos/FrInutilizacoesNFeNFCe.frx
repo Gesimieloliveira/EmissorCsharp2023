@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="03/09/2018 16:55:20" ReportInfo.Modified="07/23/2018 14:49:02" ReportInfo.CreatorVersion="2016.3.22.0">
+  <Dictionary>
+    <BusinessObjectDataSource Name="dsInutilizacao" ReferenceName="dsInutilizacao" DataType="System.Collections.Generic.List`1[[Fusion.FastReport.DataSources.DsInutilizacao, Fusion.FastReport, Version=6.4.0.9, Culture=neutral, PublicKeyToken=null]]" Enabled="true">
+      <Column Name="Modelo" DataType="FusionCore.FusionAdm.Fiscal.Flags.ModeloDocumento, FusionCore, Version=6.4.0.9, Culture=neutral, PublicKeyToken=null"/>
+      <Column Name="Serie" DataType="System.Int16"/>
+      <Column Name="NumeroInicial" DataType="System.Int32"/>
+      <Column Name="NumeroFinal" DataType="System.Int32"/>
+      <Column Name="Protocolo" DataType="System.String"/>
+      <Column Name="InutilizadoEm" DataType="System.DateTime"/>
+      <Column Name="EmpresaRazao" DataType="System.String"/>
+      <Column Name="EmpesaCnpj" DataType="System.String"/>
+    </BusinessObjectDataSource>
+    <Parameter Name="PeriodoFiltro" DataType="FusionCore.Filtros.FiltroPeriodo, FusionCore, Version=6.4.0.9, Culture=neutral, PublicKeyToken=null"/>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="66.15">
+      <TextObject Name="Text9" Left="377.55" Top="0.9" Width="340.2" Height="13.9" Text="[DescricaoRelatorio]" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text14" Left="377.55" Top="18.35" Width="340.2" Height="15.9" Text="Relatório emitido em: [Date]" HorzAlign="Right"/>
+      <TextObject Name="Text18" Left="378" Top="38.25" Width="340.2" Height="18.9" Text="Periodo: [PeriodoFiltro]" HorzAlign="Right"/>
+    </ReportTitleBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="68.48" Width="718.2" Height="31.8" Condition="[dsInutilizacao.EmpesaCnpj]">
+      <TextObject Name="Text1" Width="718.2" Height="18.9" Text="[dsInutilizacao.EmpesaCnpj] / [dsInutilizacao.EmpresaRazao]" Font="Arial, 10pt, style=Bold"/>
+      <LineObject Name="Line1" Top="22.35" Width="718.2" Diagonal="true"/>
+      <DataBand Name="Data1" Top="123.83" Width="718.2" Height="18.9" DataSource="dsInutilizacao">
+        <TextObject Name="Text2" Width="94.5" Height="18.9" Text="[dsInutilizacao.Modelo]" HorzAlign="Center"/>
+        <TextObject Name="Text5" Left="94.5" Width="85.05" Height="18.9" Text="[dsInutilizacao.Serie]" HorzAlign="Right"/>
+        <TextObject Name="Text7" Left="179.55" Width="122.85" Height="18.9" Text="[dsInutilizacao.NumeroInicial]" HorzAlign="Right"/>
+        <TextObject Name="Text11" Left="302.4" Width="103.95" Height="18.9" Text="[dsInutilizacao.NumeroFinal]" HorzAlign="Right"/>
+        <TextObject Name="Text13" Left="406.35" Width="170.1" Height="18.9" Text="[dsInutilizacao.Protocolo]" HorzAlign="Center"/>
+        <TextObject Name="Text16" Left="576.45" Width="141.75" Height="18.9" Text="[dsInutilizacao.InutilizadoEm]" Format="Date" Format.Format="d" HorzAlign="Center"/>
+        <DataHeaderBand Name="DataHeader1" Top="102.6" Width="718.2" Height="18.9">
+          <TextObject Name="Text4" Width="94.5" Height="18.9" Text="Documento" HorzAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text6" Left="94.5" Width="85.05" Height="18.9" Text="Série" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text8" Left="179.55" Width="122.85" Height="18.9" Text="Número Inicial" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text12" Left="302.4" Width="103.95" Height="18.9" Text="Número Final" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text15" Left="406.35" Width="170.1" Height="18.9" Text="Protocolo" HorzAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text17" Left="576.45" Width="141.75" Height="18.9" Text="Inutilizado em" HorzAlign="Center" Font="Arial, 10pt, style=Bold"/>
+        </DataHeaderBand>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="145.05" Width="718.2" Height="9.45"/>
+    </GroupHeaderBand>
+  </ReportPage>
+</Report>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.NfceSincronizador.SincronizacaoEntidade"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="SincronizacaoPendenteNfce" table="sync_pendente">
+    
+    <composite-id>
+      <key-property name="Referencia" column="referencia" />
+      <key-property name="Entidade" column="entidade" />
+    </composite-id>
+    
+  </class>
+  
+</hibernate-mapping>

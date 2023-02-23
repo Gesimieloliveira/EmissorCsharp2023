@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="FusionWPF.SharedViews.ControleCaixa.GridLancamentosCaixaControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:hps="clr-namespace:FusionWPF.Helpers"
+             mc:Ignorable="d"
+             d:DesignWidth="900"
+             Loaded="LoadedHandler"
+             Padding="10">
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Width="150">
+                <Button Click="NovoClickHandler" Style="{DynamicResource FusionAccentedButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Plus" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                        <TextBlock Text="Novo lançamento" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+        <DataGrid
+            Margin="0,10,0,0"
+            IsReadOnly="True" AutoGenerateColumns="False"
+            ItemsSource="{Binding Items}"
+            SelectedItem="{Binding ItemSelecionado}"
+            DockPanel.Dock="Top">
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DoubleClickRowHandler" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="150" hps:DataGridColumnHelper.Align="Center"
+                    Header="Data" Binding="{Binding DataCriacao, StringFormat=d}" />
+                <DataGridTextColumn
+                    Width="120" hps:DataGridColumnHelper.Align="Center"
+                    Header="Operação" Binding="{Binding TipoOperacao}" />
+                <DataGridTextColumn
+                    Width="150" hps:DataGridColumnHelper.Align="Right"
+                    Header="Valor Operação" Binding="{Binding ValorOperacao}" />
+                <DataGridTextColumn
+                    Width="*"
+                    Header="Motivo" Binding="{Binding Motivo}" />
+                <DataGridTextColumn
+                    Width="180"
+                    Header="Operador" Binding="{Binding NomeOperador}" />
+                <DataGridTextColumn
+                    Width="120" 
+                    Header="Local evento" Binding="{Binding LocalEventoTexto}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

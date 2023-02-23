@@ -1,0 +1,109 @@
+﻿<controls:MetroWindow x:Class="FusionPdv.Visao.EspelhoMfd.EspelhoMfdForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="Leitura de memória fiscal"
+        Width="600" Height="200" 
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource MetroWindowStyle}"
+        Language="pt-BR"
+        KeyDown="LeituraMemoriaFiscal_OnKeyDown">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Column="0"
+                   Grid.Row="0">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+
+                <StackPanel 
+                    VerticalAlignment="Center"
+                    Grid.Column="0"
+                    Margin="5"
+                    Grid.Row="0">
+                    <TextBlock Text="Data Inicial" />
+                    <DatePicker SelectedDate="{Binding DataInicial}" >
+                        <DatePicker.Resources>
+                            <Style TargetType="DatePickerTextBox">
+                                <Setter Property="IsReadOnly" Value="True"/>
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
+                </StackPanel>
+
+                <StackPanel 
+                    VerticalAlignment="Center" 
+                    Grid.Column="1" 
+                    Margin="5"
+                    Grid.Row="0">
+                    <TextBlock Text="Data Final" />
+                    <DatePicker SelectedDate="{Binding DataFinal}" >
+                        <DatePicker.Resources>
+                            <Style TargetType="DatePickerTextBox">
+                                <Setter Property="IsReadOnly" Value="True"/>
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
+                </StackPanel>
+
+                <StackPanel 
+                    VerticalAlignment="Center" 
+                    Grid.Column="2" 
+                    Margin="5"
+                    Grid.Row="0">
+
+                    <TextBlock Text="Tipo" />
+                    <ComboBox SelectedValuePath="Tag" SelectedValue="{Binding TipoLeitura}">
+                        <ComboBoxItem Content="Simplificada" Tag="S" />
+                        <ComboBoxItem Content="Completa" Tag="C" />
+                    </ComboBox>
+
+                </StackPanel>
+
+                <StackPanel 
+                    VerticalAlignment="Center" 
+                    Grid.Column="0" 
+                    Margin="5"
+                    Grid.Row="1">
+                    <Button
+                        Click="BtConfirmar_OnClick"
+                        Name="BtConfirmar"
+                        Content="Confirmar (F2)"></Button>
+                </StackPanel>
+
+                <StackPanel 
+                    VerticalAlignment="Center" 
+                    Grid.Column="2" 
+                    Margin="5"
+                    Grid.Row="1">
+                    <Button
+                        Click="BtFechar_OnClick"
+                        Name="BtFechar"
+                        Content="Fechar (ESC)"></Button>
+                </StackPanel>
+
+            </Grid>
+
+        </DockPanel>
+
+    </Grid>
+</controls:MetroWindow>

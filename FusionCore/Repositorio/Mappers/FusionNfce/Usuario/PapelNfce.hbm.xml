@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Usuario.Papeis"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PapelNfce" table="papel">
+    <id name="Id" column="id" generator="assigned" />
+
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" length="60" not-null="true" />
+    </property>
+
+    <bag access="field" name="_permissoes" table="papel_permissao" cascade="all-delete-orphan" inverse="true">
+      <key column="papel_id" />
+      <one-to-many class="FusionCore.FusionNfce.Usuario.Papeis.PapelPermissaoNfce" />
+    </bag>
+
+    <bag access="field" name="_usuarios" table="usuario_papel" cascade="none">
+      <key column="papel_id" />
+      <many-to-many class="FusionCore.FusionNfce.Usuario.UsuarioNfce" column="usuario_id" />
+    </bag>
+    
+  </class>
+</hibernate-mapping>

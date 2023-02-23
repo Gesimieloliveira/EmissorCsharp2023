@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CobrancaDuplicata" table="nfe_cobranca_duplicata">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="Cobranca" cascade="none">
+      <column name="nfe_id" />
+    </many-to-one>
+
+    <property name="Descricao">
+      <column name="descricao" not-null="true" />
+    </property>
+
+    <property name="VenceEm">
+      <column name="venceEm" not-null="true" />
+    </property>
+
+    <property name="Valor">
+      <column name="valor" not-null="true" />
+    </property>
+
+    <property name="NumeroDuplicata">
+      <column name="numeroDuplicada" not-null="true" />
+    </property>
+
+    <property name="EmitidoEm">
+      <column name="emitidoEm" not-null="true"/>
+    </property>
+  </class>
+</hibernate-mapping>

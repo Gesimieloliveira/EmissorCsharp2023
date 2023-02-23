@@ -1,0 +1,420 @@
+﻿<UserControl x:Class="Fusion.Visao.NotaFiscalEletronica.Principal.Aba.AbaDestinatario"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:fiscalFlags="clr-namespace:FusionCore.FusionAdm.Fiscal.Flags;assembly=FusionCore"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:models="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Principal.Aba.Models"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="1024"
+             d:DataContext="{d:DesignInstance models:AbaDestinatarioModel, IsDesignTimeCreatable=False}"
+             Background="White"
+             Loaded="OnLoaded">
+
+    <DockPanel LastChildFill="True">
+        <ScrollViewer Height="549" VerticalScrollBarVisibility="Auto" DockPanel.Dock="Top">
+            <StackPanel>
+                <DockPanel>
+                    <GroupBox Header="Destinatário" DockPanel.Dock="Left" Width="800">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                    <TextBlock Text="Nome (nfe aceita apenas 60 caracteres)" />
+                                    <controles:SearchTextBox
+                                        IsReadOnly="True"
+                                        Text="{Binding DestinatarioModel.Nome}"
+                                        SearchCommand="{Binding DestinatarioModel.SearchDestinatarioCommand}"
+                                        x:Name="TextBoxDestinatario" />
+
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                                    <TextBlock Text="Documento Unico" />
+                                    <TextBox Focusable="False" Text="{Binding DestinatarioModel.DocumentoUnico}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Margin="0,0,5,0">
+                                    <TextBlock Text="IE" />
+                                    <TextBox IsReadOnly="True" Focusable="False"
+                                             Text="{Binding DestinatarioModel.InscricaoEstadual}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="3">
+                                    <TextBlock Text="Indicador IE" />
+                                    <ComboBox
+                                        Focusable="False"
+                                        ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type fiscalFlags:IndicadorIE}}}"
+                                        SelectedValue="{Binding DestinatarioModel.IndicadorIE}"
+                                        IsEditable="False" />
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="120" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                    <TextBlock Text="CEP" />
+                                    <TextBox
+                                        Text="{Binding DestinatarioModel.Cep, Converter={conversores:CepMaskConverter}}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                                    <TextBlock Text="Logradouro" />
+                                    <TextBox Text="{Binding DestinatarioModel.Logradouro}" MaxLength="60" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Margin="0,0,0,0">
+                                    <TextBlock Text="Número" />
+                                    <TextBox Text="{Binding DestinatarioModel.Numero}" MaxLength="10" />
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid DockPanel.Dock="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="190" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                    <TextBlock Text="Bairro" />
+                                    <TextBox Text="{Binding DestinatarioModel.Bairro}" MaxLength="60" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                                    <TextBlock>Complemento</TextBlock>
+                                    <TextBox Text="{Binding DestinatarioModel.Complemento}" MaxLength="60" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Margin="0,0,5,0">
+                                    <TextBlock Text="Telefone" />
+                                    <TextBox
+                                        Text="{Binding DestinatarioModel.Telefone, Converter={conversores:TelefoneMaskConverter}}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="3" Margin="0,0,5,0">
+                                    <TextBlock Text="UF" />
+                                    <ComboBox ItemsSource="{Binding Estados}"
+                                              DisplayMemberPath="Sigla"
+                                              SelectedValuePath="CodigoIbge"
+                                              SelectedValue="{Binding DestinatarioModel.IbgeEstado}"
+                                              SelectedItem="{Binding DestinatarioModel.Estado}"
+                                              IsEditable="True" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="4">
+                                    <TextBlock Text="Cidade" />
+                                    <ComboBox ItemsSource="{Binding DestinatarioModel.Cidades}"
+                                              DisplayMemberPath="Nome"
+                                              SelectedValuePath="CodigoIbge"
+                                              SelectedValue="{Binding DestinatarioModel.IbgeCidade}"
+                                              SelectedItem="{Binding DestinatarioModel.Cidade}"
+                                              IsEditable="True" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox DockPanel.Dock="Right" Header="Configuração Destinatário">
+                        <StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Indicador Presença Comprador" />
+                                <ComboBox IsEditable="False"
+                                          ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type fiscalFlags:IndicadorComprador}}}"
+                                          SelectedItem="{Binding DestinatarioModel.IndicadorPresencaComprador}" />
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="Indicador Operação Consumidor" />
+                                <ComboBox IsEditable="False" 
+                                          ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type fiscalFlags:IndicadorOperacaoFinal}}}"
+                                          SelectedItem="{Binding DestinatarioModel.IndicadorOperacaoFinal}" />
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="Indicador Destino Operação" />
+                                <ComboBox IsEditable="False"
+                                          ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type fiscalFlags:DestinoOperacao}}}"
+                                          SelectedItem="{Binding DestinatarioModel.IndicadorDestinoOperacao}" />
+                            </StackPanel>
+
+                        </StackPanel>
+                    </GroupBox>
+                </DockPanel>
+
+                <GroupBox DockPanel.Dock="Top" Header="Endereço de Entrega">
+                    <StackPanel>
+                        <TextBlock Text="Endereço de Entrega (opcional)" />
+                        <ComboBox
+                            IsEditable="True"
+                            ItemsSource="{Binding Path=DestinatarioModel.LocaisEntregas}"
+                            SelectedItem="{Binding DestinatarioModel.LocalEntregaSelecionada}" />
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox
+                    Margin="0,5,0,0"
+                    DockPanel.Dock="Top"
+                    Header="Exportação"
+                    controls:VisibilityHelper.IsVisible="{Binding SaidaExterior, Mode=OneWay}">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="UF de saida do País" />
+                            <ComboBox ItemsSource="{Binding Estados}"
+                                      DisplayMemberPath="Sigla"
+                                      SelectedValuePath="Sigla"
+                                      SelectedValue="{Binding ExportacaoModel.UfSaidaPais}"
+                                      IsEditable="True" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                            <TextBlock Text="Local de embarque ou transp. fronteira" />
+                            <TextBox Text="{Binding ExportacaoModel.LocalEmbarque}" MaxLength="60" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                            <TextBlock Text="Local de despacho (Recinto alfandegado)" />
+                            <TextBox Text="{Binding ExportacaoModel.LocalDespacho}" MaxLength="60" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" Margin="5,0,0,0">
+                            <TextBlock Text="País Destinatário" />
+                            <ComboBox ItemsSource="{Binding Paises}"
+                                      DisplayMemberPath="Nome"
+                                      SelectedValuePath="Bacen"
+                                      SelectedValue="{Binding ExportacaoModel.CodigoBacen}"
+                                      IsEditable="True" />
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+
+                <Grid DockPanel.Dock="Top" Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <GroupBox Header="Transportadora (opcional)" Grid.Column="0">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="150" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Nome" />
+
+                                    <controles:SearchTextBox
+                                        ButtonClearEnabledWhenHasText="True"
+                                        SearchEvent="TransportadorClickHandler"
+                                        ClearEvent="ClearTransportadorHandler"
+                                        Text="{Binding TransportadoraModel.Nome}"
+                                        IsReadOnly="True" />
+
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="5,0,0,0" IsEnabled="False">
+                                    <TextBlock Text="Documento" />
+                                    <TextBox Text="{Binding TransportadoraModel.DocumentoUnico}" />
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="UF" />
+                                    <ComboBox ItemsSource="{Binding Estados}"
+                                              DisplayMemberPath="Sigla"
+                                              SelectedValuePath="Sigla"
+                                              SelectedValue="{Binding TransportadoraModel.SiglaEstado}"
+                                              IsEditable="True" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                    <TextBlock Text="Cidade" />
+                                    <ComboBox ItemsSource="{Binding TransportadoraModel.Cidades, Mode=OneWay}"
+                                              DisplayMemberPath="Nome"
+                                              SelectedValuePath="Id"
+                                              SelectedItem="{Binding TransportadoraModel.Cidade}"
+                                              SelectedValue="{Binding TransportadoraModel.Cidade.Id}"
+                                              IsEditable="True" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                                    <TextBlock Text="Endereço" />
+                                    <TextBox Text="{Binding TransportadoraModel.Endereco}" MaxLength="60" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Veiculo Transporte (opcional)" Grid.Column="1" Margin="2,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Width="150">
+                                <TextBlock Text="UF" />
+                                <ComboBox
+                                    ItemsSource="{Binding Estados}"
+                                    DisplayMemberPath="Sigla"
+                                    SelectedValuePath="Sigla"
+                                    SelectedValue="{Binding TransportadoraModel.SiglaEstadoVeiculo}"
+                                    IsEditable="True" />
+                            </StackPanel>
+
+                            <StackPanel Margin="5,0,0,0">
+                                <TextBlock Text="Placa Veículo" />
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox
+                                        Width="89"
+                                        Text="{Binding TransportadoraModel.PlacaVeiculo}" MaxLength="7" />
+
+                                    <Button Click="ClickPickerVeiculoHandler" Focusable="False">
+                                        <fa:ImageAwesome Icon="Search" Height="14" />
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+
+                <GroupBox Header="Volumes (opcional)" Margin="0,5,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel VerticalAlignment="Center">
+                            <Button
+                                Click="OnClickAdicionarVolume" Focusable="False" HorizontalAlignment="Right"
+                                Style="{DynamicResource FusionSuccessButton}"
+                                Padding="10,5" Width="Auto">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome
+                                        Icon="Plus" Width="16" Margin="0,0,10,0"
+                                        Foreground="{DynamicResource WhiteBrush}" />
+
+                                    <TextBlock Text="Add Volume" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+                        <DataGrid
+                            BorderThickness="1" BorderBrush="{DynamicResource GrayBrush5}"
+                            Grid.Column="1" Margin="5,0,0,0"
+                            AutoGenerateColumns="False"
+                            IsReadOnly="True"
+                            HorizontalScrollBarVisibility="Auto"
+                            VerticalScrollBarVisibility="Auto"
+                            ItemsSource="{Binding VolumesModel.Volumes}"
+                            SelectedItem="{Binding VolumesModel.Selecionado}"
+                            Height="100">
+
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="38">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Button
+                                                    Tag="{Binding}"
+                                                    Style="{DynamicResource FusionAccentedButton}"
+                                                    Foreground="{DynamicResource InfoBrush}"
+                                                    Click="RemoverVolumeClickHandler">
+
+                                                    <fa:ImageAwesome
+                                                        Height="14" Icon="TrashOutline"
+                                                        Foreground="{DynamicResource WhiteBrush}" />
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTextColumn
+                                    Header="QTD. Volume" Width="100" Binding="{Binding Quantidade}" />
+
+                                <DataGridTextColumn
+                                    Header="Peso Bruto" Width="120" Binding="{Binding PesoBruto, StringFormat=N2}" />
+
+                                <DataGridTextColumn
+                                    Header="Peso Liquído" Width="120" Binding="{Binding PesoLiquido, StringFormat=N2}" />
+
+                                <DataGridTextColumn
+                                    Header="Espécie" Width="*" Binding="{Binding Especie}" />
+
+                                <DataGridTextColumn
+                                    Header="Numeração" Width="120" Binding="{Binding Numeracao}" />
+
+                                <DataGridTextColumn
+                                    Header="Marca" Width="*" Binding="{Binding Marca}" />
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Bottom" Margin="0,0,0,2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                    <Button Height="40" Click="OnClickPassoAnterior" Focusable="False"
+                            Style="{DynamicResource FusionCleanButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Height="20" Icon="ArrowLeft" />
+                            <TextBlock Text="Passo Anterior" Margin="10,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                    <Button Height="40" Click="OnClickProximoPasso">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Próximo Passo" />
+                            <fa:ImageAwesome Height="20" Icon="ArrowRight" Margin="5,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

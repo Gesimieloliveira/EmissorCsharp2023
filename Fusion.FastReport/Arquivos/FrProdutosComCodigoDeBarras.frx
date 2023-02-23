@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="12/15/2020 10:06:43" ReportInfo.CreatorVersion="2020.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {
+    private void PageHeader1_BeforePrint(object sender, EventArgs e)
+    {
+      Report.GetDataSource(&quot;Empresa&quot;).Init();
+    }
+
+    private void btnOk_Click(object sender, EventArgs e)
+    {
+      int empresaId = 0;
+      string[] partesEmpresa = CbEmpresa.Text.Split(','); 
+      if (string.IsNullOrEmpty(CbEmpresa.Text) || partesEmpresa.Length &lt;= 1) {
+        MessageBox.Show(&quot;Preciso que escolha uma empresa!&quot;);
+        Form1.Form.DialogResult = DialogResult.None;
+        return;
+      }
+
+      Report.SetParameterValue(&quot;EmpresaId&quot;, empresaId);
+    }
+  }
+}</ScriptText>
+  <Styles>
+    <Style Name="EvenRows" Fill.Color="WhiteSmoke" Font="Arial, 10pt" ApplyBorder="false" ApplyTextFill="false" ApplyFont="false"/>
+  </Styles>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqAFHGp6KQj27H4qUwAIR20v6HR9/hpbyvqL14yv05wJMl2T7/97+RHrR722NCTENAMJRGzrXLuJaF1cZL3IcxvBwa3J77kmbCJ+6UEyxgxJM64f6+KqEudGxCrIo6Hjc1xVFvGAO5d89KiYTXTxqG53sVQ/v8YMR7dVprOvK9rCEtTUNMgJG8Fq0EFXzno6kvQz6G6BDqS9SyfGNP3KMi+o8Otd64AxpCXy0VHHoMA2tLrrsf8MKJszHMk4yFUtGNQfxdK261AtSt+9PyIEO48A==">
+      <TableDataSource Name="TbEmpresa" Alias="Empresa" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	(e.razaoSocial + ',' + cast(e.id as varchar)) as nome,&#13;&#10;	e.razaoSocial,&#13;&#10;	e.nomeFantasia,&#13;&#10;	e.logradouro,&#13;&#10;	e.cep,&#13;&#10;	e.bairro,&#13;&#10;	e.numero,&#13;&#10;	e.fone1,&#13;&#10;	e.fone2,&#13;&#10;	case when len(e.cnpj) = 14 then e.cnpj else e.cpf end as cpfnpj,&#13;&#10;	e.logo&#13;&#10;from empresa e">
+        <Column Name="bairro" DataType="System.String"/>
+        <Column Name="cep" DataType="System.String"/>
+        <Column Name="cpfnpj" DataType="System.String"/>
+        <Column Name="fone1" DataType="System.String"/>
+        <Column Name="fone2" DataType="System.String"/>
+        <Column Name="logo" DataType="System.Byte[]" BindableControl="Picture"/>
+        <Column Name="logradouro" DataType="System.String"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="nomeFantasia" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <Column Name="razaoSocial" DataType="System.String"/>
+      </TableDataSource>
+      <TableDataSource Name="Table" Alias="produtoBarras" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;    p.id as ID, &#13;&#10;    p.nome as NomeProduto, &#13;&#10;    pa.alias as CodigoBarras &#13;&#10;from produto p&#13;&#10;left join produto_alias pa on pa.produto_id = p.id and pa.isCodigoBarra = 1&#13;&#10;order by p.nome asc">
+        <Column Name="ID" DataType="System.Int32"/>
+        <Column Name="NomeProduto" DataType="System.String"/>
+        <Column Name="CodigoBarras" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+  </Dictionary>
+  <DialogPage Name="Form1" Width="608" Height="168" AcceptButton="btnOk" CancelButton="btnCancel" Font="Tahoma, 8pt" LoadEvent="Form1_Load">
+    <GroupBoxControl Name="GBoxEmpresa" Left="4" Top="8" Width="576" Height="60" Font="Tahoma, 8pt" TabIndex="5" Text="Escolha qual empresa fez as vendas">
+      <ComboBoxControl Name="CbEmpresa" Left="8" Top="20" Width="549" Height="24" Font="Tahoma, 8pt" TabIndex="4" Text="Escolha uma empresa" DataColumn="Empresa.nome" DropDownWidth="513" ItemHeight="16"/>
+    </GroupBoxControl>
+    <ButtonControl Name="btnOk" Left="424" Top="90" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="507" Top="90" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="1" Text="Cancel" DialogResult="Cancel"/>
+  </DialogPage>
+  <ReportPage Name="Page1" RawPaperSize="9" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PageHeader1" Width="718.2" Height="88.83" Border.Lines="All" Border.Width="0.25" BeforePrintEvent="PageHeader1_BeforePrint">
+      <PictureObject Name="Picture1" Left="1.89" Top="5.67" Width="110.62" Height="65.39" DataColumn="Empresa.logo"/>
+      <TextObject Name="Text35" Left="154.98" Top="5.67" Width="599.13" Height="17.01" Text="[Empresa.nomeFantasia]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text36" Left="154.98" Top="22.68" Width="599.13" Height="17.01" Text="CNPJ / CPF: [Empresa.cpfnpj]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text37" Left="154.98" Top="39.69" Width="599.13" Height="17.01" Text="Endereço: [Empresa.logradouro], [Empresa.numero], [Empresa.bairro], [Empresa.cep]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text38" Left="154.98" Top="56.7" Width="599.13" Height="17.01" Text="Fone 1: [Empresa.fone1] / Fone 2: [Empresa.fone2]" Font="Arial Narrow, 10pt"/>
+      <ChildBand Name="Child1" Top="91.1" Width="718.2" Height="37.8">
+        <TextObject Name="Text27" Top="18.9" Width="718.2" Height="13.23" Text="Data da emissão: [Date]" Format="Date" Format.Format="d" HorzAlign="Center" Font="Arial Narrow, 9pt, style=Italic"/>
+        <TextObject Name="Text22" Top="1.89" Width="718.2" Height="17.01" Text="[DescricaoRelatorio]" HorzAlign="Center" Font="Arial Narrow, 11pt, style=Bold"/>
+      </ChildBand>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="158.02" Width="718.2" Height="28.35" CanGrow="true" CanShrink="true" EvenStyle="EvenRows" DataSource="Table">
+      <TextObject Name="Text39" Left="77.49" Width="519.75" Height="17.01" CanShrink="true" Text="[produtoBarras.NomeProduto]" WordWrap="false" Font="Arial, 9pt"/>
+      <TextObject Name="Text28" Left="597.24" Width="120.96" Height="17.01" Text="[produtoBarras.CodigoBarras]" HorzAlign="Right" Font="Arial, 9pt"/>
+      <TextObject Name="Text30" Width="77.49" Height="17.01" Text="[produtoBarras.ID]" Format="Custom" Format.Format="000000" HorzAlign="Center" Font="Arial, 9pt"/>
+      <DataHeaderBand Name="DataHeader1" Top="131.18" Width="718.2" Height="24.57" Fill.Color="WhiteSmoke">
+        <TextObject Name="Text29" Width="77.49" Height="22.68" Text="Cód/ID" HorzAlign="Center" Font="Arial, 10pt, style=Bold"/>
+        <TextObject Name="Text25" Left="77.49" Width="519.75" Height="22.68" Text="Nome" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+        <TextObject Name="Text26" Left="597.24" Width="120.96" Height="22.68" Text="Código Barras" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      </DataHeaderBand>
+    </DataBand>
+  </ReportPage>
+</Report>

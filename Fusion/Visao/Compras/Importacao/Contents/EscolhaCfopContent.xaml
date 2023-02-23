@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="Fusion.Visao.Compras.Importacao.Contents.EscolhaCfopContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Fusion.Visao.Compras.Importacao"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:tools="clr-namespace:FusionLibrary.Wpf.Tools;assembly=FusionLibrary"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:ImportacaoCompraViewModel}"
+             KeyDown="EscolhaCfopContent_OnKeyDown"
+             d:DesignWidth="700">
+
+    <GroupBox Header="Escolha das regras de conversão para CFOP's">
+        <StackPanel>
+            <ListBox
+                DockPanel.Dock="Top"
+                ItemContainerStyle="{DynamicResource ListBoxItemWithoutHightlight}"
+                ItemsSource="{Binding RegrasCfop}"
+                SelectionMode="Single">
+
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter />
+                    </ControlTemplate>
+                </ListBox.Template>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <TextBox Width="100" IsReadOnly="True" Text="{Binding Origem, Mode=OneWay}"
+                                         Focusable="False" />
+
+                                <fa:ImageAwesome Width="12" Icon="ArrowRight" Margin="5,0">
+                                    <fa:ImageAwesome.Style>
+                                        <Style>
+                                            <Setter Property="fa:ImageAwesome.Foreground"
+                                                    Value="{DynamicResource SuccessBrush}" />
+
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CodigoCfop}" Value="{x:Null}">
+                                                    <Setter Property="fa:ImageAwesome.Foreground"
+                                                            Value="{DynamicResource DangerBrush}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </fa:ImageAwesome.Style>
+                                </fa:ImageAwesome>
+
+                                <controles:SearchTextBox
+                                    Width="100" MaxLength="4"
+                                    tools:FocusAdvancement.Direction="Down"
+                                    SearchCommand="{Binding EscolherCfopCommand}"
+                                    Text="{Binding Destino, UpdateSourceTrigger=PropertyChanged}" />
+
+                            </StackPanel>
+
+                            <TextBox Grid.Column="1" Text="{Binding CodigoCfop.Descricao}" Margin="5,0,0,0"
+                                     IsReadOnly="True" Focusable="False" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <StackPanel DockPanel.Dock="Top" Margin="0,15,0,0">
+                <Button Style="{DynamicResource FusionAccentedButton}" Command="{Binding ConfirmarRegrasCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Width="14" Icon="ThumbsOutlineUp" Foreground="{DynamicResource WhiteBrush}" />
+                        <TextBlock Text="Pronto, finalizei as regras [F2]" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </GroupBox>
+</UserControl>

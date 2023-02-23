@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.ControleCaixa"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="LancamentoAvulsoCaixa" table="caixa_lancamento">
+    <id name="Id" generator="assigned">
+      <column name="id" not-null="true" />
+    </id>
+
+    <many-to-one
+      name="Empresa" cascade="none" update="false"
+      class="FusionCore.Repositorio.Legacy.Entidades.Adm.EmpresaDTO">
+
+      <column name="empresa_id" not-null="true" />
+    </many-to-one>
+
+    <property name="DataCriacao" update="false">
+      <column name="dataCriacao" not-null="true" />
+    </property>
+
+    <many-to-one
+      name="UsuarioCriacao" cascade="none" update="false"
+      class="FusionCore.Repositorio.Legacy.Entidades.Adm.UsuarioDTO">
+
+      <column name="usuario_id" not-null="true" />
+    </many-to-one>
+
+    <property name="LocalEvento" update="false">
+      <column name="localEvento" not-null="true" />
+    </property>
+
+    <property name="TipoOperacao" update="false">
+      <column name="tipoOperacao" not-null="true" />
+    </property>
+
+    <property name="TipoLancamentoCaixa" update="false">
+      <column name="tipoLancamentoCaixa" not-null="true" />
+    </property>
+
+    <property name="Motivo">
+      <column name="motivo" not-null="true"/>
+    </property>
+
+    <property name="ValorOperacao" update="false">
+      <column name="valor" not-null="true" precision="15" scale="2" />
+    </property>
+  </class>
+
+</hibernate-mapping>

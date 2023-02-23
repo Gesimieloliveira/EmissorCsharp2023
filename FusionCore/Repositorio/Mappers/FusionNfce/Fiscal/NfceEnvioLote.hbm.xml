@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceEnvioLote" table="nfce_envio_lote">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <property name="Ambiente">
+      <column name="Ambiente" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="VersaoAplicacao">
+      <column name="versaoAplicacao" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="CodigoStatus">
+      <column name="codigoStatus" sql-type="smallint" not-null="true" />
+    </property>
+    
+    <property name="Motivo">
+      <column name="motivo" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="CodigoUf">
+      <column name="codigoUf" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="DataEHoraDoProcessamento">
+      <column name="dataEHoraDoProcessamento" sql-type="datetime" not-null="true" />
+    </property>
+    
+    <property name="NumeroRecibo">
+      <column name="numeroRecibo" sql-type="varchar" not-null="true" />
+    </property>
+    <property name="TempoMedio">
+      <column name="tempoMedio" sql-type="int" not-null="true" />
+    </property>
+    <property name="ComErro">
+      <column name="comErro" sql-type="bit" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="05/27/2022 10:32:55" ReportInfo.CreatorVersion="1.0.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+    private void Form1_Load(object sender, EventArgs e)
+    {      
+      DateTime mesAnterior = DateTime.Today.AddMonths(-1); 
+      int ultimoDiaMes = DateTime.DaysInMonth(mesAnterior.Year, mesAnterior.Month);
+      CDataInicial.Value = new DateTime(mesAnterior.Year, mesAnterior.Month, 1);
+      CDataFinal.Value = new DateTime(mesAnterior.Year, mesAnterior.Month, ultimoDiaMes);
+    }
+    
+    private void PageHeader1_BeforePrint(object sender, EventArgs e)
+    {
+      Report.GetDataSource(&quot;Empresa&quot;).Init();
+    }
+    
+    private void CbPrecoCustoZero_CheckedChanged(object sender, EventArgs e)
+    {
+      TbMargemLucro.Enabled = CbPrecoCustoZero.Checked;
+    }
+
+    private void btnOk_Click(object sender, EventArgs e)
+    {
+      decimal precoCustoMaiorQue = 0M;
+      decimal margemLucroDefault = 0M;
+      int empresaId = 0;
+      
+      string[] partesEmpresa = CbEmpresa.Text.Split(',');
+      
+      if (string.IsNullOrEmpty(CbEmpresa.Text) || partesEmpresa.Length &lt;= 1) {
+        MessageBox.Show(&quot;Preciso que escolha uma empresa!&quot;);
+        Form1.Form.DialogResult = DialogResult.None;
+        return;
+      }
+      
+      if (!int.TryParse(partesEmpresa[partesEmpresa.Length-1], out empresaId)) {
+        MessageBox.Show(&quot;Empresa selecionda é inválida!&quot;);
+        Form1.Form.DialogResult = DialogResult.None;
+        return;
+      }      
+      
+      if (CbPrecoCustoZero.Checked) {
+        precoCustoMaiorQue = decimal.MinValue;
+        string strMargem = TbMargemLucro.Text.Replace(&quot;%&quot;,&quot;&quot;);
+        
+        if (!decimal.TryParse(strMargem, out margemLucroDefault) || margemLucroDefault &lt;= 0M) {
+          MessageBox.Show(&quot;Margem de lucro padrão informada é inválida!&quot;);
+          Form1.Form.DialogResult = DialogResult.None;
+          return;
+        }
+      }
+      
+      Report.SetParameterValue(&quot;EmpresaId&quot;, empresaId);
+      Report.SetParameterValue(&quot;DataInicial&quot;, CDataInicial.Value);
+      Report.SetParameterValue(&quot;DataFinal&quot;, CDataFinal.Value);
+      Report.SetParameterValue(&quot;PrecoCustoMaiorQue&quot;, precoCustoMaiorQue);
+      Report.SetParameterValue(&quot;MargemLucroDefault&quot;, margemLucroDefault);
+    }
+    
+    private string CutString(string input, int length) 
+    {
+      if (input != null &amp;&amp; input.Length &gt; length) {
+        return input.Substring(0, length);
+      }
+      
+      return input;
+    }
+  }
+}</ScriptText>
+  <Styles>
+    <Style Name="EvenStyle" Fill.Color="White" Font="Arial, 10pt" ApplyBorder="false" ApplyTextFill="false" ApplyFont="false"/>
+  </Styles>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqAFHGp6KQj27H4qUwAIR20sLVibrDpPMLZcv0eTvRzhsIIaXB/XqQj4Y6b0G2+xdqcOkmPbTAsVxsFIV1L6G3drcnxTjeiYkHDkjHqR8Uuqa8KVZB3bsb8ocgBt3lSYxmat5FNdWUVVmjfUz5z7P3zpzrey2J1Xh7ip+aIcMzXeALPS8vlEgy+MOdrms2lE5uemiJgJ8hpTOHJUDGTTOuqlgTTZSct0E4y7ZM8oLlepniCtLfCKajArQxRSogfEZjVP7CdqbOTHpCzsLy96nmVJ7GD3zny4HW9uCO6beBeyZqhlWoASPyMKWnXM9NPuYJoZT3OxLw3come86EqbP/U6BuwAP8ELcD7mUxTFYAQvc=">
+      <TableDataSource Name="TbEmpresa" Alias="Empresa" DataType="System.Int32" PropName="Table1" Enabled="true" SelectCommand="select &#13;&#10;	(e.razaoSocial + ',' + cast(e.id as varchar)) as nome,&#13;&#10;	e.razaoSocial,&#13;&#10;	e.nomeFantasia,&#13;&#10;	e.logradouro,&#13;&#10;	e.cep,&#13;&#10;	e.bairro,&#13;&#10;	e.numero,&#13;&#10;	e.fone1,&#13;&#10;	e.fone2,&#13;&#10;	case when len(e.cnpj) = 14 then e.cnpj else e.cpf end as cpfnpj,&#13;&#10;	e.logo&#13;&#10;from empresa e">
+        <Column Name="bairro" DataType="System.String"/>
+        <Column Name="cep" DataType="System.String"/>
+        <Column Name="cpfnpj" DataType="System.String"/>
+        <Column Name="fone1" DataType="System.String"/>
+        <Column Name="fone2" DataType="System.String"/>
+        <Column Name="logo" DataType="System.Byte[]" BindableControl="Picture"/>
+        <Column Name="logradouro" DataType="System.String"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="nomeFantasia" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <Column Name="razaoSocial" DataType="System.String"/>
+      </TableDataSource>
+      <TableDataSource Name="TbItem" Alias="Item" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="with itens as (&#13;&#10;	select&#13;&#10;		v.produto_id,&#13;&#10;		v.empresa_id,&#13;&#10;		v.estadoVenda,&#13;&#10;		v.dataVenda,&#13;&#10;		v.itemPrecoCusto as itemPrecoCustoOriginal,&#13;&#10;		case when v.itemPrecoCusto &lt;= 0 then cast((v.itemPrecoVenda/(@mLucroDefault/100+1)) as decimal(15,4)) else v.itemPrecoCusto end as itemPrecoCusto,&#13;&#10;		v.itemQuantidade,&#13;&#10;		v.itemPrecoVenda,&#13;&#10;		v.itemTotal&#13;&#10;	from view_vendas_com_itens v&#13;&#10;)&#13;&#10;select&#13;&#10;	p.id as produto_id,&#13;&#10;	p.nome as nomeProduto,&#13;&#10;	sum(v.itemQuantidade) as qtdeVendido,&#13;&#10;	avg(v.itemPrecoVenda) as precoVendaMedio,&#13;&#10;	sum(v.itemTotal) as totalVendido,&#13;&#10;	cast(sum(v.itemPrecoCusto * v.itemQuantidade) as decimal(15,2)) as custoTotal,&#13;&#10;	cast(sum(v.itemTotal - (v.itemPrecoCusto*v.itemQuantidade)) as decimal(15,2)) as lucroTotal&#13;&#10;from itens v&#13;&#10;inner join produto p on v.produto_id = p.id&#13;&#10;where &#13;&#10;	v.empresa_id = @empresaId and&#13;&#10;	v.estadoVenda = 1 and &#13;&#10;	v.itemPrecoCustoOriginal &gt; @precoCusto and &#13;&#10;	v.dataVenda between @dataInicio and @dataFim&#13;&#10;group by p.id, p.nome&#13;&#10;">
+        <Column Name="produto_id" DataType="System.Int32"/>
+        <Column Name="nomeProduto" DataType="System.String"/>
+        <Column Name="custoTotal" DataType="System.Decimal"/>
+        <Column Name="qtdeVendido" DataType="System.Decimal"/>
+        <Column Name="totalVendido" DataType="System.Decimal"/>
+        <Column Name="lucroTotal" DataType="System.Decimal"/>
+        <Column Name="precoVendaMedio" DataType="System.Decimal"/>
+        <Column Name="lucro" DataType="System.Decimal" PropName="Column" Calculated="true" Expression="[Item.lucroTotal]/[Item.custoTotal]"/>
+        <CommandParameter Name="dataInicio" DataType="31" Expression="[DataInicial]" DefaultValue="1900-01-01"/>
+        <CommandParameter Name="dataFim" DataType="31" Expression="[DataFinal]" DefaultValue="1900-01-01"/>
+        <CommandParameter Name="precoCusto" DataType="5" Expression="[PrecoCustoMaiorQue]" DefaultValue="0"/>
+        <CommandParameter Name="empresaId" DataType="8" Expression="[EmpresaId]" DefaultValue="0"/>
+        <CommandParameter Name="mLucroDefault" DataType="5" Expression="[MargemLucroDefault]" DefaultValue="0"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="EmpresaId" DataType="System.Int32"/>
+    <Parameter Name="DataInicial" DataType="System.DateTime"/>
+    <Parameter Name="DataFinal" DataType="System.DateTime"/>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+    <Parameter Name="PrecoCustoMaiorQue" DataType="System.Decimal"/>
+    <Parameter Name="MargemLucroDefault" DataType="System.Decimal"/>
+    <Total Name="SomaTotalLucro" Expression="[Item.lucroTotal]" Evaluator="Data1" PrintOn="DataFooter1"/>
+    <Total Name="SomaCustoTotal" Expression="[Item.custoTotal]" Evaluator="Data1" PrintOn="DataFooter1"/>
+    <Total Name="SomaTotalVenda" Expression="[Item.totalVendido]" Evaluator="Data1" PrintOn="DataFooter1"/>
+  </Dictionary>
+  <DialogPage Name="Form1" AcceptButton="btnOk" CancelButton="btnCancel" AutoScaleDimensions="120, 120" LoadEvent="Form1_Load" ClientSize="755, 428">
+    <GroupBoxControl Name="GroupBox3" Left="5" Top="10" Width="720" Height="75" Font="Tahoma, 8pt" TabIndex="5" Text="Escolha qual empresa fez as vendas">
+      <ComboBoxControl Name="CbEmpresa" Left="10" Top="25" Width="685" Font="Tahoma, 8pt" TabIndex="4" Text="Escolha uma empresa" DataColumn="Empresa.nome" DropDownWidth="513" ItemHeight="16"/>
+    </GroupBoxControl>
+    <ButtonControl Name="btnOk" Left="530" Top="342" Width="94" Height="29" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="634" Top="342" Width="94" Height="29" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="1" Text="Cancel" DialogResult="Cancel"/>
+    <GroupBoxControl Name="GroupBox1" Left="5" Top="90" Width="720" Height="80" Font="Tahoma, 8pt" TabIndex="2" Text="Escolha um periodo para as vendas" ClickEvent="GroupBox1_Click">
+      <DateTimePickerControl Name="CDataInicial" Left="10" Top="30" Width="274" Height="24" Font="Tahoma, 8pt" TabIndex="3" Format="Short" Value="02/09/2020 22:36:32"/>
+      <DateTimePickerControl Name="CDataFinal" Left="385" Top="30" Width="304" Height="24" Font="Tahoma, 8pt" TabIndex="3" Format="Short" Value="02/09/2020 22:36:32"/>
+    </GroupBoxControl>
+    <GroupBoxControl Name="GroupBox2" Left="5" Top="185" Width="720" Height="140" Font="Tahoma, 8pt" TabIndex="3" Text="Configuração da analise" ClickEvent="GroupBox2_Click">
+      <CheckBoxControl Name="CbPrecoCustoZero" Left="10" Top="30" Width="325" Height="21" Font="Tahoma, 8pt" TabIndex="4" Text="Incluir itens que o preço de custo esteja zerado?" CheckedChangedEvent="CbPrecoCustoZero_CheckedChanged"/>
+      <MaskedTextBoxControl Name="TbMargemLucro" Left="10" Top="95" Width="114" Height="24" Enabled="false" Font="Tahoma, 8pt" TabIndex="6" Text="30,00%" ClickEvent="" Mask="#0.00%"/>
+      <LabelControl Name="Label1" Left="10" Top="70" Width="410" Height="17" Font="Tahoma, 8pt" TabIndex="6" Text="Qual margem de lucro padrão usar nos itens sem preço de custo?" ClickEvent="Label1_Click"/>
+    </GroupBoxControl>
+  </DialogPage>
+  <ReportPage Name="Page1" RawPaperSize="9" LeftMargin="5" TopMargin="5" RightMargin="5" BottomMargin="5" Guides="1.89,754.11" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PageHeader1" Width="756" Height="88.83" Border.Lines="All" Border.Width="0.25" BeforePrintEvent="PageHeader1_BeforePrint">
+      <PictureObject Name="Picture1" Left="1.89" Top="5.67" Width="110.62" Height="65.39" DataColumn="Empresa.logo"/>
+      <TextObject Name="Text35" Left="154.98" Top="5.67" Width="599.13" Height="17.01" Text="[Empresa.nomeFantasia]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text36" Left="154.98" Top="22.68" Width="599.13" Height="17.01" Text="CNPJ / CPF: [Empresa.cpfnpj]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text37" Left="154.98" Top="39.69" Width="599.13" Height="17.01" Text="Endereço: [Empresa.logradouro], [Empresa.numero], [Empresa.bairro], [Empresa.cep]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text38" Left="154.98" Top="56.7" Width="599.13" Height="17.01" Text="Fone 1: [Empresa.fone1] / Fone 2: [Empresa.fone2]" Font="Arial Narrow, 10pt"/>
+      <ChildBand Name="Child1" Top="92.03" Width="756" Height="37.8">
+        <TextObject Name="Text27" Left="1.89" Top="18.9" Width="752.22" Height="13.23" Text="Periodo das emissões: [DataInicial] à [DataFinal]" HorzAlign="Center" Font="Arial Narrow, 9pt, style=Italic">
+          <Formats>
+            <DateFormat/>
+            <DateFormat/>
+          </Formats>
+        </TextObject>
+        <TextObject Name="Text22" Left="1.89" Top="1.89" Width="752.22" Height="17.01" Text="[DescricaoRelatorio]" HorzAlign="Center" Font="Arial Narrow, 11pt, style=Bold"/>
+      </ChildBand>
+    </PageHeaderBand>
+    <DataBand Name="Data2" Top="133.03" Width="756" Height="204.12" CanGrow="true" CanShrink="true">
+      <MSChartObject Name="MSChart1" Left="1.89" Top="1.89" Width="752.22" Height="198.45" CanGrow="true" CanShrink="true" GrowToBottom="true" AfterPrintEvent="MSChart1_AfterPrint" DataSource="TbItem" Filter="" AutoSeriesColumn="" ChartData="PENoYXJ0IFNpemU9IjM2MCwgMjkwIiBCYWNrU2Vjb25kYXJ5Q29sb3I9IlRyYW5zcGFyZW50IiBCb3JkZXJsaW5lQ29sb3I9IkxpZ2h0R3JheSIgQm9yZGVybGluZURhc2hTdHlsZT0iU29saWQiPg0KICA8U2VyaWVzPg0KICAgIDxTZXJpZXMgTmFtZT0iU2VyaWVzMSIgTGVnZW5kPSJEZWZhdWx0IiBYVmFsdWVUeXBlPSJTdHJpbmciIFlWYWx1ZVR5cGU9IkRvdWJsZSIgQ2hhcnRUeXBlPSJQaWUiIENoYXJ0QXJlYT0iRGVmYXVsdCIgTGFiZWw9IiNWQUxYOiAjVkFMWXtDMn0iIEZvbnQ9IkFyaWFsLCA3LjIwMDAwMDI5cHQiIExhYmVsRm9yZUNvbG9yPSJEZXNrdG9wIiBDdXN0b21Qcm9wZXJ0aWVzPSJQaWVMYWJlbFN0eWxlPU91dHNpZGUsIFBpZUxpbmVDb2xvcj1EZXNrdG9wIiBMYWJlbEJhY2tDb2xvcj0iVHJhbnNwYXJlbnQiIExhYmVsQm9yZGVyQ29sb3I9IkRlc2t0b3AiIExhYmVsQm9yZGVyV2lkdGg9IjAiPg0KICAgICAgPFBvaW50cz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSIxIiBBeGlzTGFiZWw9IkEiIC8+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iMyIgQXhpc0xhYmVsPSJCIiAvPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjIiIEF4aXNMYWJlbD0iQyIgLz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSI0IiBBeGlzTGFiZWw9IkQiIC8+DQogICAgICA8L1BvaW50cz4NCiAgICA8L1Nlcmllcz4NCiAgPC9TZXJpZXM+DQogIDxMZWdlbmRzPg0KICAgIDxMZWdlbmQgTmFtZT0iRGVmYXVsdCIgSXNUZXh0QXV0b0ZpdD0iRmFsc2UiIElzRG9ja2VkSW5zaWRlQ2hhcnRBcmVhPSJGYWxzZSIgRW5hYmxlZD0iRmFsc2UiIEJhY2tDb2xvcj0iNTAsIDI1NSwgMjU1LCAyNTUiIEJvcmRlckNvbG9yPSJMaWdodFNsYXRlR3JheSIgRG9ja2luZz0iTGVmdCI+DQogICAgPC9MZWdlbmQ+DQogIDwvTGVnZW5kcz4NCiAgPFRpdGxlcz4NCiAgICA8VGl0bGUgTmFtZT0iVGl0bGUxIiBUZXh0PSJUb3AgMTAgcHJvZHV0b3MgY29tIG1haW9yIGx1Y3JvIiBUZXh0T3JpZW50YXRpb249Ikhvcml6b250YWwiIEZvbnQ9IkFyaWFsLCA5cHQiIEFsaWdubWVudD0iVG9wQ2VudGVyIj4NCiAgICA8L1RpdGxlPg0KICA8L1RpdGxlcz4NCiAgPENoYXJ0QXJlYXM+DQogICAgPENoYXJ0QXJlYSBOYW1lPSJEZWZhdWx0IiBCYWNrQ29sb3I9IlRyYW5zcGFyZW50IiBCYWNrU2Vjb25kYXJ5Q29sb3I9IlRyYW5zcGFyZW50IiBCb3JkZXJEYXNoU3R5bGU9IlNvbGlkIiBCb3JkZXJDb2xvcj0iTGlnaHRTbGF0ZUdyYXkiIEJvcmRlcldpZHRoPSIwIj4NCiAgICAgIDxBeGlzWSBJc0xhYmVsQXV0b0ZpdD0iRmFsc2UiIElzTWFyZ2luVmlzaWJsZT0iRmFsc2UiIEVuYWJsZWQ9IkZhbHNlIj4NCiAgICAgICAgPE1ham9yR3JpZCBMaW5lQ29sb3I9IjY1LCAwLCAwLCAwIiBFbmFibGVkPSJGYWxzZSIgLz4NCiAgICAgICAgPE1pbm9yR3JpZCBMaW5lQ29sb3I9IjMwLCAwLCAwLCAwIiAvPg0KICAgICAgICA8TWFqb3JUaWNrTWFyayBFbmFibGVkPSJGYWxzZSIgLz4NCiAgICAgICAgPExhYmVsU3R5bGUgRm9udD0iVGFob21hLCA4cHQiIEVuYWJsZWQ9IkZhbHNlIiAvPg0KICAgICAgPC9BeGlzWT4NCiAgICAgIDxBeGlzWCBJc0xhYmVsQXV0b0ZpdD0iRmFsc2UiIElzTWFyZ2luVmlzaWJsZT0iRmFsc2UiIEVuYWJsZWQ9IkZhbHNlIj4NCiAgICAgICAgPE1ham9yR3JpZCBMaW5lQ29sb3I9IjY1LCAwLCAwLCAwIiBFbmFibGVkPSJGYWxzZSIgLz4NCiAgICAgICAgPE1pbm9yR3JpZCBMaW5lQ29sb3I9IjMwLCAwLCAwLCAwIiAvPg0KICAgICAgICA8TWFqb3JUaWNrTWFyayBFbmFibGVkPSJGYWxzZSIgLz4NCiAgICAgICAgPExhYmVsU3R5bGUgRm9udD0iVGFob21hLCA4cHQiIEVuYWJsZWQ9IkZhbHNlIiAvPg0KICAgICAgPC9BeGlzWD4NCiAgICAgIDxBeGlzWDIgSXNMYWJlbEF1dG9GaXQ9IkZhbHNlIiBJc01hcmdpblZpc2libGU9IkZhbHNlIiBFbmFibGVkPSJGYWxzZSI+DQogICAgICAgIDxNYWpvckdyaWQgRW5hYmxlZD0iRmFsc2UiIC8+DQogICAgICAgIDxNYWpvclRpY2tNYXJrIEVuYWJsZWQ9IkZhbHNlIiAvPg0KICAgICAgICA8TGFiZWxTdHlsZSBFbmFibGVkPSJGYWxzZSIgLz4NCiAgICAgIDwvQXhpc1gyPg0KICAgICAgPEF4aXNZMiBJc0xhYmVsQXV0b0ZpdD0iRmFsc2UiIEVuYWJsZWQ9IkZhbHNlIj4NCiAgICAgICAgPE1ham9yR3JpZCBFbmFibGVkPSJGYWxzZSIgLz4NCiAgICAgICAgPE1ham9yVGlja01hcmsgRW5hYmxlZD0iRmFsc2UiIC8+DQogICAgICAgIDxMYWJlbFN0eWxlIEVuYWJsZWQ9IkZhbHNlIiAvPg0KICAgICAgPC9BeGlzWTI+DQogICAgPC9DaGFydEFyZWE+DQogIDwvQ2hhcnRBcmVhcz4NCjwvQ2hhcnQ+">
+        <MSChartSeries Name="Series2" SortOrder="Descending" SortBy="YValue" GroupBy="XValue" Collect="TopN" CollectValue="10" CollectedItemColor="Gray" PieExplode="BiggestValue" XValue="Format(&quot;{0} - {1}&quot;, [Item.produto_id], CutString([Item.nomeProduto], 20))" YValue1="[Item.lucroTotal]" AutoSeriesForce="false" AutoSeriesColumn=""/>
+      </MSChartObject>
+      <ChildBand Name="Child2" Top="340.35" Width="756" Height="11.34"/>
+    </DataBand>
+    <DataBand Name="Data1" Top="393.42" Width="756" Height="26.46" Fill.Color="WhiteSmoke" CanShrink="true" EvenStyle="EvenStyle" DataSource="TbItem">
+      <TextObject Name="Text1" Left="1.89" Width="54.81" Height="17.01" CanBreak="false" Text="[Item.produto_id]" HorzAlign="Center" VertAlign="Center" WordWrap="false" Font="Arial, 8pt"/>
+      <TextObject Name="Text3" Left="56.7" Width="240.03" Height="17.01" CanBreak="false" Text="[Item.nomeProduto]" VertAlign="Center" WordWrap="false" Font="Arial, 7pt"/>
+      <TextObject Name="Text5" Left="296.73" Width="58.59" Height="17.01" CanBreak="false" Text="[Item.qtdeVendido]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text7" Left="355.32" Width="68.04" Height="17.01" CanBreak="false" Text="[Item.precoVendaMedio]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text9" Left="423.36" Width="83.16" Height="17.01" CanBreak="false" Text="[Item.totalVendido]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text11" Left="506.52" Width="83.16" Height="17.01" CanBreak="false" Text="[Item.custoTotal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text31" Left="589.68" Width="81.27" Height="17.01" CanBreak="false" Text="[Item.lucroTotal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text33" Left="670.95" Width="83.16" Height="17.01" CanBreak="false" Text="[Item.lucro]" Format="Percent" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.PercentSymbol="%" Format.PositivePattern="1" Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+      <DataHeaderBand Name="DataHeader1" Top="354.89" Width="756" Height="28.35" Border.Lines="Top, Bottom" Border.Width="0.25" Fill.Color="AliceBlue" RepeatOnEveryPage="true">
+        <TextObject Name="Text2" Left="1.89" Width="54.81" Height="28.35" Text="Cod/Id" HorzAlign="Center" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text4" Left="56.7" Width="240.03" Height="28.35" Text="Nome do produto" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text6" Left="296.73" Width="58.59" Height="28.35" Text="Qtd.&#13;&#10;Venda" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text8" Left="355.32" Width="68.04" Height="28.35" Text="P. Venda&#13;&#10;(Médio)" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text10" Left="423.36" Width="83.16" Height="28.35" Text="Total&#13;&#10;Vendido" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text12" Left="506.52" Width="83.16" Height="28.35" Text="Custo&#13;&#10;Total" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text14" Left="589.68" Width="81.27" Height="28.35" Text="Total&#13;&#10;Lucro" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text27" Left="670.95" Width="83.16" Height="28.35" Text="%&#13;&#10;Lucro" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <ChildBand Name="Child3" Top="386.44" Width="756" Height="3.78"/>
+      </DataHeaderBand>
+      <DataFooterBand Name="DataFooter1" Top="423.08" Width="756" Height="22.68" Border.Lines="Top" Border.Width="0.25">
+        <TextObject Name="Text25" Left="506.52" Top="3.78" Width="83.16" Height="15.12" CanBreak="false" Text="[SomaCustoTotal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt"/>
+        <TextObject Name="Text26" Left="423.36" Top="3.78" Width="83.16" Height="15.12" CanBreak="false" Text="[SomaTotalVenda]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt"/>
+        <TextObject Name="Text32" Left="589.68" Top="3.78" Width="81.27" Height="15.12" CanBreak="false" Text="[SomaTotalLucro]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt"/>
+        <TextObject Name="Text34" Left="670.95" Top="3.78" Width="83.16" Height="15.12" CanBreak="false" Text="[[SomaTotalLucro]/[SomaTotalVenda]]" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt">
+          <Formats>
+            <PercentFormat UseLocale="false" DecimalSeparator="," GroupSeparator="." PositivePattern="1" NegativePattern="1"/>
+            <GeneralFormat/>
+          </Formats>
+        </TextObject>
+      </DataFooterBand>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="448.96" Width="756" Height="13.23" CanShrink="true">
+      <TextObject Name="TextPage" Left="599.13" Width="154.98" Height="13.23" Text="Pagina: [Page#]/[TotalPages#]" HorzAlign="Right" Font="Arial Narrow, 8pt, style=Italic"/>
+      <TextObject Name="TextDate" Left="1.89" Width="347.76" Height="13.23" Text="Impresso em: [Date]" Font="Arial Narrow, 8pt, style=Italic"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="Fusion.Visao.MdfeEletronico.Aba.InformacaoVeiculoTracao"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="900">
+    <DataGrid DockPanel.Dock="Top"
+              Height="330"
+              AutoGenerateColumns="False"
+              IsReadOnly="True"
+              HorizontalScrollBarVisibility="Visible"
+              ItemsSource="{Binding ListaVeiculoTracao}"
+              SelectedItem="{Binding VeiculoTracaoSelecionado}">
+
+        <DataGrid.RowStyle>
+            <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                <EventSetter Event="MouseDoubleClick" Handler="OnDoubleClickItem" />
+            </Style>
+        </DataGrid.RowStyle>
+
+        <DataGrid.Columns>
+
+            <controles:DataGridButtonColumn Background="{DynamicResource DangerBrush}"
+                                            Icon="Trash"
+                                            Click="OnClickDeletaItem"/>
+
+            <DataGridTextColumn Header="Cód. Interno" Width="Auto"
+                                Binding="{Binding CodigoInterno}" />
+
+            <DataGridTextColumn Header="Renavam" Width="Auto"
+                                Binding="{Binding Renavam}" />
+
+            <DataGridTextColumn Header="Placa" Width="Auto"
+                                Binding="{Binding Placa}" />
+
+            <DataGridTextColumn Header="Tara(Kg)" Width="Auto"
+                                Binding="{Binding Tara}" />
+
+            <DataGridTextColumn Header="Capacidade(Kg)" Width="Auto"
+                                Binding="{Binding CapacidadeEmKg}" />
+
+            <DataGridTextColumn Header="Capacidade(M3)" Width="Auto"
+                                Binding="{Binding CapacidadeEmM3}" />
+
+            <DataGridTextColumn Header="Tipo prorietário" Width="Auto"
+                                Binding="{Binding TipoPropriedadeVeiculo}" />
+
+            <DataGridTextColumn Header="Tipo Veículo" Width="Auto"
+                                Binding="{Binding TipoVeiculo}" />
+
+            <DataGridTextColumn Header="Tipo Rodado" Width="Auto"
+                                Binding="{Binding TipoRodado}" />
+
+            <DataGridTextColumn Header="Tipo Carroceria" Width="Auto"
+                                Binding="{Binding TipoCarroceria}" />
+
+            <DataGridTextColumn Header="UF" Width="Auto"
+                                Binding="{Binding SiglaUf}" />
+
+
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Estoque.Movimentacoes"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MovimentoEstoque" table="movimento_estoque">
+    <id name="Id" column="id" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+
+    <property access="field.camelcase-underscore" name="Descricao" not-null="true">
+      <column name="descricao" length="255" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="TipoEvento" not-null="true">
+      <column name="tipoEvento" sql-type="tinyint" />
+    </property>
+
+    <property name="DataMovimento" not-null="true">
+      <column name="dataMovimento" sql-type="date" />
+    </property>
+
+    <property name="PrecoCompraTotal" column="precoCompraTotal" not-null="true" />
+
+    <property name="PrecoVendaTotal" column="precoVendaTotal" not-null="true" />
+
+    <many-to-one access="nosetter.camelcase-underscore" name="CadastradoPor" column="usuario_id" not-null="true"
+                 class="FusionCore.Repositorio.Legacy.Entidades.Adm.UsuarioDTO" />
+
+    <property access="nosetter.camelcase-underscore" name="CadastradoEm" column="cadastradoEm" not-null="true" />
+
+    <bag access="field.camelcase-underscore" name="Itens" cascade="all-delete-orphan" lazy="true" inverse="true">
+      <key column="movimentoEstoque_id" />
+      <one-to-many class="MovimentoItem" />
+    </bag>
+
+  </class>
+
+  <class name="MovimentoItem" table="movimento_estoque_item">
+    <id name="Id" column="id" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="Movimento" column="movimentoEstoque_id" not-null="true" cascade="none" />
+
+    <many-to-one access="field.camelcase-underscore" class="FusionCore.Repositorio.Legacy.Entidades.Adm.ProdutoDTO"
+                 name="Produto" column="produto_id" not-null="true" cascade="none" />
+
+    <property name="TipoEvento" not-null="true">
+      <column name="tipoEvento" sql-type="tinyint" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="Quantidade" not-null="true">
+      <column name="quantidade" sql-type="decimal" precision="12" scale="4" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="PrecoCompra" not-null="true">
+      <column name="precoCompra" sql-type="decimal" precision="12" scale="4" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="MargemLucro" not-null="true">
+      <column name="margemLucro" sql-type="decimal" precision="12" scale="6" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="PrecoVenda" not-null="true">
+      <column name="precoVenda" sql-type="decimal" precision="12" scale="4" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="PrecoVendaTotal" not-null="true">
+      <column name="precoVendaTotal" sql-type="decimal" precision="12" scale="4" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="PrecoCompraTotal" not-null="true">
+      <column name="precoCompraTotal" sql-type="decimal" precision="12" scale="4" />
+    </property>
+
+    <property access="nosetter.camelcase-underscore" name="SiglaUnidade" not-null="true">
+      <column name="siglaUnidade" sql-type="varchar" length="10" />
+    </property>
+
+    <many-to-one access="nosetter.camelcase-underscore" name="CadastradoPor" column="usuario_id" not-null="true"
+                 cascade="none" class="FusionCore.Repositorio.Legacy.Entidades.Adm.UsuarioDTO" />
+
+    <property access="nosetter.camelcase-underscore" name="CadastradoEm" not-null="true">
+      <column name="cadastradoEm" sql-type="datetime" />
+    </property>
+
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,64 @@
+﻿<mah:MetroWindow x:Class="Fusion.Visao.PedidoDeVenda.Preferencias.PedidoVendaPreferenciaForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fusion.Visao.PedidoDeVenda.Preferencias"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Style="{DynamicResource MetroWindowDialogStyle}"
+        Title="Preferencias do pedido de venda/orçamento (para essa máquina)" 
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        Width="550" Height="Auto"
+        d:DataContext="{d:DesignInstance local:PedidoVendaPreferenciaFormModel}"
+        Loaded="PedidoVendaPreferenciaForm_OnLoaded">
+
+    <DockPanel Margin="5">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Qual impressora deseja usar para o comprovante?" />
+            <ComboBox 
+                ItemsSource="{Binding ImpressorasDisponiveis}" 
+                SelectedItem="{Binding ImpressoraSelecionada}"/>
+        </StackPanel>
+
+        <DockPanel DockPanel.Dock="Top" Margin="0,5,0,0">
+            <mah:ToggleSwitch
+                DockPanel.Dock="Right"
+                OffContent="Não" OnContent="Sim" 
+                ContentDirection="LeftToRight" 
+                IsOn="{Binding ImprimeAposFinalizar}"/>
+
+            <TextBlock Text="Deseja imprimir após finalizar?" VerticalAlignment="Center" />
+        </DockPanel>
+
+        <DockPanel DockPanel.Dock="Top" Margin="0,5,0,0">
+            <mah:ToggleSwitch
+                DockPanel.Dock="Right"
+                OffContent="Não" OnContent="Sim" 
+                ContentDirection="LeftToRight" 
+                IsOn="{Binding VisualizarAposFinalizar}"/>
+
+            <TextBlock Text="Deseja visualizar após finalizar?" VerticalAlignment="Center" />
+        </DockPanel>
+
+        <DockPanel DockPanel.Dock="Top" Margin="0,5,0,0">
+            <mah:ToggleSwitch
+                DockPanel.Dock="Right"
+                OffContent="Não" OnContent="Sim" 
+                ContentDirection="LeftToRight" 
+                IsOn="{Binding ImprimeDuasVias}"/>
+
+            <TextBlock Text="Deseja duplicar a impressão (2 vias)?" VerticalAlignment="Center" />
+        </DockPanel>
+
+        <Border DockPanel.Dock="Top" Padding="0,7" Background="{DynamicResource AccentColorBrush4}" Margin="0,5,0,0">
+            <StackPanel HorizontalAlignment="Center">
+                <Button 
+                    Click="ClickSalvarHandler"
+                    Content="Salvar preferências" 
+                    Style="{DynamicResource FusionAccentedButton}" />
+            </StackPanel>
+        </Border>
+    </DockPanel>
+</mah:MetroWindow>

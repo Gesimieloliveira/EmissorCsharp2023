@@ -1,0 +1,114 @@
+﻿<mah:ChildWindow x:Class="Fusion.Visao.DocumentoAPagar.DocumentoPagarForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:Fusion.Visao.DocumentoAPagar"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fcs="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                      xmlns:controles="clr-namespace:Fusion.Controles"
+                      xmlns:cvs="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+                      xmlns:mah="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
+                      mc:Ignorable="d"
+                      Style="{DynamicResource ChildWindowStyle}"
+                      d:DataContext="{d:DesignInstance local:DocumentoPagarFormModel}"
+                      Title="Cadastro de documento a pagar"
+                      ChildWindowWidth="550" 
+                      Loaded="OnLoad">
+
+    <DockPanel Margin="5" x:Name="RootContent">
+        <GroupBox Header="Dados do documento a ser pago" DockPanel.Dock="Top">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock 
+                        Foreground="{DynamicResource GrayBrush2}"
+                        FontSize="16" FontWeight="Bold"
+                        Text="{Binding Parcela, StringFormat='Parcela: {0:D3}'}" />
+
+                    <TextBlock 
+                        Margin="15,0,0,0"
+                        Foreground="{DynamicResource AccentColorBrush}"
+                        FontSize="16" FontWeight="Bold"
+                        Text="{Binding Situacao, StringFormat='Situação: {0}', Converter={cvs:EnumDescriptionConverter}}" />
+
+                </StackPanel>
+
+                <StackPanel Margin="0,5,0,0">
+                    <TextBlock Text="Qual empresa pertence o documento?" />
+                    <controles:ComboBoxEmpresa SelectedItem="{Binding EmpresaSelecionada}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,5,0,0">
+                    <TextBlock Text="Qual o fornecedor deve ser pago?" />
+                    <fcs:SearchTextBox
+                        IsReadOnly="True"
+                        Text="{Binding Fornecedor.Nome, Mode=OneWay}"
+                        SearchCommand="{Binding BuscarPessoa}" />
+                </StackPanel>
+
+                <DockPanel Margin="0,5,0,0">
+                    <StackPanel DockPanel.Dock="Left" Width="200">
+                        <TextBlock>Tipo Documento</TextBlock>
+                        <ComboBox ItemsSource="{Binding TiposDocumentos}"
+                                  SelectedItem="{Binding TipoDocumento}"
+                                  SelectedValuePath="Id"
+                                  SelectedValue="{Binding TipoDocumento.Id}"
+                                  DisplayMemberPath="Descricao"
+                                  IsEditable="False" />
+                    </StackPanel>
+
+                    <StackPanel DockPanel.Dock="Left" Margin="5,0,0,0">
+                        <TextBlock Text="Número Documento" />
+                        <TextBox MaxLength="50" Text="{Binding NumeroDocumento}" />
+                    </StackPanel>
+                </DockPanel>
+
+                <StackPanel Margin="0,5,0,0">
+                    <TextBlock Text="Descrição para histórico (opicional)" />
+                    <TextBox MaxLength="120" Text="{Binding Historico}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <StackPanel Width="140">
+                        <TextBlock Text="Data da emissão" />
+                        <DatePicker SelectedDate="{Binding DataEmissao, StringFormat=d, TargetNullValue=''}" />
+                    </StackPanel>
+
+                    <StackPanel Width="140" Margin="5,0,0,0">
+                        <TextBlock Text="Data do vencimento" />
+                        <DatePicker SelectedDate="{Binding Vencimento, StringFormat=d, TargetNullValue=''}" />
+                    </StackPanel>
+
+                    <StackPanel Width="130" Margin="5,0,0,0">
+                        <TextBlock Text="Valor total documento" />
+                        <fcs:DecimalTextBox
+                            LimiteDecimal="2"
+                            Text="{Binding Valor, StringFormat=N2, TargetNullValue=''}" />
+                    </StackPanel>
+
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <Border DockPanel.Dock="Bottom">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        x:Name="BotaoOk"
+                        Content="Salvar registro"
+                        Width="150"
+                        Click="OnClickSalvar"
+                        Style="{DynamicResource FusionAccentedButton}" />
+
+                    <Button
+                        Margin="10,0,0,0"
+                        x:Name="BotaoEstornar"
+                        Content="Cancelar Documento" Width="150" 
+                        Click="OnClickEstornar" 
+                        Style="{DynamicResource FusionDangerButton}" />
+
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </DockPanel>
+</mah:ChildWindow>

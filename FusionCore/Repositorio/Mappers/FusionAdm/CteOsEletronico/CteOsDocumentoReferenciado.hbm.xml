@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronicoOs.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteOsDocumentoReferenciado" table="cte_os_documento_referenciado">
+    <id name="Id" column="id" generator="identity" />
+
+    <many-to-one name="CteOs" cascade="none">
+      <column name="cteOs_id" not-null="true" />
+    </many-to-one>
+
+    <property name="Numero" not-null="true">
+      <column name="numero"></column>
+    </property>
+
+    <property name="Serie" not-null="false">
+      <column name="serie"></column>
+    </property>
+
+    <property name="SubSerie" not-null="false">
+      <column name="subSerie"></column>
+    </property>
+
+    <property name="EmitidaEm" not-null="true">
+      <column name="emitidaEm"></column>
+    </property>
+
+    <property name="Valor" not-null="false">
+      <column name="valor"></column>
+    </property>
+  </class>
+</hibernate-mapping>

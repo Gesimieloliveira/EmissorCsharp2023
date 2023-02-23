@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Relatorios"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="RelatorioProprio" table="relatorio_customizado">
+    <id name="Id" column="guid" />
+
+    <property name="Descricao" column="descricao" not-null="true" />
+
+    <property name="Grupo" column="grupo" not-null="true" />
+
+    <many-to-one name="Template">
+      <column name="template_id" not-null="true" />
+    </many-to-one>
+
+  </class>
+</hibernate-mapping>

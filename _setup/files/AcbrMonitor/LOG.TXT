@@ -1,0 +1,14 @@
+12/06/2019 12:16:36 - ATENÇÃO: Chave RSA Privada NÃO pode ser lida no arquivo "swh.ini".
+
+12/06/2019 12:16:36 - ACBr MonitorPLUS Ver.1.1.0.50
+12/06/2019 12:16:36 - Aguardando comandos ACBr
+12/06/2019 12:16:36 - Endereço Local: [eliezeravell],   IP:    172.22.18.193   172.16.255.61
+12/06/2019 12:16:36 - Porta: [3434]
+12/06/2019 12:16:36 - Log de comandos será gravado em: C:\Users\eliez\source\repos\SistemaFusion\_setup\files\AcbrMonitor\LOG.TXT
+12/06/2019 12:21:06 - ATENÇÃO: Chave RSA Privada NÃO pode ser lida no arquivo "swh.ini".
+
+12/06/2019 12:21:06 - ACBr MonitorPLUS Ver.1.1.0.50
+12/06/2019 12:21:06 - Aguardando comandos ACBr
+12/06/2019 12:21:06 - Endereço Local: [eliezeravell],   IP:    172.22.18.193   172.16.255.61
+12/06/2019 12:21:06 - Porta: [3434]
+12/06/2019 12:21:06 - Log de comandos será gravado em: C:\Users\eliez\source\repos\SistemaFusion\_setup\files\AcbrMonitor\LOG.TXT

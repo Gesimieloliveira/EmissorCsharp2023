@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="Ribbon" x:Key="FusionRibbon">
+        <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}" />
+    </Style>
+
+    <Style TargetType="RibbonApplicationMenu" x:Key="FusionRibbonAppMenu">
+        <Setter Property="Background" Value="{DynamicResource AccentColorBrush}" />
+    </Style>
+
+    <Style TargetType="Ribbon" BasedOn="{StaticResource FusionRibbon}" />
+    <Style TargetType="RibbonApplicationMenu" BasedOn="{StaticResource FusionRibbonAppMenu}" />
+</ResourceDictionary>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ReferenciaNfe" table="nfe_referencia_nfe">
+    <id name="Id" column="id" generator="identity" />
+
+    <many-to-one name="Nfe" class="Nfeletronica" cascade="none" outer-join="true">
+      <column name="nfe_id" sql-type="int" not-null="true" />
+    </many-to-one>
+
+    <property name="ChaveReferenciada">
+      <column name="chaveReferenciada" sql-type="varchar" length="44" not-null="true" />
+    </property> 
+  </class>
+  
+</hibernate-mapping>

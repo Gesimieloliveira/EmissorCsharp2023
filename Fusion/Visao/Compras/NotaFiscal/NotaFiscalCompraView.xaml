@@ -1,0 +1,453 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.Compras.NotaFiscal.NotaFiscalCompraView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:Fusion.Visao.Compras.NotaFiscal"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                      xmlns:flags="clr-namespace:FusionCore.FusionAdm.Fiscal.Flags;assembly=FusionCore"
+                      xmlns:fc="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                      xmlns:opcoes="clr-namespace:Fusion.Visao.Compras.NotaFiscal.Opcoes"
+                      xmlns:controles="clr-namespace:Fusion.Controles"
+                      mc:Ignorable="d"
+                      d:DataContext="{d:DesignInstance local:NotaFiscalCompraViewModel, d:IsDesignTimeCreatable=True}"
+                      Style="{DynamicResource MetroWindowStyle}" WindowStartupLocation="CenterScreen"
+                      Title="Nota Fiscal de Compra"
+                      Width="960" Height="720" ResizeMode="NoResize"
+                      Name="Self"
+                      KeyDown="KeyDownHandler"
+                      Loaded="LoadeHandler">
+
+    <controls:MetroWindow.Resources>
+        <Style TargetType="fc:DecimalTextBox" BasedOn="{StaticResource {x:Type fc:DecimalTextBox}}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ImportadaXml}" Value="True">
+                    <Setter Property="IsReadOnly" Value="True" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ImportadaXml}" Value="True">
+                    <Setter Property="IsReadOnly" Value="True" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="fc:SearchTextBox" BasedOn="{StaticResource {x:Type fc:SearchTextBox}}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ImportadaXml}" Value="True">
+                    <Setter Property="IsReadOnly" Value="True" />
+                    <Setter Property="ShowButton" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ImportadaXml}" Value="True">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="controls:DateTimePicker" BasedOn="{StaticResource FusionDateTimePicker}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ImportadaXml}" Value="True">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </controls:MetroWindow.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <DockPanel Margin="5">
+            <StackPanel DockPanel.Dock="Top">
+                <StackPanel DockPanel.Dock="Top">
+                    <TextBlock Text="Empresa recebedora da nota de compra" />
+                    <fc:ComboBoxEditavel
+                        Name="CbEmpresa"
+                        IsEnabled="{Binding EmpresaEnabled}"
+                        ItemsSource="{Binding ListaEmpresas}"
+                        SelectedItem="{Binding Empresa}"
+                        DisplayMemberPath="RazaoSocial" />
+                </StackPanel>
+
+                <Grid DockPanel.Dock="Top" Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <DockPanel Grid.Column="0">
+                        <TextBlock DockPanel.Dock="Top" Text="Operação" />
+                        <TextBlock DockPanel.Dock="Top" Text="Entrada" VerticalAlignment="Center" FontWeight="Bold" />
+                    </DockPanel>
+
+                    <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                        <TextBlock Text="Número" />
+                        <TextBox Text="{Binding NumeroDocumento}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                        <TextBlock Text="Série" />
+                        <TextBox Text="{Binding Serie}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3" Margin="5,0,0,0">
+                        <TextBlock Text="Chave" />
+                        <TextBox Text="{Binding Chave}" />
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel DockPanel.Dock="Top">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="150" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Grid.Row="0">
+                            <TextBlock Text="Fornecedor" />
+                            <fc:SearchTextBox
+                                IsReadOnly="True"
+                                Text="{Binding Fornecedor.Nome}"
+                                ButtonClearEnabledWhenHasText="True"
+                                SearchCommand="{Binding Fornecedor.PickerCommand}"
+                                ClearCommand="{Binding Fornecedor.ClearCommand}" />
+
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="0" Margin="5,0,0,0">
+                            <TextBlock Text="CNPJ / CPF" />
+                            <TextBox IsReadOnly="True" Text="{Binding Fornecedor.DocumentoUnico}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Grid.Row="0" Margin="5,0,0,0">
+                            <TextBlock Text="IE" />
+                            <TextBox IsReadOnly="True" Text="{Binding Fornecedor.InscricaoEstadual}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Top">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="150" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Grid.Row="0">
+                            <TextBlock Text="Transportadora" />
+                            <fc:SearchTextBox
+                                IsReadOnly="True"
+                                Text="{Binding Transportadora.Nome}"
+                                ButtonClearEnabledWhenHasText="True"
+                                SearchCommand="{Binding Transportadora.PickerCommand}" 
+                                ClearCommand="{Binding Transportadora.ClearCommand}"/>
+
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="0" Margin="5,0,0,0">
+                            <TextBlock Text="CNPJ / CPF" />
+                            <TextBox IsReadOnly="True" Text="{Binding Transportadora.DocumentoUnico}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Grid.Row="0" Margin="5,0,0,0">
+                            <TextBlock Text="IE" />
+                            <TextBox IsReadOnly="True"
+                                     Text="{Binding Transportadora.InscricaoEstadual}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Top">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Modalidade do frete" />
+                            <ComboBox IsEditable="False"
+                                      ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags:ModalidadeFrete}}}"
+                                      SelectedItem="{Binding ModalidadeFrete}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                            <TextBlock Text="Data da emissão" />
+                            <controls:DateTimePicker SelectedDateTime="{Binding EmitidaEm}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                            <TextBlock Text="Data da entrada/saida" />
+                            <controls:DateTimePicker SelectedDateTime="{Binding EntradaSaidaEm}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+
+
+            <GroupBox Header="Totais" DockPanel.Dock="Top">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </StackPanel.Resources>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.Column="0">
+                            <TextBlock Text="Base de cálculo do ICMS" />
+                            <fc:DecimalTextBox Text="{Binding TotalBaseCalculoIcms, StringFormat=N2}" IsReadOnly="True" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5,0,0,0">
+                            <TextBlock Text="Valor do ICMS" />
+                            <fc:DecimalTextBox Text="{Binding ValorTotalIcms, StringFormat=N2}" IsReadOnly="True" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="5,0,0,0">
+                            <TextBlock Text="Base Cálculo ICMS ST" />
+                            <fc:DecimalTextBox Text="{Binding TotalBaseCalculoIcmsSt, StringFormat=N2}"
+                                               IsReadOnly="True" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="3" Margin="5,0,0,0">
+                            <TextBlock Text="Valor do ICMS Substituição" />
+                            <fc:DecimalTextBox Text="{Binding ValorTotalIcmsSt, StringFormat=N2}" IsReadOnly="True" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="4" Margin="5,0,0,0">
+                            <TextBlock Text="Valor total dos produtos" />
+                            <fc:DecimalTextBox Text="{Binding ValorTotalItens, StringFormat=N2}" IsReadOnly="True" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,0,0">
+                            <TextBlock Text="Valor do frete (F2)" />
+                            <fc:DecimalTextBox Text="{Binding ValorTotalFrete, StringFormat=N2}" IsReadOnly="True" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                            <TextBlock Text="Valor do seguro (F2)" />
+                            <fc:DecimalTextBox Text="{Binding ValorTotalSeguro, StringFormat=N2}" IsReadOnly="True" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                            <TextBlock Text="Valor do desconto" />
+                            <fc:DecimalTextBox Text="{Binding ValorTotalDesconto, StringFormat=N2}" IsReadOnly="True" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" Margin="5,0,0,0">
+                            <TextBlock Text="Outras despesas (F2)" />
+                            <fc:DecimalTextBox Text="{Binding ValorTotalOutros, StringFormat=N2}" IsReadOnly="True" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="4" Margin="5,0,0,0">
+                            <TextBlock Text="Valor total do IPI" />
+                            <fc:DecimalTextBox Text="{Binding ValorTotalIpi, StringFormat=N2}" IsReadOnly="True" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="5" Margin="5,0,0,0">
+                            <TextBlock Text="Valor total da nota" />
+                            <fc:DecimalTextBox Text="{Binding ValorTotal, StringFormat=N2}" IsReadOnly="True" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Itens da nota" DockPanel.Dock="Top">
+                <StackPanel>
+                    <DataGrid Height="160"
+                              IsReadOnly="True"
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding Itens}"
+                              SelectedItem="{Binding ItemSelecionado}">
+
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource FusionDataGridRow}">
+                                <EventSetter Event="MouseDoubleClick" Handler="DoubleClickItemHandler" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Produto.Ativo}" Value="False">
+                                        <Setter Property="Background" Value="{StaticResource DangerBrush}" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{DynamicResource FusionDangerButton}"
+                                                Click="RemoveItemHanlder" ClickMode="Release">
+
+                                            <fa:ImageAwesome Width="12" Height="12" Icon="TrashOutline"
+                                                             Foreground="{DynamicResource WhiteBrush}" />
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn
+                                Header="Produto" Binding="{Binding Produto.Nome}" Width="250" />
+                            <DataGridTextColumn
+                                Header="CFOP" Binding="{Binding Cfop.Id}" Width="70" />
+                            <DataGridTextColumn
+                                Header="NCM" Binding="{Binding Ncm.Id}" Width="70" />
+                            <DataGridTextColumn
+                                Header="UND" Binding="{Binding Unidade.Sigla}" Width="70" />
+                            <DataGridTextColumn
+                                Header="Qtde" Binding="{Binding Quantidade, StringFormat=N4}" Width="90" />
+                            <DataGridTextColumn
+                                Header="V. Unitário" Binding="{Binding ValorUnitario, StringFormat=N4}" Width="90" />
+                            <DataGridTextColumn
+                                Header="Total Desc" Binding="{Binding ValorDescontoTotal, StringFormat=N4}" Width="100" />
+                            <DataGridTextColumn
+                                Header="V. Total" Binding="{Binding ValorTotal, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="V. Frete" Binding="{Binding ValorFreteRateio, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="V. Seguro" Binding="{Binding ValorSeguroRateio, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="V. Despesas" Binding="{Binding ValorDespesasRateio, StringFormat=N2}"
+                                Width="100" />
+                            <DataGridTextColumn
+                                Header="V. Custo" Binding="{Binding ValorTotalCusto, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="IPI" Binding="{Binding Ipi.Ipi.Codigo}" Width="50" />
+                            <DataGridTextColumn
+                                Header="BC IPI" Binding="{Binding Ipi.BaseCalculo, StringFormat=N2}" Width="50" />
+                            <DataGridTextColumn
+                                Header="Aliquota" Binding="{Binding Ipi.Aliquota, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="V. IPI" Binding="{Binding Ipi.ValorIpi, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="ICMS" Binding="{Binding Icms.Icms.Id}" Width="50" />
+                            <DataGridTextColumn
+                                Header="Redução" Binding="{Binding Icms.Reducao}" Width="100" />
+                            <DataGridTextColumn
+                                Header="BC ICMS" Binding="{Binding Icms.BaseCalculo, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="Aliquota" Binding="{Binding Icms.Aliquota, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="V. ICMS" Binding="{Binding Icms.ValorIcms, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="Redução ST" Binding="{Binding Icms.ReducaoSt}" Width="100" />
+                            <DataGridTextColumn
+                                Header="BC ICMS ST" Binding="{Binding Icms.BaseCalculoSt, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="Aliquota ST" Binding="{Binding Icms.AliquotaSt, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="V. ICMS ST" Binding="{Binding Icms.ValorSt, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="PIS" Binding="{Binding Pis.Pis.Id, StringFormat=N2}" Width="50" />
+                            <DataGridTextColumn
+                                Header="Aliquota" Binding="{Binding Pis.Aliquota, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="BC PIS" Binding="{Binding Pis.BaseCalculo, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="V. PIS" Binding="{Binding Pis.ValorPis, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="Cofins" Binding="{Binding Cofins.Cofins.Id, StringFormat=N2}" Width="50" />
+                            <DataGridTextColumn
+                                Header="Aliquota" Binding="{Binding Cofins.Aliquota, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="BC COFINS" Binding="{Binding Cofins.BaseCalculo, StringFormat=N2}" Width="100" />
+                            <DataGridTextColumn
+                                Header="V. COFINS" Binding="{Binding Cofins.ValorCofins, StringFormat=N2}" Width="100" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            <Button Style="{DynamicResource FusionAccentedButton}" Click="NovoItemHandler">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome Height="14" Icon="Plus" Foreground="{DynamicResource WhiteBrush }" />
+                                    <TextBlock Text="Novo Item" Margin="5,0,0,0" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <DockPanel DockPanel.Dock="Top" Background="{DynamicResource WhiteBrush}">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Button Click="ClickSalvarNotaHandler"
+                            Style="{DynamicResource FusionAccentedButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="Save" Height="12" Margin="0,0,5,0"
+                                             Foreground="{DynamicResource WhiteBrush}" />
+                            <TextBlock Text="Salvar alterações" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button Click="ClickExcluirHandler"
+                            controls:VisibilityHelper.IsVisible="{Binding IsRemoverNota}"
+                            Style="{DynamicResource FusionDangerButton}"
+                            Width="150"
+                            Margin="25,0,0,0">
+
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="TrashOutline" Height="12" Margin="0,0,5,0"
+                                             Foreground="{DynamicResource WhiteBrush}" />
+                            <TextBlock Text="Excluir" />
+                        </StackPanel>
+                    </Button>
+
+                    <controls:DropDownButton
+                        controls:VisibilityHelper.IsVisible="{Binding NotaEstaSalva}"
+                        Name="DropDownOpcoes"
+                        Width="160"
+                        Margin="30,0,0,0"
+                        Content="Outras opções"
+                        DisplayMemberPath="Titulo"
+                        Orientation="Horizontal">
+
+                        <controls:DropDownButton.ItemContainerStyle>
+                            <Style TargetType="MenuItem" BasedOn="{StaticResource MahApps.Styles.MenuItem}">
+                                <EventSetter Event="Click" Handler="OutraOpcoesItemClickHandler" />
+                                <Setter Property="controls:VisibilityHelper.IsVisible" Value="{Binding Path=IsVisible}" />
+                            </Style>
+                        </controls:DropDownButton.ItemContainerStyle>
+
+                        <controls:DropDownButton.Icon>
+                            <fa:ImageAwesome Icon="List" Height="14" />
+                        </controls:DropDownButton.Icon>
+                    </controls:DropDownButton>
+
+                </StackPanel>
+            </DockPanel>
+        </DockPanel>
+    </ScrollViewer>
+</controls:MetroWindow>

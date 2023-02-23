@@ -1,0 +1,62 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.NfeCartaCorrecao.NfeCartaCorrecaoForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      mc:Ignorable="d" Width="668.579" Height="340"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      Title="Nf-e Carta Correção"
+                      Loaded="LoadedHandler">
+    <DockPanel>
+        <TabControl DockPanel.Dock="Top">
+            <TabItem Header="Carta Correção">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top">
+                        <TextBlock>Texto Correção</TextBlock>
+
+                        <TextBox AcceptsReturn="True" Height="200"
+                                 VerticalContentAlignment="Top"
+                                 Text="{Binding Correcao, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                 Validation.Error="Validation_Error" MaxLength="1000" TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <DockPanel DockPanel.Dock="Top" Background="{DynamicResource AccentColorBrush2}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0">
+                            <Button Style="{DynamicResource FusionCleanButton}" Click="OnClickEnviar">Emitir Correção</Button>
+                        </StackPanel>
+                    </DockPanel>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Header="Histórico de correção">
+                <DataGrid Height="260" IsReadOnly="True"
+                          AutoGenerateColumns="False"
+                          SelectedItem="{Binding ItemSelecionado}"
+                          ItemsSource="{Binding Itens}">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Width="50" Binding="{Binding Id}" />
+                        <DataGridTextColumn Header="Data e hora" Width="150" Binding="{Binding OcorreuEm}" />
+                        <DataGridTextColumn Header="Correção" Width="*" Binding="{Binding Correcao}" />
+                        <DataGridTemplateColumn Width="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <fa:ImageAwesome Icon="Print" Width="22"
+                                                         Foreground="{DynamicResource AccentColorBrush2}"
+                                                         MouseLeftButtonUp="OnClickImprimirCCe" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</controls:MetroWindow>

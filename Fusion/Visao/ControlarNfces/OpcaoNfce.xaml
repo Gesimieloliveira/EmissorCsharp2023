@@ -1,0 +1,96 @@
+﻿<mah:MetroWindow x:Class="Fusion.Visao.ControlarNfces.OpcaoNfce"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:Fusion.Visao.ControlarNfces"
+                      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      mc:Ignorable="d"
+                      Title="Opção de NFC-e" Style="{DynamicResource MetroWindowDialogStyle}"
+                      WindowStartupLocation="CenterScreen"
+                      SizeToContent="Height" Width="520">
+    <mah:MetroWindow.Resources>
+        <Style x:Key="MediumTileStyle" TargetType="mah:Tile">
+            <Setter Property="Height" Value="90" />
+            <Setter Property="TitleFontSize" Value="12" />
+            <Setter Property="Width" Value="160" />
+        </Style>
+    </mah:MetroWindow.Resources>
+
+    <StackPanel HorizontalAlignment="Center">
+        <WrapPanel Width="Auto" MaxHeight="667" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <mah:Tile 
+                mah:VisibilityHelper.IsVisible="{Binding PodeAutorizar}"
+                Click="AutorizarNFCe_OnClick"
+                Title="Autorizar NFC-e" Margin="3" Style="{DynamicResource MediumTileStyle}">
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Refresh" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+
+            <mah:Tile Title="Imprimir NFC-e" Margin="3" Style="{DynamicResource MediumTileStyle}"
+                      Background="{DynamicResource WarningBrush}"
+                      Click="Imprimir_Clique">
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Print" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+
+            <mah:Tile Title="Enviar por email" Margin="3" Style="{DynamicResource MediumTileStyle}"
+                      Click="EnviaPorEmail_Clique">
+
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="MailForward" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+
+            <mah:Tile Title="Download Xml" Margin="3" Style="{DynamicResource MediumTileStyle}" Click="BaixarXml_Clique">
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Download" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+
+            <mah:Tile Title="Avançar Númeração Fiscal" Margin="3" Style="{DynamicResource MediumTileStyle}" Click="AvancarNumeracaoFiscal_Clique">
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Adjust" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+        </WrapPanel>
+    </StackPanel>
+</mah:MetroWindow>

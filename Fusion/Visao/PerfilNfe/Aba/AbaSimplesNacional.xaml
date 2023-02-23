@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="Fusion.Visao.PerfilNfe.Aba.AbaSimplesNacional"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+             xmlns:l="clr-namespace:Fusion.Visao.PerfilNfe"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             mc:Ignorable="d" d:DesignWidth="500"
+             Background="White"
+             d:DataContext="{d:DesignInstance l:PerfilNfeFormModel}">
+
+    <AdornerDecorator>
+        <DockPanel LastChildFill="False">
+            <StackPanel DockPanel.Dock="top" HorizontalAlignment="Left" Orientation="Horizontal">
+                <TextBlock Text="Quer utilizar CSOSN fixo para os itens da NF-e?" 
+                           VerticalAlignment="Center"
+                           Margin="0,0,200,0" />
+
+                <c:ToggleSwitch HorizontalAlignment="Right"
+                                FontSize="13"
+                                OnContent="Sim"
+                                OffContent="Não"
+                                IsOn="{Binding UtilizaCsosn, UpdateSourceTrigger=PropertyChanged}"
+                                Name="SwitchUtilizaCsosn" />
+            </StackPanel>
+
+            <GroupBox DockPanel.Dock="Top" IsEnabled="{Binding UtilizaCsosn}">
+                <StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="CSOSN padrão" />
+                        <ComboBox ItemsSource="{Binding TributacoesCsosn}"
+                                  SelectedItem="{Binding TributacaoCsosn}"
+                                  IsEditable="False">
+
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Run Text="{Binding Codigo, Mode=OneWay}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding Descricao, Mode=OneWay}" />
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="% Aliquota Crédito padrão" />
+                        <TextBox wpf:TextBoxAcceptHelper.AcceptDecimalFormat="True"
+                                 Text="{Binding AliquotaCredito, StringFormat=N2}" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox DockPanel.Dock="top">
+                <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal">
+                    <TextBlock Text="Desabilitar informações de crédito nos itens?" 
+                           VerticalAlignment="Center"
+                           Margin="0,0,200,0" />
+
+                    <c:ToggleSwitch 
+                                
+                                FontSize="13"
+                                OnContent="Sim"
+                                OffContent="Não"
+                                ContentDirection="LeftToRight"
+                                IsOn="{Binding DesativarInfoCreditoItem, UpdateSourceTrigger=PropertyChanged}"/>
+                             
+                </StackPanel>
+            </GroupBox>
+        </DockPanel>
+    </AdornerDecorator>
+</UserControl>

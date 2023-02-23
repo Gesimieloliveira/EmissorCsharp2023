@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronicoOs.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteOsTributacaoFederal" table="cte_os_tributacao_federal">
+    <id name="CteOsId" column="cteOs_id">
+      <generator class="foreign">
+        <param name="property">CteOs</param>
+      </generator>
+    </id>
+
+    <one-to-one name="CteOs" class="CteOs" constrained="true" cascade="none" />
+
+    <property name="ValorPis" column="valorPis" not-null="true" precision="15" scale="2" />
+
+    <property name="ValorCofins" column="valorCofins" not-null="true" precision="15" scale="2" />
+
+    <property name="ValorImpostoRenda" column="valorImpostoRenda" not-null="true" precision="15" scale="2" />
+
+    <property name="ValorInss" column="valorInss" not-null="true" precision="15" scale="2" />
+
+    <property name="ValorClss" column="valorClss" not-null="true" precision="15" scale="2" />
+
+  </class>
+</hibernate-mapping>

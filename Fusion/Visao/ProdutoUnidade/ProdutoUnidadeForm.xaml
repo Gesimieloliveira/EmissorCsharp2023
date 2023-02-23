@@ -1,0 +1,80 @@
+﻿<fws:FusionWindow x:Class="Fusion.Visao.ProdutoUnidade.ProdutoUnidadeForm"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:local="clr-namespace:Fusion.Visao.ProdutoUnidade"
+                  xmlns:fws="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                  mc:Ignorable="d"
+                  d:DataContext="{d:DesignInstance local:ProdutoUnidadeFormModel, IsDesignTimeCreatable=False}"
+                  Title="Cadastro de unidade medida para os produtos"
+                  Style="{DynamicResource MetroWindowDialogStyle}"
+                  Width="637" SizeToContent="Height"
+                  ContentRendered="ContentRenderedHandler"
+                  Loaded="OnLoaded">
+
+    <AdornerDecorator Margin="20">
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <StackPanel DockPanel.Dock="Left" MinWidth="80">
+                    <TextBlock Text="Sigla" />
+                    <TextBox Text="{Binding Sigla}" MaxLength="10" x:Name="CSigla" />
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Left" Margin="5,0,0,0">
+                    <TextBlock Text="Nome da unidade" />
+                    <TextBox Text="{Binding Nome}" MaxLength="75" />
+                </StackPanel>
+            </DockPanel>
+
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
+                <StackPanel Width="Auto" Margin="3,0" MinWidth="150">
+                    <TextBlock Text="Pode fracionar" />
+                    <ComboBox SelectedValue="{Binding PodeFracionar}" SelectedValuePath="Tag"
+                              IsEditable="False">
+                        <ComboBoxItem Tag="1" Content="Sim" />
+                        <ComboBoxItem Tag="0" Content="Não" />
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Width="Auto" Margin="3,0" MinWidth="150">
+                    <TextBlock Text="Solicitar Total (PDV)" />
+                    <ComboBox SelectedValue="{Binding SolicitarTotal}" SelectedValuePath="Tag"
+                              IsEditable="False">
+                        <ComboBoxItem Tag="True" Content="Sim" />
+                        <ComboBoxItem Tag="False" Content="Não" />
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Width="Auto" Margin="3,0" MinWidth="150">
+                    <TextBlock Text="Solicitar Peso (FATURAMENTO)" />
+                    <ComboBox SelectedValue="{Binding SolicitarPeso}" SelectedValuePath="Tag"
+                              IsEditable="False">
+                        <ComboBoxItem Tag="True" Content="Sim" />
+                        <ComboBoxItem Tag="False" Content="Não" />
+                    </ComboBox>
+                </StackPanel>
+            </StackPanel>
+
+            <DockPanel DockPanel.Dock="Top" Margin="0,10">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Button
+                        Name="BotaoSalvar"
+                        Width="150"
+                        Click="OnClickSalvar"
+                        Style="{DynamicResource FusionAccentedButton}"
+                        Content="Salvar alterações" />
+
+                    <Button
+                        Name="BotaoDeletar"
+                        Margin="10,0,0,0"
+                        Width="150"
+                        Click="OnClickDeletar"
+                        Style="{DynamicResource FusionDangerButton}"
+                        Content="Deletar Unidade" />
+
+                </StackPanel>
+            </DockPanel>
+        </DockPanel>
+    </AdornerDecorator>
+</fws:FusionWindow>

@@ -1,0 +1,81 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.NfeInutilizacaoNumeracao.NfeInutilizacaoNumeracaoForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:vm="clr-namespace:Fusion.Visao.NfeInutilizacaoNumeracao"
+                      mc:Ignorable="d" d:DataContext="{d:DesignInstance vm:NfeInutilizacaoNumeracaoVm}"
+                      Width="676.579"
+                      SizeToContent="Height"
+                      ResizeMode="NoResize"
+                      Loaded="LoadedHandler"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowStyle}"
+                      Title="Inutilização de números fiscais">
+    
+    <AdornerDecorator>
+        <DockPanel Margin="5">
+            <StackPanel DockPanel.Dock="Top" controls:VisibilityHelper.IsVisible="{Binding Editavel}">
+                <TextBlock Text="Selecione o emissor que deseja inutilizar a numeração" />
+                <ComboBox
+                IsEnabled="{Binding Editavel}"
+                ItemsSource="{Binding Emissores}"
+                SelectedItem="{Binding EmissorSelecionado, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <StackPanel Width="85">
+                    <TextBlock>Série</TextBlock>
+                    <TextBox IsEnabled="{Binding Editavel}"
+                         Text="{Binding Serie, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" 
+                         MaxLength="3" />
+                </StackPanel>
+
+                <StackPanel Width="95" Margin="5,0,0,0">
+                    <TextBlock>Número Inicial</TextBlock>
+                    <TextBox IsEnabled="{Binding Editavel}"
+                         Text="{Binding NumeroInicial, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                         Validation.Error="Validation_Error" MaxLength="9" />
+                </StackPanel>
+
+                <StackPanel Width="95" Margin="5,0,0,0">
+                    <TextBlock>Número Final</TextBlock>
+                    <TextBox IsEnabled="{Binding Editavel}"
+                         Text="{Binding NumeroFinal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                         Validation.Error="Validation_Error" MaxLength="9" />
+                </StackPanel>
+
+                <TextBlock VerticalAlignment="Bottom" Width="230" Margin="5,0,0,0"
+                       Text="{Binding TipoDocumento}"
+                       FontWeight="Bold" FontSize="18" />
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Top" Margin="0,5,0,0">
+                <TextBlock Text="Justificativa para a inutilização" />
+                <TextBox IsEnabled="{Binding Editavel}"
+                     VerticalContentAlignment="Top"
+                     Text="{Binding Justificativa,  ValidatesOnDataErrors=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}"
+                     Validation.Error="Validation_Error"
+                     MaxLength="255" Height="100"
+                     TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel Margin="0,5,0,0" controls:VisibilityHelper.IsVisible="{Binding Editavel}">
+                <StackPanel HorizontalAlignment="Right">
+                    <Button
+                        IsEnabled="{Binding NaoPossuiErros}"
+                        Click="ClickInutilizarHandler"
+                        Style="{DynamicResource FusionDangerButton}">
+
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="Send" Height="14" Foreground="White" />
+                            <TextBlock Text="Inutilizar faixa" Margin="5,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
+    </AdornerDecorator>
+</controls:MetroWindow>

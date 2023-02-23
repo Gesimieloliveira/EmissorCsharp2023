@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="Fusion.Visao.CteEletronico.Emitir.Aba.AbaDocOriginarios.AbaListaComponenteValorPrestacao"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Fusion.Visao.CteEletronico.Emitir.Aba.AbaDocOriginarios"
+             xmlns:models="clr-namespace:Fusion.Visao.CteEletronico.Emitir.Aba.Models"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance models:AbaDocumentosOriginariosModel}"
+             d:DesignHeight="800" d:DesignWidth="900">
+    <DataGrid DockPanel.Dock="Top"
+              AutoGenerateColumns="False"
+              IsReadOnly="True"
+              HorizontalScrollBarVisibility="Visible"
+              ItemsSource="{Binding ListaComponenteValorPrestacao}"
+              SelectedItem="{Binding ItemSelecionadoComponenteValorPrestacao}"
+              Loaded="Lista_OnLoaded">
+
+        <DataGrid.Columns>
+            <DataGridTemplateColumn Width="42">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Button Width="22" Height="22"
+                                    Style="{DynamicResource MetroCircleButtonStyle}"
+                                    Click="OnClickDeletaItem">
+                                <Rectangle Width="20" Height="20"
+                                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill">
+                                            <VisualBrush.Visual>
+                                                <fa:ImageAwesome Icon="TrashOutline"
+                                                                 Foreground="{DynamicResource AccentColorBrush}" />
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTextColumn Header="Nome do componente" Width="Auto"
+                                Binding="{Binding Componente.Nome}" />
+
+            <DataGridTextColumn Header="Valor do componente" Width="Auto"
+                                helpers:DataGridColumnHelper.Align="Right"
+                                Binding="{Binding Componente.Valor, StringFormat=N2}" />
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

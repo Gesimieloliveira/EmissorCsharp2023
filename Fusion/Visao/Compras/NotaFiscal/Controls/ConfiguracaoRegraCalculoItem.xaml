@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="Fusion.Visao.Compras.NotaFiscal.Controls.ConfiguracaoRegraCalculoItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:controls1="clr-namespace:Fusion.Visao.Compras.NotaFiscal.Controls"
+             mc:Ignorable="d" d:DesignWidth="386.195"
+             d:DataContext="{d:DesignInstance controls1:ConfiguracaoRegraCalculoItemModel}"
+             Margin="8">
+
+    <DockPanel LastChildFill="False">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Informar os impostos de forma manual ?" VerticalAlignment="Center" />
+            <controls:ToggleSwitch
+                Grid.Column="1" OnContent="Sim" OffContent="Não" HorizontalAlignment="Center"
+                IsOn="{Binding ImpostoManual}" />
+        </Grid>
+
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="IPI compõe base de cálculo do ICMS?" VerticalAlignment="Center" />
+            <controls:ToggleSwitch Grid.Column="1" OnContent="Sim" OffContent="Não" HorizontalAlignment="Center"
+                                   IsOn="{Binding IpiCompoeIcms}" />
+        </Grid>
+
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Frete compõe base de cálculo do ICMS?" VerticalAlignment="Center" />
+            <controls:ToggleSwitch Grid.Column="1" OnContent="Sim" OffContent="Não" HorizontalAlignment="Center"
+                                   IsOn="{Binding FreteCompoeIcms}" />
+        </Grid>
+
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Seguro compõe base de cálculo do ICMS?" VerticalAlignment="Center" />
+            <controls:ToggleSwitch Grid.Column="1" OnContent="Sim" OffContent="Não" HorizontalAlignment="Center"
+                                   IsOn="{Binding SeguroCompoeIcms}" />
+        </Grid>
+
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Despesas compõe base de cálculo do ICMS?" VerticalAlignment="Center" />
+            <controls:ToggleSwitch Grid.Column="1" OnContent="Sim" OffContent="Não" HorizontalAlignment="Center"
+                                   IsOn="{Binding DespesasCompoeIcms}" />
+        </Grid>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,15,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Style="{DynamicResource FusionAccentedButton}" Width="150" Command="{Binding CommandConfirmar}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Check" Width="14" Foreground="{DynamicResource WhiteBrush}" />
+                        <TextBlock Text="Confimar" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

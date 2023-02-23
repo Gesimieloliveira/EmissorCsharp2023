@@ -1,0 +1,718 @@
+﻿<fcs:FusionWindow x:Class="Fusion.Visao.PedidoDeVenda.PedidoVendaForm"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:root="clr-namespace:Fusion.Visao.PedidoDeVenda"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:fa="http://schemas.fontawesome.io/icons/"
+                  xmlns:flcvs="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+                  xmlns:fcn="clr-namespace:Fusion.Controles"
+                  xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+                  xmlns:fcs="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                  xmlns:wl="clr-namespace:Fusion.WhiteLabel;assembly=Fusion.WhiteLabel"
+                  mc:Ignorable="d"
+                  MinHeight="680" MinWidth="980"
+                  Style="{DynamicResource MetroWindowStyle}"
+                  d:DesignHeight="680" d:DesignWidth="980"
+                  WindowState="Maximized"
+                  Title="Pedido de Venda"
+                  d:DataContext="{d:DesignInstance root:PedidoVendaFormModel, IsDesignTimeCreatable=False}"
+                  x:Name="Root"
+                  Loaded="RootLoadedHandler"
+                  KeyDown="WindowKeyDownHandler"
+                  ContentRendered="ContentRendereHandler">
+
+
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands>
+            <Button Margin="0,0,5,0" Click="ClickConfiguracoesHandler"
+                    mah:VisibilityHelper.IsVisible="{Binding IsPermissaoPreferencias}">
+                <fa:ImageAwesome Icon="Gear" Width="14" Height="14"
+                                 Foreground="{StaticResource IdealForegroundColorBrush}" />
+            </Button>
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
+
+    <DockPanel Margin="5" IsEnabled="{Binding PermiteEdicao, Mode=OneWay }">
+        <StackPanel DockPanel.Dock="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid>
+                    <Image
+                        MaxHeight="80"
+                        Stretch="Uniform"
+                        Source="{x:Static wl:MarcaWhiteLabel.ImgMarcaGestor}" />
+                </Grid>
+
+                <StackPanel Grid.Column="1">
+                    <StackPanel Margin="0,10,0,0" HorizontalAlignment="Right">
+                        <TextBlock
+                            FontSize="16" FontWeight="Bold" HorizontalAlignment="Right"
+                            Text="Empresa / Emitente" />
+
+                        <TextBlock FontSize="16" FontWeight="Light" HorizontalAlignment="Right">
+                            <Run Text="{Binding NomeEmpresa, Mode=OneWay}" />
+                            <Run Text=" - " />
+                            <Run Text="{Binding DocumentoEmpresa, Mode=OneWay}" />
+                        </TextBlock>
+
+                        <TextBlock
+                            Text="{Binding EnderecoEmpresa, Mode=OneWay}"
+                            FontSize="16" FontWeight="Light" HorizontalAlignment="Right" />
+                    </StackPanel>
+
+                    <TextBlock
+                        Margin="0,5,0,0"
+                        TextAlignment="Right" FontSize="13" TextDecorations="underline"
+                        Text="Para alterar a empresa emitente clique aqui"
+                        Cursor="{x:Static Cursors.Hand}"
+                        MouseLeftButtonDown="ClickAlterarEmpresaHandler" />
+
+                </StackPanel>
+            </Grid>
+
+            <StackPanel Margin="0,5,0,0" Background="{DynamicResource AccentColorBrush2}">
+                <Border BorderThickness="0,0,0,3" BorderBrush="{DynamicResource GrayBrush1}">
+                    <StackPanel>
+                        <TextBlock>
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="FontSize" Value="24" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="Text" Value="Tipo Documento" />
+                                    <Setter Property="TextAlignment" Value="Center" />
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsOrcamento}" Value="True">
+                                            <Setter Property="Text" Value="ORÇAMENTO" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding IsPedidoVenda}" Value="True">
+                                            <Setter Property="Text" Value="PEDIDO DE VENDA" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <TextBlock>
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                    <Setter Property="Text" Value="F12 - Alterar tipo documento" />
+                                    <Setter Property="FontSize" Value="14" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="TextAlignment" Value="Center" />
+                                    <Setter Property="Foreground" Value="Black" />
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsOrcamento}" Value="True">
+                                            <Setter Property="Text" Value="F12 - Alterar para Pedido de Venda" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding IsPedidoVenda}" Value="True">
+                                            <Setter Property="Text" Value="F12 - Alterar para Orçamento" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+
+        <DockPanel DockPanel.Dock="Top" Background="{DynamicResource GrayBrush9}">
+            <Grid DockPanel.Dock="Top">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.2*" MaxWidth="250" />
+                        <ColumnDefinition Width="5*" />
+                    </Grid.ColumnDefinitions>
+
+                    <DockPanel Grid.Column="0" x:Name="BlocoBotoes">
+                        <DockPanel.Resources>
+                            <Style TargetType="Button" BasedOn="{StaticResource FusionCleanButton}">
+                                <Setter Property="MinHeight" Value="50" />
+                                <Setter Property="Focusable" Value="False" />
+                            </Style>
+                        </DockPanel.Resources>
+
+                        <StackPanel Margin="5,0">
+                            <Button HorizontalContentAlignment="Stretch" Click="CancelarClickHandler">
+                                <DockPanel>
+                                    <Grid DockPanel.Dock="Left" Width="50" Background="{DynamicResource InfoBrush}">
+                                        <TextBlock
+                                            Foreground="{DynamicResource WhiteBrush}"
+                                            Text="F3" FontSize="20" FontWeight="Bold"
+                                            VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Grid>
+
+                                    <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                        <fa:ImageAwesome Icon="Ban" Width="25" />
+                                        <TextBlock FontSize="16" Text="Cancelar" TextAlignment="Center" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button HorizontalContentAlignment="Stretch" Margin="0,5,0,0" Click="Finaizar_OnClick">
+                                <DockPanel>
+                                    <Grid DockPanel.Dock="Left" Width="50" Background="{DynamicResource InfoBrush}">
+                                        <TextBlock
+                                            Foreground="{DynamicResource WhiteBrush}"
+                                            Text="F4" FontSize="20" FontWeight="Bold"
+                                            VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Grid>
+
+                                    <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                        <fa:ImageAwesome Icon="PaperPlane" Width="25" />
+                                        <TextBlock FontSize="16" Text="Finalizar" TextAlignment="Center" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <!--
+                            <Button HorizontalContentAlignment="Stretch" Margin="0,5,0,0" Click="Finalizar_OnClick">
+                                <DockPanel>
+                                    <Grid DockPanel.Dock="Left" Width="50" Background="{DynamicResource InfoBrush}">
+                                        <TextBlock
+                                            Foreground="{DynamicResource WhiteBrush}"
+                                            Text="F4" FontSize="20" FontWeight="Bold"
+                                            VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Grid>
+
+                                    <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                        <fa:ImageAwesome Icon="Money" Width="25" />
+                                        <TextBlock FontSize="16" Text="Finalizar" TextAlignment="Center" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+                            -->
+
+                            <Button HorizontalContentAlignment="Stretch" Margin="0,5,0,0" Click="VendedorClickHandler">
+
+                                <DockPanel>
+                                    <Grid DockPanel.Dock="Left" Width="50" Background="{DynamicResource InfoBrush}">
+                                        <TextBlock
+                                            Foreground="{DynamicResource WhiteBrush}"
+                                            Text="F9" FontSize="20" FontWeight="Bold"
+                                            VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Grid>
+
+                                    <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                        <fa:ImageAwesome Icon="AddressBookOutline" Width="17" />
+                                        <TextBlock FontSize="16" Text="Vendedor" TextAlignment="Center" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button HorizontalContentAlignment="Stretch" Margin="0,5,0,0" Click="VisitanteClickHandler">
+
+                                <DockPanel>
+                                    <Grid DockPanel.Dock="Left" Width="50" Background="{DynamicResource InfoBrush}">
+                                        <TextBlock
+                                            Foreground="{DynamicResource WhiteBrush}"
+                                            Text="F10" FontSize="20" FontWeight="Bold"
+                                            VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Grid>
+
+                                    <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                        <fa:ImageAwesome Icon="UserSecret" Width="17" />
+                                        <TextBlock FontSize="16" Text="Visitante" TextAlignment="Center" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button HorizontalContentAlignment="Stretch" Margin="0,5,0,0"
+                                    Click="AdicionarCliente_OnClick">
+                                <DockPanel>
+                                    <Grid DockPanel.Dock="Left" Width="50" Background="{DynamicResource InfoBrush}">
+                                        <TextBlock
+                                            Foreground="{DynamicResource WhiteBrush}"
+                                            Text="F11" FontSize="20" FontWeight="Bold"
+                                            VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Grid>
+
+                                    <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                        <fa:ImageAwesome Icon="AddressCardOutline" Width="25" />
+                                        <TextBlock FontSize="16" Text="Cliente" TextAlignment="Center" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button HorizontalContentAlignment="Stretch" Margin="0,5,0,0"
+                                    Click="ClickObservacaoHandler">
+                                <DockPanel>
+                                    <Grid DockPanel.Dock="Left" Width="50" Background="{DynamicResource InfoBrush}">
+                                        <TextBlock
+                                            Foreground="{DynamicResource WhiteBrush}"
+                                            Text="Ctrl+O" FontSize="14" FontWeight="Bold"
+                                            VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Grid>
+
+                                    <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                        <fa:ImageAwesome Icon="StickyNoteOutline" Width="20" />
+                                        <TextBlock FontSize="16" Text="Observação" TextAlignment="Center" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <StackPanel Margin="0,5,0,0">
+                                <Button HorizontalContentAlignment="Stretch" Click="ListarPedidoAberto_OnClick">
+                                    <DockPanel>
+                                        <Grid DockPanel.Dock="Left" Width="50" Background="{DynamicResource InfoBrush}">
+                                            <TextBlock
+                                                Foreground="{DynamicResource WhiteBrush}"
+                                                Text="Ctrl+L" FontSize="14" FontWeight="Bold"
+                                                VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        </Grid>
+
+                                        <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                            <fa:ImageAwesome Icon="ListUl" Width="24" />
+                                            <TextBlock FontSize="16" Text="Listar Abertos" TextAlignment="Center"
+                                                       TextWrapping="WrapWithOverflow" />
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Button>
+                            </StackPanel>
+
+                            <StackPanel Margin="0,5,0,0">
+                                <Button HorizontalContentAlignment="Stretch" Click="IniciarNovoPedidoVenda_OnClick">
+                                    <DockPanel>
+                                        <Grid DockPanel.Dock="Left" Width="50" Background="{DynamicResource InfoBrush}">
+                                            <TextBlock
+                                                Foreground="{DynamicResource WhiteBrush}"
+                                                Text="Ctrl+N" FontSize="14" FontWeight="Bold"
+                                                VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        </Grid>
+
+                                        <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                            <fa:ImageAwesome Icon="Plus" Width="24" />
+                                            <TextBlock FontSize="16" Text="Iniciar Novo" TextAlignment="Center"
+                                                       TextWrapping="WrapWithOverflow" />
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </DockPanel>
+
+                    <Border Grid.Column="1"
+                            Margin="0,0,0,0"
+                            x:Name="MainContent" BorderThickness="0" BorderBrush="{DynamicResource GrayBrush8}">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" /> <!-- dados do pedido -->
+                                <RowDefinition Height="Auto" /> <!-- dados do cliente / vendedor -->
+                                <RowDefinition Height="Auto" /> <!-- dados do motivo cancelamento -->
+                                <RowDefinition Height="Auto" /> <!-- input dos itens -->
+                                <RowDefinition Height="*" /> <!-- listagem de itens -->
+                                <RowDefinition Height="Auto" /> <!-- Desconto e totatis -->
+                            </Grid.RowDefinitions>
+
+                            <Border
+                                Grid.Row="0"
+                                Padding="0,0,0,5"
+                                BorderThickness="0,0,0,2" BorderBrush="{DynamicResource GrayBrush8}">
+
+                                <DockPanel>
+                                    <StackPanel DockPanel.Dock="Left">
+                                        <TextBlock
+                                            FontSize="14" FontWeight="Bold"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Left"
+                                            Text="Tabela de preços:" />
+
+                                        <ComboBox
+                                            Width="270"
+                                            TabIndex="-1"
+                                            IsEditable="True"
+                                            DockPanel.Dock="Left"
+                                            ItemsSource="{Binding TabelasPrecosLista}"
+                                            SelectedItem="{Binding TabelaPrecoSelecionada}" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="5,0,0,0" DockPanel.Dock="Left">
+                                        <TextBlock
+                                            Text="Referência (Ctrl+R)"
+                                            FontSize="14" FontWeight="Bold" />
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox
+                                                x:Name="TbReferencia"
+                                                IsEnabled="False"
+                                                Foreground="{DynamicResource AccentColorBrush}"
+                                                Width="180" MaxLength="25" FontSize="14"
+                                                FontWeight="Bold"
+                                                Text="{Binding Referencia}" />
+
+                                            <Button Click="ReferenciaClickHandler">
+                                                <Button.Style>
+                                                    <Style TargetType="Button"
+                                                           BasedOn="{StaticResource FusionAccentedButton}">
+
+                                                        <Setter Property="Content">
+                                                            <Setter.Value>
+                                                                <fa:ImageAwesome Icon="Pencil" Width="13"
+                                                                    Foreground="{DynamicResource WhiteBrush}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+
+                                                        <Style.Triggers>
+                                                            <DataTrigger
+                                                                Binding="{Binding ElementName=TbReferencia, Path=IsEnabled}"
+                                                                Value="True">
+
+                                                                <Setter Property="Background"
+                                                                        Value="{DynamicResource SuccessBrush}" />
+                                                                <Setter Property="Content">
+                                                                    <Setter.Value>
+                                                                        <fa:ImageAwesome Icon="Check" Width="13"
+                                                                            Foreground="{DynamicResource WhiteBrush}" />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel
+                                        DockPanel.Dock="Right"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Right"
+                                        mah:VisibilityHelper.IsVisible="{Binding PedidoEmAndamento}">
+
+                                        <StackPanel>
+                                            <TextBlock
+                                                Text="Número"
+                                                VerticalAlignment="Center" FontSize="14" FontWeight="Bold" />
+
+                                            <TextBox
+                                                Focusable="False"
+                                                TextAlignment="Left"
+                                                FontSize="14" FontWeight="Bold"
+                                                Foreground="{DynamicResource AccentColorBrush}"
+                                                Width="80"
+                                                IsReadOnly="True" IsReadOnlyCaretVisible="False"
+                                                IsEnabled="False"
+                                                Text="{Binding Numero, StringFormat='000000'}" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="5,0,0,0">
+                                            <TextBlock Text="Data Criação" FontSize="14" FontWeight="Bold" />
+
+                                            <TextBox
+                                                Focusable="False"
+                                                FontSize="14" FontWeight="Bold"
+                                                TextAlignment="Left"
+                                                Foreground="{DynamicResource AccentColorBrush}"
+                                                Width="130"
+                                                IsReadOnly="True" IsReadOnlyCaretVisible="False"
+                                                IsEnabled="False"
+                                                Text="{Binding CriadoEm, StringFormat='dd/MM/yyyy HH:mm'}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Border>
+
+                            <Border
+                                Grid.Row="1"
+                                Padding="0,0,0,5"
+                                BorderThickness="0,0,0,2" BorderBrush="{DynamicResource GrayBrush8}">
+
+                                <DockPanel>
+                                    <StackPanel DockPanel.Dock="Right" Width="270" Margin="10,0,0,0">
+                                        <TextBlock
+                                            FontSize="13" FontWeight="Bold"
+                                            Text="Vendedor" />
+
+                                        <TextBlock
+                                            mah:VisibilityHelper.IsCollapsed="{Binding NomeVendedor, Converter={flcvs:NullToBooleanConverter}}"
+                                            FontSize="13" FontWeight="Medium"
+                                            Foreground="{DynamicResource AccentColorBrush}"
+                                            Text="{Binding NomeVendedor, Mode=OneWay}" />
+
+                                        <TextBlock
+                                            mah:VisibilityHelper.IsVisible="{Binding NomeVendedor, Converter={flcvs:NullToBooleanConverter}}"
+                                            FontSize="13" FontWeight="Medium"
+                                            Foreground="{DynamicResource AccentColorBrush}"
+                                            Text="NÃO DEFINIDO" />
+
+                                    </StackPanel>
+
+                                    <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                        <TextBlock
+                                            FontSize="13" FontWeight="Bold"
+                                            Text="Cliente / Destinatário" />
+
+                                        <TextBlock
+                                            mah:VisibilityHelper.IsCollapsed="{Binding NomeCliente, Converter={flcvs:NullToBooleanConverter}}"
+                                            Foreground="{DynamicResource AccentColorBrush}"
+                                            Text="{Binding NomeCliente, Mode=OneWay}" FontSize="13"
+                                            FontWeight="Medium" />
+
+                                        <TextBlock
+                                            mah:VisibilityHelper.IsVisible="{Binding NomeCliente, Converter={flcvs:NullToBooleanConverter}}"
+                                            Foreground="{DynamicResource AccentColorBrush}"
+                                            Text="NÃO DEFINIDO" FontSize="13"
+                                            FontWeight="Medium" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Border>
+
+                            <Border
+                                mah:VisibilityHelper.IsVisible="{Binding PedidoVenda.EstaCancelado, Mode=OneWay}"
+                                Grid.Row="2"
+                                Padding="0,0,0,5"
+                                BorderThickness="0,0,0,2"
+                                MaxHeight="76"
+                                BorderBrush="{DynamicResource GrayBrush8}">
+
+                                <StackPanel>
+                                    <TextBlock
+                                        FontSize="13" FontWeight="Bold"
+                                        Text="Motivo Cancelamento" />
+
+                                    <TextBlock
+                                        TextWrapping="WrapWithOverflow"
+                                        FontSize="13" FontWeight="Medium"
+                                        Foreground="{DynamicResource AccentColorBrush}"
+                                        Text="{Binding PedidoVenda.MotivoCancelamento, Mode=OneWay}" />
+
+                                </StackPanel>
+
+
+                            </Border>
+
+                            <Grid Grid.Row="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <fcn:ProdutoComboPicker
+                                    IsEnabled="{Binding PedidoEstaAberto}"
+                                    Grid.Column="0"
+                                    x:Name="ProdutoComboPicker"
+                                    Selecionado="{Binding ProdutoCombo}" />
+
+                                <StackPanel Grid.Column="1" Margin="5,0,0,0" Width="90">
+                                    <TextBlock Text="Quantidade" />
+                                    <fcs:DecimalTextBox
+                                        LimiteDecimal="4"
+                                        MaxLength="10"
+                                        IsEnabled="{Binding PedidoEstaAberto}"
+                                        Text="{Binding Quantidade, StringFormat=N4 }" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Margin="5,0,0,0" Width="90">
+                                    <TextBlock Text="Preço Unitário" />
+                                    <fcs:DecimalTextBox
+                                        LimiteDecimal="4"
+                                        IsEnabled="{Binding PedidoEstaAberto}"
+                                        Text="{Binding PrecoUnitario, StringFormat=N4 }" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="3" Margin="5,0,0,0" Focusable="False" Width="90">
+                                    <TextBlock Text="Preço Total" />
+
+                                    <fcs:DecimalTextBox
+                                        x:Name="TbTotal"
+                                        IsEnabled="False"
+                                        Focusable="False" FontWeight="Bold"
+                                        Text="{Binding PrecoTotal, StringFormat=N2}"
+                                        Background="{StaticResource AccentColorBrush4}" />
+                                </StackPanel>
+
+                                <Border Grid.Column="4" Margin="5,0,0,0">
+                                    <Button
+                                        Height="{Binding ElementName=TbTotal, Path=Height}"
+                                        VerticalAlignment="Bottom"
+                                        Style="{DynamicResource FusionAccentedButton}"
+                                        Click="AdicionarItemClickHandler">
+
+                                        <fa:ImageAwesome Icon="Plus" Width="15"
+                                                         Foreground="{DynamicResource WhiteBrush}" />
+                                    </Button>
+                                </Border>
+
+                            </Grid>
+
+                            <GroupBox Grid.Row="4" Margin="0,5,0,0" Header="Produtos faturados">
+                                <Grid>
+                                    <DataGrid
+                                        d:DataContext="{d:DesignInstance root:PedidoVendaFormModel}"
+                                        ItemsSource="{Binding Produtos}"
+                                        SelectedItem="{Binding ItemSelecionado}"
+                                        IsReadOnly="True" AutoGenerateColumns="False"
+                                        Focusable="False">
+
+                                        <DataGrid.RowStyle>
+                                            <Style TargetType="DataGridRow"
+                                                   BasedOn="{StaticResource FusionDataGridRow}">
+                                                <EventSetter Event="MouseDoubleClick" Handler="DoubleClickDataGridRow" />
+                                                <Setter Property="FontSize" Value="15" />
+                                                <Setter Property="Focusable" Value="False" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Produto.Ativo}" Value="False">
+                                                        <Setter Property="Background"
+                                                                Value="{StaticResource DangerBrush}" />
+                                                        <Setter Property="Foreground" Value="Black" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGrid.RowStyle>
+
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Width="40">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel HorizontalAlignment="Center"
+                                                                    VerticalAlignment="Center">
+                                                            <Button
+                                                                Style="{DynamicResource FusionAccentedButton}"
+                                                                Click="EditarPedidoVendaProduto"
+                                                                Tag="{Binding}"
+                                                                ClickMode="Release"
+                                                                IsEnabled="{Binding ElementName=Root, Path=DataContext.PedidoEstaAberto}">
+
+                                                                <fa:ImageAwesome
+                                                                    Width="14" Height="14" Icon="Edit"
+                                                                    Foreground="{DynamicResource WhiteBrush}" />
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                            <DataGridTemplateColumn Width="40">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel HorizontalAlignment="Center"
+                                                                    VerticalAlignment="Center">
+                                                            <Button
+                                                                Style="{DynamicResource FusionDangerButton}"
+                                                                Click="ExcluirPedidoVendaProduto"
+                                                                Tag="{Binding}"
+                                                                ClickMode="Release"
+                                                                IsEnabled="{Binding ElementName=Root, Path=DataContext.PedidoEstaAberto}">
+
+                                                                <fa:ImageAwesome
+                                                                    Width="14" Height="14" Icon="TrashOutline"
+                                                                    Foreground="{DynamicResource WhiteBrush}" />
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                            <DataGridTextColumn
+                                                Header="ORD" Binding="{Binding Numero, Mode=OneWay, StringFormat=000}"
+                                                Width="50" />
+                                            <DataGridTextColumn
+                                                Header="COD."
+                                                Binding="{Binding Produto.Id, Mode=OneWay, StringFormat=0000}"
+                                                Width="60" />
+                                            <DataGridTextColumn
+                                                Header="NOME" Binding="{Binding Produto.Nome, Mode=OneWay}" Width="*" />
+                                            <DataGridTextColumn
+                                                helpers:DataGridColumnHelper.Align="Right" MinWidth="65"
+                                                Header="QTD"
+                                                Binding="{Binding Quantidade, StringFormat=N4, Mode=OneWay}" />
+                                            <DataGridTextColumn
+                                                helpers:DataGridColumnHelper.Align="Center" Width="45"
+                                                Header="UN" Binding="{Binding SiglaUnidade}" />
+                                            <DataGridTextColumn
+                                                helpers:DataGridColumnHelper.Align="Right" MinWidth="65"
+                                                Header="P. UNIT."
+                                                Binding="{Binding PrecoUnitario, StringFormat=N4, Mode=OneWay}" />
+                                            <DataGridTextColumn
+                                                helpers:DataGridColumnHelper.Align="Right" MinWidth="65"
+                                                Header="DESC."
+                                                Binding="{Binding TotalDesconto, StringFormat=N2, Mode=OneWay}" />
+                                            <DataGridTextColumn
+                                                helpers:DataGridColumnHelper.Align="Right" MinWidth="65"
+                                                Header="TOTAL" Binding="{Binding Total, StringFormat=N2, Mode=OneWay}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </GroupBox>
+
+                            <DockPanel Grid.Row="5" Margin="0,5,0,10">
+                                <DockPanel.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource GrayBrush9}" />
+                                        <Setter Property="BorderThickness" Value="1" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource GrayBrush2}" />
+                                    </Style>
+                                </DockPanel.Resources>
+
+                                <StackPanel MouseDown="LabelAplicarDescontoClickHandler" Margin="5,0,0,0"
+                                            DockPanel.Dock="Left">
+                                    <TextBlock FontSize="14" Text="F6 - Aplicar desconto" TextDecorations="underline"
+                                               Cursor="{x:Static Cursors.Hand}" />
+                                </StackPanel>
+
+                                <StackPanel DockPanel.Dock="Left">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Border Width="150" Background="{DynamicResource AccentColorBrush}">
+                                            <StackPanel Margin="5,1">
+                                                <TextBlock Text="Total dos Produtos" HorizontalAlignment="Right"
+                                                           Foreground="White" />
+                                                <TextBlock
+                                                    Foreground="{DynamicResource WhiteBrush}"
+                                                    HorizontalAlignment="Right"
+                                                    FontSize="20" FontWeight="Bold"
+                                                    Text="{Binding TotalProdutos, StringFormat=C2}" />
+                                            </StackPanel>
+                                        </Border>
+
+                                        <Border MouseDown="LabelDescontoClickHandler" Margin="5,0,0,0" Width="150"
+                                                Background="{DynamicResource DangerBrush}">
+                                            <StackPanel Margin="5,1">
+                                                <TextBlock Text="% de Desconto" HorizontalAlignment="Right"
+                                                           Foreground="{DynamicResource WhiteBrush}" />
+                                                <TextBlock
+                                                    Foreground="{DynamicResource WhiteBrush}"
+                                                    HorizontalAlignment="Right"
+                                                    FontSize="20" FontWeight="Bold"
+                                                    Text="{Binding PercentualDesconto, StringFormat='% {0:N6}'}" />
+                                            </StackPanel>
+                                        </Border>
+
+                                        <Border Margin="5,0,0,0" Width="150"
+                                                Background="{DynamicResource SuccessBrush}">
+                                            <StackPanel Margin="5,1">
+                                                <TextBlock Text="Total do Documento" HorizontalAlignment="Right"
+                                                           Foreground="{DynamicResource WhiteBrush}" />
+                                                <TextBlock
+                                                    Foreground="{DynamicResource WhiteBrush}"
+                                                    HorizontalAlignment="Right"
+                                                    FontSize="20" FontWeight="Bold"
+                                                    Text="{Binding Total, StringFormat=C2}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DockPanel>
+
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </DockPanel>
+
+</fcs:FusionWindow>

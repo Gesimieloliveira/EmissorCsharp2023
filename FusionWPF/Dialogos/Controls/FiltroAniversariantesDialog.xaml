@@ -1,0 +1,47 @@
+﻿<fcs:FusionWindow x:Class="FusionWPF.Dialogos.Controls.FiltroAniversariantesDialog"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                  xmlns:mes="clr-namespace:FusionCore.Core.Flags;assembly=FusionCore"
+                  xmlns:fcs="clr-namespace:FusionWPF.Controles"
+                  mc:Ignorable="d" 
+                  Width="420" SizeToContent="Height"
+                  Background="White" 
+                  Loaded="LoadedHandler">
+
+    <GroupBox Header="Filtro relatório">
+        <StackPanel>
+            <StackPanel>
+                <TextBlock
+                    Text="Qual periodo deseja ver os aniversários?" />
+
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock Text="Mês inicial: " VerticalAlignment="Center" />
+                    <ComboBox
+                        MinWidth="100"
+                        SelectedItem="{Binding MesInicial}"
+                        ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type mes:Mes}}}" />
+
+                    <TextBlock Text="Mês final: " VerticalAlignment="Center" Margin="5,0,0,0" />
+                    <ComboBox
+                        MinWidth="100"
+                        SelectedItem="{Binding MesFinal}"
+                        ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type mes:Mes}}}" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="0,15,0,0">
+                <Button
+                    Style="{DynamicResource FusionAccentedButton}"
+                    Content="Continuar"
+                    HorizontalAlignment="Center"
+                    Width="120"
+                    Click="ClickContinuarHandler" />
+
+            </StackPanel>
+        </StackPanel>
+    </GroupBox>
+
+</fcs:FusionWindow>

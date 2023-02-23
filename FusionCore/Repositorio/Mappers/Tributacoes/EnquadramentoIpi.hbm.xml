@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Tributacoes.Federal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="EquadramentoIpi" table="situacao_tributaria_enquadramento_ipi">
+    <id name="Id">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="GrupoCst">
+      <column name="grupoCst" not-null="true" />
+    </property>
+
+    <property name="Descricao">
+      <column name="descricao" not-null="true" />
+    </property>
+
+  </class>
+</hibernate-mapping>

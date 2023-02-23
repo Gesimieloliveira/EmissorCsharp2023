@@ -1,0 +1,36 @@
+﻿<mah:MetroWindow x:Class="FusionNfce.Visao.Principal.AvancaNumeracao.AvancaNumeracaoFiscal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FusionNfce.Visao.Principal.AvancaNumeracao"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Avança Númeração Fiscal"
+        IsMaxRestoreButtonEnabled="False"
+        IsMinButtonEnabled="False"
+        SizeToContent="Height" 
+        Width="530"
+                 d:DataContext="{d:DesignInstance local:AvancaNumeracaoFiscalModel}">
+    <StackPanel Margin="5">
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Margin="0,0,5,0" VerticalAlignment="Center">Número do documento</TextBlock>
+                <TextBox 
+                    HorizontalAlignment="Center"
+                    IsReadOnly="True" Grid.Column="1" Margin="0,0,5,0" Text="{Binding NumeracaoFiscal, StringFormat=D9}"></TextBox>
+                <Button 
+                    Command="{Binding CommandAlocarProximoNumero}"
+                    Grid.Column="2">Alocar proximo número do emissor</Button>
+
+            </Grid>
+        </StackPanel>
+    </StackPanel>
+</mah:MetroWindow>

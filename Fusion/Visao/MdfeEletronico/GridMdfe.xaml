@@ -1,0 +1,267 @@
+﻿<UserControl x:Class="Fusion.Visao.MdfeEletronico.GridMdfe"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Fusion.Visao.MdfeEletronico"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+             xmlns:cc="clr-namespace:FusionCore.Repositorio.Dtos.Consultas;assembly=FusionCore"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             mc:Ignorable="d" 
+             Loaded="GridMdfe_OnLoaded"
+             d:DataContext="{d:DesignInstance local:GridMdfeModel}"
+             Background="White">
+
+    <DockPanel Margin="5">
+        <Border x:Name="PainelFiltro" DockPanel.Dock="Top" Background="{DynamicResource GrayBrush9}" Padding="5">
+            
+            <StackPanel>
+                <Grid HorizontalAlignment="Left">
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <StackPanel Width="150">
+                            <TextBlock>Criados a partir de</TextBlock>
+                            <DatePicker SelectedDate="{Binding Filtro.CriadoEm}" />
+                        </StackPanel>
+
+                        <StackPanel Width="150" Margin="5,0,0,0">
+                            <TextBlock>Emitidos igual ou após a</TextBlock>
+                            <DatePicker SelectedDate="{Binding Filtro.EmissaoInicial}" />
+                        </StackPanel>
+
+                        <StackPanel Width="150" Margin="5,0,0,0">
+                            <TextBlock>Emitidos igual ou antes a</TextBlock>
+                            <DatePicker SelectedDate="{Binding Filtro.EmissaoFinal}" />
+                        </StackPanel>
+
+                        <StackPanel Width="250" Margin="5,0,0,0">
+                            <TextBlock Text="Emitente contenha" />
+                            <TextBox Text="{Binding Filtro.NomeEmitenteContenha}" />
+                        </StackPanel>
+
+                        <StackPanel Width="200" Margin="5,0,0,0">
+                            <TextBlock Text="UF de carregamento igual á" />
+                            <ComboBox 
+                                ItemsSource="{Binding EstadosCarregamento}"
+                                IsEditable="True"
+                                SelectedItem="{Binding Filtro.EstadoCarregamento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                SelectedValuePath="Sigla"
+                                SelectedValue="{Binding Filtro.EstadoCarregamento.Sigla}"
+                                DisplayMemberPath="Sigla" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="5,0,0,0" Width="200">
+                            <TextBlock Text="UF de descarregamento igual á" />
+                            <ComboBox 
+                                ItemsSource="{Binding EstadosDescarregamento}"
+                                SelectedItem="{Binding Filtro.EstadoDescarregamento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                SelectedValuePath="Sigla"
+                                SelectedValue="{Binding Filtro.EstadoDescarregamento.Sigla}"
+                                DisplayMemberPath="Sigla"
+                                IsEditable="True" />
+                        </StackPanel>
+
+                        <StackPanel Width="100" Margin="5,0,0,0">
+                            <TextBlock Text="Número fiscal igual á" />
+                            <TextBox Text="{Binding Filtro.NumeroFiscal, Converter={conversores:ValueToIntegerNullableConverter}}" />
+                        </StackPanel>
+
+                        <StackPanel Width="100" Margin="5,0,0,0">
+                            <TextBlock Text="Placa veículo igual á" />
+                            <TextBox Text="{Binding Filtro.PlacaVeiculo}" />
+                        </StackPanel>
+
+                        <StackPanel Width="100" Margin="5,0,0,0">
+                            <TextBlock Text="Não encerrados" />
+                            <ComboBox IsEditable="False" SelectedIndex="1">
+                                <ComboBoxItem Content="Sim" IsSelected="{Binding Filtro.NaoEncerrados}" />
+                                <ComboBoxItem Content="Não" />
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Width="150" Margin="5,16,0,0">
+                            <Button
+                                x:Name="BotaoFiltro"
+                                Margin="0,0,10,0" HorizontalAlignment="Left" Width="140" Height="27"
+                                Style="{DynamicResource FusionCleanButton}"
+                                Click="AplicarFiltroClickHandler">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome Icon="Filter" Width="15" />
+                                    <TextBlock Text="Aplicar o filtro" Margin="5,-3,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+                    </WrapPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <StackPanel DockPanel.Dock="Top" Margin="5,5,0,0" Orientation="Horizontal">
+
+            <Button
+                Width="150"
+                Style="{DynamicResource FusionSuccessButton}"
+                Command="{Binding NovoCommand}">
+
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Plus" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Novo MDF-E" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+
+            <Button 
+                Margin="5,0,0,0" Width="150"
+                Command="{Binding SelecionarTodosCommand}" 
+                Style="{DynamicResource FusionAccentedButton2}">
+
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Check" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Selecionar Todos" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+
+            <Button 
+                Margin="5,0,0,0" Width="150"
+                Command="{Binding ExportarXmlCommand}" 
+                Style="{DynamicResource FusionAccentedButton2}">
+
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="SendOutline" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Enviar XML" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+
+            <Button 
+                Margin="5,0,0,0" Width="150"
+                Command="{Binding BaixarXmlCommand}" 
+                Style="{DynamicResource FusionAccentedButton2}">
+
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Download" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Baixar XML" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <DataGrid
+            Margin="0,5,0,0"
+            DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto"
+            ItemsSource="{Binding ListaMdfe}"
+            SelectedItem="{Binding Selecionado}">
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DoubleClickDataGridRow" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="SizeToCells" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Style="{DynamicResource FusionAccentedButton}" ClickMode="Release"
+                                        Click="ClickBtnOpcoesHandler" Padding="7,4">
+                                    <fa:ImageAwesome Icon="List" Foreground="{DynamicResource WhiteBrush}" Height="12" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridCheckBoxColumn 
+                    IsReadOnly="False"
+                    Width="40" Binding="{Binding IsSelecionado, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridCheckBoxColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <EventSetter Event="CheckBox.Checked" Handler="AtualizarCheckSelecionadoHandler"/>
+                            <EventSetter Event="CheckBox.Unchecked" Handler="AtualizarNotCheckedSelecionadoHandler"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="IsEditing" Value="True" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridCheckBoxColumn.CellStyle>
+                </DataGridCheckBoxColumn>
+
+                <DataGridTextColumn 
+                    helpers:DataGridColumnHelper.Align="Center"
+                    Header="Status" Binding="{Binding Status}" Width="125" />
+
+                <DataGridTextColumn 
+                    helpers:DataGridColumnHelper.Align="Center"
+                    Header="Número" Binding="{Binding NumeroDocumento, StringFormat=D8}" Width="105" />
+
+                <DataGridTextColumn 
+                    Header="Data emissão" Binding="{Binding DataEmissao}" Width="130" />
+
+                <DataGridTextColumn Header="Nome Emitente" Binding="{Binding NomeEmitente}" Width="220" />
+
+                <DataGridTextColumn Header="Veículo Tração" Binding="{Binding NomeVeiculoTracao}" Width="200" />
+
+                <DataGridTextColumn Header="Placa" Binding="{Binding PlacaVeiculoTracao}" Width="100" />
+
+                <DataGridTextColumn Header="Motoristas" Binding="{Binding ObterTodosMotoristas}" Width="220" />
+
+                <DataGridTextColumn 
+                    Width="125"
+                    Header="Carregamento" Binding="{Binding UFCarregamento}"/>
+
+                <DataGridTextColumn 
+                    Width="155"
+                    Header="Descarregamento" Binding="{Binding UFDescarregamento}"  />
+
+                <DataGridTextColumn 
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="Total carga" Binding="{Binding ValorTotalCarga, StringFormat=N2}" />
+
+                <DataGridTextColumn 
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="Peso B. Carga" Binding="{Binding PesoBrutoTotalCarga, StringFormat=N4}" />
+
+                <DataGridTextColumn 
+                    Header="Tipo Emitente" Binding="{Binding TipoEmitente}" />
+
+                <DataGridTextColumn 
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="Quantidade CTe" Binding="{Binding QuantidadeCTe}" />
+
+                <DataGridTextColumn 
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="Quantidade NFe" Binding="{Binding QuantidadeNFe}" />
+
+                <DataGridTemplateColumn Header="Chave" Width="325">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type cc:MdfeGridDto}">
+                            <StackPanel 
+                                VerticalAlignment="Center" Orientation="Horizontal"
+                                controls:VisibilityHelper.IsVisible="{Binding AparecerChaveCopiar}">
+
+                                <TextBlock Text="{Binding Chave}" VerticalAlignment="Center" />
+
+                                <Button
+                                    Style="{DynamicResource FusionCleanButton}"
+                                    Tag="{Binding Chave}"
+                                    Margin="5,0,0,0"
+                                    ClickMode="Release"
+                                    Click="ClickCopyChave" Padding="7,4">
+                                    <fa:ImageAwesome Icon="Copy" Foreground="{DynamicResource BlackBrush}" Height="12" />
+                                </Button>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Codigo/Id" Binding="{Binding Id, StringFormat=D11}" Width="100" />
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

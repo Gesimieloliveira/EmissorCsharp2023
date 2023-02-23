@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.TabelasDePrecos"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="TabelaPreco" table="tabela_preco">
+
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <property name="Descricao" column="descricao" not-null="true" />
+    <property name="TipoAjustePreco" column="tipoAjustePreco" not-null="true" />
+    <property name="PercentualAjuste" column="percentualAjuste" not-null="true" />
+    <property name="ApenasItensDaLista" column="apenasItensDaLista" not-null="true" />
+	<property name="Status" column="status" not-null="true" />
+
+    <bag name="AjusteDiferenciadoLista" table="ajuste_diferenciado" cascade="none" inverse="true">
+      <key column="tabelaPreco_id" />
+      <one-to-many class="AjusteDiferenciado" />
+    </bag>
+
+  </class>
+</hibernate-mapping>

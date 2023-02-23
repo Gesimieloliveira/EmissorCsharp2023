@@ -1,0 +1,204 @@
+﻿<UserControl x:Class="Fusion.Visao.ControleCaixa.GridCaixasIndividuaisView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:hps="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+             xmlns:fuc="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:cc="clr-namespace:FusionCore.ControleCaixa;assembly=FusionCore"
+             xmlns:th="clr-namespace:Fusion.Visao.ControleCaixa"
+             mc:Ignorable="d" d:DesignWidth="980"
+             d:DataContext="{d:DesignInstance th:GridCaixasIndividuaisContexto}"
+             Padding="10"
+             Loaded="LoadedHandler"
+             Background="{DynamicResource WhiteBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Margin="3" Grid.Column="0" Width="280">
+            <DockPanel>
+                <Border
+                    DockPanel.Dock="Top"
+                    Background="{DynamicResource InfoBrush}">
+
+                    <StackPanel Margin="8">
+                        <TextBlock Foreground="White" FontSize="22" Text="Saldo Caixa Loja" />
+                        <TextBlock Foreground="White" FontSize="12" Text="{Binding DataSaldo, StringFormat=d}" />
+                        <TextBlock Margin="0,10" Foreground="White" FontWeight="Bold" TextAlignment="Center"
+                                   FontSize="27" Text="{Binding SaldoCaixaLoja, StringFormat=C2}" />
+                    </StackPanel>
+
+                </Border>
+
+                <DockPanel DockPanel.Dock="Top" Margin="0,10,0,0">
+                    <TextBlock
+                        DockPanel.Dock="Top"
+                        Foreground="{DynamicResource AccentColorBrush}"
+                        TextAlignment="Center" FontSize="14" FontWeight="Bold"
+                        Text="Operações nos últimos 60 dias" />
+
+                    <ListBox
+                        DockPanel.Dock="Top"
+                        Name="LbExtratoContaCaixa"
+                        HorizontalContentAlignment="Stretch"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                        ItemsSource="{Binding EventosCaixaLoja}">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Padding="5" Margin="0,1"
+                                    BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}">
+
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Usuario.Login, StringFormat='Usuário: {0}'}" FontSize="11" />
+                                        <TextBlock Text="{Binding DataCriacao, StringFormat='Data criação: {0}'}" FontSize="11" />
+                                        <TextBlock Text="{Binding DataOperacao, StringFormat='Data operação: {0}'}" FontSize="11" />
+
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding Historico}" FontSize="11" />
+
+                                        <TextBlock 
+                                            FontWeight="Bold" TextAlignment="Right" FontSize="12" 
+                                            Foreground="{DynamicResource GrayBrush1}"
+                                            Text="{Binding TotalOperacao, StringFormat=N2}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+
+            </DockPanel>
+        </Grid>
+
+        <DockPanel Grid.Column="1" Margin="3">
+            <Border x:Name="PainelFiltro" DockPanel.Dock="Top" Background="{DynamicResource GrayBrush9}" Padding="5">
+                <StackPanel>
+                    <Grid HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+
+                            <StackPanel Width="150" Margin="5,0,0,0">
+                                <TextBlock Text="Estado do caixa" />
+                                <fuc:ComboBoxEditavel
+                                    SelectedItem="{Binding EstadoCaixaFiltro}"
+                                    ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type cc:EEstadoCaixa}}}" />
+                            </StackPanel>
+
+                            <StackPanel Width="250" Margin="5,0,0,0">
+                                <TextBlock Text="Operador do caixa" />
+                                <fuc:ComboBoxEditavel
+                                    SelectedItem="{Binding OperadorFiltro}"
+                                    ItemsSource="{Binding Operadores}" />
+                            </StackPanel>
+
+                            <StackPanel Width="150" Margin="0,0,0,0">
+                              <Button
+                                    x:Name="BotaoFiltro"
+                                    Margin="5,16,0,0" HorizontalAlignment="Left" Width="130" Height="27"
+                                    Style="{DynamicResource FusionCleanButton}"
+                                    Click="AplicarBuscaClickHandler">
+    
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:ImageAwesome Icon="Filter" Width="12" Margin="2,2,0,0" />
+                                        <TextBlock Text="Aplicar a busca" Margin="2,-2,0,0" FontSize="14" TextAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <StackPanel DockPanel.Dock="Top">
+                <WrapPanel VerticalAlignment="Center" Orientation="Horizontal">
+
+                    <Button
+                        Click="AbrirCaixaClickHandler"
+                        Style="{DynamicResource FusionSuccessButton}"
+                        Margin="2">
+
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome
+                                Icon="FolderOpen" Width="13" Height="13"
+                                Foreground="{DynamicResource WhiteBrush}" />
+
+                            <TextBlock Text="Abrir caixa individual" Margin="5,0,0,0" />
+                        </StackPanel>
+                    </Button>
+
+                    <StackPanel DockPanel.Dock="Top" Margin="2">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Width="Auto">
+                            <Button Click="NovoLancamentoClickHandler" Style="{DynamicResource FusionAccentedButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome Icon="Plus" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                                    <TextBlock Text="Lançamento avulso" Margin="5,0,0,0" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Button
+                        Click="ImprimirCaixasFechadosClickHandler"
+                        Style="{DynamicResource FusionAccentedButton}" Margin="2">
+
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome
+                                Icon="Print" Width="13" Height="13"
+                                Foreground="{DynamicResource WhiteBrush}" />
+                            <TextBlock Text="Imprimir caixas fechados" Margin="5,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </WrapPanel>
+            </StackPanel>
+
+            <DataGrid
+                Margin="0,10,0,0"
+                IsReadOnly="True" AutoGenerateColumns="False"
+                ItemsSource="{Binding Items}"
+                SelectedItem="{Binding ItemSelecionado}"
+                DockPanel.Dock="Top">
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                        <EventSetter Event="MouseDoubleClick" Handler="RowDoubleClickHandler" />
+                    </Style>
+                </DataGrid.RowStyle>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="175" hps:DataGridColumnHelper.Align="Center"
+                        Header="Estado do caixa" Binding="{Binding Estado}" />
+                    <DataGridTextColumn
+                        Width="155" hps:DataGridColumnHelper.Align="Center"
+                        Header="Data Abertura" Binding="{Binding DataAbertura}" />
+                    <DataGridTextColumn
+                        Width="155" hps:DataGridColumnHelper.Align="Center"
+                        Header="Data Fechamento" Binding="{Binding DataFechamento}" />
+                    <DataGridTextColumn
+                        Width="Auto" hps:DataGridColumnHelper.Align="Right"
+                        Header="Saldo Inicial" Binding="{Binding SaldoInicial, StringFormat=N2}" />
+                    <DataGridTextColumn
+                        Width="Auto" hps:DataGridColumnHelper.Align="Right"
+                        Header="Saldo Calculado" Binding="{Binding SaldoCalculado, StringFormat=N2}" />
+                    <DataGridTextColumn
+                        Width="Auto" hps:DataGridColumnHelper.Align="Right"
+                        Header="Saldo Informado" Binding="{Binding SaldoInformado, StringFormat=N2}" />
+                    <DataGridTextColumn
+                        Width="220"
+                        Header="Operador" Binding="{Binding NomeOperador}" />
+                    <DataGridTextColumn
+                        Width="130"
+                        Header="Local evento" Binding="{Binding LocalEventoTexto}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Grid>
+</UserControl>

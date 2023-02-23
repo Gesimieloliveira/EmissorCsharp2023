@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Financeiro"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Malote" table="malote">
+    <id name="Id" generator="identity" unsaved-value="0">
+      <column name="id" not-null="true" />
+    </id>
+
+    <many-to-one name="Usuario" cascade="none">
+      <column name="usuario_id" sql-type="int" not-null="true" />
+    </many-to-one>
+
+    <property name="CadastradoEm">
+      <column name="cadastradoEm" sql-type="datetime" not-null="true" />
+    </property>
+
+    <property name="Origem">
+      <column name="origem" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="Entrada">
+      <column name="entrada" not-null="true" />
+    </property>
+
+    <property name="OrigemTexto">
+      <column name="origemTexto" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="OrigemUuid">
+      <column name="origemUuid" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Emissores"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+
+  <class name="EmissorFiscalMDFE" table="emissor_fiscal_mdfe">
+
+    <id name="EmissorFiscalId" column="emissorFiscal_id">
+      <generator class="foreign">
+        <param name="property">EmissorFiscal</param>
+      </generator>
+    </id>
+
+    <property name="Ambiente">
+      <column name="ambiente" sql-type="tinyint" not-null="true" />
+    </property>
+    <property name="ArquivoLogo">
+      <column name="arquivoLogo" sql-type="image" not-null="false" length="2147483647" />
+    </property>
+    <property name="Modelo">
+      <column name="modelo" sql-type="smallint" not-null="true" />
+    </property>
+    <property name="Serie">
+      <column name="serie" sql-type="smallint" not-null="true" />
+    </property>
+    <property name="NumeroAtual">
+      <column name="numeroAtual" sql-type="int" not-null="true" />
+    </property>
+
+    <one-to-one name="EmissorFiscal" constrained="true" lazy="proxy" />
+  </class>
+
+</hibernate-mapping>

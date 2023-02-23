@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="FusionWPF.ConfiguracoesAcbr.ConfigAcbrEndereco"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FusionWPF.ConfiguracoesAcbr"
+             mc:Ignorable="d" 
+             Background="White"
+             d:DesignWidth="300">
+    <StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="8*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock>IP</TextBlock>
+            <TextBox Margin="0,0,0,5" 
+                Text="{Binding Ip}" MaxLength="20" Grid.Row="0" Grid.Column="1"></TextBox>
+
+            <TextBlock Grid.Row="1" Grid.Column="0">Porta</TextBlock>
+            <TextBox Text="{Binding Porta}" MaxLength="8" Grid.Row="1" Grid.Column="1"></TextBox>
+        </Grid>    
+    </StackPanel>
+</UserControl>

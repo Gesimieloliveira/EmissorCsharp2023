@@ -1,0 +1,87 @@
+﻿<UserControl
+    x:Class="Fusion.Visao.Produto.Historico.HistoricoCompraControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:historico="clr-namespace:Fusion.Visao.Produto.Historico"
+    xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+    mc:Ignorable="d" d:DesignWidth="800"
+    Background="{DynamicResource WhiteBrush}"
+    d:DataContext="{d:DesignInstance historico:HistoricoCompraModel}">
+
+    <DockPanel Margin="5">
+        <StackPanel>
+            <Border BorderThickness="0,0,0,2" BorderBrush="{DynamicResource AccentColorBrush}">
+                <StackPanel>
+                    <TextBlock
+                        Text="{Binding Produto.Nome}"
+                        FontSize="18" FontWeight="Bold"
+                        Foreground="{DynamicResource AccentColorBrush}" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <TextBlock FontSize="15" FontWeight="Bold" Foreground="{DynamicResource AccentColorBrush}">
+                            <Run Text="Unidade: " />
+                            <Run Text="{Binding Produto.ProdutoUnidadeDTO.Sigla}" />
+                        </TextBlock>
+
+                        <TextBlock Margin="10,0,0,0" FontSize="15" FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentColorBrush}">
+                            <Run Text="P. Compra: " />
+                            <Run Text="{Binding Produto.PrecoCompra, StringFormat=N4}" />
+                        </TextBlock>
+
+                        <TextBlock Margin="10,0,0,0" FontSize="15" FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentColorBrush}">
+                            <Run Text="P. Custo: " />
+                            <Run Text="{Binding Produto.PrecoCusto, StringFormat=N4}" />
+                        </TextBlock>
+
+                        <TextBlock Margin="10,0,0,0" FontSize="15" FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentColorBrush}">
+                            <Run Text="M. Lucro:" />
+                            <Run Text="{Binding Produto.MargemLucro, StringFormat=N4}" />
+                        </TextBlock>
+
+                        <TextBlock Margin="10,0,0,0" FontSize="15" FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentColorBrush}">
+                            <Run Text="P. Venda:" />
+                            <Run Text="{Binding Produto.PrecoVenda, StringFormat=N4}" />
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <StackPanel>
+                <TextBlock
+                    Background="{DynamicResource AccentColorBrush4}"
+                    FontWeight="Bold"
+                    Text="Compras realizadas"
+                    TextAlignment="Center" Margin="0,5,0,0" />
+
+                <DataGrid
+                    HorizontalScrollBarVisibility="Auto"
+                    Height="470"
+                    ItemsSource="{Binding Historicos}"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Fornecedor" Binding="{Binding Fornecedor}" Width="220" />
+                        <DataGridTextColumn Header="Data Emissão" Binding="{Binding DataEmissao, StringFormat=d}" Width="95" />
+                        <DataGridTextColumn Header="Número" Binding="{Binding NumeroDocumento, StringFormat='D8'}" Width="70"/>
+                        <DataGridTextColumn Header="Un. compra" Binding="{Binding UnidadeCompra}" Width="85" />
+                        <DataGridTextColumn helpers:DataGridColumnHelper.Align="Left" Header="Qtde" Binding="{Binding Quantidade, StringFormat=N4}" Width="70" />
+                        <DataGridTextColumn helpers:DataGridColumnHelper.Align="Left" Header="V. Unitário" Binding="{Binding ValorUnitario, StringFormat=N4}" Width="90" />
+                        <DataGridTextColumn helpers:DataGridColumnHelper.Align="Left" Header="Desconto" Binding="{Binding DescontoTotal, StringFormat=N4}" Width="90" />
+                        <DataGridTextColumn helpers:DataGridColumnHelper.Align="Left" Header="V. Total" Binding="{Binding ValorTotal, StringFormat=N4}" Width="90" />
+                        <DataGridTextColumn helpers:DataGridColumnHelper.Align="Left" Header="T. Custo" Binding="{Binding ValorTotalCusto, StringFormat=N4}" Width="90" />
+                        <DataGridTextColumn helpers:DataGridColumnHelper.Align="Left" Header="F. Conversão" Binding="{Binding FatorConversao, StringFormat=N4}" Width="120" />
+                        <DataGridTextColumn helpers:DataGridColumnHelper.Align="Left" Header="Qtde Conversão" Binding="{Binding QuantidadeConversao, StringFormat=N4}" Width="130" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+
+</UserControl>

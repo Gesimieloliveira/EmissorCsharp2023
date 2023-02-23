@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Adm"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PerfilCfopDTO" table="perfil_cfop">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="Cfop">
+      <column name="cfop_id" sql-type="varchar" not-null="true" unique="true" length="4" />
+    </many-to-one>
+
+    <property name="Sufixo">
+      <column name="sufixo" sql-type="tinyint" not-null="true" unique="true" />
+    </property>
+
+    <property name="Codigo">
+      <column name="codigo" sql-type="varchar" not-null="true" unique="true" length="6" />
+    </property>
+
+    <property name="Ativo">
+      <column name="ativo" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" not-null="true" length="255" />
+    </property>
+  </class>
+</hibernate-mapping>

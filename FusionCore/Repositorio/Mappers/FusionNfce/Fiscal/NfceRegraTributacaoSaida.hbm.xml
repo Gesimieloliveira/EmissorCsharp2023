@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal.Regras"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceRegraTributacaoSaida" table="regra_tributacao_saida">
+    <id name="Id">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="Descricao">
+      <column name="descricao" not-null="true" sql-type="varchar" length="255" />
+    </property>
+
+    <property name="SituacaoTributariaIcms">
+      <column name="situacaoTributariaIcms" not-null="true" sql-type="varchar" length="2" />
+    </property>
+
+    <property name="SituacaoTributariaCsosn">
+      <column name="situacaoTributariaCsosn" not-null="true" sql-type="varchar" length="3" />
+    </property>
+
+    <many-to-one name="Cfop">
+      <column name="nfceCfop_id" not-null="true" sql-type="varchar" length="4" />
+    </many-to-one>
+  </class>
+</hibernate-mapping>

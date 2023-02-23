@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal.Tributacoes"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceImpostoCsosnAdm" table="nfce_item_icms">
+
+    <id name="Id" column="nfceItem_id">
+      <generator class="foreign">
+        <param name="property">Item</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Item" class="FusionCore.FusionAdm.Nfce.NfceItemAdm" constrained="true" />
+
+    <many-to-one name="CST" cascade="none" class="FusionCore.Tributacoes.Estadual.TributacaoCst">
+      <column name="csosn" not-null="true" />
+    </many-to-one>
+    
+    <property name="OrigemMercadoria">
+      <column name="origemMercadoria" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="AliquotaIcms">
+      <column name="aliquotaIcms" not-null="true" />
+    </property>
+
+    <property name="ReducaoBcIcms">
+      <column name="reducaoBcIcms" not-null="true" />
+    </property>
+
+    <property name="BcIcms">
+      <column name="valorBcIcms" not-null="true" />
+    </property>
+
+    <property name="ValorIcms">
+      <column name="valorIcms" not-null="true" />
+    </property>
+
+  </class>
+</hibernate-mapping>

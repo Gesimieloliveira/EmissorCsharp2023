@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionPdv.Financeiro"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ConfiguracaoFinanceiroPdv" table="configuracao_financeiro">
+    <id name="Id" generator="assigned" unsaved-value="0"/>
+
+    <property name="ImprimirComprovanteCrediario" not-null="true">
+      <column name="imprimirComprovanteCrediario"></column>
+    </property>
+    
+  </class>
+</hibernate-mapping>

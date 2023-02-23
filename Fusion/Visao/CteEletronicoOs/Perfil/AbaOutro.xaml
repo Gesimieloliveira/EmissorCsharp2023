@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="Fusion.Visao.CteEletronicoOs.Perfil.AbaOutro"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Fusion.Visao.CteEletronicoOs.Perfil"
+             mc:Ignorable="d"
+             Background="{StaticResource WhiteBrush}"
+             d:DesignWidth="500">
+    <Grid>
+        <StackPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <GroupBox DockPanel.Dock="Top" Header="Local de início da prestação">
+                    <StackPanel Margin="0,0,5,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Estado (UF)" />
+                                <ComboBox ItemsSource="{Binding InicioEstados}"
+                                                IsEditable="True"
+                                                SelectedItem="{Binding InicioEstado, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                                SelectedValuePath="Sigla"
+                                                SelectedValue="{Binding InicioEstado.Sigla}"
+                                                DisplayMemberPath="Sigla" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                <TextBlock Text="Cidade" />
+                                <ComboBox ItemsSource="{Binding InicioCidades}"
+                                                IsEditable="True"
+                                                SelectedItem="{Binding InicioCidade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                                SelectedValuePath="Id"
+                                                SelectedValue="{Binding InicioCidade.Id}"
+                                                DisplayMemberPath="Nome" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Grid.Column="1" DockPanel.Dock="Top" Header="Local final da prestação">
+                    <StackPanel Margin="0,0,5,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Estado (UF)" />
+                                <ComboBox ItemsSource="{Binding FinalEstados}"
+                                                SelectedItem="{Binding FinalEstado, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                                SelectedValuePath="Sigla"
+                                                SelectedValue="{Binding FinalEstado.Sigla}"
+                                                DisplayMemberPath="Sigla"
+                                                IsEditable="True" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                <TextBlock Text="Cidade" />
+                                <ComboBox ItemsSource="{Binding FinalCidades}"
+                                                SelectedItem="{Binding FinalCidade, Mode=TwoWay}"
+                                                SelectedValuePath="Id"
+                                                SelectedValue="{Binding FinalCidade.Id}"
+                                                DisplayMemberPath="Nome"
+                                                IsEditable="True" />
+                            </StackPanel>
+
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+            
+            <StackPanel>
+                <TextBlock>Taf (Termo de Autorização de Fretamento)</TextBlock>
+                <TextBox MaxLength="12" Text="{Binding Taf}"></TextBox>
+            </StackPanel>
+
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock>Número do Registro Estadual</TextBlock>
+                <TextBox MaxLength="25" Text="{Binding NumeroRegistroEstadual}"></TextBox>
+            </StackPanel>
+
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock>Descrição Serviço Prestado</TextBlock>
+                <TextBox MaxLength="30" Text="{Binding DescricaoServico}"></TextBox>
+            </StackPanel>
+
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock>Quantidade de Passageiros/Volumes</TextBlock>
+                <TextBox MaxLength="25" Text="{Binding QuantidadePassageirosVolumes, StringFormat=N4, UpdateSourceTrigger=LostFocus}"></TextBox>
+            </StackPanel>
+
+        </StackPanel>   
+    </Grid>
+</UserControl>

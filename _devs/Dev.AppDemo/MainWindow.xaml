@@ -1,0 +1,64 @@
+﻿<fcs:FusionWindow x:Class="Dev.AppDemo.MainWindow"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:fcs="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                        mc:Ignorable="d"
+                        Title="Main - Window Demo"
+                        Width="750" Height="450">
+
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Top">
+            <fcs:TituloDivisor Text="Botões" BorderBrush="Blue"/>
+            
+            <StackPanel Orientation="Horizontal">
+                <fcs:BotaoIcone Icon="AddressBookOutline" Width="40" Height="40" />
+                <fcs:BotaoIcone Margin="5,0,0,0" Icon="Send" Width="40" Height="40" />
+
+                <Button 
+                    Click="OnAtivarProgressClick"
+                    Content="Ativar Progress Ring" 
+                    Margin="5,0,0,0" 
+                    Style="{DynamicResource FusionAccentedButton}"/>
+
+                <Button 
+                    Click="OnAtivarProgressBarClick"
+                    Content="Ativar Progress Bar" 
+                    Margin="5,0,0,0" 
+                    Style="{DynamicResource FusionAccentedButton}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0">
+            <fcs:TituloDivisor Text="Janelas" BorderBrush="Coral"/>
+
+            <StackPanel Orientation="Horizontal">
+                <Button 
+                    Content="Fusion Child Window"
+                    Style="{DynamicResource FusionAccentedButton}"
+                    Click="FusionChildWindowClick"/>
+
+                <Button 
+                    Margin="5,0,0,0"
+                    Content="Fusion Window"
+                    Style="{DynamicResource FusionAccentedButton2}" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0">
+            <fcs:TituloDivisor Text="Textbox examples" BorderBrush="Red"/>
+
+            <StackPanel>
+                <TextBlock Text="SearchTextBox readonly" />
+                <fcs:SearchTextBox  IsReadOnly="False" />
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="SearchTextBox sem readonly e com botão clear quando tem texto" />
+                <fcs:SearchTextBox Text="Com texto" ButtonClearEnabledWhenHasText="True" />
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+
+</fcs:FusionWindow>

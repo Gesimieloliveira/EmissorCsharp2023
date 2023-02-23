@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteSubstituicao" table="cte_substituicao">
+
+    <id name="CteId" column="cte_id">
+      <generator class="foreign">
+        <param name="property">Cte</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Cte" class="Cte" constrained="true" cascade="none" />
+
+    <property name="ChaveSubstituido" not-null="true" column="chaveSubstituido" />
+
+    <property name="ChaveAnulacao" not-null="true" column="chaveAnulacao" />
+
+    <property name="ChaveNfePeloTomador" not-null="true" column="chaveNfePeloTomador" />
+
+    <property name="ChaveCtePeloTomador" not-null="true" column="chaveCtePeloTomador" />
+
+    <property name="DocumentoUnico" not-null="true" column="documentoUnico" />
+
+    <property name="ModeloDocumento" not-null="true" column="modeloDocumento" />
+
+    <property name="Serie" not-null="true" column="serie" />
+
+    <property name="Subserie" not-null="true" column="subserie" />
+
+    <property name="NumeroDocumentoFiscal" not-null="true" column="numeroDocumentoFiscal" />
+
+    <property name="Valor" not-null="true" column="valor" />
+
+    <property name="EmitidoEm" not-null="true" column="emitidoEm" />
+
+  </class>
+</hibernate-mapping>

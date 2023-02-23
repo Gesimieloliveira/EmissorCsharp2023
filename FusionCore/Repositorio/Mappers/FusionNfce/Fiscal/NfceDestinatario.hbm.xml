@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceDestinatario" table="nfce_destinatario">
+    <id name="NfceId" column="nfce_id">
+      <generator class="foreign">
+        <param name="property">Nfce</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfce" class="Nfce" constrained="true" cascade="none" />
+    
+    <many-to-one name="Cliente">
+      <column name="pessoa_id" sql-type="int" />
+    </many-to-one>
+
+    <property name="Nome">
+      <column name="nome" not-null="true"></column>
+    </property>
+
+    <property name="DocumentoUnico">
+      <column name="documentoUnico" not-null="true"></column>
+    </property>
+
+    <property name="Email">
+      <column name="email" not-null="true"></column>
+    </property>
+    
+    <property name="Logradouro" column="logradouro" not-null="true" />
+    
+    <property name="Numero" column="numero" not-null="true" />
+    
+    <property name="Bairro" column="bairro" not-null="true" />
+    
+    <property name="Cep" column="cep" not-null="true" />
+    
+    <property name="Complemento" column="complemento" not-null="true" />
+
+    <property name="InscricaoEstadual">
+      <column name="inscricaoEstadual" not-null="true" />
+    </property>
+
+    <many-to-one name="Cidade" not-null="false" cascade="none" class="FusionCore.FusionNfce.Cidade.CidadeNfce"
+                 column="cidade_id"/>
+  </class>
+</hibernate-mapping>

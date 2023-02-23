@@ -1,0 +1,112 @@
+﻿<controls:MetroWindow x:Class="FusionPdv.Visao.ConexaoBancoDados.TelaConexaoPdv"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      Title="Configurar Conexões do Pdv" Height="300" Width="650"
+                      WindowStartupLocation="CenterScreen"
+                      Background="GhostWhite" Style="{DynamicResource MetroWindowDialogStyle}"
+                      Loaded="LoadedHandler">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <GroupBox Grid.Column="0" Header="Conexao Servidor">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                            <TextBlock Text="Host" />
+                            <TextBox Text="{Binding Adm.Host}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="0">
+                            <TextBlock Text="Instancia" />
+                            <TextBox Text="{Binding Adm.Instancia}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                            <TextBlock Text="Banco Dados" />
+                            <TextBox Text="{Binding Adm.BancoDados}" CharacterCasing="Normal" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                            <TextBlock Text="Usuario" />
+                            <TextBox Text="{Binding Adm.Usuario}" CharacterCasing="Normal" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                            <TextBlock Text="Senha" />
+                            <TextBox Text="{Binding Adm.Senha}" CharacterCasing="Normal" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+            
+            <GroupBox Grid.Column="1" Header="Conexao Local (PDV)">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                            <TextBlock Text="Host" />
+                            <TextBox IsEnabled="False" Text="{Binding Pdv.Host}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="0">
+                            <TextBlock Text="Instancia" />
+                            <TextBox Text="{Binding Pdv.Instancia}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                            <TextBlock Text="Banco Dados" />
+                            <TextBox Text="{Binding Pdv.BancoDados}" CharacterCasing="Normal" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                            <TextBlock Text="Usuario" />
+                            <TextBox Text="{Binding Pdv.Usuario}" CharacterCasing="Normal" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                            <TextBlock Text="Senha" />
+                            <TextBox Text="{Binding Pdv.Senha}" CharacterCasing="Normal" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Orientation="Horizontal">
+            <Button Style="{DynamicResource FusionAccentedButton}" Margin="0,0,5,0" Click="SalvarConfiguracoesHandler">
+                Salvar Configurações
+            </Button>
+
+            <Button Style="{DynamicResource FusionCleanButton}" Margin="0,0,5,0" Click="FecharHandler">
+                Fechar
+            </Button>
+        </StackPanel>
+    </DockPanel>
+</controls:MetroWindow>

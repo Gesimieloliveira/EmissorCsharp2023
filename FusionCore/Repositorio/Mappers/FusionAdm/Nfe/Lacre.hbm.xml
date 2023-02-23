@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="LacreNfe" table="nfe_volume_lacre">
+    <id name="Id" column="id" generator="identity" />
+
+    <many-to-one name="Volume" class="VolumeNfe" not-null="true"></many-to-one>
+
+    <property name="Numero" not-null="true">
+      <column name="numero"></column>
+    </property>
+
+  </class>
+</hibernate-mapping>

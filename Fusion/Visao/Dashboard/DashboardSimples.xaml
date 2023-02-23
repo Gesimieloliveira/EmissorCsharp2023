@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Fusion.Visao.Dashboard.DashboardSimples"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dashboard="clr-namespace:Fusion.Visao.Dashboard"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance dashboard:DashboardSimplesModel, d:IsDesignTimeCreatable=False}"
+             Background="White" Loaded="LoadedHandler"
+             Language="pt-BR">
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        <DockPanel>
+            <dashboard:TotalizadoresControl 
+                DockPanel.Dock="Top"
+                DataContext="{Binding TotalizadoresContexto}" />
+
+            <DockPanel DockPanel.Dock="Top">
+                <dashboard:AniversariantesControl 
+                    DockPanel.Dock="Left" MinWidth="420"
+                    Padding="5" DataContext="{Binding AniversarianteContexto}" />
+
+                <dashboard:DashContasPagarControl 
+                    DockPanel.Dock="Left" MinWidth="450"
+                    Padding="5" DataContext="{Binding DashContasPagarContexto}" />
+            </DockPanel>
+        </DockPanel>
+    </ScrollViewer>
+</UserControl>

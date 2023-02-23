@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="Fusion.Visao.PerfilNfe.Aba.AbaGeral"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:flags="clr-namespace:FusionCore.FusionAdm.Fiscal.Flags;assembly=FusionCore"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:flags1="clr-namespace:FusionCore.Core.Flags;assembly=FusionCore"
+             xmlns:perfilNfe="clr-namespace:Fusion.Visao.PerfilNfe"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             Background="{StaticResource WhiteBrush}"
+             mc:Ignorable="d" d:DesignWidth="500"
+             d:DataContext="{d:DesignInstance perfilNfe:PerfilNfeFormModel, d:IsDesignTimeCreatable=True}">
+
+    <AdornerDecorator>
+        <DockPanel>
+            <GroupBox DockPanel.Dock="Top" Header="Descrição do perfil">
+                <StackPanel>
+                    <TextBox
+                        Text="{Binding Descricao, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                        MaxLength="255" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Margin="0,5,0,0" DockPanel.Dock="Top" Header="Modelo para preenchimento inicial">
+                <StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Emissor Fiscal" />
+                        <ComboBox
+                            ItemsSource="{Binding Path=ListaEmissorFiscal}"
+                            DisplayMemberPath="Descricao"
+                            SelectedItem="{Binding EmissorSelecionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                            SelectedValuePath="Id"
+                            SelectedValue="{Binding EmissorSelecionado.Id}" />
+
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0">
+                        <TextBlock Text="Natureza da Operação" />
+                        <TextBox
+                            Text="{Binding NaturezaOperacao, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                            MaxLength="60" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0">
+                        <TextBlock
+                            Text="CFOP de sobreposição (utilize se desejar substituir o CFOP definido no produto)" />
+                        <ComboBox
+                            ItemsSource="{Binding ListaCfops}"
+                            SelectedItem="{Binding PerfilCfop}" />
+                    </StackPanel>
+
+                    <Border Margin="0,5,0,0" BorderThickness=".5" BorderBrush="{DynamicResource GrayBrush4}">
+                        <StackPanel Margin="3">
+                            <TextBlock
+                                Text="Movimentar estoque de produto" />
+
+                            <mah:ToggleSwitch 
+                                ContentDirection="LeftToRight" HorizontalAlignment="Right" 
+                                OnContent="sim" OffContent="Não" 
+                                IsOn="{Binding MovimentarEstoqueProduto}" />
+
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="0,5,0,0" BorderThickness=".5" BorderBrush="{DynamicResource GrayBrush4}">
+                        <StackPanel Margin="3">
+                            <TextBlock
+                                Text="Partilha ICMS - Auto ativar quando destinatario for fora do estado" />
+
+                            <mah:ToggleSwitch 
+                                ContentDirection="LeftToRight" HorizontalAlignment="Right" 
+                                OnContent="sim" OffContent="Não" 
+                                IsOn="{Binding AutoAtivarPartilhaIcms}" />
+
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="0,5,0,0" BorderThickness=".5" BorderBrush="{DynamicResource GrayBrush4}">
+                        <StackPanel Margin="3">
+                            <TextBlock
+                                Text="Usar IPI Devolução em Tag Própria"/>
+
+                            <mah:ToggleSwitch 
+                                ContentDirection="LeftToRight" HorizontalAlignment="Right" 
+                                OnContent="sim" OffContent="Não" 
+                                IsOn="{Binding UsarIpiTagPropria}" />
+
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Width="110">
+                            <TextBlock Text="Tipo Operacao" />
+                            <ComboBox IsEditable="False"
+                                      ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags1:TipoOperacao}}}"
+                                      SelectedItem="{Binding TipoOperacao}" />
+                        </StackPanel>
+
+                        <StackPanel Margin="5,0,0,0">
+                            <TextBlock Text="Finalidade Emissão" />
+                            <ComboBox IsEditable="False"
+                                      ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags:FinalidadeEmissao}}}"
+                                      SelectedItem="{Binding FinalidadeEmissao}" Width="150" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Observação" />
+                        <TextBox
+                            Text="{Binding Observacao, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                            MaxLength="5000"
+                            TextWrapping="Wrap"
+                            AcceptsReturn="True"
+                            Height="125" />
+                    </StackPanel>
+
+                </StackPanel>
+            </GroupBox>
+        </DockPanel>
+    </AdornerDecorator>
+</UserControl>

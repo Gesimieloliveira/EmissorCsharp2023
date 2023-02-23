@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MDFeMunicipioCarregamento" table="mdfe_info_municipio_carregamento">
+    <id name="Id" column="id" generator="identity"/>
+
+    <many-to-one class="MDFeEletronico" name="MDFeEletronico" not-null="true" cascade="none">
+      <column name="mdfe_id"/>
+    </many-to-one>
+
+    <many-to-one class="FusionCore.Repositorio.Legacy.Entidades.Adm.CidadeDTO" name="Cidade" not-null="true" cascade="none">
+      <column name="cidade_id"/>
+    </many-to-one>
+  </class>
+
+  
+</hibernate-mapping>

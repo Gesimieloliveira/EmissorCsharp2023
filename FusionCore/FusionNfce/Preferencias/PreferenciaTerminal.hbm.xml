@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Preferencias"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PreferenciaTerminal" table="preferencia_terminal">
+    <id name="Id">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="SolicitaInformacaoItem">
+      <column name="solicitaInformacaoItem" not-null="true" />
+    </property>
+
+    <property name="VisualizaAntesDeImprimir">
+      <column name="visualizaAntesDeImprimir" not-null="true" />
+    </property>
+
+    <property name="NomeImpressora">
+      <column name="nomeImpressora" not-null="true" />
+    </property>
+
+    <property name="SolicitaDadosCartaoPos">
+      <column name="solicitaDadosCartaoPos" not-null="true" />
+    </property>
+
+    <property name="LimiteBuscaGirdProduto">
+      <column name="limiteBuscaGirdProduto" not-null="true" />
+    </property>
+
+    <property name="SalvarUltimaBuscaProduto">
+      <column name="salvarUltimaBuscaProduto" not-null="true" />
+    </property>
+
+    <property name="OpcaoAdicionarVendedor">
+      <column name="opcaoAdicionarVendedor" not-null="true" />
+    </property>
+
+    <property name="NomeFantasiaCustomizado">
+      <column name="nomeFantasiaCustomizado" not-null="true" />
+    </property>
+
+    <property name="NaoImprimir">
+      <column name="naoImprimir" not-null="true" />
+    </property>
+
+    <property name="LayoutImpressao">
+      <column name="layoutImpressao" not-null="true" />
+    </property>
+
+    <property name="TabelaPrecoPadrao">
+      <column name="tabelaPrecoPadrao_id" not-null="false"  />
+    </property>
+
+    <property name="ConfirmacaoTabelaPadraoAntesVenda">
+      <column name="confirmacaoTabelaPadraoAntesVenda" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

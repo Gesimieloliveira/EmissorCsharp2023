@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MDFeEmissaoHistorico" table="mdfe_emissao_historico">
+    <id name="Id" column="id" generator="identity"/>
+
+    <many-to-one name="MDFeEletronico" class="MDFeEletronico" not-null="true" cascade="none">
+      <column name="mdfe_id"/>
+    </many-to-one>
+
+    <property name="AmbienteSefaz" not-null="true" column="ambienteSefaz"></property>
+
+    <property name="TipoEmissao" not-null="true" column="tipoEmissao"></property>
+
+    <property name="Chave" not-null="true" column="chave"></property>
+
+    <property name="Finalizada" not-null="true" column="finalizada"></property>
+
+    <property name="XmlEnvio" not-null="true" column="xmlEnvio" length="2147483647"></property>
+
+    <property name="XmlRetorno" not-null="false" column="xmlRetorno" length="2147483647"></property>
+
+    <property name="CriadoEm" not-null="true" column="criadoEm"></property>
+
+    <property name="EnviadoEm" not-null="false" column="enviadoEm"></property>
+
+    <property name="NumeroRecibo" not-null="true" column="numeroRecibo"></property>
+
+    <property name="XmlLote" not-null="false" column="xmlLote" length="2147483647"></property>
+    
+  </class>
+  
+</hibernate-mapping>

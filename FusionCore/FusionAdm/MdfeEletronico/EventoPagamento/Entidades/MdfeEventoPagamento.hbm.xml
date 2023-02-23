@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico.EventoPagamento.Entidades"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MDFeEventoPagamento" table="mdfe_evento_pagamento">
+    
+    <id name="Id" column="id" >
+      <generator class="identity"/>
+    </id>
+
+    <property name="QuantidadeViagens" column="quantidadeViagens" not-null="true"></property>
+
+    <property name="NumeroReferenciaViagens" column="numeroReferenciaViagem" not-null="true"></property>
+
+    <property name="Autorizado" column="autorizado" not-null="true"/>
+
+    <property name="XmlRetorno" not-null="true">
+      <column name="xmlRetorno" sql-type="xml" length="2147483647" />
+    </property>
+
+    <many-to-one name="Mdfe" class="FusionCore.FusionAdm.MdfeEletronico.MDFeEletronico" not-null="true" cascade="none">
+      <column name="mdfe_id"/>
+    </many-to-one>
+
+    <bag name="InformacaoPagamentoLista" table="mdfe_informacao_pagamento" cascade="none" inverse="true" batch-size="50">
+      <key column="mdfeEventoPagamento_id" />
+      <one-to-many class="InformacaoPagamento" />
+    </bag>
+    
+  </class>
+</hibernate-mapping>

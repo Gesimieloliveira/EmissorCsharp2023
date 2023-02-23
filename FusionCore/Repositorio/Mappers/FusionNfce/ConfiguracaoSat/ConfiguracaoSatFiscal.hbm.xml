@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.ConfiguracaoSat"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ConfiguracaoSatFiscal" table="configuracao_sat_fiscal">
+    <id name="Id" unsaved-value="0"/>
+    
+    <property name="Ativo" not-null="true">
+      <column name="ativo"></column>
+    </property>
+
+    <property name="AssociadoAssinatura" not-null="true">
+      <column name="associadoAssinatura"></column>
+    </property>
+
+    <property name="CodigoAtivacao" not-null="true">
+      <column name="codigoAtivacao"></column>
+    </property>
+
+    <property name="CodigoAssociacao" not-null="true">
+      <column name="codigoAssociacao"></column>
+    </property>
+
+    <property name="FabricanteModelo" not-null="true">
+      <column name="fabricanteModelo"></column>
+    </property>
+
+    <property name="CodificacaoArquivoXml" not-null="true">
+      <column name="codificacaoArquivoXml"></column>
+    </property>
+    
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="10/27/2018 09:58:35" ReportInfo.CreatorVersion="2016.3.22.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      DateTime now = DateTime.Now;
+      
+      CPeriodoInicio.SelectionStart = new DateTime(now.Year, now.Month, 1);
+    }
+    
+    private void btnOk_Click(object sender, EventArgs e)
+    {
+      Report.SetParameterValue(&quot;PeriodoInicio&quot;, CPeriodoInicio.SelectionStart);
+      Report.SetParameterValue(&quot;PeriodoFinal&quot;, CPeriodoFinal.SelectionStart);
+    }
+  }
+}</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqq8kTaCagDxO6zlhwUlmn0ZkkJj7vmEtxC6ejYxyv8rmDcRDLYc4tP3Zj/ApLb4OTnw3rasiPVzveE3KSxwrKs/2jQ4RUVixn0wu4pL06w2+/80omUFeoqn2GEs8Q9LKNNXngl7y0XncoRthQ6/3BRsLfOqV6ZseWOawyhM7yFix+CQ77mrJ1v9ui0SL0y3fA4GX79URox1bCq9vY6cxzLg==">
+      <TableDataSource Name="Table" Alias="Compra" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	cp.id,&#13;&#10;	cp.cadastradoEm,&#13;&#10;	cp.emitidaEm,&#13;&#10;	cp.valorTotal as totalCompra,&#13;&#10;	cp.numeroDocumento,&#13;&#10;	cp.serie as serieDocumento,&#13;&#10;	i.id as item_id,&#13;&#10;	i.produto_id,&#13;&#10;	i.quantidade,&#13;&#10;	i.fatorConversao,&#13;&#10;	i.unidadeConversao,&#13;&#10;	i.quantidadeConversao,&#13;&#10;	i.valorUnitario,&#13;&#10;	i.valorTotal as totalItem,&#13;&#10;	uni.sigla as unidadeCompra,&#13;&#10;	pr.nome as produtoNome,&#13;&#10;	pfo.nome as fornecedorNome&#13;&#10;from nf_compra cp&#13;&#10;inner join nf_compra_item i on cp.id = i.nfCompra_id&#13;&#10;inner join produto pr on i.produto_id = pr.id&#13;&#10;inner join produto_unidade uni on uni.id = i.produtoUnidade_id&#13;&#10;inner join pessoa pfo on pfo.id = cp.fornecedor_id&#13;&#10;where convert(date, cp.cadastradoEm, 103) between convert(date, @pInicio, 103) and convert(date, @pFinal, 103)">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="cadastradoEm" DataType="System.DateTime"/>
+        <Column Name="emitidaEm" DataType="System.DateTime"/>
+        <Column Name="item_id" DataType="System.Int32"/>
+        <Column Name="produto_id" DataType="System.Int32"/>
+        <Column Name="quantidade" DataType="System.Decimal"/>
+        <Column Name="fatorConversao" DataType="System.Decimal"/>
+        <Column Name="unidadeConversao" DataType="System.String"/>
+        <Column Name="quantidadeConversao" DataType="System.Decimal"/>
+        <Column Name="valorUnitario" DataType="System.Decimal"/>
+        <Column Name="produtoNome" DataType="System.String"/>
+        <Column Name="fornecedorNome" DataType="System.String"/>
+        <Column Name="totalCompra" DataType="System.Decimal"/>
+        <Column Name="totalItem" DataType="System.Decimal"/>
+        <Column Name="unidadeCompra" DataType="System.String"/>
+        <Column Name="numeroDocumento" DataType="System.Int32"/>
+        <Column Name="serieDocumento" DataType="System.Int16"/>
+        <CommandParameter Name="pInicio" DataType="22" Expression="[PeriodoInicio].ToString(&quot;d&quot;);"/>
+        <CommandParameter Name="pFinal" DataType="22" Expression="[PeriodoFinal].ToString(&quot;d&quot;)"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Relation Name="produto_grupo_Table11" ParentDataSource="null" ChildDataSource="null" ParentColumns="id" ChildColumns="grupoId" Enabled="true"/>
+    <Relation Name="nf_compra_nf_compra_item" ParentDataSource="null" ChildDataSource="null" ParentColumns="id" ChildColumns="nfCompra_id" Enabled="true"/>
+    <Relation Name="nf_compra_nf_compra_item1" ParentDataSource="null" ChildDataSource="null" ParentColumns="id" ChildColumns="nfCompra_id" Enabled="true"/>
+    <Relation Name="nf_compra_nf_compra_item2" ParentDataSource="null" ChildDataSource="null" ParentColumns="id" ChildColumns="nfCompra_id" Enabled="true"/>
+    <Relation Name="Table_Table1" ParentDataSource="Table" ChildDataSource="null" ParentColumns="id" ChildColumns="compra_id" Enabled="true"/>
+    <Parameter Name="PeriodoInicio" DataType="System.DateTime"/>
+    <Parameter Name="PeriodoFinal" DataType="System.DateTime"/>
+  </Dictionary>
+  <ReportPage Name="Page1" RawPaperSize="9">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="68.04">
+      <TextObject Name="Text22" Left="275.94" Top="3.78" Width="442.26" Height="18.9" CanBreak="false" Text="Relatório de compras detalhando os itens" HorzAlign="Right" WordWrap="false" Font="Arial, 12pt, style=Bold"/>
+      <TextObject Name="Text23" Left="275.94" Top="43.47" Width="442.26" Height="15.12" CanBreak="false" Text="Impresso em: [Date]" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt, style=Italic"/>
+      <TextObject Name="Text18" Left="275.94" Top="24.57" Width="442.26" Height="18.9" CanBreak="false" Text="Perido do cadastro: [PeriodoInicio] à [PeriodoFinal]" HorzAlign="Right" WordWrap="false" Font="Arial, 12pt">
+        <Formats>
+          <DateFormat/>
+          <DateFormat/>
+        </Formats>
+      </TextObject>
+    </ReportTitleBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="70.21" Width="718.2" Height="49.14" Border.Lines="Top" KeepWithData="true" Condition="[Compra.id]">
+      <TextObject Name="Text1" Top="3.78" Width="548.1" Height="17.01" CanBreak="false" Text="Compra: [Compra.id] / [Compra.fornecedorNome] " WordWrap="false" Font="Arial, 9pt, style=Bold">
+        <Formats>
+          <CustomFormat Format="0000"/>
+          <GeneralFormat/>
+        </Formats>
+      </TextObject>
+      <TextObject Name="Text6" Top="21.57" Width="718.2" Height="13.23" Text="Cadastrada em: [Compra.cadastradoEm] - Emitida em: [Compra.emitidaEm] - Nr. Nota: [Compra.numeroDocumento] - Série Nota: [Compra.serieDocumento]" Font="Arial, 8pt, style=Italic">
+        <Formats>
+          <CustomFormat Format="dd/MM/yyyy HH:mm"/>
+          <CustomFormat Format="dd/MM/yyyy HH:mm"/>
+          <CustomFormat Format="00000"/>
+          <CustomFormat Format="000"/>
+        </Formats>
+      </TextObject>
+      <TextObject Name="Text7" Left="549.99" Top="3.78" Width="168.21" Height="17.01" Text="Total: [Compra.totalCompra]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt, style=Bold" Trimming="EllipsisCharacter"/>
+      <DataBand Name="Data1" Top="142.6" Width="718.2" Height="18.9" CanGrow="true" CanShrink="true" DataSource="Table">
+        <TextObject Name="Text2" Top="3.78" Width="64.26" Height="13.23" Text="[Compra.produto_id]" Format="Custom" Format.Format="00000" HorzAlign="Center" Font="Arial, 9pt"/>
+        <TextObject Name="Text4" Left="66.15" Top="3.78" Width="224.91" Height="13.23" CanBreak="false" Text="[Compra.produtoNome]" WordWrap="false" Font="Arial, 9pt"/>
+        <TextObject Name="Text8" Left="292.95" Top="3.78" Width="92.61" Height="13.23" Text="[Compra.quantidade] [Compra.unidadeCompra]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text10" Left="387.45" Top="3.78" Width="94.5" Height="13.23" Text="[Compra.fatorConversao] [Compra.unidadeConversao]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text16" Left="483.84" Top="3.78" Width="77.49" Height="13.23" Text="[Compra.quantidadeConversao]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text12" Left="563.22" Top="3.78" Width="77.49" Height="13.23" Text="[Compra.valorUnitario]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text14" Left="642.6" Top="3.78" Width="75.6" Height="13.23" Text="[Compra.totalItem]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <DataHeaderBand Name="DataHeader1" Top="121.53" Width="718.2" Height="18.9">
+          <TextObject Name="Text3" Width="64.26" Height="15.12" Text="Cod" HorzAlign="Center"/>
+          <TextObject Name="Text5" Left="66.15" Width="224.91" Height="15.12" Text="Nome do produto"/>
+          <TextObject Name="Text9" Left="292.95" Width="92.61" Height="15.12" Text="Qtde" HorzAlign="Right"/>
+          <TextObject Name="Text11" Left="387.45" Width="94.5" Height="15.12" Text="Fator" HorzAlign="Right"/>
+          <TextObject Name="Text17" Left="483.84" Width="77.49" Height="15.12" Text="Conversão" HorzAlign="Right"/>
+          <TextObject Name="Text13" Left="563.22" Width="77.49" Height="15.12" Text="P. Compra" HorzAlign="Right"/>
+          <TextObject Name="Text15" Left="642.6" Width="75.6" Height="15.12" Text="Total" HorzAlign="Right"/>
+        </DataHeaderBand>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="163.68" Width="718.2" Height="15.12"/>
+    </GroupHeaderBand>
+  </ReportPage>
+  <DialogPage Name="Form1" Width="732" Height="324" AcceptButton="btnOk" CancelButton="btnCancel" Text="Opções de filtro" LoadEvent="Form1_Load">
+    <GroupBoxControl Name="GroupBox1" Left="4" Top="4" Width="692" Height="220" Font="Tahoma, 8pt" TabIndex="3" Text="Escolha um periodo (data cadastro)">
+      <MonthCalendarControl Name="CPeriodoInicio" Left="116" Top="24" Height="176" Font="Tahoma, 8pt" TabIndex="2" Text="MonthCalendar" MaxSelectionCount="1" ShowToday="false" ShowTodayCircle="false"/>
+      <MonthCalendarControl Name="CPeriodoFinal" Left="376" Top="24" Height="176" Font="Tahoma, 8pt" TabIndex="4" Text="MonthCalendar" MaxSelectionCount="1" ShowToday="false" ShowTodayCircle="false"/>
+    </GroupBoxControl>
+    <ButtonControl Name="btnOk" Left="548" Top="246" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="631" Top="246" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="1" Text="Cancel" DialogResult="Cancel"/>
+  </DialogPage>
+</Report>

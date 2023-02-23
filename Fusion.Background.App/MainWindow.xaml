@@ -1,0 +1,49 @@
+﻿<mah:MetroWindow x:Class="Fusion.Background.App.MainWindow"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:local="clr-namespace:Fusion.Background.App"
+                       xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                       mc:Ignorable="d"
+                       ContentRendered="MainWindow_OnContentRendered"
+                       WindowStartupLocation="CenterScreen"
+                       ShowCloseButton="False"
+                       ShowMaxRestoreButton="False"
+                       Title="Serviços" Width="800"
+                       SizeToContent="Height"
+                       KeyDown="MainWindow_OnKeyDown"
+                       StateChanged="MainWindow_OnStateChanged"
+                       Closing="MainWindow_OnClosing">
+    <StackPanel Margin="24">
+        <TextBlock
+            FontWeight="Bold"
+            HorizontalAlignment="Center"
+            >Serviço de Autorização de NFC-e Faturamento OFFLINE</TextBlock>
+
+        <TextBlock
+            FontWeight="Bold"
+            HorizontalAlignment="Center"
+            >Serviço de Exportação de XMLs de NFC-e é NF-e</TextBlock>
+
+        <Button 
+            BorderThickness="0"
+            Margin="0,24,0,0"
+            Style="{StaticResource FusionSuccessButton}"
+            Click="ReinicarServicos_OnClick">
+            <TextBlock FontWeight="Bold">Reiniciar Serviços</TextBlock>
+        </Button>
+
+        <StackPanel Margin="0,2">
+            <Button 
+                BorderThickness="0"
+                Style="{StaticResource FusionDangerButton}"
+                HorizontalAlignment="Right"
+                Width="150" Click="EncerrarServicos_OnClick">
+                <TextBlock 
+                    FontWeight="Bold">Encerrar Serviços</TextBlock>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</mah:MetroWindow>

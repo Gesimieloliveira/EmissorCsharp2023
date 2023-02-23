@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="03/09/2018 16:55:20" ReportInfo.Modified="07/23/2018 14:48:27" ReportInfo.CreatorVersion="2016.3.22.0">
+  <Dictionary>
+    <BusinessObjectDataSource Name="dsAniversariantes" ReferenceName="dsAniversariantes" DataType="System.Collections.Generic.List`1[[Fusion.FastReport.DataSources.DsAniversariante, Fusion.FastReport, Version=6.4.0.9, Culture=neutral, PublicKeyToken=null]]" Enabled="true">
+      <Column Name="Id" DataType="System.Int32"/>
+      <Column Name="Nome" DataType="System.String"/>
+      <Column Name="DataNascimento" DataType="System.DateTime"/>
+      <Column Name="Idade" DataType="System.Int32"/>
+      <Column Name="PrimeiroTelefone" DataType="System.String"/>
+      <Column Name="TelefoneFormatdao" DataType="System.String"/>
+      <Column Name="AnoNascimento" DataType="System.Int32"/>
+    </BusinessObjectDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="66.15">
+      <TextObject Name="Text9" Left="377.55" Top="0.45" Width="340.2" Height="13.9" Text="Relatório de aniversariantes" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text14" Left="377.55" Top="17.9" Width="340.2" Height="15.9" Text="Relatório emitido em: [Date]" HorzAlign="Right"/>
+    </ReportTitleBand>
+    <ColumnHeaderBand Name="ColumnHeader1" Top="68.48" Width="718.2" Height="28.35">
+      <TextObject Name="Text2" Width="349.65" Height="18.9" Text="Nome do aniversariante" Font="Arial, 11pt, style=Bold"/>
+      <TextObject Name="Text4" Left="352.65" Width="113.4" Height="18.9" Text="Aniversário" HorzAlign="Center" Font="Arial, 11pt, style=Bold"/>
+      <TextObject Name="Text6" Left="536" Width="56.7" Height="18.9" Text="Idade" HorzAlign="Center" Font="Arial, 11pt, style=Bold"/>
+      <TextObject Name="Text8" Left="595.35" Width="122.85" Height="18.9" Text="Telefone" HorzAlign="Center" Font="Arial, 11pt, style=Bold"/>
+      <TextObject Name="Text11" Left="472.5" Width="56.7" Height="18.9" Text="Ano" Font="Arial, 11pt, style=Bold"/>
+    </ColumnHeaderBand>
+    <DataBand Name="Data1" Top="99.15" Width="718.2" Height="18.9" DataSource="dsAniversariantes">
+      <TextObject Name="Text1" Width="349.65" Height="18.9" Text="[dsAniversariantes.Nome]"/>
+      <TextObject Name="Text3" Left="352.65" Width="113.4" Height="18.9" Text="[dsAniversariantes.DataNascimento]" Format="Custom" Format.Format="dd \d\e MMMM" HorzAlign="Center"/>
+      <TextObject Name="Text5" Left="536" Width="56.7" Height="18.9" Text="[dsAniversariantes.Idade]" HorzAlign="Center"/>
+      <TextObject Name="Text7" Left="595.35" Width="122.85" Height="18.9" Text="[dsAniversariantes.TelefoneFormatdao]" HorzAlign="Center"/>
+      <TextObject Name="Text10" Left="472.5" Width="56.7" Height="18.9" Text="[dsAniversariantes.AnoNascimento]"/>
+    </DataBand>
+  </ReportPage>
+</Report>

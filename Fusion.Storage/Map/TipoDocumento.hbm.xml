@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Financeiro"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="TipoDocumento" table="tipo_documento">
+    <id name="Id" generator="identity" unsaved-value="0">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" length="60" not-null="true" />
+    </property>
+
+    <property name="FormaPagamento">
+      <column name="formaPagamento" not-null="true" />
+    </property>
+
+    <property name="EstaAtivo">
+      <column name="estaAtivo" not-null="true" />
+    </property>
+
+    <property name="AlteradoEm">
+      <column name="alteradoEm" not-null="true" />
+    </property>
+
+    <property name="RegistraFinanceiro">
+      <column name="registraFinanceiro" not-null="true" />
+    </property>
+
+  </class>
+</hibernate-mapping>

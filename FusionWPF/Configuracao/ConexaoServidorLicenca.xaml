@@ -1,0 +1,61 @@
+﻿<controls:MetroWindow x:Class="FusionWPF.Configuracao.ConexaoServidorLicenca"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:configuracao="clr-namespace:FusionWPF.Configuracao"
+        mc:Ignorable="d"
+        Style="{DynamicResource MetroWindowDialogStyle}"
+        WindowStartupLocation="CenterScreen"
+        Title="Configurações com servidor licenças" Height="220.896" Width="542"
+        FocusManager.FocusedElement="{Binding ElementName=CServidor}"
+        d:DataContext="{d:DesignInstance configuracao:ConexaoServidorLicencaModel}"
+        Name="Form">
+    
+    <DockPanel LastChildFill="False">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <fa:ImageAwesome Icon="Key" Width="130" Height="130" Foreground="{DynamicResource AccentColorBrush3}" />
+            </StackPanel>
+
+            <GroupBox Grid.Column="1" Header="Servidor de Licenças" Margin="5,5,5,41">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="75" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Grid.Row="0">
+                        <TextBlock Text="IP/Nome do Servidor de Licenças" />
+                        <TextBox Text="{Binding Servidor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                 MaxLength="15" 
+                                 CharacterCasing="Normal" 
+                                 x:Name="CServidor"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Grid.Row="0" Margin="2,0,0,0">
+                        <TextBlock Text="Porta" />
+                        <TextBox Text="{Binding Porta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" MaxLength="5"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" VerticalAlignment="Center"
+                    HorizontalAlignment="Center" Margin="5">
+            <Button 
+                Content="Salvar configurações" Width="Auto" 
+                CommandParameter="{Binding ElementName=Form}"
+                Command="{Binding CommandSalvar}" 
+                Style="{DynamicResource FusionAccentedButton}"/>
+            
+        </StackPanel>
+    </DockPanel>
+</controls:MetroWindow>

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="03/09/2018 16:55:20" ReportInfo.Modified="07/24/2019 11:34:05" ReportInfo.CreatorVersion="2016.3.22.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqKCvV1eox1mENjGvfrbFtX9jJwaCsZhZzrZOJOIPNm68pMOUwC/RfP3VXnBwmK7kfRTZyvWxDmx+Gbm9NKj6GYmueuduy+PY4/YxYXYyU8MLlj3DoNo8IyUH2Oz7/fFeXLQ/nB+8ft4CXhec2rsZiNgIPdJrUzuHe3pDo6zuyCbAdi9uWyQP1Ofr1/8/sVaCG0tm/c8A8ft7pT2ZgeeFfQQ==">
+      <TableDataSource Name="Table" Alias="DsProduto" DataType="System.Int32" Enabled="true" SelectCommand="select&#13;&#10;	p.id,&#13;&#10;	p.nome,&#13;&#10;	p.referencia,&#13;&#10;	p.tabelaNcm_id as ncm,&#13;&#10;	p.precoVenda,&#13;&#10;	pe.estoque,&#13;&#10;	pe.estoqueReservado,&#13;&#10;	pg.nome as grupo,&#13;&#10;	pu.sigla as silgaUnidade,&#13;&#10;	(select top 1 a.alias from produto_alias a where a.produto_id = p.id and isCodigoBarra = 1) barras&#13;&#10;from produto p&#13;&#10;inner join produto_estoque pe on pe.produto_id = p.id&#13;&#10;inner join produto_grupo pg on p.produtoGrupo_id = pg.id&#13;&#10;inner join produto_unidade pu on p.produtoUnidade_id = pu.id&#13;&#10;where p.ativo = 1">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="referencia" DataType="System.String"/>
+        <Column Name="ncm" DataType="System.String"/>
+        <Column Name="precoVenda" DataType="System.Decimal"/>
+        <Column Name="estoque" DataType="System.Decimal"/>
+        <Column Name="estoqueReservado" DataType="System.Decimal"/>
+        <Column Name="grupo" DataType="System.String"/>
+        <Column Name="silgaUnidade" DataType="System.String"/>
+        <Column Name="barras" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="297" PaperHeight="210" RawPaperSize="9" Guides="0,1047.06">
+    <ReportTitleBand Name="ReportTitle1" Width="1047.06" Height="51.03" Border.Lines="Bottom" Border.Width="0.25">
+      <TextObject Name="Text9" Top="2.34" Width="1046.61" Height="21.46" Text="Relatório de listagem de produtos com preço e estoque" HorzAlign="Center" Font="Arial, 12pt, style=Bold"/>
+      <TextObject Name="Text14" Top="23.57" Width="1047.06" Height="19.68" Text="Relatório emitido em: [Date]" HorzAlign="Center" Font="Arial, 10pt, style=Italic"/>
+    </ReportTitleBand>
+    <ColumnHeaderBand Name="ColumnHeader1" Top="53.07" Width="1047.06" Height="26.46" Border.Lines="Top, Bottom" Border.Width="0.25">
+      <TextObject Name="Text2" Left="148.43" Top="3.89" Width="328.86" Height="18.9" Text="Nome" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text4" Left="1.01" Top="3.89" Width="49.14" Height="18.9" Text="Cod." HorzAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text6" Left="670.07" Top="3.89" Width="118.06" Height="18.9" Text="Grupo" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text11" Left="788.14" Top="3.89" Width="75.59" Height="18.9" Text="NCM" HorzAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text13" Left="909.09" Top="3.89" Width="68.04" Height="18.9" Text="Estoque" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text16" Left="977.13" Top="3.89" Width="69.93" Height="18.9" Text="P. Venda" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text18" Left="477.29" Top="3.89" Width="192.78" Height="18.9" Text="Referencia" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text19" Left="863.73" Top="3.89" Width="45.36" Height="18.9" Text="UND" HorzAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text8" Left="50.15" Top="3.89" Width="98.28" Height="18.9" Text="Barras" HorzAlign="Center" Font="Arial, 10pt, style=Bold"/>
+    </ColumnHeaderBand>
+    <DataBand Name="Data1" Top="81.57" Width="1047.06" Height="35.91" CanGrow="true" CanShrink="true" CanBreak="true" Guides="0" DataSource="Table">
+      <TextObject Name="Text1" Left="148.43" Width="328.86" Height="13.23" CanShrink="true" CanBreak="false" Text="[DsProduto.nome]" WordWrap="false" Font="Arial, 8pt"/>
+      <TextObject Name="Text3" Width="49.52" Height="13.23" CanShrink="true" CanBreak="false" Text="[DsProduto.id]" Format="Custom" Format.Format="0000" HorzAlign="Center" WordWrap="false" Font="Arial, 8pt"/>
+      <TextObject Name="Text5" Left="670.07" Width="118.06" Height="13.23" CanShrink="true" CanBreak="false" Text="[DsProduto.grupo]" WordWrap="false" Font="Arial, 8pt"/>
+      <TextObject Name="Text10" Left="788.13" Width="75.6" Height="13.23" CanShrink="true" CanBreak="false" Text="[DsProduto.ncm]" HorzAlign="Center" WordWrap="false" Font="Arial, 8pt"/>
+      <TextObject Name="Text12" Left="909.09" Width="68.04" Height="13.23" CanShrink="true" CanBreak="false" Text="[DsProduto.estoque]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text15" Left="977.13" Width="69.93" Height="13.23" CanShrink="true" CanBreak="false" Text="[DsProduto.precoVenda]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text17" Left="477.29" Width="192.78" Height="13.23" CanShrink="true" CanBreak="false" Text="[DsProduto.referencia]" WordWrap="false" Font="Arial, 8pt"/>
+      <TextObject Name="Text20" Left="863.73" Width="45.36" Height="13.23" CanShrink="true" CanBreak="false" Text="[DsProduto.silgaUnidade]" HorzAlign="Center" WordWrap="false" Font="Arial, 8pt"/>
+      <TextObject Name="Text7" Left="49.76" Width="98.67" Height="13.23" CanShrink="true" CanBreak="false" Text="[DsProduto.barras]" HorzAlign="Center" WordWrap="false" Font="Arial, 8pt"/>
+    </DataBand>
+    <ColumnFooterBand Name="ColumnFooter1" Top="119.52" Width="1047.06" Height="37.8" CanShrink="true"/>
+  </ReportPage>
+</Report>

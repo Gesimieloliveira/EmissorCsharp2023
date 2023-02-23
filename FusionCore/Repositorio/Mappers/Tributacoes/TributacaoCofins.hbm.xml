@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Tributacoes.Federal"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="TributacaoCofins" table="situacao_tributaria_cofins" lazy="false">
+    <id name="Id" column="id" />
+    
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="TipoOperacao">
+      <column name="tipoOperacao" sql-type="tinyint" not-null="true" />
+    </property>
+  
+  </class>
+</hibernate-mapping>

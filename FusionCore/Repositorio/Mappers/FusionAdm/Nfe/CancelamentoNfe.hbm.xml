@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CancelamentoNfe" table="nfe_cancelamento">
+    <id access="field" name="_id" column="nfe_id" unsaved-value="0">
+      <generator class="foreign">
+        <param name="property">Nfe</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfe" class="Nfeletronica" constrained="true" cascade="none" />
+
+    <property name="Ambiente">
+      <column name="Ambiente" not-null="true" />
+    </property>
+
+    <property name="StatusResposta">
+      <column name="statusResposta" not-null="true" />
+    </property>
+
+    <property name="TextoResposta">
+      <column name="textoResposta" not-null="true" length="255" />
+    </property>
+
+    <component name="Status" class="FusionCore.FusionAdm.Fiscal.NF.Cancelar.StatusCancelamento">
+      <property name="Codigo">
+        <column name="statusCancelamento" not-null="true" />
+      </property>
+
+      <property name="Texto">
+        <column name="textoCancelamento" not-null="true" length="255" />
+      </property>
+    </component>
+
+    <property name="Justificativa">
+      <column name="justificativa" not-null="true" length="255" />
+    </property>
+
+    <property name="XmlEnvio">
+      <column name="xmlEnvio" sql-type="xml" length="2147483647" not-null="true" />
+    </property>
+
+    <property name="XmlRetorno">
+      <column name="xmlRetorno" sql-type="xml" length="2147483647" not-null="true" />
+    </property>
+
+    <property name="OcorreuEm">
+      <column name="ocorreuEm" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

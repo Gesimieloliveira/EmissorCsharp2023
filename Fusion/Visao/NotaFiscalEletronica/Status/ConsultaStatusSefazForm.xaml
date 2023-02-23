@@ -1,0 +1,33 @@
+﻿<mah:MetroWindow x:Class="Fusion.Visao.NotaFiscalEletronica.Status.ConsultaStatusSefazForm"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:status="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Status"
+                 mc:Ignorable="d"
+                 d:DataContext="{d:DesignInstance status:ConsultaStatusSefazFormModel, IsDesignTimeCreatable=False}"
+                 ResizeMode="NoResize"
+                 WindowStartupLocation="CenterScreen"
+                 Style="{DynamicResource MetroWindowStyle}"
+                 Title="Consultar status serviço da sefaz"
+                 SizeToContent="Height"
+                 Width="500"
+                 Loaded="LoadedHandler">
+
+    <StackPanel Margin="5">
+        <StackPanel Margin="0,0,0,10">
+            <TextBlock Text="Emissor Fiscal NF-e" />
+            <ComboBox
+                ItemsSource="{Binding ListaDeEmissores}"
+                SelectedItem="{Binding EmissorSelecionado}" />
+        </StackPanel>
+
+        <StackPanel>
+            <Button
+                Style="{DynamicResource FusionAccentedButton}"
+                Click="VerificarStatusClickHandler"
+                Content="Verificar agora" />
+        </StackPanel>
+    </StackPanel>
+</mah:MetroWindow>

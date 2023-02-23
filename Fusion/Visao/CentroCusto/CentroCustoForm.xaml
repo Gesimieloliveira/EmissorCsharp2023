@@ -1,0 +1,48 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.CentroCusto.CentroCustoForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:centroCusto="clr-namespace:Fusion.Visao.CentroCusto"
+                      xmlns:componentes="clr-namespace:FusionLibrary.Wpf.Componentes;assembly=FusionLibrary"
+                      mc:Ignorable="d"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      d:DataContext="{d:DesignInstance centroCusto:CentroCustoFormModel}"
+                      Title="Cadastro de Centro de Custo" Height="210" Width="500">
+
+    <DockPanel LastChildFill="true">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <GroupBox>
+                    <StackPanel>
+                        <TextBlock Text="Descrição" />
+                        <TextBox
+                            Text="{Binding Descricao, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                            MaxLength="60"
+                            x:Name="CNome" />
+
+                        <TextBlock>Centro de Custo Pai</TextBlock>
+                        <ComboBox
+                            ItemsSource="{Binding Items}"
+                            SelectedItem="{Binding ItemSelecionado}"
+                            SelectedValuePath="Id"
+                            SelectedValue="{Binding ItemSelecionado.Id}"
+                            DisplayMemberPath="Descricao"
+                            Margin="0,0,0,0"
+                            IsEnabled="{Binding CamposEditaveis}" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+        <componentes:ToolbarFormulario DockPanel.Dock="Bottom" OnSave="OnClickSalvar" OnClose="OnClickFechar"
+                                       OnDelete="OnClickDeletar" ShowDelete="False"
+                                       SalvarAtivado="{Binding BotaoSalvar}" />
+    </DockPanel>
+</controls:MetroWindow>

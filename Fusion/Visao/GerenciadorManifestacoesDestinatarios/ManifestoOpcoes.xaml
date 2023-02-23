@@ -1,0 +1,165 @@
+﻿<controles:FusionWindow x:Class="Fusion.Visao.GerenciadorManifestacoesDestinatarios.ManifestoOpcoes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fusion.Visao.GerenciadorManifestacoesDestinatarios"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+        mc:Ignorable="d"
+        Title="Opções disponíveis" Height="398" Width="680"
+        Style="{DynamicResource MetroWindowDialogStyle}"
+        WindowStartupLocation="CenterScreen">
+
+
+
+    <mah:MetroWindow.Resources>
+        <Style x:Key="MediumTileStyle" TargetType="mah:Tile">
+            <Setter Property="Height" Value="110" />
+            <Setter Property="TitleFontSize" Value="12" />
+            <Setter Property="Width" Value="160" />
+        </Style>
+    </mah:MetroWindow.Resources>
+
+    <StackPanel HorizontalAlignment="Center">
+        <WrapPanel Width="Auto" MaxHeight="500" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <mah:Tile Title="Imprimir DANFE" Margin="3" Style="{DynamicResource MediumTileStyle}"
+                      Background="{DynamicResource WarningBrush}"
+                           Command="{Binding CommandDanfe, Mode=OneWay}">
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Print" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+
+            <mah:Tile Title="Enviar por E-mail" Margin="3" Style="{DynamicResource MediumTileStyle}"
+                      Background="{DynamicResource WarningBrush}"
+                      Command="{Binding CommandEmail, Mode=OneWay}">
+
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="MailForward" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+
+            <mah:Tile Title="Importar Compra" Margin="3" Style="{DynamicResource MediumTileStyle}"
+                      Background="{DynamicResource WarningBrush}"
+                      Command="{Binding ComandoImportarCompra, Mode=OneWay}">
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="List" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+
+            <mah:Tile Title="Download Xml" Margin="3" Style="{DynamicResource MediumTileStyle}"
+                      Background="{DynamicResource WarningBrush}"
+                      Click="DownloadXml_OnClick">
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Download" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+
+            <mah:Tile Title="Ciência da Emissão" Margin="3" Style="{DynamicResource MediumTileStyle}"
+                      Click="CienciaDaEmissao_OnClick">
+
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="CheckSquareOutline" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+
+            <mah:Tile Title="Confirmação da Operação" Margin="3" Style="{DynamicResource MediumTileStyle}"
+                      Background="{DynamicResource AccentColorBrush}"
+                           Click="ConfirmacaoDaOperacao_OnClick">
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="EnvelopeOutline" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+
+            
+
+            <mah:Tile Title="Operação não Realizada" Margin="3" Style="{DynamicResource MediumTileStyle}"
+                      Click="OperacaoNaoRealizada_OnClick">
+
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="TimesCircleOutline" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+
+            <mah:Tile Title="Desconhecimento da Operação" Margin="3" Style="{DynamicResource MediumTileStyle}"
+                      Click="DesconhecimentoDaOperacao_OnClick">
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Ban" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+
+            <mah:Tile Title="Marcar como importada" Margin="3" Style="{DynamicResource MediumTileStyle}"
+                      Click="MarcarComoImportada_OnClick">
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mah:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Rocket" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </mah:Tile>
+        </WrapPanel>
+    </StackPanel>
+
+</controles:FusionWindow>

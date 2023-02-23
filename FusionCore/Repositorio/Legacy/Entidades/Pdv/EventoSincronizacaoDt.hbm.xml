@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore" namespace="FusionCore.Repositorio.Legacy.Entidades.Pdv" default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+  <class name="EventoSincronizacaoDt" table="evento_sincronizacao">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+    <property name="IniciadoEm" column="iniciadoEm" not-null="true" />
+    <property name="TerminadoEm" column="terminadoEm" not-null="true" />
+    <property name="Tag" column="tag" not-null="true" length="255" />
+  </class>
+</hibernate-mapping>

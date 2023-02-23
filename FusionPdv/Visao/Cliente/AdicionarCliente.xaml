@@ -1,0 +1,55 @@
+﻿<controls:MetroWindow x:Class="FusionPdv.Visao.Cliente.AdicionarCliente"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      Title="Adicionar Cliente"
+                      Height="250" Width="700"
+                      ResizeMode="NoResize"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowStyle}"
+                      KeyDown="AdicionarCliente_OnKeyDown">
+    <DockPanel LastChildFill="False">
+        <Grid Margin="5,0" DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="0,0,5,0">
+                <TextBlock>CPF/CNPJ</TextBlock>
+                <TextBox MaxLength="18"
+                    KeyDown="TbCpfOuCpnj_OnKeyDown" LostFocus="TbCpfOuCpnj_OnLostFocus" Name="TbCpfOuCpnj"
+                         Text="{Binding CpfOuCnpj, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
+                <TextBlock>Nome</TextBlock>
+                <TextBox Text="{Binding Nome, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center">
+                <TextBlock>Endereço</TextBlock>
+                <TextBox Text="{Binding Endereco, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center">
+                <TextBlock>Observação</TextBlock>
+                <TextBox Text="{Binding Observacao, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </Grid>
+
+        <DockPanel Dock="Bottom" Background="{StaticResource AccentColorBrush4}" Height="60">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Width="200" Name="BtLocalizar" Click="BtLocalizar_OnClick" Content="Localizar (F5)" Margin="0,0,5,0"/>
+                <Button Width="200" Name="BtConfirmar" Click="BtConfirmar_OnClick" Content="Confirmar (F2)" Margin="0,0,5,0"/>
+                <Button Width="200" Name="BtCancelar" Click="BtCancelar_OnClick" Content="Cancelar (ESC)" Margin="0,0,5,0"/>
+            </StackPanel>
+        </DockPanel>
+    </DockPanel>
+</controls:MetroWindow>

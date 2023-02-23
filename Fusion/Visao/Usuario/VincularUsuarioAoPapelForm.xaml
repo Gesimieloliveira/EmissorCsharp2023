@@ -1,0 +1,30 @@
+﻿<simpleChildWindow:ChildWindow x:Class="Fusion.Visao.Usuario.VincularUsuarioAoPapelForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:simpleChildWindow="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             mc:Ignorable="d" 
+             ChildWindowWidth="500"
+             Title="{Binding Titulo}"
+             Style="{DynamicResource ChildWindowStyle}"
+             FocusManager.FocusedElement="{Binding ElementName=ComboBoxEditavel}">
+
+    <StackPanel Margin="5">
+        <TextBlock>Usuários</TextBlock>
+
+        <controles:ComboBoxEditavel 
+            ItemsSource="{Binding UsuarioLista}"
+            SelectedItem="{Binding UsuarioSelecionado}"
+            DisplayMemberPath="Login"
+            IsEditable="False"
+            x:Name="ComboBoxEditavel" />
+
+        <Button 
+            Content="Adicionar ao papel"
+            Style="{DynamicResource FusionAccentedButton}"
+            Click="VincularUsuarioClickHandler"
+            Margin="0,5,0,0" />
+    </StackPanel>
+</simpleChildWindow:ChildWindow>

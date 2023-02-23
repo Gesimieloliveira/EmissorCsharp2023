@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.CertificadosDigitais"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CertificadoDigitalNfce" table="certificado_digital">
+    <id name="Id" column="id" generator="identity" unsaved-value="0" />
+
+    <many-to-one class="FusionCore.FusionNfce.Empresa.EmpresaNfce"
+                 name="Empresa" column="empresa_id" cascade="none" />
+
+    <property name="Tipo" column="tipo" not-null="true" />
+
+    <property name="SerialRepositorio" column="serialRepositorio" not-null="true" />
+
+    <property name="CaminhoArquivo" column="caminhoArquivo" not-null="true" />
+
+    <property name="Senha" column="senha" not-null="true" />
+
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.ContingenciaSefaz"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ContingenciaNfe" table="contingencia_nfe">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="EmissorFiscal" outer-join="true" cascade="none">
+      <column name="emissorFiscal_id" not-null="true" sql-type="smallint" />
+    </many-to-one>
+
+    <property name="TipoEmissao">
+      <column name="tipoEmissao" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="Justificativa">
+      <column name="justificativa" sql-type="varchar" length="255" not-null="true" />
+    </property>
+
+    <property name="IniciadaEm">
+      <column name="iniciadaEm" not-null="true" sql-type="datetime" />
+    </property>
+
+    <property name="FinalizadaEm">
+      <column name="finalizadaEm" not-null="false" sql-type="datetime" />
+    </property>
+
+  </class>
+</hibernate-mapping>

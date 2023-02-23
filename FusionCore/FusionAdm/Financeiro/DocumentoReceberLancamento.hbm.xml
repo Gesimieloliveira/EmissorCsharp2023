@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Financeiro"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="DocumentoReceberLancamento" table="documento_receber_lancamento">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+    
+    <many-to-one name="DocumentoReceber" cascade="none">
+      <column name="documentoReceber_id" sql-type="int" not-null="true" />
+    </many-to-one>
+    
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="Valor">
+      <column name="valor" sql-type="decimal" not-null="true" />
+    </property>
+    
+    <property name="TipoLancamento">
+      <column name="tipoLancamento" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="DataEstorno">
+      <column name="dataEstorno" sql-type="datetime" not-null="false" />
+    </property>
+    
+    <property name="Estornado">
+      <column name="estornado" sql-type="bit" not-null="true" />
+    </property>
+    
+    <property name="TipoLancamentoTexto">
+      <column name="tipoLancamentoTexto" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="CriadoEm">
+      <column name="criadoEm" sql-type="datetime" not-null="true" />
+    </property>
+
+    <many-to-one name="UsuarioCriacao" cascade="none" fetch="join">
+      <column name="usuarioCriacao_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="UsuarioEstorno" cascade="none" fetch="join">
+      <column name="usuarioEstorno_id" not-null="false" />
+    </many-to-one>
+
+    <property name="Cancelado">
+      <column name="cancelado" not-null="true" />
+    </property>
+
+	  <property name="TipoRecebimento">
+		  <column name="tipoRecebimento" sql-type="int" not-null="false" />
+	  </property>
+  </class>
+</hibernate-mapping>

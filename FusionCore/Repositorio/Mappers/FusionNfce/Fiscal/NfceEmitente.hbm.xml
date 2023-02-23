@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceEmitente" table="nfce_emitente">
+    
+    <id name="NfceId" column="nfce_id">
+      <generator class="foreign">
+        <param name="property">Nfce</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfce" class="Nfce" constrained="true" />
+    
+    <many-to-one name="Empresa" class="FusionCore.FusionNfce.Empresa.EmpresaNfce">
+      <column name="empresa_id" sql-type="smallint" not-null="true" />
+    </many-to-one>
+  </class>
+</hibernate-mapping>

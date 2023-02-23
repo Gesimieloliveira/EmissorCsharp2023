@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Configuracoes"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Balanca" table="configuracao_balanca">
+    <id name="Id" unsaved-value="0" />
+
+    <property name="TamanhoCodigo">
+      <column name="tamanhoCodigo" not-null="true" />
+    </property>
+
+    <property name="DigitoVerificador">
+      <column name="digitoVerificador" not-null="true" />
+    </property>
+
+    <property name="ModoDeOperacao">
+      <column name="modoDeOperacao" not-null="true" />
+    </property>
+
+    <property name="Ativo">
+      <column name="ativo" not-null="true" />
+    </property>
+
+    <property name="AlteradoEm">
+      <column name="alteradoEm" not-null="true" />
+    </property>
+
+    <property name="CasasDecimais">
+      <column name="casasDecimais" not-null="true" />
+    </property>
+
+    <property name="InicioQuantificador">
+      <column name="inicioQuantificador" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,38 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:fc="clr-namespace:FusionWPF.Controles"
+                    xmlns:tools="clr-namespace:FusionLibrary.Wpf.Tools;assembly=FusionLibrary">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/controls.textbox.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="SearchTextBox" TargetType="{x:Type fc:SearchTextBox}"
+           BasedOn="{StaticResource MahApps.Styles.TextBox.Search}">
+        <Setter Property="MinHeight" Value="28" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="tools:FocusAdvancement.AdvancesByEnterKey" Value="True" />
+        <Setter Property="IsReadOnlyCaretVisible" Value="True" />
+        <Setter Property="controls:TextBoxHelper.Watermark" Value="CTRL + B para buscar" />
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="ShowButton" Value="False" />
+            </Trigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="controls:TextBoxHelper.HasText" Value="True" />
+                    <Condition Property="ButtonClearEnabledWhenHasText" Value="True" />
+                </MultiTrigger.Conditions>
+
+                <MultiTrigger.Setters>
+                    <Setter Property="controls:TextBoxHelper.ButtonContent" Value="r" />
+                    <Setter Property="controls:TextBoxHelper.ButtonContentTemplate" Value="{x:Null}" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

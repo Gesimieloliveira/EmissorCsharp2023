@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronicoOs.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteOsCartaCorrecao" table="cte_os_carta_correcao">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="CteOs" cascade="none">
+      <column name="cteOs_id" not-null="true" />
+    </many-to-one>
+
+    <property name="OcorreuEm" not-null="true">
+      <column name="ocorreuEm"/>
+    </property>
+
+    <property name="StatusRetorno" not-null="true">
+      <column name="statusRetorno"/>
+    </property>
+
+    <property name="Protocolo" not-null="true">
+      <column name="protocolo"/>
+    </property>
+
+    <property name="SequenciaEvento" not-null="true">
+      <column name="sequenciaEvento"/>
+    </property>
+
+    <property name="XmlEnvio" not-null="true">
+      <column name="xmlEnvio" sql-type="xml" length="2147483647"/>
+    </property>
+
+    <property name="XmlRetorno" not-null="true">
+      <column name="xmlRetorno" sql-type="xml" length="2147483647"/>
+    </property>
+
+    <property name="ChaveId" not-null="true">
+      <column name="chaveId" />
+    </property>
+
+    <bag name="CteOsInformacaoCorrecaos" table="cte_os_info_correcao" cascade="all-delete-orphan" inverse="true">
+      <key column="cteOsCartaCorrecao_id" />
+      <one-to-many class="CteOsInformacaoCorrecao" />
+    </bag>
+    
+    
+  </class>
+</hibernate-mapping>

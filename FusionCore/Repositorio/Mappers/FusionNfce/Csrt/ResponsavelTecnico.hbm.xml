@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Csrt"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ResponsavelTecnicoNfce" table="responsavel_tecnico">
+    <id name="Guid">
+      <column name="guid" not-null="true" />
+    </id>
+
+    <property name="Csrt" column="csrt" not-null="true"/>
+
+    <property name="CsrtId" column="csrtId" not-null="true"/>
+
+    <many-to-one name="Uf" class="FusionCore.FusionNfce.Uf.UfNfce" outer-join="true" cascade="none">
+      <column name="uf_id" not-null="true" sql-type="tinyint" />
+    </many-to-one>
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.EntradaOutras"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfOutro" table="nf_outro">
+
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one
+      name="Fornecedor"
+      not-null="true"
+      cascade="none"
+      class="FusionCore.FusionAdm.Pessoas.Fornecedor"
+      column="fornecedor_id" />
+
+    <many-to-one
+      name="Empresa"
+      not-null="true"
+      cascade="none"
+      class="FusionCore.Repositorio.Legacy.Entidades.Adm.EmpresaDTO"
+      column="empresa_id" />
+
+    <property name="EmissaoEm"
+              column="emissaoEm"
+              not-null="true" />
+
+    <property name="RecebimentoEm"
+              column="recebimentoEm"
+              not-null="true" />
+
+    <property name="ModeloDocumento"
+              column="modelo"
+              not-null="true" />
+
+    <property name="Serie"
+              column="serie"
+              not-null="true" />
+
+    <property name="Numero"
+              column="numero"
+              not-null="true" />
+
+    <many-to-one
+      name="Cfop"
+      not-null="true"
+      cascade="none"
+      class="FusionCore.Repositorio.Legacy.Entidades.Adm.CfopDTO"
+      column="cfop_id" />
+
+    <property name="TipoEmitente"
+              not-null="true"
+              column="tipoEmitente" />
+
+    <many-to-one
+      name="Cst"
+      not-null="true"
+      cascade="none"
+      class="FusionCore.Tributacoes.Estadual.TributacaoIcms"
+      column="situacaoTributariaIcms_id" />
+
+    <property name="ValorTotal"
+              not-null="true"
+              column="valorTotal" />
+
+    <property name="BaseCalculoIcms"
+              not-null="true"
+              column="baseCaculoIcms" />
+
+    <property name="ValorIcms"
+              not-null="true"
+              column="valorIcms" />
+
+    <property name="ValorDespesasAcessorias"
+              not-null="true"
+              column="valorDespesasAcessorias" />
+
+    <property name="AliquotaIcms"
+              not-null="true"
+              column="aliquotaIcms" />
+
+    <property name="BaseCalculoIcmsSt"
+              not-null="true"
+              column="baseCalculoIcmsSt" />
+
+    <property name="ValorIcmsSt"
+              not-null="true"
+              column="valorIcmsSt" />
+
+    <property name="ValorFrete"
+              not-null="true"
+              column="valorFrete" />
+
+    <property name="ValorSeguro"
+              not-null="true"
+              column="valorSeguro" />
+
+    <property name="TotalDesconto"
+              not-null="true"
+              column="totalDesconto" />
+
+    <property name="SituacaoFiscal"
+              not-null="true"
+              column="situacaoFiscal" />
+
+    
+
+  </class>
+  
+</hibernate-mapping>

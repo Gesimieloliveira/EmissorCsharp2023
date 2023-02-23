@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.PedidoVenda"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PedidoVenda" table="pedido_venda">
+    <id name="Id" column="id" generator="identity" unsaved-value="0" />
+
+    <many-to-one name="Empresa" cascade="none">
+      <column name="empresa_id" not-null="true"></column>
+    </many-to-one>
+
+    <many-to-one name="Usuario" cascade="none">
+      <column name="usuario_id" not-null="true"></column>
+    </many-to-one>
+
+    <one-to-one name="Destinatario" outer-join="true" cascade="none" />
+
+    <one-to-one name="Vendedor" outer-join="true" cascade="save-update" />
+
+    <property name="Uuid" not-null="true" column="uuid" />
+
+    <property name="EstadoAtual" not-null="true" column="estadoAtual" />
+
+    <property name="AbertoEm" not-null="true" column="abertoEm" />
+
+    <property name="FinalizadoEm" not-null="false" column="finalizadoEm" />
+
+    <property name="CanceladoEm" not-null="false" column="canceladoEm" />
+
+    <property name="TotalProdutos">
+      <column name="totalProdutos" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="PercentualDesconto">
+      <column name="percentualDesconto" not-null="true" precision="9" scale="6" />
+    </property>
+
+    <property name="TotalDesconto">
+      <column name="totalDesconto" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="Total">
+      <column name="total" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="TipoPedido" not-null="true" column="tipoPedido" />
+
+    <property name="Referencia">
+      <column name="referencia" not-null="true" length="25" />
+    </property>
+
+    <property name="Observacao">
+      <column name="observacao" not-null="true" length="2000" />
+    </property>
+
+    <property name="MotivoCancelamento">
+      <column name="motivoCancelamento" not-null="true" length="255" />
+    </property>
+
+    <many-to-one name="TabelaPreco" class="FusionCore.FusionAdm.TabelasDePrecos.TabelaPreco" cascade="none">
+	    <column name="tabelaPreco_id" not-null="false" />
+    </many-to-one>
+
+    <bag access="field" name="_itens" table="pedido_produto" cascade="delete-orphan" inverse="true">
+      <key column="pedidoVenda_id" />
+      <one-to-many class="PedidoVendaProduto" />
+    </bag>
+
+    <bag access="field" name="_negociacoes" table="pedido_negociacao" cascade="delete-orphan" inverse="true">
+      <key column="pedidoVenda_id" />
+      <one-to-many class="Negociacao" />
+    </bag>
+
+  </class>
+
+</hibernate-mapping>

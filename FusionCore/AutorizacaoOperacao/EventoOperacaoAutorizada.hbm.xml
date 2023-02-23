@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.AutorizacaoOperacao"
+  default-lazy="false"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+	<class name="EventoOperacaoAutorizada" table="evento_operacao_autorizada">
+		<id name="Id" generator="assigned">
+			<column name="id" not-null="true" />
+		</id>
+
+		<property name="DataCriacao" not-null="true">
+			<column name="dataCriacao" />
+		</property>
+		
+		<property name="UsuarioLogadoId" not-null="true">
+			<column name="usuarioLogado_id"></column>
+		</property>
+
+		<property name="UsuarioAutorizouId" not-null="true">
+			<column name="usuarioAutorizou_id"></column>
+		</property>
+
+		<property name="PermissaoAutorizada" not-null="true">
+			<column name="permissao"></column>
+		</property>
+		
+		<property name="Payload" not-null="false">
+			<column name="payload"></column>
+		</property>
+
+		<property name="PermissaoTexto" not-null="true">
+			<column name="permissaoTexto"></column>
+		</property>
+
+		<property name="Agregado" not-null="true">
+			<column name="agregadoAfetado" />
+		</property>
+
+	</class>
+</hibernate-mapping>

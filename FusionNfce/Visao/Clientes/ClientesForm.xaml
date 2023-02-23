@@ -1,0 +1,69 @@
+﻿<controls:MetroWindow x:Class="FusionNfce.Visao.Clientes.ClientesForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:componentes="clr-namespace:FusionLibrary.Wpf.Componentes;assembly=FusionLibrary"
+        xmlns:clientes="clr-namespace:FusionNfce.Visao.Clientes"
+        xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+        mc:Ignorable="d"
+        Title="Lista de Cliente"
+        WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource MetroWindowDialogStyle}"
+        d:DataContext="{d:DesignInstance clientes:ClientesFormModel}"
+        Height="600" Width="800"
+        KeyDown="ClientesForm_OnKeyDown">
+    <Grid Margin="5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel Margin="0,0,0,5" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0">
+                <StackPanel DockPanel.Dock="Left" HorizontalAlignment="Center">
+                    <TextBlock HorizontalAlignment="Center" Text="Busca rapida por nome, cpf/cnpj, código" Margin="5,0,0,0" />
+                    <componentes:TextBoxPesquisa StartFocus="True" Texto="{Binding BuscaRapidaTexto, UpdateSourceTrigger=PropertyChanged}" OnSearch="TextBoxPesquisa_OnOnSearch" OnKeyDown="TextBoxPesquisa_OnOnKeyDown"></componentes:TextBoxPesquisa>
+                </StackPanel>
+            </DockPanel>
+
+
+            <ListBox Grid.Column="0" Grid.Row="1"
+                KeyDown="LbListaDeProdutos_OnKeyDown" 
+                Name="LbListaDeProdutos"
+                ItemsSource="{Binding Itens}" 
+                SelectedItem="{Binding ItenSelecionado}" MouseDoubleClick="Control_OnMouseDoubleClick">
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock FontSize="16" FontWeight="Bold" Text="{Binding Nome}" />
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" Margin="0, 0, 7, 0">
+                                    <TextBlock Margin="0, 0, 5, 0">Documento:</TextBlock>
+                                    <TextBlock Text="{Binding DocumentoUnico, Converter={conversores:CpfCnpjMaskConverter}}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <DockPanel Grid.Column="0" Grid.Row="2" Height="60" Background="{StaticResource AccentColorBrush4}">
+                <StackPanel HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+
+                    <Button Name="BtConfirmar" Width="200" Click="BtConfirmar_Click" Margin="0,0,30,0"
+                        Content="Confirmar (F2)" />
+                    <Button Name="BtCancelar" Width="200" Click="BtCancelar_OnClick" Margin="30,0,0,0"
+                        Content="Cancelar (ESC)" />
+                </StackPanel>
+            </DockPanel>
+
+        </Grid>
+
+    </Grid>
+</controls:MetroWindow>

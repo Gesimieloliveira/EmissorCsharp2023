@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="LocalEntrega" table="nfe_local_entrega">
+	  <id name="NfeId" column="nfe_id">
+		<generator class="foreign">
+		  <param name="property">Nfe</param>
+		</generator>
+	  </id>
+
+    <one-to-one name="Nfe" class="Nfeletronica" constrained="true" cascade="none" />
+
+    <many-to-one name="Endereco" cascade="none" class="FusionCore.FusionAdm.Pessoas.PessoaEndereco">
+      <column name="pessoaEndereco_id" not-null="true" />
+    </many-to-one>
+
+  </class>
+</hibernate-mapping>

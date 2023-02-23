@@ -1,0 +1,597 @@
+﻿<fcs:FusionWindow x:Class="Fusion.Visao.Menu.MenuPrincipal"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                  xmlns:menu="clr-namespace:Fusion.Visao.Menu"
+                  xmlns:tools="clr-namespace:FusionLibrary.Wpf.Tools;assembly=FusionLibrary"
+                  xmlns:m="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:fcs="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                  xmlns:wl="clr-namespace:Fusion.WhiteLabel;assembly=Fusion.WhiteLabel"
+                  m:Ignorable="d"
+                  d:DataContext="{d:DesignInstance menu:MenuViewModel, IsDesignTimeCreatable=False}"
+                  Title="{x:Static wl:MarcaWhiteLabel.TituloMenuGestor}"
+                  WindowStartupLocation="CenterScreen"
+                  WindowState="Maximized" MinWidth="1010" MinHeight="600"
+                  ContentRendered="Menu_OnContentRendered"
+                  Loaded="LoadedHandler"
+                  Style="{DynamicResource MetroWindowStyle}">
+
+    <fcs:FusionWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <Style x:Key="LargeButtonPessoa" TargetType="RibbonButton">
+            <Setter Property="Tag" Value="CadastroPessoa" />
+            <Setter Property="tools:RibbonButtonHelper.LargeImageSource" Value="&#xf0c0;" />
+            <Setter Property="tools:RibbonButtonHelper.LargeImageColor" Value="{DynamicResource AccentColor2}" />
+            <Setter Property="Label" Value="Pessoa" />
+            <Setter Property="controls:VisibilityHelper.IsVisible" Value="{Binding IsGerenciarPessoa}" />
+            <EventSetter Event="Click" Handler="OnClickPessoa" />
+        </Style>
+
+        <Style x:Key="LargeButtonVeiculo" TargetType="RibbonButton">
+            <Setter Property="tools:RibbonButtonHelper.LargeImageSource" Value="&#xf1b9;" />
+            <Setter Property="tools:RibbonButtonHelper.LargeImageColor" Value="{DynamicResource AccentColor2}" />
+            <Setter Property="Label" Value="Veículos" />
+            <Setter Property="controls:VisibilityHelper.IsVisible" Value="{Binding IsGerenciarVeiculo}" />
+            <EventSetter Event="Click" Handler="CadastrarVeiculo_OnClick" />
+        </Style>
+
+        <Style x:Key="LargueButtonTipoDocumento" TargetType="RibbonButton">
+            <Setter Property="tools:RibbonButtonHelper.LargeImageSource" Value="&#xf0c5;" />
+            <Setter Property="tools:RibbonButtonHelper.LargeImageColor" Value="{DynamicResource AccentColor2}" />
+            <Setter Property="Label" Value="Tipo Documento" />
+            <Setter Property="controls:VisibilityHelper.IsVisible" Value="{Binding IsGerenciarTipoDocumento}" />
+            <EventSetter Event="Click" Handler="OnClickTipoDocumento" />
+        </Style>
+
+        <Style x:Key="LargeButtonProduto" TargetType="RibbonButton">
+            <Setter Property="tools:RibbonButtonHelper.LargeImageSource" Value="&#xf1b3;" />
+            <Setter Property="tools:RibbonButtonHelper.LargeImageColor" Value="{DynamicResource AccentColor2}" />
+            <Setter Property="Label" Value="Produto" />
+            <Setter Property="controls:VisibilityHelper.IsVisible" Value="{Binding IsGerenciarProduto}" />
+            <EventSetter Event="Click" Handler="ClickListagemProdutos" />
+        </Style>
+
+        <Style x:Key="LargeButtonExportarXml" TargetType="RibbonButton">
+            <Setter Property="tools:RibbonButtonHelper.LargeImageSource" Value="&#xf1c6;" />
+            <Setter Property="tools:RibbonButtonHelper.LargeImageColor" Value="{DynamicResource AccentColor2}" />
+            <Setter Property="Label" Value="Exportar XML Emitidos" />
+            <Setter Property="controls:VisibilityHelper.IsVisible" Value="{Binding IsExportarXml}" />
+            <EventSetter Event="Click" Handler="OnClickExportacaoDFeXml" />
+        </Style>
+
+        <Style x:Key="LargeButtonExportarXmlImportacao" TargetType="RibbonButton">
+            <Setter Property="tools:RibbonButtonHelper.LargeImageSource" Value="&#xf1c6;" />
+            <Setter Property="tools:RibbonButtonHelper.LargeImageColor" Value="{DynamicResource AccentColor2}" />
+            <Setter Property="Label" Value="Exportar XML Distribução (MD-e)" />
+            <Setter Property="controls:VisibilityHelper.IsVisible" Value="{Binding IsExportarXml}" />
+            <EventSetter Event="Click" Handler="OnClickExportacaoDFeXmlImportacao" />
+        </Style>
+
+        <Style x:Key="LargeButtonPerfilCfop" TargetType="RibbonButton">
+            <Setter Property="tools:RibbonButtonHelper.LargeImageSource" Value="&#xf0f6;" />
+            <Setter Property="tools:RibbonButtonHelper.LargeImageColor" Value="{DynamicResource AccentColor2}" />
+            <Setter Property="Label" Value="CFOP" />
+            <Setter Property="controls:VisibilityHelper.IsVisible" Value="{Binding IsGerenciarCfop}" />
+            <EventSetter Event="Click" Handler="OnClickPerfilCfop" />
+        </Style>
+    </fcs:FusionWindow.Resources>
+
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Border BorderBrush="{DynamicResource AccentColorBrush2}"
+                    BorderThickness="0,0,3,0"
+                    Padding="0,0,10,0">
+
+                <StackPanel Orientation="Vertical"
+                            Visibility="{Binding EstaLogado, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <menu:TopMenuUsuario />
+                </StackPanel>
+            </Border>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
+    <DockPanel LastChildFill="True" x:Name="DockPanelMenu">
+        <Ribbon SelectedIndex="0" DockPanel.Dock="Top" x:Name="RibbonMenu">
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu
+                    x:Name="RibbonApplicationMenu"
+                    SmallImageSource="{tools:ImageFromFont Text=&#xf00b;, FontFamily=/FontAwesome.WPF;component/#FontAwesome, Brush=White}"
+                    DropDownHeight="450">
+
+                    <RibbonApplicationMenuItem Header="Gerenciar empresas"
+                                               tools:RibbonMenuItemHelper.ImageImageSource="&#xf19c;"
+                                               tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}"
+                                               Click="OnClickEmpresa"
+                                               controls:VisibilityHelper.IsVisible="{Binding IsGerenciarEmpresa}" />
+
+                    <RibbonApplicationMenuItem Header="Configurações"
+                                               tools:RibbonMenuItemHelper.ImageImageSource="&#xf013;"
+                                               tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}"
+                                               Click="ConfiguracoesClickHandler"
+                                               controls:VisibilityHelper.IsVisible="{Binding IsGerenciarConfiguracoes}" />
+
+                    <RibbonApplicationMenuItem Header="Gerenciar usuários"
+                                               tools:RibbonMenuItemHelper.ImageImageSource="&#xf21b;"
+                                               tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}"
+                                               Click="OnClickUsuario"
+                                               controls:VisibilityHelper.IsVisible="{Binding IsGerenciarUsuario}" />
+
+                    <RibbonApplicationMenuItem Header="Painel Licenças"
+                                               tools:RibbonMenuItemHelper.ImageImageSource="&#xf1f9;"
+                                               tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}"
+                                               Click="OnClickPainelLicencas"
+                                               controls:VisibilityHelper.IsVisible="{Binding IsGerenciarLicencas}" />
+
+                    <RibbonApplicationSplitMenuItem Header="Fiscal"
+                                                    x:Name="MenuTop"
+                                                    tools:RibbonMenuItemHelper.ImageImageSource="&#xf114;"
+                                                    tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}">
+
+                        <RibbonApplicationMenuItem Header="Cadastro de Terminal off-line"
+                                                   x:Name="MenuItemTerminal"
+                                                   tools:RibbonMenuItemHelper.ImageImageSource="&#xf26c;"
+                                                   tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}"
+                                                   Click="OnClickEmissorFiscal"
+                                                   controls:VisibilityHelper.IsVisible="{Binding IsGerenciarTerminalOffline}" />
+
+                        <RibbonApplicationMenuItem Header="Cadastro de Emissor Fiscal Eletrônico"
+                                                   tools:RibbonMenuItemHelper.ImageImageSource="&#xf02f;"
+                                                   tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}"
+                                                   Click="OnClickEmissorFiscalEletronico"
+                                                   controls:VisibilityHelper.IsVisible="{Binding IsGerenciarEmissorFiscalEletronico}" />
+
+                        <RibbonApplicationMenuItem Header="Cadastro de Ecf"
+                                                   x:Name="MenuItemEcf"
+                                                   tools:RibbonMenuItemHelper.ImageImageSource="&#xf02f;"
+                                                   tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}"
+                                                   controls:VisibilityHelper.IsVisible="{Binding IsGerenciarEcf}"
+                                                   Click="OnClickEcf" />
+
+                        <RibbonApplicationMenuItem Header="Importar tabela Ibpt"
+                                                   tools:RibbonMenuItemHelper.ImageImageSource="&#xf019;"
+                                                   tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}"
+                                                   Click="OnClickImportarIbpt"
+                                                   controls:VisibilityHelper.IsVisible="{Binding IsGerenciarImportarTabelaIpbt}" />
+
+                        <RibbonApplicationMenuItem Header="CFOP Base"
+                                                   tools:RibbonMenuItemHelper.ImageImageSource="&#xf0c9;"
+                                                   tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}"
+                                                   controls:VisibilityHelper.IsVisible="{Binding IsGerenciarCfopBase}"
+                                                   Click="ClickCfop" />
+
+                        <RibbonApplicationMenuItem Header="Aliquota Interna por estado(uf)"
+                                                   tools:RibbonMenuItemHelper.ImageImageSource="&#xf013;"
+                                                   tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}"
+                                                   Click="NoCliqueAliquotaInternaPorEstado"
+                                                   controls:VisibilityHelper.IsVisible="{Binding IsGerenciarAliquotaInterna}" />
+
+                        <RibbonApplicationMenuItem Header="Cadastrar TEF-POS"
+                                                   tools:RibbonMenuItemHelper.ImageImageSource="&#xf283;"
+                                                   tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}"
+                                                   controls:VisibilityHelper.IsVisible="{Binding IsGerenciarTefPos}"
+                                                   Click="OnClickCadastrarTefPos" />
+
+                    </RibbonApplicationSplitMenuItem>
+
+                    <RibbonApplicationMenuItem Header="Sair do Sistema"
+                                               tools:RibbonMenuItemHelper.ImageImageSource="&#xf08b;"
+                                               tools:RibbonMenuItemHelper.ImageFontColor="{DynamicResource AccentColor2}"
+                                               Click="OnClickSairSistema" />
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+
+            <RibbonTab Header="Cadastros" Tag="TabCadastro">
+                <RibbonGroup Tag="GroupCadastroPessoa">
+                    <RibbonButton Style="{DynamicResource LargeButtonPessoa}" />
+                </RibbonGroup>
+
+                <RibbonGroup Header="Fiscal">
+                    <RibbonButton tools:RibbonButtonHelper.LargeImageSource="&#xf016;"
+                                  tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                                  Label="NCM" Click="OnClickNcm"
+                                  controls:VisibilityHelper.IsVisible="{Binding IsGerencairNcm}" />
+                </RibbonGroup>
+
+                <RibbonGroup Header="Estoque">
+
+                    <RibbonButton tools:RibbonButtonHelper.LargeImageSource="&#xf124;"
+                                  tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                                  Label="Localização" Click="OnClickProdutoLocalizacao"
+                                  controls:VisibilityHelper.IsVisible="{Binding IsGerenciarProdutoLocalizacao}" />
+
+
+                    <RibbonButton tools:RibbonButtonHelper.LargeImageSource="&#xf210;"
+                                  tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                                  Label="Unidade" Click="OnClickUnidade"
+                                  controls:VisibilityHelper.IsVisible="{Binding IsGerenciarProdutoUnidade}" />
+
+                    <RibbonButton tools:RibbonButtonHelper.LargeImageSource="&#xf1b2;"
+                                  tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                                  Label="Grupo" Click="OnClickGrupo"
+                                  controls:VisibilityHelper.IsVisible="{Binding IsGerenciarProdutoGrupo}" />
+
+                    <RibbonButton Style="{DynamicResource LargeButtonProduto}" />
+
+                    <RibbonButton tools:RibbonButtonHelper.LargeImageSource="&#xf0ce;"
+                                  tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                                  Label="Tabela de Preços" Click="OnClickCadastrarTabelaPreco" />
+
+                </RibbonGroup>
+
+                <RibbonGroup Header="Tributação">
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf0e3;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Nova regra de saida"
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarRegraSaida}"
+                        Click="NovaRegraTributacaoClickHandler" />
+
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf03a;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Listar as regras de saida"
+                        controls:VisibilityHelper.IsVisible="{Binding IsRegraSaidaListar}"
+                        Click="GerenciarRegraTributacaoClickHandler" />
+
+                </RibbonGroup>
+
+                <RibbonGroup>
+                    <RibbonButton Style="{DynamicResource LargeButtonPerfilCfop}" />
+                </RibbonGroup>
+
+                <RibbonGroup>
+                    <RibbonButton Style="{DynamicResource LargeButtonVeiculo}" />
+                </RibbonGroup>
+
+                <RibbonGroup>
+                    <RibbonButton Style="{DynamicResource LargueButtonTipoDocumento}" />
+                </RibbonGroup>
+            </RibbonTab>
+
+            <RibbonTab Header="Financeiro" x:Name="TabFinanceiro">
+                <RibbonGroup Header="Controle Caixa" x:Name="TbCaixa">
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf1ec;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Abrir Caixa"
+                        Click="AbrirCaixaClickHandler" />
+
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf155;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Ver Caixa Aberto"
+                        Click="CaixaAbertoClickHandler" />
+
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding TemAcessoAoCaixa}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf02d;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Gerenciar Caixas"
+                        Click="GerenciarCaixasClickHandler" />
+
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding TemAcessoAoCaixa}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf02d;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Lançamentos avulsos"
+                        Click="ListarLancamentosCaixaClickHandler" />
+
+                </RibbonGroup>
+
+                <RibbonGroup Header="Geral">
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf02f;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Recibo" Click="OnClickRecibo"
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerarRecibo}" />
+                </RibbonGroup>
+
+                <RibbonGroup Header="Receber">
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarDocumentoReceber}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf0d6;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Documentos Receber" Click="ClickNovaListagemDocumentosReceber" />
+
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf0e8;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Centro de Lucro" Click="OnClickCentroDeLucro"
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarCentroLucro}" />
+                </RibbonGroup>
+
+                <RibbonGroup Header="Pagar">
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarDocumentoPagar}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf0d6;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Documento Pagar" Click="OnClickDocumentoPagar" />
+
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf0e8;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Centro de Custo" Click="OnClickCentroDeCusto"
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarCentroCusto}" />
+                </RibbonGroup>
+            </RibbonTab>
+
+            <RibbonTab Header="Movimentações" x:Name="TabMovimentacoes">
+                <RibbonGroup Header="MD-E">
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsPermissaoManifestadorNfe}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf187;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Gerenciar MD-e" Click="OnClickManifestadorNfe" />
+                </RibbonGroup>
+
+                <RibbonGroup Header="Compras">
+                    <RibbonButton tools:RibbonButtonHelper.LargeImageSource="&#xf1c9;"
+                                  tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                                  Label="Importar Compra"
+                                  controls:VisibilityHelper.IsVisible="{Binding IsGerenciarCompras}"
+                                  Click="ClickImportarCompraHandler" />
+
+                    <RibbonButton tools:RibbonButtonHelper.LargeImageSource="&#xf291;"
+                                  tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                                  controls:VisibilityHelper.IsVisible="{Binding IsGerenciarCompras}"
+                                  Label="Lançar Compra"
+                                  Click="ClickNovaEntradaHandler" />
+
+                    <RibbonButton tools:RibbonButtonHelper.LargeImageSource="&#xf290;"
+                                  tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                                  controls:VisibilityHelper.IsVisible="{Binding IsGerenciarCompras}"
+                                  Label="Listar Compras"
+                                  Click="ClickListarEntradasHandler" />
+
+                </RibbonGroup>
+
+                <RibbonGroup Header="MEI">
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf1ec;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Faturar"
+                        Click="ClickFaturamentoVenda"
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarFaturamento}" />
+
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf022;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Listar Faturamentos"
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarFaturamento}"
+                        Click="ClickListagemFaturamento" />
+
+                </RibbonGroup>
+
+                <RibbonGroup Header="Pedido de Venda" x:Name="TabPedidoVenda">
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf1ec;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Pedido / Orçamento"
+                        Click="ClickPedidoVendaOrcamento"
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarPedidoOrcamento}" />
+
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf022;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Listar Pedidos"
+                        Click="ClickListarPedidoVenda"
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarPedidoOrcamento}" />
+
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf013;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Preferências"
+                        controls:VisibilityHelper.IsVisible="{Binding IsPermissaoPreferenciaPedidoVenda}"
+                        Click="ClickPreferenciasPedidoVenda" />
+                </RibbonGroup>
+
+                <RibbonGroup Header="Lançamentos">
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf24e;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Movimentação de estoque"
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarMovimentoEstoque}"
+                        Click="OnClickMovimentacaoEstoque" />
+                </RibbonGroup>
+            </RibbonTab>
+
+            <RibbonTab Header="NF-e" x:Name="TabNfe">
+                <RibbonGroup Header="Perfils">
+
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarPerfilNFe}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf15c;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Perfil NF-e" Click="OnClickPerfilNfe" />
+                </RibbonGroup>
+
+                <RibbonGroup Header="Gerenciamento">
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarNFe}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf0f6;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Gerenciar NF-e" Click="OnClickEmitirNfe" />
+
+                    <RibbonButton tools:RibbonButtonHelper.LargeImageSource="&#xf0ad;"
+                                  controls:VisibilityHelper.IsVisible="{Binding IsInutilizarNFe}"
+                                  tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                                  Label="Inutilização de Número" Click="OnClickInutilizarNumeracao" />
+
+                    <RibbonButton tools:RibbonButtonHelper.LargeImageSource="&#xf021;"
+                                  controls:VisibilityHelper.IsVisible="{Binding IsGerenciarNFe}"
+                                  tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                                  Label="Consultar Status" Click="ClickStatusSefazNfeHandler" />
+                </RibbonGroup>
+
+                <RibbonGroup Header="Contingência">
+                    <RibbonButton tools:RibbonButtonHelper.LargeImageSource="&#xf0ec;"
+                                  controls:VisibilityHelper.IsVisible="{Binding IsGerenciarNFe}"
+                                  tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                                  Label="Contingência NF-e" Click="ClickContigenciaNfeHandler" />
+                </RibbonGroup>
+
+            </RibbonTab>
+
+            <RibbonTab Header="NFC-e" x:Name="TabNfce">
+                <RibbonGroup Header="Gerenciamento">
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarNFCe}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf0f6;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Gerenciar NFC-e" Click="CliqueGerenciarNFCe" />
+                </RibbonGroup>
+            </RibbonTab>
+
+            <RibbonTab Header="Transportes" x:Name="TabTransportes">
+                <RibbonGroup Header="CT-e" x:Name="GroupCte">
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarPerfilCTe}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf0f6;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Perfil CT-e" Click="PerfilCte_OnClick" />
+
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarCTe}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf0d1;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Gerenciar CT-e" Click="Emitir_OnClick" />
+                </RibbonGroup>
+
+                <RibbonGroup Header="CT-e OS" x:Name="GroupCteos">
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf0f6;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Perfil CT-e Os"
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarPerfilCteOs}"
+                        Click="PerfilCteOs_OnClick" />
+
+                    <RibbonButton
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf207;"
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarCteOs}"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Gerenciar CT-e Os" Click="GerenciarCteOS_OnClick" />
+                </RibbonGroup>
+
+                <RibbonGroup Header="CT-e\CT-e Os">
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsInutilizarCTe}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf0ad;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Inutilizar Númeração" Click="Inutilizacao_OnClick" />
+
+                </RibbonGroup>
+
+                <RibbonGroup Header="MDF-e" x:Name="GroupMdfe">
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsGerenciarMDFe}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf0f6;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Gerenciar MDF-e" Click="EmitirMDFe_OnClick" />
+
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsPermissaoEncerrarMdfe}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf00b;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Consulta não encerrados" Click="ConsultaNaoEncerrado_OnClick" />
+                </RibbonGroup>
+            </RibbonTab>
+
+            <RibbonTab Header="Exportar XML">
+                <RibbonGroup>
+                    <RibbonButton Style="{DynamicResource LargeButtonExportarXml}" />
+                    <RibbonButton Style="{DynamicResource LargeButtonExportarXmlImportacao}" />
+                </RibbonGroup>
+            </RibbonTab>
+
+            <RibbonTab Header="Sintegra">
+                <RibbonGroup Header="Sintegra">
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsPermissaoGerarSintegra}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf15b;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Gerar Sintegra" Click="OnClickSintegra" />
+                </RibbonGroup>
+
+                <RibbonGroup Header="Lançamentos">
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsPermissaoGerarSintegra}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf15b;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Nota Fiscal Outros" Click="OnClickLancarEnergiaEletrica" />
+
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsPermissaoGerarSintegra}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf15b;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Lançar ct-e/ct-e os" Click="OnClickLancarCteOuCteOs" />
+                </RibbonGroup>
+            </RibbonTab>
+
+            <RibbonTab Header="Relatórios">
+                <RibbonGroup Header="Relatório">
+                    <RibbonButton
+                        controls:VisibilityHelper.IsVisible="{Binding IsRelatorioListar}"
+                        tools:RibbonButtonHelper.LargeImageSource="&#xf02f;"
+                        tools:RibbonButtonHelper.LargeImageColor="{DynamicResource AccentColor2}"
+                        Label="Listar Relatórios" Click="OnClickRelatorios" />
+
+                </RibbonGroup>
+            </RibbonTab>
+
+        </Ribbon>
+
+        <Grid Margin="0,5,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <controls:MetroTabControl
+                Name="TabControl"
+                DockPanel.Dock="Top" Padding="0"
+                controls:TabControlHelper.Underlined="TabPanel"
+                controls:HeaderedControlHelper.HeaderFontSize="17.5"
+                KeepVisualTreeInMemoryWhenChangingTabs="False">
+
+                <controls:MetroTabItem
+                    Header="DashBoard" x:Name="TabInicial"
+                    controls:VisibilityHelper.IsVisible="{Binding IsPermissaoDashboard}" />
+            </controls:MetroTabControl>
+
+            <Grid Grid.Row="1" Background="White">
+                <Border Background="{DynamicResource AccentColorBrush2}" Padding="2">
+                    <Border.Resources>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="FontSize" Value="14" />
+                            <Setter Property="FontWeight" Value="DemiBold" />
+                        </Style>
+                    </Border.Resources>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Text="{Binding VersaoSistema, StringFormat='versão: {0}'}"
+                                VerticalAlignment="Center" Margin="0,0,20,0" />
+
+                            <TextBlock
+                                Text="{Binding NomeUsuarioLogado, StringFormat='usuário online: {0}'}"
+                                VerticalAlignment="Center" Margin="0,0,5,0" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Image Source="{x:Static wl:MarcaWhiteLabel.ImgTituloX48}" Height="25" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</fcs:FusionWindow>

@@ -1,0 +1,126 @@
+﻿<scw:ChildWindow x:Class="Fusion.Visao.DocumentoAPagar.GerarContasPagar"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:local="clr-namespace:Fusion.Visao.DocumentoAPagar"
+                 xmlns:scw="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+                 xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                 xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+                 xmlns:dados="clr-namespace:Fusion.Controles.Utilitarios.ComboBox"
+                 mc:Ignorable="d"
+                 d:DataContext="{d:DesignInstance local:GerarContasPagarModel}"
+                 Style="{DynamicResource ChildWindowStyle}"
+                 ChildWindowHeight="420" ChildWindowWidth="780"
+                 Loaded="OnLoad"
+                 Title="Gerar Contas a Pagar">
+
+    <Grid Name="RootContent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="325" />
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="Dados a Gerar">
+                <StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Selecione uma empresa" />
+                        <ComboBox
+                            dados:ComboBoxDados.OrigemDados="Empresas"
+                            IsEnabled="{Binding EmpresaIsEnable}"
+                            SelectedItem="{Binding EmpresaSelecionada}" />
+
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0">
+                        <TextBlock Text="Selecione um fornecedor" />
+                        <controles:SearchTextBox
+                            IsReadOnly="True"
+                            IsEnabled="{Binding FornecedorIsEnable}"
+                            Text="{Binding FornecedorSelecionado.Nome, Mode=OneWay}"
+                            SearchEvent="FornecedorPickClick" />
+
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0">
+                        <TextBlock Text="Data Emissão" />
+                        <DatePicker 
+                            IsEnabled="{Binding DataEmissaoIsEnable}"
+                            SelectedDate="{Binding DataEmissao, TargetNullValue=''}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0">
+                        <TextBlock Text="Tipo Documento" />
+                        <ComboBox 
+                            dados:ComboBoxDados.OrigemDados="TiposDeDocumento" 
+                            SelectedItem="{Binding TipoDocumento, TargetNullValue=''}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0">
+                        <TextBlock Text="Número referencia do documento (opcional)" />
+                        <TextBox Text="{Binding NumeroDocumento}" MaxLength="50" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0">
+                        <TextBlock Text="Descrição para auxiliar a lembrar do documento (opcional)" />
+                        <TextBox Text="{Binding Descricao}" MaxLength="120" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Grid.Row="0" Grid.Column="1" Header="Parcelas a Gerar">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <StackPanel Width="120">
+                            <TextBlock Text="Valor Total" />
+                            <controles:DecimalTextBox
+                                Text="{Binding ValorTotal, StringFormat=N2, TargetNullValue=''}"
+                                LimiteDecimal="2" />
+                        </StackPanel>
+
+                        <Border Margin="5,0,0,0">
+                            <Button
+                                Click="OnClickGerenciarParcelas"
+                                Style="{DynamicResource FusionAccentedButton2}"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Content="Gerenciar parcelas" />
+                        </Border>
+                    </StackPanel>
+
+                    <DataGrid 
+                        Margin="0,10,0,0"
+                        DockPanel.Dock="Bottom"
+                        IsReadOnly="False" 
+                        ItemsSource="{Binding ParcelasItems}">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Numero}" Width="Auto"
+                                                Header="Num" />
+                            <DataGridTextColumn Binding="{Binding Vencimento, StringFormat='dd/MM/yyyy'}" Width="Auto"
+                                                Header="Vencimento" />
+                            <DataGridTextColumn Binding="{Binding Valor, StringFormat=N2}"
+                                                helpers:DataGridColumnHelper.Align="Right" Width="*" Header="Valor" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </GroupBox>
+        </Grid>
+
+        <Border Height="40" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button
+                    x:Name="BotaoSalvar"
+                    Margin="5,0" Width="170"
+                    Style="{DynamicResource FusionAccentedButton}" Content="Gerar documentos"
+                    Click="OnClickGerar" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</scw:ChildWindow>

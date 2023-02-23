@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="03/09/2018 16:55:20" ReportInfo.Modified="07/24/2019 11:34:53" ReportInfo.CreatorVersion="2016.3.22.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqKCvV1eox1mENjGvfrbFtX9jJwaCsZhZzrZOJOIPNm68pMOUwC/RfP3VXnBwmK7kfRTZyvWxDmx+Gbm9NKj6GYmueuduy+PY4/YxYXYyU8MLlj3DoNo8IyUH2Oz7/fFeXLQ/nB+8ft4CXhec2rsZiNgIPdJrUzuHe3pDo6zuyCbAdi9uWyQP1Ofr1/8/sVaCGqXPhGZeETVMftMUEfPCQ/g==">
+      <TableDataSource Name="Table" Alias="Produtos" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	p.id,&#13;&#10;	p.nome as nomeProduto,&#13;&#10;	p.referencia,&#13;&#10;	p.precoVenda,&#13;&#10;	un.sigla as siglaUnidade, &#13;&#10;	grp.nome as nomeGrupo&#13;&#10;from produto p&#13;&#10;inner join produto_unidade un on p.produtoUnidade_id = un.id&#13;&#10;inner join produto_grupo grp on p.produtoGrupo_id = grp.id&#13;&#10;where p.ativo = 1">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="nomeProduto" DataType="System.String"/>
+        <Column Name="referencia" DataType="System.String"/>
+        <Column Name="siglaUnidade" DataType="System.String"/>
+        <Column Name="nomeGrupo" DataType="System.String"/>
+        <Column Name="precoVenda" DataType="System.Decimal"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="49.14">
+      <TextObject Name="Text9" Left="286.83" Top="0.45" Width="430.92" Height="17.68" Text="Relatório de listagem de produtos no estoque por grupos" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text14" Left="286.83" Top="17.9" Width="430.92" Height="15.9" Text="Relatório emitido em: [Date]" HorzAlign="Right"/>
+    </ReportTitleBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="51.52" Width="718.2" Height="26.46" Border.Lines="All" Border.Width="0.25" Condition="[Produtos.nomeGrupo]">
+      <TextObject Name="Text7" Left="88.83" Top="7.56" Width="627.48" Height="18.9" Text="[Produtos.nomeGrupo]" Font="Arial, 12pt, style=Bold"/>
+      <TextObject Name="Text19" Top="7.56" Width="88.83" Height="18.9" Text="Grupo: [Produtos.nomeGrupo]" Font="Arial, 12pt"/>
+      <DataBand Name="Data1" Top="103.53" Width="718.2" Height="37.8" Border.Lines="Left, Right" Border.Width="0.25" CanGrow="true" CanShrink="true" CanBreak="true" DataSource="Table" KeepTogether="true">
+        <TextObject Name="Text1" Left="51.03" Width="374.22" Height="13.23" CanGrow="true" GrowToBottom="true" Text="[Produtos.nomeProduto]" Font="Arial, 8pt"/>
+        <TextObject Name="Text3" Width="49.14" Height="13.23" CanBreak="false" Text="[Produtos.id]" Format="Custom" Format.Format="0000" HorzAlign="Center" WordWrap="false" Font="Arial, 8pt"/>
+        <TextObject Name="Text5" Left="582.12" Width="66.15" Height="13.23" CanBreak="false" Text="[Produtos.siglaUnidade]" WordWrap="false" Font="Arial, 8pt"/>
+        <TextObject Name="Text15" Left="649.15" Width="68.04" Height="13.23" CanBreak="false" Text="[Produtos.precoVenda]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text17" Left="427.14" Width="153.09" Height="13.23" Text="[Produtos.referencia]" Font="Arial, 8pt"/>
+        <DataHeaderBand Name="DataHeader1" Top="80.36" Width="718.2" Height="20.79" Border.Lines="Left, Right" Border.Width="0.25">
+          <TextObject Name="Text2" Left="51.03" Top="1.89" Width="374.22" Height="18.9" Text="Descrição do produto" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text4" Top="1.89" Width="49.14" Height="18.9" Text="Cod." HorzAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text6" Left="582.12" Top="1.89" Width="66.15" Height="18.9" Text="Unidade" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text16" Left="649.15" Top="1.89" Width="68.04" Height="18.9" Text="P. Venda" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text18" Left="427.14" Top="1.89" Width="153.09" Height="18.9" Text="Referencia" Font="Arial, 10pt, style=Bold"/>
+        </DataHeaderBand>
+        <Sort>
+          <Sort Expression="[Produtos.nomeProduto]"/>
+        </Sort>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="143.71" Width="718.2" Height="13.23" Border.Lines="Left, Right, Bottom" Border.Width="0.25" CanGrow="true" CanShrink="true" CanBreak="true"/>
+    </GroupHeaderBand>
+  </ReportPage>
+</Report>

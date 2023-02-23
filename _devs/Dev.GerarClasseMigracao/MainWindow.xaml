@@ -1,0 +1,26 @@
+﻿<Window x:Class="Dev.GerarClasseMigracao.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Auxiliar criação de classe para migração" 
+        Height="250" Width="500"
+        FocusManager.FocusedElement="{Binding ElementName=TbNomeMigracao}">
+
+    <StackPanel Margin="15">
+        <StackPanel Margin="0,0,0,5">
+            <TextBlock>Nome da Migração (Classe)</TextBlock>
+            <TextBox 
+                Name="TbNomeMigracao"
+                CharacterCasing="Normal" 
+                Text="{Binding NomeClasse}" MaxLength="255"
+                PreviewTextInput="TbMigracaoTextInputHandler"
+                PreviewKeyDown="TbMigracaoKeyDownHandler"/>
+        </StackPanel>
+
+        <Button Command="{Binding CommandGerarMigracaoFusionAdm}">Gerar Migração FusionAdm</Button>
+        <Button Margin="0,5,0,0" Command="{Binding CommandGerarMigracaoFusionNfce}">Gerar Migração FusionNfce</Button>
+        <Button Margin="0,5,0,0" Command="{Binding CommandGerarMigracaoFusionRelatorio}">Gerar Migração FusionRelatorio</Button>
+    </StackPanel>
+</Window>

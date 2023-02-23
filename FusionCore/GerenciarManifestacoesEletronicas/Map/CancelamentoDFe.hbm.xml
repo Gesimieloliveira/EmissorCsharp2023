@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.GerenciarManifestacoesEletronicas"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+
+  <class name="CancelamentoDFe" table="mde_cancelamento">
+
+    <id name="NfeResumidaId" column="mdeResumo_id">
+      <generator class="foreign">
+        <param name="property">NfeResumida</param>
+      </generator>
+    </id>
+
+    <one-to-one name="NfeResumida" constrained="true" />
+
+    <property name="Xml">
+      <column name="xml" not-null="true" length="2147483647"/>
+    </property>
+  </class>
+
+</hibernate-mapping>

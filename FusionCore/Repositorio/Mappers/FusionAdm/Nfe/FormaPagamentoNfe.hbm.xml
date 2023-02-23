@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF.Pagamentos"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class abstract="true" name="FormaPagamentoNfe" table="nfe_forma_pagamento">
+
+    <id name="Id" column="id" generator="identity" unsaved-value="0" />
+    <discriminator column="tipo" not-null="true" />
+
+    <many-to-one name="NFe" not-null="true" cascade="none" column="nfe_id" />
+
+    <property name="Valor" column="valor" not-null="true" />
+
+    <property name="CriadoEm" column="criadoEm" not-null="true" />
+
+    <many-to-one name="Usuario" column="usuario_id" cascade="none" not-null="true" />
+
+    <property name="PossuiParcelamento" column="possuiParcelamento" not-null="true" />
+
+    <many-to-one name="TipoDocumento" class="FusionCore.FusionAdm.Financeiro.TipoDocumento" cascade="none">
+      <column name="tipoDocumento_id" not-null="false" />
+    </many-to-one>
+
+    <subclass name="DinheiroNfe" discriminator-value="0" extends="FormaPagamentoNfe" />
+
+    <subclass name="Aprazo" discriminator-value="1" extends="FormaPagamentoNfe">
+
+      <bag name="Parcelas" access="nosetter.camelcase-underscore" cascade="all-delete-orphan" inverse="true">
+        <key column="nfeFormaPagamento_id" />
+        <one-to-many class="ParcelaNfe" />
+      </bag>
+
+    </subclass>
+
+    <subclass name="CartaoCreditoNfe" discriminator-value="2" extends="FormaPagamentoNfe" />
+    <subclass name="CartaoDebitoNfe" discriminator-value="3" extends="FormaPagamentoNfe" />
+    <subclass name="PixNfe" discriminator-value="4" extends="FormaPagamentoNfe" />
+  </class>
+</hibernate-mapping>

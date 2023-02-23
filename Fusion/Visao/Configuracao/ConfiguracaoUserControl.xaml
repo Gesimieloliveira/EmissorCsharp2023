@@ -1,0 +1,389 @@
+﻿<UserControl x:Class="Fusion.Visao.Configuracao.ConfiguracaoUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:configuracoes="clr-namespace:FusionCore.FusionAdm.Configuracoes;assembly=FusionCore"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:net="clr-namespace:FusionCore.Core.Net;assembly=FusionCore"
+             xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             xmlns:cv="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:model="clr-namespace:Fusion.Visao.Configuracao.Model"
+             mc:Ignorable="d" d:DesignWidth="960"
+             d:DataContext="{d:DesignInstance model:ConfiguracaoModel}"
+             Loaded="LoadedHandler"
+             Background="White">
+
+    <Grid>
+        <ScrollViewer
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Auto"
+            Padding="0,0,0,30">
+
+            <StackPanel>
+                <GroupBox Header="Configurações do servidor e-mail">
+                    <StackPanel>
+                        <StackPanel>
+                            <DockPanel IsEnabled="False">
+                                <TextBlock
+                                    DockPanel.Dock="Left"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="Usar servidor proprio do sistema?" />
+
+                                <controls:ToggleSwitch
+                                    IsEnabled="False"
+                                    IsOn="{Binding Email.UserServidorProprio}"
+                                    DockPanel.Dock="Left"
+                                    ContentDirection="LeftToRight"
+                                    OnContent="Sim"
+                                    OffContent="Não" />
+
+                            </DockPanel>
+
+                            <StackPanel IsEnabled="{Binding Email.UserServidorProprio}">
+                                <TextBlock Text="E-Mail de Resposta" />
+                                <TextBox Text="{Binding Email.EmailResposta}" CharacterCasing="Normal" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel
+                            IsEnabled="{Binding Email.UserServidorProprio, Converter={cv:InverseBooleanConverter}}">
+                            <StackPanel>
+                                <TextBlock Text="SMTP do servidor de e-mail" />
+                                <TextBox Text="{Binding Email.Smtp}" CharacterCasing="Normal" />
+                            </StackPanel>
+
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Left" Width="100">
+                                    <TextBlock Text="Porta" />
+                                    <TextBox Text="{Binding Email.Porta}" />
+                                </StackPanel>
+
+                                <StackPanel DockPanel.Dock="Left" Margin="5,0,0,0">
+                                    <TextBlock Text="Protocolo segurança" />
+                                    <ComboBox
+                                        IsEditable="False"
+                                        ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type net:ProtocoloSeguranca}}}"
+                                        SelectedItem="{Binding Email.Protocolo}" />
+                                </StackPanel>
+                            </DockPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="E-mail de envio" />
+                                <TextBox Text="{Binding Email.Email}" CharacterCasing="Normal" />
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="Senha do e-mail de envio" />
+                                <PasswordBox
+                                    wpf:PasswordHelper.Attach="True"
+                                    wpf:PasswordHelper.Password="{Binding Email.Senha, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Configurações de Vendedor" Margin="0,5,0,0">
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock
+                                DockPanel.Dock="Left"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="Sempre utilizar vendedor nas vendas?" />
+                            
+                            <controls:ToggleSwitch
+                                IsOn="{Binding ControleVendedor.UsarVendedor}"
+                                DockPanel.Dock="Left"
+                                ContentDirection="LeftToRight"
+                                HorizontalContentAlignment="Right"
+                                OnContent="Sim"
+                                OffContent="Não" />
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Configurações de estoque" Margin="0,5,0,0">
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock
+                                DockPanel.Dock="Left"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="Bloqueia estoque negativo?" />
+
+                            <controls:ToggleSwitch
+                                IsOn="{Binding Estoque.BloqueiaEstoqueNegativo}"
+                                DockPanel.Dock="Left"
+                                ContentDirection="LeftToRight"
+                                HorizontalContentAlignment="Right"
+                                OnContent="Sim"
+                                OffContent="Não" />
+
+                        </DockPanel>
+                        <DockPanel Margin="0, 2">
+                            <TextBlock
+                                DockPanel.Dock="Left"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="Movimenta estoque Faturamento?" />
+
+                            <controls:ToggleSwitch
+                                IsOn="{Binding ConfiguracaoEstoqueFaturamento.MovimentarEstoqueFaturamento}"
+                                DockPanel.Dock="Left"
+                                ContentDirection="LeftToRight"
+                                HorizontalContentAlignment="Right"
+                                OnContent="Sim"
+                                OffContent="Não" />
+
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Configurações controle de caixa" Margin="0,5,0,0">
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock
+                                DockPanel.Dock="Left"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="Controlar caixa no Gestor" />
+
+                            <controls:ToggleSwitch
+                                IsOn="{Binding ControleCaixa.ControlaCaixaNoGestor}"
+                                DockPanel.Dock="Left"
+                                ContentDirection="LeftToRight"
+                                HorizontalContentAlignment="Right"
+                                OnContent="Sim"
+                                OffContent="Não" />
+
+                        </DockPanel>
+
+                        <DockPanel>
+                            <TextBlock
+                                DockPanel.Dock="Left"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="Controlar caixa no NFC-e" />
+
+                            <controls:ToggleSwitch
+                                IsOn="{Binding ControleCaixa.ControlaCaixaNoNfce}"
+                                DockPanel.Dock="Left"
+                                ContentDirection="LeftToRight"
+                                HorizontalContentAlignment="Right"
+                                OnContent="Sim"
+                                OffContent="Não" />
+
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Configurações para balança" Margin="0,5,0,0">
+                    <StackPanel>
+                        <StackPanel HorizontalAlignment="Right">
+                            <controls:ToggleSwitch
+                                ContentDirection="LeftToRight"
+                                OnContent="Utiliza Balança"
+                                OffContent="Não Utiliza Balança"
+                                IsOn="{Binding Balanca.Ativo}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Width="130">
+                                <TextBlock>Tamanho do Código</TextBlock>
+                                <ComboBox
+                                    IsEditable="False"
+                                    SelectedValue="{Binding Balanca.TamanhoCodigo}"
+                                    SelectedValuePath="Tag">
+                                    <ComboBoxItem Tag="1" Content="1" />
+                                    <ComboBoxItem Tag="2" Content="2" />
+                                    <ComboBoxItem Tag="3" Content="3" />
+                                    <ComboBoxItem Tag="4" Content="4" />
+                                    <ComboBoxItem Tag="5" Content="5" />
+                                    <ComboBoxItem Tag="6" Content="6" />
+                                    <ComboBoxItem Tag="7" Content="7" />
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel Width="130" Margin="5,0,0,0">
+                                <TextBlock>Dígito Verificador</TextBlock>
+                                <ComboBox
+                                    IsEditable="False"
+                                    SelectedValue="{Binding Balanca.DigitoVerificador}"
+                                    SelectedValuePath="Tag">
+                                    <ComboBoxItem Tag="1" Content="1" />
+                                    <ComboBoxItem Tag="2" Content="2" />
+                                    <ComboBoxItem Tag="3" Content="3" />
+                                    <ComboBoxItem Tag="4" Content="4" />
+                                    <ComboBoxItem Tag="5" Content="5" />
+                                    <ComboBoxItem Tag="6" Content="6" />
+                                    <ComboBoxItem Tag="7" Content="7" />
+                                    <ComboBoxItem Tag="8" Content="8" />
+                                    <ComboBoxItem Tag="9" Content="9" />
+                                    <ComboBoxItem Tag="10" Content="10" />
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel Margin="5,0,0,0" Width="130">
+                                <TextBlock>Casas Decimais</TextBlock>
+                                <ComboBox
+                                    IsEditable="False"
+                                    SelectedValue="{Binding Balanca.CasasDecimais}"
+                                    SelectedValuePath="Tag">
+
+                                    <ComboBoxItem Tag="1" Content="1" />
+                                    <ComboBoxItem Tag="2" Content="2" />
+                                    <ComboBoxItem Tag="3" Content="3" />
+                                    <ComboBoxItem Tag="4" Content="4" />
+                                    <ComboBoxItem Tag="5" Content="5" />
+                                    <ComboBoxItem Tag="6" Content="6" />
+                                    <ComboBoxItem Tag="7" Content="7" />
+                                    <ComboBoxItem Tag="8" Content="8" />
+                                    <ComboBoxItem Tag="9" Content="9" />
+                                    <ComboBoxItem Tag="10" Content="10" />
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel Margin="5,0,0,0" Width="160">
+                                <TextBlock>Modo de Operação</TextBlock>
+                                <ComboBox
+                                    ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type configuracoes:ModoDeOperacao}}}"
+                                    SelectedItem="{Binding Balanca.ModoDeOperacao, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEditable="False" />
+                            </StackPanel>
+
+                            <StackPanel Margin="5,0,0,0">
+                                <TextBlock Text="Posição inicio do peso/preço" />
+                                <ComboBox
+                                    IsEditable="False"
+                                    SelectedValue="{Binding Balanca.InicioQuantificador}"
+                                    SelectedValuePath="Tag">
+
+                                    <ComboBoxItem Tag="5" Content="5" />
+                                    <ComboBoxItem Tag="6" Content="6" />
+                                    <ComboBoxItem Tag="7" Content="7" />
+                                    <ComboBoxItem Tag="8" Content="8" />
+                                    <ComboBoxItem Tag="9" Content="9" />
+                                    <ComboBoxItem Tag="10" Content="10" />
+                                </ComboBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Configuração para financeiro" Margin="0,5,0,0">
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Qual Taxa de Juros Mensal deseja utilizar (documentos a receber)?" />
+
+                            <controles:DecimalTextBox Text="{Binding Financeiro.TaxaDeJurosMensal, StringFormat=N2}" />
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Frente de caixa" Margin="0,5,0,0">
+                    <StackPanel>
+                        <DockPanel Margin="0,5,0,0">
+                            <TextBlock
+                                DockPanel.Dock="Left"
+                                Text="Obrigar a informação do cliente em vendas acima ou igual à:"
+                                VerticalAlignment="Center"
+                                FontSize="14" />
+
+                            <controles:DecimalTextBox
+                                DockPanel.Dock="Right"
+                                Text="{Binding FrenteCaixa.ValorMinimoParaForcarClienteNaVenda, StringFormat=N2, Mode=TwoWay, Converter={cv:TextToDecimalOrNull}}"
+                                Width="150"
+                                HorizontalAlignment="Right" />
+
+                        </DockPanel>
+
+
+                        <DockPanel Margin="0,5,0,0">
+                            <TextBlock
+                                Text="Bloquear frente de caixa para resolver vendas pendentes?"
+                                VerticalAlignment="Center"
+                                FontSize="14" />
+
+                            <controls:ToggleSwitch
+                                OnContent="Sim" OffContent="Não"
+                                ContentDirection="LeftToRight"
+                                HorizontalContentAlignment="Right"
+                                IsOn="{Binding FrenteCaixa.IsBloquearVendaParaResolverPendencia}" />
+
+                        </DockPanel>
+
+                        <DockPanel Margin="0,5,0,0">
+                            <TextBlock
+                                Text="Imprimir duas vias frente de caixa quando estiver em contingência"
+                                VerticalAlignment="Center"
+                                FontSize="14" />
+
+                            <controls:ToggleSwitch
+                                OnContent="Sim" OffContent="Não"
+                                ContentDirection="LeftToRight"
+                                HorizontalContentAlignment="Right"
+                                IsOn="{Binding FrenteCaixa.IsSegundaViaContingencia}" />
+
+                        </DockPanel>
+
+                        <StackPanel Margin="0,10,0,0">
+                            <TextBlock
+                                Foreground="{DynamicResource AccentColorBrush}"
+                                TextAlignment="Center"
+                                FontSize="14"
+                                Text="Logo para exibir nos terminais" />
+
+                            <Border BorderThickness="1" BorderBrush="{DynamicResource GrayBrush2}"
+                                    HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Command="{Binding FrenteCaixa.SelecionaLogoCommand }"
+                                            ClickMode="Release"
+                                            Style="{DynamicResource FusionAccentedButton}">
+
+                                        <fa:ImageAwesome Icon="Search" Width="15"
+                                                         Foreground="{DynamicResource WhiteBrush}" />
+                                    </Button>
+
+                                    <Image Source="{Binding FrenteCaixa.Logo}" Height="100" Width="280" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Configurações Serviço" Margin="0,5,0,0">
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock
+                                Text="Habilitar exportação de xml para o disco rígido pelo serviço?"
+                                VerticalAlignment="Center"
+                                FontSize="14" />
+
+                            <controls:ToggleSwitch
+                                OnContent="Sim" OffContent="Não"
+                                ContentDirection="LeftToRight"
+                                HorizontalContentAlignment="Right"
+                                IsOn="{Binding FusionServico.ExportacaoAtiva}" />
+
+                        </DockPanel>
+
+                        <StackPanel IsEnabled="{Binding FusionServico.ExportacaoAtiva}">
+                            <TextBlock Text="Diretório de exportação para os documentos" />
+                            <controles:SearchTextBox
+                                IsReadOnly="True"
+                                Text="{Binding FusionServico.DiretorioExportacao}"
+                                SearchEvent="ClickDiretorioExportacaoHandler" />
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

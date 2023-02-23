@@ -1,0 +1,13 @@
+﻿<controls:MetroWindow x:Class="FusionPdv.Visao.Principal.ProgressBarCarregar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        Title="Carregando Caixa Aguarde..." Height="300" Width="300"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Language="pt-BR"
+        Style="{DynamicResource MetroWindowStyle}" WindowButtonCommandsOverlayBehavior="Never">
+    <Grid>
+        <controls:ProgressRing IsActive="True"></controls:ProgressRing>
+    </Grid>
+</controls:MetroWindow>

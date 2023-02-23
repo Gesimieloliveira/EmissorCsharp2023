@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" TextQuality="Regular" ReportInfo.Description="Demonstrates the master-detail report with groups. To create a report like this one:&#13;&#10;- go &quot;Report|Configure Bands...&quot; menu and create the report structure.&#13;&#10;The page can contain service bands such as page header, report title, and one or several data bands or groups.&#13;&#10;Each data band can contain one or several data bands or groups.&#13;&#10;Each group can contain either nested group or a data band." ReportInfo.Created="01/18/2008 00:04:46" ReportInfo.Modified="11/29/2022 16:33:20" ReportInfo.CreatorVersion="1.0.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {
+
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      DateTime today = DateTime.Today;      
+      DataInicio.Value = new DateTime(today.Year,today.Month,1);
+      DataFinal.Value = today;
+      
+    }
+    
+    private void btnOk_Click(object sender, EventArgs e)
+    {   
+      Report.SetParameterValue(&quot;DtInicio&quot;,DataInicio.Value.Date);
+      Report.SetParameterValue(&quot;DtFinal&quot;, DataFinal.Value.Date);      
+      DataUsuario.FilterData();   
+      CbEmpresa.FilterData();
+    }                                                        
+  }
+}
+</ScriptText>
+  <Styles>
+    <Style Name="EvenRows" Fill.Color="Linen" Font="Arial, 10pt"/>
+  </Styles>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqAFHGp6KQj27H4qUwAIR20sLVibrDpPMLZcv0eTvRzhsIIaXB/XqQj4Y6b0G2+xdqcOkmPbTAsVxsFIV1L6G3dim4oyksporo5QljhYR7j8TMqrN39FxBYazO7f2+rwrUgp1f4EgAtuz27uJpkhGj8PXIkcJojuj73KK4RNrV23bjxGQJ61AhZrwPkTwj869Z5pJtzn7TIqwO3OHEwhrDZQ==">
+      <TableDataSource Name="vendas" Alias="view_vendas" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select &#13;&#10;&#13;&#10;*&#13;&#10;&#13;&#10; from view_vendas &#13;&#10;&#13;&#10;where dataVenda between @Inicio and @Fim and estadoVenda = 1">
+        <Column Name="modelo" DataType="System.String"/>
+        <Column Name="ehFiscal" DataType="System.Int32"/>
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="empresa_id" DataType="System.Int16"/>
+        <Column Name="usuarioCriouId" DataType="System.Int32"/>
+        <Column Name="cliente_id" DataType="System.Int32"/>
+        <Column Name="estadoVenda" DataType="System.Int32"/>
+        <Column Name="estadoVendaTexto" DataType="System.String"/>
+        <Column Name="dataVenda" DataType="System.DateTime"/>
+        <Column Name="numeroDocumento" DataType="System.Int32"/>
+        <Column Name="serieDocumento" DataType="System.Int16"/>
+        <Column Name="chaveDocumento" DataType="System.String"/>
+        <Column Name="totalDesconto" DataType="System.Decimal"/>
+        <Column Name="totalVenda" DataType="System.Decimal"/>
+        <Column Name="usuarioLogin" DataType="System.String"/>
+        <CommandParameter Name="Inicio" DataType="4" Expression="[DtInicio]" DefaultValue="1999-01-01"/>
+        <CommandParameter Name="Fim" DataType="4" Expression="[DtFinal]" DefaultValue="1999-01-01"/>
+      </TableDataSource>
+      <TableDataSource Name="vendas_itens" Alias="view_vendas_itens" DataType="System.Int32" PropName="Table1" Enabled="true" SelectCommand="select&#13;&#10;&#13;&#10; *&#13;&#10;&#13;&#10; from view_vendas_com_itens&#13;&#10;where dataVenda between @Inicio and @Fim">
+        <Column Name="modelo" DataType="System.String"/>
+        <Column Name="ehFiscal" DataType="System.Int32"/>
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="empresa_id" DataType="System.Int16"/>
+        <Column Name="usuarioCriouId" DataType="System.Int32"/>
+        <Column Name="cliente_id" DataType="System.Int32"/>
+        <Column Name="estadoVenda" DataType="System.Int32"/>
+        <Column Name="estadoVendaTexto" DataType="System.String"/>
+        <Column Name="dataVenda" DataType="System.DateTime"/>
+        <Column Name="numeroDocumento" DataType="System.Int32"/>
+        <Column Name="serieDocumento" DataType="System.Int16"/>
+        <Column Name="chaveDocumento" DataType="System.String"/>
+        <Column Name="totalDesconto" DataType="System.Decimal"/>
+        <Column Name="totalVenda" DataType="System.Decimal"/>
+        <Column Name="usuarioLogin" DataType="System.String"/>
+        <Column Name="item_id" DataType="System.Int32"/>
+        <Column Name="produto_id" DataType="System.Int32"/>
+        <Column Name="siglaUnidade" DataType="System.String"/>
+        <Column Name="itemPrecoCusto" DataType="System.Decimal"/>
+        <Column Name="itemPrecoVenda" DataType="System.Decimal"/>
+        <Column Name="itemQuantidade" DataType="System.Decimal"/>
+        <Column Name="itemPrecoUnitario" DataType="System.Decimal"/>
+        <Column Name="itemTotalBruto" DataType="System.Decimal"/>
+        <Column Name="itemDesconto" DataType="System.Decimal"/>
+        <Column Name="itemTotal" DataType="System.Decimal"/>
+        <Column Name="codigoCfop" DataType="System.String"/>
+        <Column Name="codigoNcm" DataType="System.String"/>
+        <Column Name="itemCstIcms" DataType="System.String"/>
+        <Column Name="itemAliquotaIcms" DataType="System.Decimal"/>
+        <Column Name="itemValorIcms" DataType="System.Decimal"/>
+        <Column Name="itemPis" DataType="System.String"/>
+        <Column Name="itemAliquotaPis" DataType="System.Decimal"/>
+        <Column Name="itemValorPis" DataType="System.Decimal"/>
+        <Column Name="itemCofins" DataType="System.String"/>
+        <Column Name="itemAliquotaCofins" DataType="System.Decimal"/>
+        <Column Name="itemValorCofins" DataType="System.Decimal"/>
+        <Column Name="itemIpi" DataType="System.String"/>
+        <Column Name="itemAliquotaIpi" DataType="System.Decimal"/>
+        <Column Name="itemValorIpi" DataType="System.Decimal"/>
+        <Column Name="nomeProduto" DataType="System.String"/>
+        <CommandParameter Name="Inicio" DataType="31" Expression="[DtInicio]" DefaultValue="1999-01-01"/>
+        <CommandParameter Name="Fim" DataType="31" Expression="[DtFinal]" DefaultValue="1999-01-01"/>
+      </TableDataSource>
+      <TableDataSource Name="vendas_pagamentos" Alias="view_vendas_pagamentos" DataType="System.Int32" PropName="Table2" Enabled="true" SelectCommand="select&#13;&#10; &#13;&#10;*&#13;&#10;&#13;&#10; from view_vendas_pagamentos&#13;&#10;where dataVenda between @Inicio and @Fim">
+        <Column Name="idUsuario" DataType="System.Int32"/>
+        <Column Name="loginUsuario" DataType="System.String"/>
+        <Column Name="idVenda" DataType="System.Int32"/>
+        <Column Name="modelo" DataType="System.String"/>
+        <Column Name="formaPagamento" DataType="System.String"/>
+        <Column Name="valorVenda" DataType="System.Decimal"/>
+        <Column Name="valorPagamento" DataType="System.Decimal"/>
+        <Column Name="idEmpresa" DataType="System.Int16"/>
+        <Column Name="dataVenda" DataType="System.DateTime"/>
+        <CommandParameter Name="Inicio" DataType="31" Expression="[DtInicio]" DefaultValue="1999-01-01"/>
+        <CommandParameter Name="Fim" DataType="31" Expression="[DtFinal]" DefaultValue="1999-01-01"/>
+      </TableDataSource>
+      <TableDataSource Name="usuarios" DataType="System.Int32" PropName="Table3" Enabled="true" SelectCommand="select * from usuario">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="login" DataType="System.String"/>
+        <Column Name="senha" DataType="System.String"/>
+        <Column Name="tema" DataType="System.String"/>
+        <Column Name="alteradoEm" DataType="System.DateTime"/>
+        <Column Name="cadastradoEm" DataType="System.DateTime"/>
+        <Column Name="apenasFaturamento" DataType="System.Boolean" BindableControl="CheckBox"/>
+      </TableDataSource>
+      <TableDataSource Name="empresas" Alias="empresa" DataType="System.Int32" PropName="Table4" Enabled="true" SelectCommand="select &#13;&#10;	e.id,&#13;&#10;	(e.razaoSocial + ',' + cast(e.id as varchar)) as nome,&#13;&#10;	e.razaoSocial,&#13;&#10;	e.nomeFantasia,&#13;&#10;	e.logradouro,&#13;&#10;	e.cep,&#13;&#10;	e.bairro,&#13;&#10;	e.numero,&#13;&#10;	e.fone1,&#13;&#10;	e.fone2,&#13;&#10;	case when len(e.cnpj) = 14 then e.cnpj else e.cpf end as cpfnpj,&#13;&#10;	e.logo&#13;&#10;from empresa e">
+        <Column Name="razaoSocial" DataType="System.String"/>
+        <Column Name="nomeFantasia" DataType="System.String"/>
+        <Column Name="cep" DataType="System.String"/>
+        <Column Name="logradouro" DataType="System.String"/>
+        <Column Name="bairro" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <Column Name="fone1" DataType="System.String"/>
+        <Column Name="fone2" DataType="System.String"/>
+        <Column Name="logo" DataType="System.Byte[]" BindableControl="Picture"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="cpfnpj" DataType="System.String"/>
+        <Column Name="id" DataType="System.Int16"/>
+      </TableDataSource>
+      <TableDataSource Name="total_pagamentos_por_usuario" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select &#13;&#10;&#13;&#10;vp.idUsuario,&#13;&#10;vp.idEmpresa,&#13;&#10;vp.formaPagamento,&#13;&#10;SUM(vp.valorPagamento) as total&#13;&#10;&#13;&#10;from view_vendas_pagamentos vp&#13;&#10;where vp.dataVenda between @Inicio and @Fim and vp.estadoVenda = 1&#13;&#10;group by vp.idUsuario, vp.idEmpresa, vp.formaPagamento">
+        <Column Name="idUsuario" DataType="System.Int32"/>
+        <Column Name="formaPagamento" DataType="System.String"/>
+        <Column Name="total" DataType="System.Decimal"/>
+        <Column Name="idEmpresa" DataType="System.Int16"/>
+        <CommandParameter Name="Inicio" DataType="31" Expression="[DtInicio]" DefaultValue="1999-01-01"/>
+        <CommandParameter Name="Fim" DataType="31" Expression="[DtFinal]" DefaultValue="1900-01-01"/>
+      </TableDataSource>
+      <TableDataSource Name="resumo_pagamentos_por_empresa" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select &#13;&#10;&#13;&#10;vp.idEmpresa,&#13;&#10;vp.formaPagamento,&#13;&#10;SUM(vp.valorPagamento) as total&#13;&#10;&#13;&#10;from view_vendas_pagamentos vp&#13;&#10;where vp.dataVenda between @Inicio and @Fim and vp.estadoVenda = 1&#13;&#10;group by vp.idEmpresa, vp.formaPagamento">
+        <Column Name="formaPagamento" DataType="System.String"/>
+        <Column Name="total" DataType="System.Decimal"/>
+        <Column Name="idEmpresa" DataType="System.Int16"/>
+        <CommandParameter Name="Inicio" DataType="31" Expression="[DtInicio]" DefaultValue="1999-01-01"/>
+        <CommandParameter Name="Fim" DataType="31" Expression="[DtFinal]" DefaultValue="1900-01-01"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Relation Name="Table_Table1" ParentDataSource="vendas" ChildDataSource="vendas_itens" ParentColumns="id" ChildColumns="id" Enabled="true"/>
+    <Relation Name="Table_Table2" ParentDataSource="vendas" ChildDataSource="vendas_pagamentos" ParentColumns="id" ChildColumns="idVenda" Enabled="true"/>
+    <Relation Name="Table4_Table" ParentDataSource="empresas" ChildDataSource="vendas" ParentColumns="id" ChildColumns="empresa_id" Enabled="true"/>
+    <Relation Name="usuarios_vendas" ParentDataSource="usuarios" ChildDataSource="vendas" ParentColumns="id" ChildColumns="usuarioCriouId" Enabled="true"/>
+    <Relation Name="usuarios_total_pagamentos_por_usuario" ParentDataSource="usuarios" ChildDataSource="total_pagamentos_por_usuario" ParentColumns="id" ChildColumns="idUsuario" Enabled="true"/>
+    <Parameter Name="DtInicio" DataType="System.DateTime"/>
+    <Parameter Name="DtFinal" DataType="System.DateTime"/>
+    <Total Name="TotalVenda" Expression="[view_vendas_itens.itemTotal]" Evaluator="DB_Sales_Product" PrintOn="DF_Sales_Product"/>
+    <Total Name="TotalDescontos" Expression="[view_vendas_itens.itemDesconto]" Evaluator="DB_Sales_Product"/>
+    <Total Name="TotalVendas" Expression="[view_vendas.totalVenda]" Evaluator="DB_Sales" PrintOn="ReportSummary1"/>
+    <Total Name="TotalPagamentoUsuario" Expression="[total_pagamentos_por_usuario.total]" Evaluator="DB_Sum_User_Payments" PrintOn="DataFooter1"/>
+    <Total Name="ResumoPagamentos" Expression="[resumo_pagamentos_por_empresa.total]" Evaluator="DB_Sumary_Company_Payments"/>
+  </Dictionary>
+  <DialogPage Name="Form1" AcceptButton="btnOk" CancelButton="btnCancel" AutoScaleDimensions="96, 96" LoadEvent="Form1_Load" ClientSize="508, 394">
+    <GroupBoxControl Name="GroupBox3" Left="12" Top="156" Width="484" Height="192" Font="Tahoma, 8pt" TabIndex="8" Text="Usuários">
+      <DataSelectorControl Name="DataUsuario" Left="12" Top="20" Width="460" Height="160" Font="Tahoma, 8pt" TabIndex="6" Text="&#13;&#10;&#13;&#10;" DataColumn="usuarios.login"/>
+    </GroupBoxControl>
+    <GroupBoxControl Name="GroupBox2" Left="12" Top="88" Width="484" Height="56" Font="Tahoma, 8pt" TabIndex="7" Text="Empresa">
+      <ComboBoxControl Name="CbEmpresa" Left="12" Top="16" Width="461" Font="Tahoma, 8pt" TabIndex="3" Text="AGIL4 TECNOLOGIA LTDA,1" ClickEvent="CbEmpresa_Click" DataColumn="empresa.nome" ReportParameter="Nenhum" DropDownWidth="453" ItemHeight="13" ItemsText="AGIL4 TECNOLOGIA LTDA,1&#13;&#10;COSTA &amp; SIQUEIRA CERTIFICADORA DIGITAL LTDA,2&#13;&#10;WELLINGTON MOREIRA DA SILVA RESTAURANTES,3&#13;&#10;VINICIUS,4"/>
+    </GroupBoxControl>
+    <ButtonControl Name="btnOk" Left="342" Top="363" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="425" Top="363" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="1" Text="Cancelar" DialogResult="Cancel"/>
+    <GroupBoxControl Name="GroupBox1" Left="12" Top="12" Width="484" Height="64" Font="Tahoma, 8pt" TabIndex="5" Text="Período das vendas">
+      <DateTimePickerControl Name="DataInicio" Left="8" Top="20" Width="212" Font="Tahoma, 8pt" TabIndex="2" Format="Short" Value="2022-11-01"/>
+      <DateTimePickerControl Name="DataFinal" Left="236" Top="20" Width="232" Font="Tahoma, 8pt" TabIndex="4" Format="Short" Value="2022-11-28"/>
+    </GroupBoxControl>
+  </DialogPage>
+  <ReportPage Name="Page1" Guides="3.78,714.42,22.68,695.52" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="51.05" CanShrink="true">
+      <TextObject Name="Text6" Left="3.78" Top="2.69" Width="710.64" Height="28.35" Text="Relatório de Vendas por Usuário" HorzAlign="Center" VertAlign="Center" Font="Tahoma, 14pt, style=Bold"/>
+      <TextObject Name="Text43" Left="168.11" Top="31.98" Width="152.55" Height="18.9" Text="Período das vendas: " HorzAlign="Right" Font="Tahoma, 10pt, style=Bold">
+        <Formats>
+          <GeneralFormat/>
+          <GeneralFormat/>
+        </Formats>
+      </TextObject>
+      <TextObject Name="Text44" Left="321.15" Top="31.94" Width="94.5" Height="18.9" Text="[DtInicio]" Format="Date" Format.Format="d" HorzAlign="Center" Font="Tahoma, 10pt, style=Bold"/>
+      <TextObject Name="Text45" Left="442.87" Top="31.75" Width="94.5" Height="18.9" Text="[DtFinal]" Format="Date" Format.Format="d" HorzAlign="Center" Font="Tahoma, 10pt, style=Bold"/>
+      <TextObject Name="Text46" Left="416.99" Top="32.15" Width="26.73" Height="18.9" Text="á" HorzAlign="Center" Font="Tahoma, 10pt, style=Bold"/>
+    </ReportTitleBand>
+    <DataBand Name="DB_Companies" Top="54.28" Width="718.2" Height="34.77" DataSource="empresas">
+      <DataBand Name="DB_Users" Top="92.27" Width="718.2" Height="45.93" Fill.Color="Gainsboro" CanShrink="true" DataSource="usuarios">
+        <TextObject Name="Text47" Left="3.78" Top="2.46" Width="710.64" Height="35.91" Text="[UpperCase([usuarios.login])]" HorzAlign="Center" Font="Tahoma, 18pt, style=Bold"/>
+        <ChildBand Name="Child1" Top="141.43" Width="718.2" Height="13.23"/>
+        <DataBand Name="DB_Sales" Top="157.88" Width="718.2" Height="52.69" Fill.Color="Gainsboro" CanShrink="true" DataSource="vendas" Filter="[view_vendas.empresa_id] == [empresa.id]" PrintIfDetailEmpty="true">
+          <TextObject Name="Text4" Left="73.71" Top="1.89" Width="94.5" Height="35.91" Text="[view_vendas.id]" Format="Custom" Format.Format="00000" VertAlign="Center" Font="Tahoma, 8pt"/>
+          <TextObject Name="Text2" Left="330.75" Width="94.5" Height="35.91" Text="[view_vendas.dataVenda]" Format="Date" Format.Format="d" VertAlign="Center" Font="Tahoma, 8pt"/>
+          <TextObject Name="Text7" Left="572.67" Width="141.75" Height="35.91" Text="[view_vendas.modelo]" Format="Date" Format.Format="d" VertAlign="Center" Font="Tahoma, 8pt"/>
+          <TextObject Name="Text5" Left="7.56" Top="1.89" Width="66.15" Height="35.91" Text="Código/ID" VertAlign="Center" Font="Tahoma, 8pt, style=Bold"/>
+          <TextObject Name="Text3" Left="255.15" Width="75.6" Height="35.91" Text="Data Venda" HorzAlign="Right" VertAlign="Center" Font="Tahoma, 8pt, style=Bold"/>
+          <TextObject Name="Text8" Left="478.17" Width="94.5" Height="35.91" Text="Tipo" HorzAlign="Right" VertAlign="Center" Font="Tahoma, 8pt, style=Bold"/>
+          <DataBand Name="DB_Sales_Product" Top="241.59" Width="718.2" Height="28.73" Fill.Color="WhiteSmoke" CanShrink="true" DataSource="vendas_itens">
+            <TextObject Name="Text11" Left="22.68" Width="304.35" Height="18.9" Border.Color="White" Text="[view_vendas_itens.nomeProduto]" VertAlign="Center" Font="Tahoma, 8pt"/>
+            <TextObject Name="Text12" Left="421.4" Width="85.62" Height="18.9" Border.Color="White" Text="[view_vendas_itens.itemPrecoUnitario]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" Font="Tahoma, 8pt"/>
+            <TextObject Name="Text13" Left="326.74" Width="94.35" Height="18.9" Border.Color="White" Text="[view_vendas_itens.itemQuantidade]" HorzAlign="Center" VertAlign="Center" Font="Tahoma, 8pt"/>
+            <TextObject Name="Text40" Left="604.05" Width="91.47" Height="18.9" Border.Color="White" Text="[view_vendas_itens.itemTotal]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" Font="Tahoma, 8pt"/>
+            <TextObject Name="Text42" Left="506.15" Width="96.76" Height="18.9" Border.Color="White" Text="[view_vendas_itens.itemDesconto]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" Font="Tahoma, 8pt"/>
+            <DataHeaderBand Name="DH_Sales_Product" Top="213.8" Width="718.2" Height="24.57" Fill.Color="WhiteSmoke">
+              <TextObject Name="Text14" Left="22.68" Top="1.9" Width="304.82" Height="18.9" Border.Color="White" Text="Nome Produto" VertAlign="Center" Font="Tahoma, 8pt, style=Bold"/>
+              <TextObject Name="Text15" Left="421.4" Top="1.89" Width="86.4" Height="18.9" Border.Color="White" Text="Preço Unitário" HorzAlign="Center" VertAlign="Center" Font="Tahoma, 8pt, style=Bold"/>
+              <TextObject Name="Text16" Left="326.74" Top="2.11" Width="94.12" Height="18.9" Border.Color="White" Text="Quantidade" HorzAlign="Center" VertAlign="Center" Font="Tahoma, 8pt, style=Bold"/>
+              <TextObject Name="Text39" Left="604.96" Top="2.11" Width="90.56" Height="18.9" Border.Color="White" Text="Total" HorzAlign="Right" VertAlign="Center" Font="Tahoma, 8pt, style=Bold"/>
+              <TextObject Name="Text41" Left="507.28" Top="2.14" Width="98.11" Height="18.9" Border.Color="White" Text="Desconto" HorzAlign="Right" VertAlign="Center" Font="Tahoma, 8pt, style=Bold"/>
+            </DataHeaderBand>
+            <DataFooterBand Name="DF_Sales_Product" Top="273.55" Width="718.2" Height="22.68" Fill.Color="WhiteSmoke">
+              <TextObject Name="Text9" Left="604.61" Top="1.89" Width="90.91" Height="18.9" Border.Color="White" Text="[TotalVenda]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" Font="Tahoma, 8pt, style=Bold"/>
+            </DataFooterBand>
+          </DataBand>
+          <DataBand Name="DB_Sales_Payment" Top="329.67" Width="718.2" Height="22.68" Fill.Color="WhiteSmoke" CanShrink="true" DataSource="vendas_pagamentos">
+            <TextObject Name="Text31" Left="22.68" Width="170.1" Height="18.9" Text="[view_vendas_pagamentos.formaPagamento]" Font="Tahoma, 8pt"/>
+            <TextObject Name="Text32" Left="197.88" Width="120.8" Height="18.9" Border.Color="White" Text="[view_vendas_pagamentos.valorPagamento]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" Font="Tahoma, 8pt"/>
+            <DataHeaderBand Name="DH_Sales_Payment" Top="299.46" Width="718.2" Height="26.99" Border.Lines="Top" Border.Style="Dot" Fill.Color="WhiteSmoke">
+              <TextObject Name="Text29" Left="22.68" Top="5.67" Width="296.73" Height="17.38" Text="Forma Pagamento" Font="Tahoma, 8pt, style=Bold"/>
+            </DataHeaderBand>
+            <DataFooterBand Name="DF_Sales_Payment" Top="355.58" Width="718.2" Height="13.22"/>
+          </DataBand>
+          <Sort>
+            <Sort Expression="[view_vendas.dataVenda]" Descending="true"/>
+            <Sort Expression="[view_vendas.id]" Descending="true"/>
+          </Sort>
+        </DataBand>
+        <DataBand Name="DB_Sum_User_Payments" Top="407.38" Width="718.2" Height="21.17" CanShrink="true" DataSource="total_pagamentos_por_usuario" Filter="[total_pagamentos_por_usuario.idEmpresa] == [empresa.id]">
+          <TextObject Name="Text48" Left="3.78" Top="0.38" Width="274.05" Height="18.9" Text="[total_pagamentos_por_usuario.formaPagamento]" Font="Tahoma, 8pt"/>
+          <TextObject Name="Text49" Left="585.89" Top="0.38" Width="128.53" Height="18.9" Text="[total_pagamentos_por_usuario.total]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" WordWrap="false" Font="Tahoma, 8pt" Trimming="EllipsisCharacter"/>
+          <DataHeaderBand Name="DH_Sum_User_Payments" Top="372.02" Width="718.2" Height="32.13" Fill.Color="Gainsboro">
+            <TextObject Name="Text52" Left="3.78" Top="5.67" Width="710.64" Height="18.9" Text="Totalização pagamento do usuário: [UpperCase([usuarios.login])]" HorzAlign="Center" VertAlign="Center" Font="Tahoma, 8pt, style=Bold"/>
+          </DataHeaderBand>
+          <DataFooterBand Name="DataFooter1" Top="431.78" Width="718.2" Height="43.47">
+            <TextObject Name="Text53" Left="585.89" Top="1.89" Width="128.53" Height="18.9" Text="[TotalPagamentoUsuario]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" WordWrap="false" Font="Tahoma, 8pt, style=Bold" Trimming="EllipsisCharacter"/>
+          </DataFooterBand>
+        </DataBand>
+      </DataBand>
+      <DataBand Name="DB_Sumary_Company_Payments" Top="515.72" Width="718.2" Height="32.13" CanShrink="true" DataSource="resumo_pagamentos_por_empresa" Filter="[empresa.id]==[resumo_pagamentos_por_empresa.idEmpresa]">
+        <TextObject Name="Text55" Left="3.78" Top="1.89" Width="274.05" Height="18.9" Text="[resumo_pagamentos_por_empresa.formaPagamento]" Font="Tahoma, 8pt"/>
+        <TextObject Name="Text56" Left="585.89" Top="1.89" Width="128.53" Height="18.9" Text="[resumo_pagamentos_por_empresa.total]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" WordWrap="false" Font="Tahoma, 8pt" Trimming="EllipsisCharacter"/>
+        <DataHeaderBand Name="DH_Sumary_Company_Payments" Top="478.47" Width="718.2" Height="34.02" Fill.Color="Gainsboro">
+          <TextObject Name="Text54" Left="3.78" Top="1.89" Width="710.64" Height="30.24" Text="Resumo total de pagamento" HorzAlign="Center" VertAlign="Center" Font="Tahoma, 8pt, style=Bold"/>
+        </DataHeaderBand>
+      </DataBand>
+    </DataBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="551.07" Width="718.2" Height="64.82">
+      <TextObject Name="Text33" Left="3.78" Top="13.23" Width="207.9" Height="18.9" Text="Total dos descontos" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text34" Left="3.78" Top="35.91" Width="207.9" Height="18.9" Text="Total das vendas" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text35" Left="211.68" Top="13.23" Width="158.76" Height="18.9" Text="[TotalDescontos]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" Font="Tahoma, 10pt, style=Bold"/>
+      <TextObject Name="Text36" Left="211.68" Top="35.91" Width="158.76" Height="18.9" Text="[TotalVendas]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" Font="Tahoma, 10pt, style=Bold"/>
+    </ReportSummaryBand>
+    <PageFooterBand Name="PageFooter1" Top="619.12" Width="718.2" Height="38.57" CanShrink="true">
+      <TextObject Name="Text10" Left="619.92" Width="94.5" Height="28.35" Text="[PageN]" HorzAlign="Right" VertAlign="Center" Font="Tahoma, 8pt"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

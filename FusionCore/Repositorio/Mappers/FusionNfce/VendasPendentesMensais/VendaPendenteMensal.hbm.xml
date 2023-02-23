@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.VendasPendentesMensais"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="VendaPendenteMensal" table="venda_pendente_mensal">
+    <id name="Id" column="id" generator="identity" />
+    
+    <property name="IsResolvido">
+      <column name="isResolvido" not-null="true" />
+    </property>
+    
+    <property name="CriadoEm">
+      <column name="criadoEm" not-null="true"/>
+    </property>
+
+    <property name="Ano">
+      <column name="ano" not-null="true"/>
+    </property>
+
+    <property name="Mes">
+      <column name="mes" not-null="true"/>
+    </property>
+   
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Controles/Styles/Controles.CheckoutBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Controles/Styles/Controles.CidadeComboPicker.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Controles/Styles/Controles.ComboBoxEmpresa.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Controles/Styles/Controles.ProdutoComboPicker.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Controles/Styles/Controles.PickerCliente.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+</ResourceDictionary>

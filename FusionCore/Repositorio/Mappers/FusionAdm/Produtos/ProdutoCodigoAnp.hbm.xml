@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Produtos"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ProdutoCodigoAnp" table="produto_codigo_anp">
+    <id name="Id">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="Descricao">
+      <column name="descricao" not-null="true" />
+    </property>
+
+    <property name="GrupoRepasseInterestadualSt">
+      <column name="grupoRepasseInterestadualST" not-null="true" />
+    </property>
+    
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="FusionWPF.FusionAdm.CteEletronico.FiltrosCustom.NfeFiltroPorData"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" d:DesignWidth="600">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock>Pesquisa por emitente, destinatario, chave</TextBlock>
+            <TextBox Text="{Binding Filtro.TextoSearch}" />
+        </StackPanel>
+
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel>
+                <TextBlock>Data Emissão Inicial</TextBlock>
+                <controls:DateTimePicker
+                    controls:TextBoxHelper.Watermark="Data emissão inicial"
+                    SelectedDateTime="{Binding Filtro.DataEmissaoInicial, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                <TextBlock>Data Emissão Final</TextBlock>
+                <controls:DateTimePicker
+                    controls:TextBoxHelper.Watermark="Data emissão final"
+                    SelectedDateTime="{Binding Filtro.DataEmissaoFinal, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </StackPanel>
+
+        </Grid>
+    </DockPanel>
+</UserControl>

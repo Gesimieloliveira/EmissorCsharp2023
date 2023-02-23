@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="04/13/2022 16:15:21" ReportInfo.CreatorVersion="2021.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      DateTime today = DateTime.Today;
+      
+      DateTime mesAnterior = (new DateTime(today.Year, today.Month, 1)).AddMonths(-1);
+      
+      DatePickerInicio.Value = mesAnterior;
+      DatePickerFim.Value = mesAnterior.AddMonths(1).AddDays(-1);
+    }
+
+    private void btnOk_Click(object sender, EventArgs e)
+    {
+      int empresaId = 0;
+      
+      string[] partesEmpresa = CbEmpresa.Text.Split(',');
+      
+      if (string.IsNullOrEmpty(CbEmpresa.Text) || partesEmpresa.Length &lt;= 1) {
+        MessageBox.Show(&quot;Preciso que escolha uma empresa!&quot;);
+        Form1.Form.DialogResult = DialogResult.None;
+        return;
+      }
+      
+      if (!int.TryParse(partesEmpresa[partesEmpresa.Length-1], out empresaId)) {
+        MessageBox.Show(&quot;Empresa selecionda é inválida!&quot;);
+        Form1.Form.DialogResult = DialogResult.None;
+        return;
+      }      
+      
+      Report.SetParameterValue(&quot;EmpresaId&quot;, empresaId);
+    }
+
+    private void ReportTitle1_BeforePrint(object sender, EventArgs e)
+    {
+      Report.GetDataSource(&quot;DsEmpresa&quot;).Init();
+    }
+  }
+}</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2geBvN02mjOZLuQGKRweVbyRdeyd+ssOhpZQMtpOQpoqvN68fmvtw3EyZ3z2La+VlNoch9K9fR7xsRMyPcWCdFKzFiAFDm0SQnQPDCEtX/STejQNYFVJS9AYbRD+yF/gl7Dtf1ucH/rHuVyopCWze4tn2LHiswI456LSnD7FsCTFZZvPcAXn8d59OB0c+RHC0M/xVu4hHQ6f8nBBxF/hOZyS4EkhWe8clAiNIkBAk93oq">
+      <TableDataSource Name="Table3" Alias="DsEmpresa" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	(e.razaoSocial + ',' + cast(e.id as varchar)) as nome,&#13;&#10;	e.razaoSocial,&#13;&#10;	e.nomeFantasia,&#13;&#10;	e.logradouro,&#13;&#10;	e.cep,&#13;&#10;	e.bairro,&#13;&#10;	e.numero,&#13;&#10;	e.fone1,&#13;&#10;	e.fone2,&#13;&#10;	case when len(e.cnpj) = 14 then e.cnpj else e.cpf end as cpfnpj,&#13;&#10;	e.logo&#13;&#10;from empresa e">
+        <Column Name="razaoSocial" DataType="System.String"/>
+        <Column Name="nomeFantasia" DataType="System.String"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="logradouro" DataType="System.String"/>
+        <Column Name="cep" DataType="System.String"/>
+        <Column Name="bairro" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <Column Name="fone1" DataType="System.String"/>
+        <Column Name="fone2" DataType="System.String"/>
+        <Column Name="cpfnpj" DataType="System.String"/>
+        <Column Name="logo" DataType="System.Byte[]" BindableControl="Picture"/>
+      </TableDataSource>
+      <TableDataSource Name="Table8" Alias="Pagamentos" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;    'nfc-e' as documento,&#13;&#10;    case idFormaPagamento&#13;&#10;	    when '01' then 'Dinheiro'&#13;&#10;	    when '03' then 'A Prazo'&#13;&#10;	    when '08' then 'Cartão Crédito'&#13;&#10;	    when '07' then 'Cartão Débito'&#13;&#10;        when '02' then 'Cartão Pos'&#13;&#10;        when '09' then 'Cartão TEF'&#13;&#10;		when '11' then 'Pix'&#13;&#10;        else 'Outros'&#13;&#10;    end as descricao, &#13;&#10;    sum(valorPagamento) as total&#13;&#10;from nfce_forma_pagamento &#13;&#10;inner join nfce on nfce.id = nfce_forma_pagamento.nfce_id&#13;&#10;inner join nfce_emissao on nfce_emissao.nfce_id = nfce.id&#13;&#10;inner join nfce_emitente on nfce.id = nfce_emitente.nfce_id&#13;&#10;inner join empresa on nfce_emitente.empresa_id = empresa.id&#13;&#10;where &#13;&#10;    isAjuste = 0 &#13;&#10;    and status = 2 &#13;&#10;    and CAST(nfce_emissao.recebidoEm as date) between @pInicio and @pFim&#13;&#10;    and empresa.id = @EmpresaId&#13;&#10;group by nome, idFormaPagamento &#13;&#10;union all&#13;&#10;select &#13;&#10;    'nf-e' as documento,&#13;&#10;    case &#13;&#10;	    when tipo = 0 then 'Dinheiro'&#13;&#10;	    when tipo = 1 then 'A Prazo'&#13;&#10;	    when tipo = 2 then 'Cartão Crédito'&#13;&#10;	    when tipo = 3 then 'Cartão Débito'&#13;&#10;		when tipo = 4 then 'Pix'&#13;&#10;        else 'Outros'&#13;&#10;    end as descricao, &#13;&#10;    sum(valor) as total &#13;&#10;from nfe_forma_pagamento&#13;&#10;inner join nfe on nfe.id = nfe_forma_pagamento.nfe_id&#13;&#10;inner join nfe_emissao on nfe_emissao.nfe_id = nfe.id&#13;&#10;where &#13;&#10;    nfe.statusAtual = 2&#13;&#10;    and nfe.finalidadeEmissao = 1&#13;&#10;    and nfe.tipoOperacao = 1&#13;&#10;    and cast(nfe_emissao.recebidoEm as date) between @pInicio and @pFim&#13;&#10;    and nfe.empresa_id = @EmpresaId&#13;&#10;group by tipo&#13;&#10;union all&#13;&#10;select &#13;&#10;    'faturamento' as documento,&#13;&#10;    case &#13;&#10;	    when especie = 0 then 'Dinheiro'&#13;&#10;	    when especie = 1 then 'A Prazo'&#13;&#10;	    when especie = 2 then 'Cartão Crédito'&#13;&#10;	    when especie = 3 then 'Cartão Débito'&#13;&#10;		when especie = 4 then 'Pix'&#13;&#10;        else 'Outros' &#13;&#10;    end as descricao, &#13;&#10;    sum(valor) as total &#13;&#10;from faturamento_pagamento &#13;&#10;inner join faturamento_venda on faturamento_venda.id = faturamento_pagamento.faturamentoVenda_id&#13;&#10;inner join empresa on faturamento_venda.empresa_id = empresa.id&#13;&#10;where &#13;&#10;    cast(faturamento_venda.finalizadoEm as date) between @pInicio and @pFim&#13;&#10;    and empresa.id = @EmpresaId&#13;&#10;    and faturamento_venda.estadoAtual = 1&#13;&#10;group by especie">
+        <Column Name="documento" DataType="System.String"/>
+        <Column Name="descricao" DataType="System.String"/>
+        <Column Name="total" DataType="System.Decimal"/>
+        <CommandParameter Name="empresaId" DataType="8" Expression="[EmpresaId]" DefaultValue="0"/>
+        <CommandParameter Name="pInicio" DataType="31" Expression="DatePickerInicio.Value" DefaultValue="1900-01-01"/>
+        <CommandParameter Name="pFim" DataType="31" Expression="DatePickerFim.Value" DefaultValue="1900-01-01"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+    <Parameter Name="EmpresaId" DataType="System.Int32"/>
+    <Total Name="SomaTotalGrupo" Expression="[Pagamentos.total]" Evaluator="PgData" PrintOn="GroupFooter1"/>
+    <Total Name="SomaTotal" Expression="[Pagamentos.total]" Evaluator="PgData" PrintOn="ReportSummary1"/>
+  </Dictionary>
+  <ReportPage Name="Page1" RawPaperSize="9" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="84.29" Border.Lines="All" Border.Width="0.25" BeforePrintEvent="ReportTitle1_BeforePrint">
+      <PictureObject Name="Picture1" Left="1" Top="1" Width="110.62" Height="65.39" DataColumn="DsEmpresa.logo"/>
+      <TextObject Name="Text39" Left="153.09" Width="599.13" Height="17.01" Text="[DsEmpresa.nomeFantasia]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text36" Left="153.09" Top="17.01" Width="599.13" Height="17.01" Text="CNPJ / CPF: [DsEmpresa.cpfnpj]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text37" Left="153.09" Top="34.02" Width="599.13" Height="17.01" Text="Endereço: [DsEmpresa.logradouro], [DsEmpresa.numero], [DsEmpresa.bairro], [DsEmpresa.cep]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text38" Left="153.09" Top="51.03" Width="599.13" Height="17.01" Text="Fone 1: [DsEmpresa.fone1] / Fone 2: [DsEmpresa.fone2]" Font="Arial Narrow, 10pt"/>
+      <ChildBand Name="Child1" Top="88.29" Width="718.2" Height="43.47">
+        <TextObject Name="Text40" Top="22.68" Width="752.22" Height="13.23" Text="Periodo das emissões: [DatePickerInicio.Value] à [DatePickerFim.Value]" HorzAlign="Center" Font="Arial Narrow, 9pt, style=Italic">
+          <Formats>
+            <DateFormat/>
+            <DateFormat/>
+          </Formats>
+        </TextObject>
+        <TextObject Name="Text22" Top="5.67" Width="752.22" Height="17.01" Text="[DescricaoRelatorio]" HorzAlign="Center" Font="Arial Narrow, 11pt, style=Bold"/>
+      </ChildBand>
+    </ReportTitleBand>
+    <DataBand Name="DataGrafico" Top="135.76" Width="718.2" Height="200.34">
+      <MSChartObject Name="MSChart1" Left="7.56" Top="1.89" Width="701.19" Height="194.67" CanGrow="true" CanShrink="true" GrowToBottom="true" BeforePrintEvent="MSChart1_BeforePrint" AfterPrintEvent="MSChart1_AfterPrint" DataSource="Table8" Filter="" AutoSeriesColumn="" AutoSeriesColor="" AutoSeriesSortOrder="Ascending" AutoSeriesForce="true" ChartData="PENoYXJ0IFBhbGV0dGU9Ik5vbmUiIEJhY2tDb2xvcj0iQWxpY2VCbHVlIiBTaXplPSIzNjAsIDI5MCIgQmFja0hhdGNoU3R5bGU9IkZvcndhcmREaWFnb25hbCIgQmFja1NlY29uZGFyeUNvbG9yPSJUcmFuc3BhcmVudCIgQm9yZGVybGluZUNvbG9yPSJMaWdodEdyYXkiIEJvcmRlcmxpbmVXaWR0aD0iMiIgQm9yZGVybGluZURhc2hTdHlsZT0iU29saWQiPg0KICA8U2VyaWVzPg0KICAgIDxTZXJpZXMgTmFtZT0iU2VyaWVzMSIgTGVnZW5kPSJEZWZhdWx0IiBYVmFsdWVUeXBlPSJTdHJpbmciIFlWYWx1ZVR5cGU9IkRvdWJsZSIgUGFsZXR0ZT0iU2VtaVRyYW5zcGFyZW50IiBZQXhpc1R5cGU9IlNlY29uZGFyeSIgQ2hhcnRBcmVhPSJEZWZhdWx0IiBMYWJlbD0iI1ZBTFg6ICNWQUxZe0MyfSIgQ29sb3I9IlRyYW5zcGFyZW50IiBCYWNrU2Vjb25kYXJ5Q29sb3I9IlRyYW5zcGFyZW50IiBGb250PSJUYWhvbWEsIDcuODAwMDAwNjdwdCIgQ3VzdG9tUHJvcGVydGllcz0iRHJhd2luZ1N0eWxlPUN5bGluZGVyLCBQb2ludFdpZHRoPTAuMyIgTGFiZWxCYWNrQ29sb3I9IldoaXRlU21va2UiIExhYmVsQm9yZGVyQ29sb3I9IlRyYW5zcGFyZW50IiBMYWJlbEJvcmRlckRhc2hTdHlsZT0iTm90U2V0Ij4NCiAgICAgIDxQb2ludHM+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iMSIgQXhpc0xhYmVsPSJBIiAvPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjMiIEF4aXNMYWJlbD0iQiIgLz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSIyIiBBeGlzTGFiZWw9IkMiIC8+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iNCIgQXhpc0xhYmVsPSJEIiAvPg0KICAgICAgPC9Qb2ludHM+DQogICAgPC9TZXJpZXM+DQogIDwvU2VyaWVzPg0KICA8TGVnZW5kcz4NCiAgICA8TGVnZW5kIE5hbWU9IkRlZmF1bHQiIElzVGV4dEF1dG9GaXQ9IkZhbHNlIiBJc0RvY2tlZEluc2lkZUNoYXJ0QXJlYT0iRmFsc2UiIEVuYWJsZWQ9IkZhbHNlIiBCYWNrQ29sb3I9IjUwLCAyNTUsIDI1NSwgMjU1IiBCb3JkZXJDb2xvcj0iTGlnaHRTbGF0ZUdyYXkiIERvY2tpbmc9IkxlZnQiPg0KICAgIDwvTGVnZW5kPg0KICA8L0xlZ2VuZHM+DQogIDxUaXRsZXM+DQogICAgPFRpdGxlIE5hbWU9IlRpdGxlMSIgVGV4dD0iVG90YWwgcG9yIGZvcm1hIGRlIHBhZ2FtZW50byIgVGV4dE9yaWVudGF0aW9uPSJIb3Jpem9udGFsIiBGb250PSJBcmlhbCwgOXB0IiBBbGlnbm1lbnQ9IlRvcENlbnRlciI+DQogICAgPC9UaXRsZT4NCiAgPC9UaXRsZXM+DQogIDxDaGFydEFyZWFzPg0KICAgIDxDaGFydEFyZWEgTmFtZT0iRGVmYXVsdCIgQmFja0NvbG9yPSJUcmFuc3BhcmVudCIgQmFja1NlY29uZGFyeUNvbG9yPSJUcmFuc3BhcmVudCIgQm9yZGVyRGFzaFN0eWxlPSJTb2xpZCIgQm9yZGVyQ29sb3I9IlRyYW5zcGFyZW50IiBCb3JkZXJXaWR0aD0iMCI+DQogICAgICA8QXhpc1kgSXNMYWJlbEF1dG9GaXQ9IkZhbHNlIj4NCiAgICAgICAgPE1ham9yR3JpZCBMaW5lQ29sb3I9IjY1LCAwLCAwLCAwIiAvPg0KICAgICAgICA8TWlub3JHcmlkIExpbmVDb2xvcj0iMzAsIDAsIDAsIDAiIC8+DQogICAgICAgIDxNYWpvclRpY2tNYXJrIEVuYWJsZWQ9IkZhbHNlIiAvPg0KICAgICAgICA8TGFiZWxTdHlsZSBGb250PSJUYWhvbWEsIDhwdCIgLz4NCiAgICAgIDwvQXhpc1k+DQogICAgICA8QXhpc1ggSXNMYWJlbEF1dG9GaXQ9IkZhbHNlIj4NCiAgICAgICAgPE1ham9yR3JpZCBMaW5lQ29sb3I9IjY1LCAwLCAwLCAwIiBFbmFibGVkPSJGYWxzZSIgLz4NCiAgICAgICAgPE1pbm9yR3JpZCBMaW5lQ29sb3I9IjMwLCAwLCAwLCAwIiAvPg0KICAgICAgICA8TWFqb3JUaWNrTWFyayBFbmFibGVkPSJGYWxzZSIgLz4NCiAgICAgICAgPExhYmVsU3R5bGUgRm9udD0iVGFob21hLCA4cHQiIEVuYWJsZWQ9IkZhbHNlIiBBbmdsZT0iMTAiIC8+DQogICAgICA8L0F4aXNYPg0KICAgICAgPEF4aXNYMiBJc0xhYmVsQXV0b0ZpdD0iRmFsc2UiIElzTWFyZ2luVmlzaWJsZT0iRmFsc2UiIEVuYWJsZWQ9IkZhbHNlIj4NCiAgICAgICAgPE1ham9yR3JpZCBFbmFibGVkPSJGYWxzZSIgLz4NCiAgICAgICAgPE1ham9yVGlja01hcmsgRW5hYmxlZD0iRmFsc2UiIC8+DQogICAgICAgIDxMYWJlbFN0eWxlIEVuYWJsZWQ9IkZhbHNlIiAvPg0KICAgICAgPC9BeGlzWDI+DQogICAgICA8QXhpc1kyIElzTGFiZWxBdXRvRml0PSJGYWxzZSIgRW5hYmxlZD0iRmFsc2UiPg0KICAgICAgICA8TWFqb3JHcmlkIEVuYWJsZWQ9IkZhbHNlIiAvPg0KICAgICAgICA8TWFqb3JUaWNrTWFyayBFbmFibGVkPSJGYWxzZSIgLz4NCiAgICAgICAgPExhYmVsU3R5bGUgRW5hYmxlZD0iRmFsc2UiIC8+DQogICAgICA8L0F4aXNZMj4NCiAgICAgIDxBcmVhM0RTdHlsZSBJc1JpZ2h0QW5nbGVBeGVzPSJGYWxzZSIgTGlnaHRTdHlsZT0iUmVhbGlzdGljIiBQZXJzcGVjdGl2ZT0iMjAiIFdhbGxXaWR0aD0iMCIgLz4NCiAgICA8L0NoYXJ0QXJlYT4NCiAgPC9DaGFydEFyZWFzPg0KPC9DaGFydD4=">
+        <MSChartSeries Name="Series2" SortBy="YValue" GroupBy="XValue" CollectValue="5" XValue="[Pagamentos.descricao]" YValue1="[Pagamentos.total]"/>
+      </MSChartObject>
+      <ChildBand Name="Child2" Top="340.1" Width="718.2" Height="11.34"/>
+    </DataBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="355.44" Width="718.2" Height="30.24" Border.Lines="Bottom" Border.Width="0.25" Condition="[Pagamentos.documento]">
+      <TextObject Name="Text48" Top="1.89" Width="527.31" Height="28.35" Text="Formas de pagamento no(a): [Pagamentos.documento]" VertAlign="Center" Font="Tahoma, 11pt, style=Bold"/>
+      <DataBand Name="PgData" Top="414.47" Width="718.2" Height="26.46" CanGrow="true" CanShrink="true" DataSource="Table8">
+        <TextObject Name="Text46" Top="1.89" Width="587.79" Height="18.9" Text="[Pagamentos.descricao]" Font="Tahoma, 10pt"/>
+        <TextObject Name="Text47" Left="587.79" Top="1.89" Width="130.41" Height="18.9" Text="[Pagamentos.total]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Tahoma, 10pt" Trimming="EllipsisCharacter"/>
+        <DataHeaderBand Name="DataHeader4" Top="389.68" Width="718.2" Height="20.79" Border.Lines="Bottom" Border.Width="0.25">
+          <TextObject Name="Text1" Width="587.79" Height="18.9" Text="Descrição" Font="Tahoma, 10pt, style=Bold"/>
+          <TextObject Name="Text2" Left="587.79" Width="130.41" Height="18.9" Text="Total" HorzAlign="Right" Font="Tahoma, 10pt, style=Bold"/>
+        </DataHeaderBand>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="444.93" Width="718.2" Height="20.79" Border.Lines="Top" Border.Style="Dash" Border.Width="0.25">
+        <TextObject Name="Text49" Left="587.79" Width="130.41" Height="18.9" Text="[SomaTotalGrupo]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Tahoma, 10pt" Trimming="EllipsisCharacter"/>
+      </GroupFooterBand>
+    </GroupHeaderBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="469.72" Width="718.2" Height="28.35">
+      <TextObject Name="Text50" Left="587.79" Top="5.67" Width="130.41" Height="18.9" Text="[SomaTotal]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Tahoma, 10pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text51" Left="389.34" Top="5.67" Width="198.45" Height="18.9" Text="Total dos pagamentos:" HorzAlign="Right" Font="Tahoma, 10pt"/>
+    </ReportSummaryBand>
+  </ReportPage>
+  <DialogPage Name="Form1" AcceptButton="btnOk" CancelButton="btnCancel" AutoScaleDimensions="96, 96" LoadEvent="Form1_Load" ClientSize="532, 177">
+    <ButtonControl Name="btnOk" Left="364" Top="138" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="447" Top="138" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="1" Text="Cancelar" DialogResult="Cancel"/>
+    <ButtonControl Name="Button1" Left="588" Top="42" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="0" Text="OK" AutoFill="false" DialogResult="OK"/>
+    <ButtonControl Name="Button2" Left="671" Top="42" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="1" Text="Cancelar" DialogResult="Cancel"/>
+    <DateTimePickerControl Name="DatePickerInicio" Left="20" Top="36" Width="236" Font="Tahoma, 8pt" TabIndex="3" Format="Short" Value="07/08/2019 09:40:00"/>
+    <DateTimePickerControl Name="DatePickerFim" Left="268" Top="36" Width="236" Font="Tahoma, 8pt" TabIndex="3" Format="Short" Value="07/08/2019 09:40:04"/>
+    <LabelControl Name="Label1" Left="20" Top="12" Width="56" Height="18" Font="Tahoma, 8pt" TabIndex="3" Text="Data Inicio"/>
+    <LabelControl Name="Label2" Left="268" Top="12" Width="53" Height="18" Font="Tahoma, 8pt" TabIndex="3" Text="Data Final"/>
+    <LabelControl Name="Label3" Left="20" Top="72" Width="76" Height="18" Font="Tahoma, 8pt" TabIndex="5" Text="Qual empresa?"/>
+    <ComboBoxControl Name="CbEmpresa" Left="20" Top="96" Width="485" Font="Tahoma, 8pt" TabIndex="4" Text="Escolha uma empresa" DataColumn="DsEmpresa.nome" DropDownWidth="513" ItemHeight="16"/>
+  </DialogPage>
+</Report>

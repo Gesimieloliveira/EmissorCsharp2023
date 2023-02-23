@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" StartReportEvent="_StartReport" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="04/15/2021 17:13:28" ReportInfo.CreatorVersion="2020.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+    public string FormatarSituacaoNfe(int codigo) 
+    {
+      switch (codigo) {
+        case 2: return &quot;Autorizada&quot;;
+        case 3: return &quot;Cancelada&quot;;
+        case 4: return &quot;Denegada&quot;;
+        default: return &quot;Pendente&quot;;
+      }
+    }
+    
+    public string FormatarSituacaoNfce(int codigo) 
+    {
+      switch (codigo) {
+        case 1: return &quot;Cancelada&quot;;
+        case 2: return &quot;Autorizada&quot;;
+        case 3: return &quot;Pendente Offline&quot;;
+        default: return &quot;Aberta&quot;;
+      }
+    }
+
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      DateTime today = DateTime.Today;
+      
+      DateTime mesAnterior = (new DateTime(today.Year, today.Month, 1)).AddMonths(-1);
+      
+      DatePickerInicio.Value = mesAnterior;
+      DatePickerFim.Value = mesAnterior.AddMonths(1).AddDays(-1);
+    }
+  }
+}</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2geBvN02mjOZLuQGKRweVbyRdeyd+ssOhpZQMtpOQpoqvN68fmvtw3EyZ3z2La+VlNoch9K9fR7xsRMyPcWCdFKzFiAFDm0SQnQPDCEtX/STejQNYFVJS9AYbRD+yF/gl7Dtf1ucH/rHuVyopCWze4tn2LHiswI456LSnD7FsCTFZZvPcAXn8d59OB0c+RHC0M/xVu4hHQ6f8nBBxF/hOZyTw5D2fDTJEoA1piSErbdFe">
+      <TableDataSource Name="Table" Alias="DsNfe" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	n.statusAtual,&#13;&#10;	n.totalFinal as valorTotal,&#13;&#10;	n.serieDocumento as serie,&#13;&#10;	n.numeroDocumento as numero,&#13;&#10;	n.tipoOperacao,&#13;&#10;	em.chave,&#13;&#10;	em.recebidoEm as dataAutorizacao&#13;&#10;from nfe n&#13;&#10;inner join nfe_emissao em on em.nfe_id = n.id&#13;&#10;where n.statusAtual != 1 &#13;&#10;	and cast(em.recebidoEm as date) between @pInicio and @pFim&#13;&#10;	and n.empresa_id = @empresaId">
+        <Column Name="statusAtual" DataType="System.Byte"/>
+        <Column Name="valorTotal" DataType="System.Decimal"/>
+        <Column Name="serie" DataType="System.Int16"/>
+        <Column Name="numero" DataType="System.Int32"/>
+        <Column Name="chave" DataType="System.String"/>
+        <Column Name="dataAutorizacao" DataType="System.DateTime"/>
+        <Column Name="tipoOperacao" DataType="System.Byte"/>
+        <CommandParameter Name="empresaId" DataType="8" Expression="[DsEmpresa.id]" DefaultValue="0"/>
+        <CommandParameter Name="pInicio" DataType="31" Expression="DatePickerInicio.Value" DefaultValue="1970-01-01"/>
+        <CommandParameter Name="pFim" DataType="31" Expression="DatePickerFim.Value" DefaultValue="1970-01-01"/>
+      </TableDataSource>
+      <TableDataSource Name="Table1" Alias="DsNfce" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	n.status,&#13;&#10;	n.totalNfce,&#13;&#10;	em.serie,&#13;&#10;	em.numeroDocumento as numero,&#13;&#10;	em.chave,&#13;&#10;	em.recebidoEm as dataAutorizacao&#13;&#10;from nfce n&#13;&#10;inner join nfce_emissao em on n.id = em.nfce_id&#13;&#10;inner join nfce_emitente emit on n.id = emit.nfce_id&#13;&#10;where em.autorizado = 1 &#13;&#10;	and cast(em.recebidoEm as date) between @pInicio and @pFim&#13;&#10;	and emit.empresa_id = @empresaId&#13;&#10;&#13;&#10;union all &#13;&#10;&#13;&#10;select &#13;&#10;&#13;&#10;	cf.situacaoFiscal as status,&#13;&#10;	fv.total as totalNfce,&#13;&#10;	cf.serie as serie,&#13;&#10;	cf.numeroFiscal as numero,&#13;&#10;	cff.chave as chave,&#13;&#10;	cff.autorizadaEm as dataAutorizacao&#13;&#10;&#13;&#10;from cupom_fiscal cf&#13;&#10;inner join cupom_fiscal_finalizado cff on cff.cupomFiscal_id = cf.id&#13;&#10;inner join faturamento_venda fv on fv.id = cf.faturamentoVenda_id&#13;&#10;where (cf.situacaoFiscal = 2 or cf.situacaoFiscal = 1)&#13;&#10;and cast(cff.autorizadaEm as date) between @pInicio and @pFim&#13;&#10;	and fv.empresa_id = @empresaId">
+        <Column Name="status" DataType="System.Byte"/>
+        <Column Name="totalNfce" DataType="System.Decimal"/>
+        <Column Name="serie" DataType="System.Int16"/>
+        <Column Name="numero" DataType="System.Int32"/>
+        <Column Name="chave" DataType="System.String"/>
+        <Column Name="dataAutorizacao" DataType="System.DateTime"/>
+        <CommandParameter Name="pInicio" DataType="31" Expression="DatePickerInicio.Value" DefaultValue="1970-01-01"/>
+        <CommandParameter Name="pFim" DataType="31" Expression="DatePickerFim.Value" DefaultValue="1970-01-01"/>
+        <CommandParameter Name="empresaId" DataType="8" Expression="[DsEmpresa.id]" DefaultValue="0"/>
+      </TableDataSource>
+      <TableDataSource Name="Table2" Alias="DsInutilizacao" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	inu.ano,&#13;&#10;	inu.cnpjEmitente,&#13;&#10;	inu.modeloDocumento,&#13;&#10;	inu.serie,&#13;&#10;	inu.numeroInicial,&#13;&#10;	inu.numeroFinal,&#13;&#10;	inu.inutilizacaoEm&#13;&#10;from nfe_inutilizacao_numeracao inu&#13;&#10;where inu.cnpjEmitente = @empresaCNPJ&#13;&#10;	and cast(inu.inutilizacaoEm as date) between @pInicio and @pFim">
+        <Column Name="ano" DataType="System.Byte"/>
+        <Column Name="cnpjEmitente" DataType="System.String"/>
+        <Column Name="inutilizacaoEm" DataType="System.DateTime"/>
+        <Column Name="modeloDocumento" DataType="System.Byte"/>
+        <Column Name="numeroFinal" DataType="System.Int32"/>
+        <Column Name="numeroInicial" DataType="System.Int32"/>
+        <Column Name="serie" DataType="System.Int16"/>
+        <CommandParameter Name="pInicio" DataType="31" Expression="DatePickerInicio.Value" DefaultValue="1970-01-01"/>
+        <CommandParameter Name="pFim" DataType="31" Expression="DatePickerFim.Value" DefaultValue="1970-01-01"/>
+        <CommandParameter Name="empresaCNPJ" DataType="22" Expression="[DsEmpresa.cnpj]"/>
+      </TableDataSource>
+      <TableDataSource Name="Table3" Alias="DsEmpresa" DataType="System.Int32" Enabled="true" SelectCommand="select&#13;&#10;	e.id,&#13;&#10;	e.razaoSocial,&#13;&#10;	e.nomeFantasia,&#13;&#10;	e.cnpj&#13;&#10;from empresa e ">
+        <Column Name="id" DataType="System.Int16"/>
+        <Column Name="razaoSocial" DataType="System.String"/>
+        <Column Name="nomeFantasia" DataType="System.String"/>
+        <Column Name="cnpj" DataType="System.String"/>
+        <Column Name="NomeUnico" DataType="System.String" PropName="Column" Calculated="true" Expression="[DsEmpresa.id] + &quot; - &quot; + [DsEmpresa.razaoSocial]"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+    <Total Name="QtdeNotasAutorizadas" TotalType="Count" Evaluator="Data1" PrintOn="ReportSummary1" EvaluateCondition="[DsNfe.statusAtual]==2 &amp;&amp; [DsNfe.tipoOperacao]==1"/>
+    <Total Name="QtdeNotasCanceladas" TotalType="Count" Evaluator="Data1" PrintOn="ReportSummary1" EvaluateCondition="[DsNfe.statusAtual]==3 &amp;&amp; [DsNfe.tipoOperacao]==1"/>
+    <Total Name="QtdeNotasDenegadas" TotalType="Count" Evaluator="Data1" PrintOn="ReportSummary1" EvaluateCondition="[DsNfe.statusAtual]==4 &amp;&amp; [DsNfe.tipoOperacao]==1"/>
+    <Total Name="TotalNotasAutorizadas" Expression="[DsNfe.valorTotal]" Evaluator="Data1" PrintOn="ReportSummary1" EvaluateCondition="[DsNfe.statusAtual]==2 &amp;&amp; [DsNfe.tipoOperacao]==1"/>
+    <Total Name="TotalNotasCanceladas" Expression="[DsNfe.valorTotal]" Evaluator="Data1" PrintOn="ReportSummary1" EvaluateCondition="[DsNfe.statusAtual]==3 &amp;&amp; [DsNfe.tipoOperacao]==1"/>
+    <Total Name="TotalNotasDenegadas" Expression="[DsNfe.valorTotal]" Evaluator="Data1" PrintOn="ReportSummary1" EvaluateCondition="[DsNfe.statusAtual]==4 &amp;&amp; [DsNfe.tipoOperacao]==1"/>
+    <Total Name="QtdeCuponsAutorizados" TotalType="Count" Evaluator="Data2" PrintOn="ReportSummary1" EvaluateCondition="[DsNfce.status]==2"/>
+    <Total Name="QtdeCuponsCancelados" TotalType="Count" Evaluator="Data2" PrintOn="ReportSummary1" EvaluateCondition="[DsNfce.status]==1"/>
+    <Total Name="TotalCuponsAutorizados" Expression="[DsNfce.totalNfce]" Evaluator="Data2" PrintOn="ReportSummary1" EvaluateCondition="[DsNfce.status]==2"/>
+    <Total Name="TotalCuponsCancelados" Expression="[DsNfce.totalNfce]" Evaluator="Data2" PrintOn="ReportSummary1" EvaluateCondition="[DsNfce.status]==1"/>
+    <Total Name="QtdeNotasEntradaAutorizada" TotalType="Count" Evaluator="Data1" PrintOn="ReportSummary1" EvaluateCondition="[DsNfe.statusAtual]==2 &amp;&amp; [DsNfe.tipoOperacao]==0"/>
+    <Total Name="QtdeNotasEntradasCanceladas" TotalType="Count" Evaluator="Data1" PrintOn="ReportSummary1" EvaluateCondition="[DsNfe.statusAtual]==3 &amp;&amp; [DsNfe.tipoOperacao]==0"/>
+    <Total Name="TotalNotasEntradasAutorizadas" Expression="[DsNfe.valorTotal]" Evaluator="Data1" PrintOn="ReportSummary1" EvaluateCondition="[DsNfe.statusAtual]==2 &amp;&amp; [DsNfe.tipoOperacao]==0"/>
+    <Total Name="TotalNotasEntradasCanceladas" Expression="[DsNfe.valorTotal]" Evaluator="Data1" PrintOn="ReportSummary1" EvaluateCondition="[DsNfe.statusAtual]==3 &amp;&amp; [DsNfe.tipoOperacao]==0"/>
+  </Dictionary>
+  <DialogPage Name="Form1" Width="548" Height="216" AcceptButton="btnOk" CancelButton="btnCancel" Font="Tahoma, 8pt" Text="Filtro do Relatório" LoadEvent="Form1_Load">
+    <ButtonControl Name="btnOk" Left="364" Top="138" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="0" Text="OK" AutoFill="false" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="447" Top="138" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="1" Text="Cancelar" DialogResult="Cancel"/>
+    <DateTimePickerControl Name="DatePickerInicio" Left="24" Top="36" Width="236" Height="24" Font="Tahoma, 8pt" TabIndex="3" Text="08/07/2019" Format="Short" Value="07/08/2019 09:40:00"/>
+    <DateTimePickerControl Name="DatePickerFim" Left="272" Top="36" Width="236" Height="24" Font="Tahoma, 8pt" TabIndex="3" Text="08/07/2019" Format="Short" Value="07/08/2019 09:40:04"/>
+    <LabelControl Name="Label1" Left="24" Top="12" Width="70" Height="21" Font="Tahoma, 8pt" TabIndex="3" Text="Data Inicio"/>
+    <LabelControl Name="Label2" Left="272" Top="12" Width="66" Height="21" Font="Tahoma, 8pt" TabIndex="3" Text="Data Final"/>
+    <ComboBoxControl Name="CbEmpresa" Left="24" Top="96" Width="485" Height="24" Font="Tahoma, 8pt" TabIndex="4" ClickEvent="CbEmpresa_Click" DataColumn="DsEmpresa.NomeUnico" DropDownWidth="485" ItemHeight="16"/>
+    <LabelControl Name="Label3" Left="24" Top="72" Width="95" Height="21" Font="Tahoma, 8pt" TabIndex="5" Text="Qual empresa?"/>
+  </DialogPage>
+  <ReportPage Name="Page1" RawPaperSize="9" Guides="716.31,0" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="47.25">
+      <TextObject Name="Text22" Left="141.75" Top="3.78" Width="574.56" Height="18.9" Text="[DescricaoRelatorio]" HorzAlign="Right" Font="Arial, 12pt, style=Bold"/>
+      <TextObject Name="Text24" Left="141.75" Top="24.57" Width="574.56" Height="17.01" Text="Impresso em: [Date]" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+    </ReportTitleBand>
+    <DataBand Name="Data4" Top="51.25" Width="718.2" Height="49.14" DataSource="Table3">
+      <TextObject Name="Text12" Top="5.67" Width="716.31" Height="18.9" Text="Razão Social: [DsEmpresa.razaoSocial]" Font="Arial, 11pt"/>
+      <TextObject Name="Text77" Top="24.57" Width="716.31" Height="18.9" Text="CNPJ: [DsEmpresa.cnpj]" Font="Arial, 11pt"/>
+    </DataBand>
+    <DataBand Name="Data1" Top="180.43" Width="718.2" Height="37.8" CanGrow="true" CanShrink="true" DataSource="Table">
+      <TextObject Name="Text1" Left="200.34" Width="39.69" Height="15.12" CanGrow="true" GrowToBottom="true" Text="[DsNfe.serie]" Format="Custom" Format.Format="000" Font="Arial, 8.5pt"/>
+      <TextObject Name="Text3" Left="240.03" Width="68.04" Height="15.12" CanGrow="true" GrowToBottom="true" Text="[DsNfe.numero]" Format="Custom" Format.Format="00000000" Font="Arial, 8.5pt"/>
+      <TextObject Name="Text5" Left="308.07" Width="325.08" Height="15.12" CanGrow="true" GrowToBottom="true" CanBreak="false" Text="[DsNfe.chave]" Font="Arial, 8.5pt"/>
+      <TextObject Name="Text7" Left="132.3" Width="68.04" Height="15.12" CanGrow="true" GrowToBottom="true" Text="[FormatarSituacaoNfe([DsNfe.statusAtual])]" Font="Arial, 8.5pt"/>
+      <TextObject Name="Text9" Left="633.15" Width="83.16" Height="15.12" CanGrow="true" GrowToBottom="true" Text="[DsNfe.valorTotal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8.5pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text11" Width="94.5" Height="15.12" CanGrow="true" GrowToBottom="true" Text="[DsNfe.dataAutorizacao]" Format="Custom" Format.Format="dd/MM/yy HH:mm" Font="Arial, 8.5pt"/>
+      <TextObject Name="Text79" Left="94.5" Width="37.8" Height="15.12" CanGrow="true" GrowToBottom="true" Text="[IIf([DsNfe.tipoOperacao]==1,&quot;SAI&quot;,&quot;ENT&quot;)]" HorzAlign="Center" Font="Arial, 8.5pt"/>
+      <DataHeaderBand Name="DataHeader1" Top="104.39" Width="718.2" Height="20.79" Border.Lines="Top" Border.Width="0.25">
+        <TextObject Name="Text45" Top="3.78" Width="716.31" Height="17.01" Text="Documento Fiscal Modelo 55 - NFE" HorzAlign="Center" Font="Arial, 10pt, style=Bold, Italic"/>
+        <ChildBand Name="Child2" Top="129.18" Width="718.2" Height="47.25">
+          <TextObject Name="Text25" Width="94.5" Height="35.91" Text="Data&#13;&#10;Autorização" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text2" Left="200.34" Width="39.69" Height="35.91" Text="Série" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text4" Left="240.03" Width="68.04" Height="35.91" Text="Número" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text6" Left="308.07" Width="325.08" Height="35.91" Text="Chave" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text8" Left="132.3" Width="68.04" Height="35.91" Text="Situação" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text10" Left="633.15" Width="83.16" Height="35.91" Text="Valor Total" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text78" Left="94.5" Width="37.8" Height="35.91" Text="Op" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        </ChildBand>
+      </DataHeaderBand>
+      <Sort>
+        <Sort Expression="[DsNfe.dataAutorizacao]"/>
+      </Sort>
+    </DataBand>
+    <DataBand Name="Data2" Top="300.16" Width="718.2" Height="26.46" CanGrow="true" CanShrink="true" DataSource="Table1">
+      <TextObject Name="Text39" Left="187.11" Top="1.89" Width="43.47" Height="15.12" Text="[DsNfce.serie]" Format="Custom" Format.Format="000" Font="Arial, 8.5pt"/>
+      <TextObject Name="Text40" Left="230.58" Top="1.89" Width="69.93" Height="15.12" Text="[DsNfce.numero]" Format="Custom" Format.Format="00000000" Font="Arial, 8.5pt"/>
+      <TextObject Name="Text41" Left="300.51" Top="1.89" Width="323.19" Height="15.12" Text="[DsNfce.chave]" Font="Arial, 8.5pt"/>
+      <TextObject Name="Text42" Left="107.73" Top="1.89" Width="79.38" Height="15.12" Text="[FormatarSituacaoNfce([DsNfce.status])]" Font="Arial, 8.5pt"/>
+      <TextObject Name="Text43" Left="623.7" Top="1.89" Width="92.61" Height="15.12" Text="[DsNfce.totalNfce]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8.5pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text44" Top="1.89" Width="105.84" Height="15.12" Text="[DsNfce.dataAutorizacao]" Format="Custom" Format.Format="dd/MM/yy HH:mm" Font="Arial, 8.5pt"/>
+      <DataHeaderBand Name="DataHeader2" Top="222.23" Width="718.2" Height="32.13" Border.Lines="Top" Border.Width="0.25">
+        <TextObject Name="Text14" Top="13.23" Width="716.31" Height="17.01" Text="Documento Fiscal Modelo 65 - NFCE" HorzAlign="Center" Font="Arial, 10pt, style=Bold, Italic"/>
+        <ChildBand Name="Child1" Top="258.36" Width="718.2" Height="37.8">
+          <TextObject Name="Text33" Left="187.11" Top="1.89" Width="43.47" Height="35.91" Text="Série" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text34" Left="230.58" Top="1.89" Width="69.93" Height="35.91" Text="Número" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text35" Left="300.51" Top="1.89" Width="323.19" Height="35.91" Text="Chave" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text36" Left="107.73" Top="1.89" Width="79.38" Height="35.91" Text="Situação" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text37" Left="623.7" Top="1.89" Width="92.61" Height="35.91" Text="Valor Total" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text38" Top="1.89" Width="105.84" Height="35.91" Text="Data&#13;&#10;Autorização" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        </ChildBand>
+      </DataHeaderBand>
+      <Sort>
+        <Sort Expression="[DsNfce.dataAutorizacao]"/>
+      </Sort>
+    </DataBand>
+    <DataBand Name="Data3" Top="402.88" Width="718.2" Height="18.9" CanGrow="true" CanShrink="true" DataSource="Table2">
+      <TextObject Name="Text67" Width="105.84" Height="15.12" Text="[DsInutilizacao.inutilizacaoEm]" Format="Custom" Format.Format="dd/MM/yy HH:mm" Font="Arial, 9pt"/>
+      <TextObject Name="Text73" Left="381.78" Top="1.89" Width="56.7" Height="15.12" Text="[DsInutilizacao.modeloDocumento]" Format="Custom" Format.Format="00" HorzAlign="Center" Font="Arial, 9pt"/>
+      <TextObject Name="Text74" Left="440.37" Top="1.89" Width="56.7" Height="15.12" Text="[DsInutilizacao.serie]" Format="Custom" Format.Format="000" HorzAlign="Right" Font="Arial, 9pt"/>
+      <TextObject Name="Text75" Left="498.96" Top="1.89" Width="107.73" Height="15.12" Text="[DsInutilizacao.numeroInicial]" Format="Custom" Format.Format="00000000" HorzAlign="Right" Font="Arial, 9pt"/>
+      <TextObject Name="Text76" Left="608.58" Top="1.89" Width="107.73" Height="15.12" Text="[DsInutilizacao.numeroFinal]" Format="Custom" Format.Format="00000000" HorzAlign="Right" Font="Arial, 9pt"/>
+      <DataHeaderBand Name="DataHeader3" Top="330.62" Width="718.2" Height="30.24" Border.Lines="Top" Border.Width="0.25">
+        <TextObject Name="Text66" Top="13.23" Width="716.31" Height="17.01" Text="Inutilização feitas no periodo" HorzAlign="Center" Font="Arial, 10pt, style=Bold, Italic"/>
+        <ChildBand Name="Child3" Top="364.86" Width="718.2" Height="34.02">
+          <TextObject Name="Text68" Top="1.89" Width="105.84" Height="30.24" Text="Data Inutilização" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text69" Left="381.78" Top="1.89" Width="56.7" Height="30.24" Text="Modelo" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text70" Left="440.37" Top="1.89" Width="56.7" Height="30.24" Text="Série" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text71" Left="498.96" Top="1.89" Width="107.73" Height="30.24" Text="Número Inicial" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text72" Left="608.58" Top="1.89" Width="107.73" Height="30.24" Text="Número Final" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+        </ChildBand>
+      </DataHeaderBand>
+    </DataBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="425.78" Width="718.2" Height="219.24" CanShrink="true">
+      <TextObject Name="Text46" Top="41.58" Width="417.69" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="Resumo notas autorizadas" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text47" Top="58.59" Width="417.69" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="Resumo notas canceladas" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text48" Top="75.6" Width="417.69" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="Resumo notas denegadas" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text49" Left="417.69" Top="41.58" Width="49.14" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[QtdeNotasAutorizadas]" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text50" Left="417.69" Top="58.59" Width="49.14" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[QtdeNotasCanceladas]" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text51" Left="417.69" Top="75.6" Width="49.14" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[QtdeNotasDenegadas]" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text52" Left="466.83" Top="41.58" Width="100.17" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[TotalNotasAutorizadas]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text53" Left="466.83" Top="58.59" Width="100.17" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[TotalNotasCanceladas]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text54" Left="466.83" Top="75.6" Width="100.17" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[TotalNotasDenegadas]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text55" Left="567" Top="41.58" Width="49.14" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[QtdeCuponsAutorizados]" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text56" Left="567" Top="58.59" Width="49.14" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[QtdeCuponsCancelados]" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text57" Left="567" Top="75.6" Width="49.14" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="0" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text58" Left="616.14" Top="41.58" Width="100.17" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[TotalCuponsAutorizados]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text59" Left="616.14" Top="58.59" Width="100.17" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[TotalCuponsCancelados]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text60" Left="616.14" Top="75.6" Width="100.17" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="0,00" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text61" Top="24.57" Width="417.69" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="Resumo das saidas" Font="Arial, 10pt, style=Bold, Italic"/>
+      <TextObject Name="Text63" Left="417.69" Top="24.57" Width="149.31" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="NF-e's" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Center" Font="Arial, 10pt, style=Bold, Italic"/>
+      <TextObject Name="Text65" Left="567" Top="24.57" Width="149.31" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="Cupons" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Center" Font="Arial, 10pt, style=Bold, Italic"/>
+      <TextObject Name="Text80" Top="124.74" Width="567" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="Resumo notas autorizadas" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text81" Top="141.75" Width="567" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="Resumo notas canceladas" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text83" Top="107.73" Width="567" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="Resumo das entradas" Font="Arial, 10pt, style=Bold, Italic"/>
+      <TextObject Name="Text84" Left="567" Top="124.74" Width="49.14" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[QtdeNotasEntradaAutorizada]" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text85" Left="567" Top="141.75" Width="49.14" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[QtdeNotasEntradasCanceladas]" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text87" Left="616.14" Top="124.74" Width="100.17" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[TotalNotasEntradasAutorizadas]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text88" Left="616.14" Top="141.75" Width="100.17" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="[TotalNotasEntradasCanceladas]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text90" Left="567" Top="107.73" Width="149.31" Height="17.01" Border.Lines="All" Border.Width="0.25" Text="NF-e's" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Center" Font="Arial, 10pt, style=Bold, Italic"/>
+    </ReportSummaryBand>
+  </ReportPage>
+</Report>

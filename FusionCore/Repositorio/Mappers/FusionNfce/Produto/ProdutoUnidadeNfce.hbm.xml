@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Produto"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ProdutoUnidadeNfce" table="produto_unidade">
+    <id name="Id" column="id" />
+    
+    <property name="Sigla">
+      <column name="sigla" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="PodeFracionar">
+      <column name="podeFracionar" sql-type="bit" not-null="true" />
+    </property>
+    
+    <property name="SolicitaTotal">
+      <column name="solicitaTotal" sql-type="bit" not-null="true" />
+    </property>
+   
+  </class>
+</hibernate-mapping>

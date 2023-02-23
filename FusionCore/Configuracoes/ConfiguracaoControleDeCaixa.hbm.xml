@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.Configuracoes"
+  default-lazy="false"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ConfiguracaoControleDeCaixa" table="configuracao_controle_caixa">
+    <id name="Id" generator="assigned">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="ControlaCaixaNoGestor">
+      <column name="controlaCaixaNoGestor" not-null="true" />
+    </property>
+
+    <property name="ControlaCaixaNoNfce">
+      <column name="controlaCaixaNoNfce" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

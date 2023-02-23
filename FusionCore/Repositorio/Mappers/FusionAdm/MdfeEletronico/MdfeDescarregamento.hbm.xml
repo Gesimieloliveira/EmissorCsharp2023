@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MDFeDescarregamento" table="mdfe_descarregamento" mutable="false">
+    <id name="Id" column="id" generator="identity" />
+
+    <many-to-one class="MDFeEletronico" name="Mdfe" cascade="none">
+      <column name="mdfe_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="Cidade" cascade="none">
+      <column name="cidade_id" not-null="true" />
+    </many-to-one>
+
+    <property name="ChaveDocumento">
+      <column name="chaveDocumento" not-null="true" />
+    </property>
+
+    <property name="ModeloDocumento">
+      <column name="modeloDocumento" not-null="true" />
+    </property>
+
+    <property name="SegundoCodigoBarras">
+      <column name="segundoCodigoBarras" not-null="true" />
+    </property>
+
+    <property name="ValorTotal">
+      <column name="valorTotal" not-null="true" />
+    </property>
+
+    <property name="Cancelado">
+	    <column name="cancelado" not-null="true" />
+    </property>
+
+    <bag access="field" name="_produtosPerigosos" table="mdfe_produto_perigoso" cascade="all-delete-orphan" inverse="true">
+      <key column="mdfeDescarregamento_id"/>
+      <one-to-many class="MDFeProdutoPerigoso" />
+    </bag>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,151 @@
+﻿<UserControl x:Class="Fusion.Conversor.Views.CvClientes.PessoaConversaoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:vm="clr-namespace:Fusion.Conversor.Views.CvClientes"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:text="clr-namespace:FusionCore.TextEncoding;assembly=FusionCore"
+             mc:Ignorable="d" d:DesignWidth="980"
+             d:DataContext="{d:DesignInstance vm:PessoaConversaoContexto, IsDesignTimeCreatable=True}"
+             Background="White"
+             Loaded="LoadedHandler">
+
+    <UserControl.Resources>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="IsEditable" Value="False" />
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <TextBlock 
+            DockPanel.Dock="Top"
+            FontSize="23" FontWeight="Bold"
+            TextAlignment="Center" Foreground="{DynamicResource AccentColorBrush}"
+            Text="Importação de Clientes/Pessoas" 
+            Margin="0,5"/>
+
+        <DockPanel DockPanel.Dock="Top">
+            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" x:Name="BlocoCsv">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <TextBlock Text="Escolha o arquivo .csv para ser importado" />
+                        <controles:SearchTextBox
+                            Text="{Binding CsvPath}"
+                            SearchEvent="PickerCsvClickHandler"
+                            IsReadOnly="True" Width="375" />
+                    </StackPanel>
+
+                    <StackPanel Margin="5,0,0,0">
+                        <TextBlock Text="Encoding" />
+                        <ComboBox MinWidth="110" 
+                                  ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type text:TipoEncoding}}}"
+                                  SelectedItem="{Binding FileEncoding}"/>
+                    </StackPanel>
+
+                    <Button 
+                        Click="CarregarDadosClickHandler"
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Bottom"
+                        Content="Ler arquivo de clientes"
+                        Style="{DynamicResource FusionAccentedButton}" />
+
+                    <Button
+                        IsEnabled="{Binding ImportarIsEnabled}"
+                        Margin="5,0,0,0"
+                        Click="ImportarClickHandler"
+                        VerticalAlignment="Bottom"
+                        Style="{DynamicResource FusionWarningButton}"
+                        Content="Importar" />
+                </StackPanel>
+
+                <TextBlock
+                    MouseDown="AjudaCsvMouseDownHandler"
+                    Margin="0,5,0,0"
+                    Cursor="{x:Static Cursors.Hand}"
+                    HorizontalAlignment="Center"
+                    FontSize="16" FontWeight="Bold" Foreground="{DynamicResource GrayBrush2}"
+                    Text="Precisa de ajuda de como o arquivo deve ser? CLIQUE AQUI" />
+
+            </StackPanel>
+
+            <Grid DockPanel.Dock="Top" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="400" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Background="{DynamicResource WhiteBrush}">
+                    <GroupBox Header="Pessoas/Clientes a importar" Margin="0">
+                        <Grid>
+                            <DataGrid
+                                IsReadOnly="True"
+                                AutoGenerateColumns="True"
+                                ItemsSource="{Binding ListaDeDados}"
+                                VirtualizingStackPanel.VirtualizationMode="Recycling" />
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+                <Grid Grid.Column="1" Background="{DynamicResource WhiteBrush}" Margin="5,0,0,0">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Top">
+                                <Border Background="{DynamicResource GrayBrush8}">
+                                    <StackPanel Margin="5">
+                                        <TextBlock FontWeight="DemiBold" Text="Manter o código da pessoa?" />
+
+                                        <controls:ToggleSwitch
+                                            IsOn="{Binding ManterCodigo}"
+                                            HorizontalAlignment="Right" OnContent="Sim" OffContent="Não" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <StackPanel DockPanel.Dock="Top" Margin="0,5,0,0">
+                                <Border Background="{DynamicResource GrayBrush8}">
+                                    <StackPanel Margin="5">
+                                        <TextBlock FontWeight="DemiBold" TextWrapping="WrapWithOverflow"
+                                                   Text="Ignorar erro de documento (CPF ou CNPJ) e continuar a importação?" />
+
+                                        <controls:ToggleSwitch
+                                            IsOn="{Binding IgnorarErroDocumento}"
+                                            HorizontalAlignment="Right" OnContent="Sim" OffContent="Não" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <StackPanel DockPanel.Dock="Top" Margin="0,5,0,0">
+                                <Border Background="{DynamicResource GrayBrush8}">
+                                    <StackPanel Margin="5">
+                                        <TextBlock FontWeight="DemiBold" TextWrapping="WrapWithOverflow"
+                                                   Text="Importar registro sem documento (CPF ou CNPJ)?" />
+
+                                        <controls:ToggleSwitch
+                                            IsOn="{Binding ImportarRegistroSemDocumento}"
+                                            HorizontalAlignment="Right" OnContent="Sim" OffContent="Não" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <StackPanel DockPanel.Dock="Top" Margin="0,5,0,0">
+                                <Border Background="{DynamicResource GrayBrush8}">
+                                    <StackPanel Margin="5">
+                                        <TextBlock TextWrapping="WrapWithOverflow" FontWeight="DemiBold"
+                                                   Text="Ignorar erro de Endereço e continuar a importação?" />
+
+                                        <controls:ToggleSwitch
+                                            IsOn="{Binding IgnorarErroEndereco}"
+                                            HorizontalAlignment="Right" OnContent="Sim" OffContent="Não" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </DockPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

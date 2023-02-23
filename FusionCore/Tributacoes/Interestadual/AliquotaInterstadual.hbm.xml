@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Tributacoes.Interestadual"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="AliquotaInterestadual" table="aliquota_interestadual">
+    <id name="Id" column="id" />
+
+    <many-to-one name="Origem" not-null="true" fetch="join">
+      <column name="ufOrigem_id" />
+    </many-to-one>
+
+    <many-to-one name="Destino" not-null="true" fetch="join">
+      <column name="ufDestino_id" />
+    </many-to-one>
+
+    <property name="Aliquota" not-null="true">
+      <column name="aliquota" precision="5" scale="2" />
+    </property>
+
+  </class>
+</hibernate-mapping>

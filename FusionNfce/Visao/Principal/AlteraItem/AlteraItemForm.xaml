@@ -1,0 +1,130 @@
+﻿<controls:MetroWindow x:Class="FusionNfce.Visao.Principal.AlteraItem.AlteraItemForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:alteraItem="clr-namespace:FusionNfce.Visao.Principal.AlteraItem"
+                      xmlns:caixa="clr-namespace:FusionLibrary.Helper.Wpf.Caixa;assembly=FusionLibrary"
+                      xmlns:tiposImposto="clr-namespace:FusionCore.FusionAdm.Fiscal.FlagsImposto;assembly=FusionCore"
+                      xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+                      xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                      mc:Ignorable="d" d:DataContext="{d:DesignInstance alteraItem:AlteraItemFormModel}"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      Loaded="LoadedHandler"
+                      KeyDown="AlteraItemForm_OnKeyDown"
+                      Title="Alteração de tributação e valores do item" SizeToContent="Height" Width="769" Height="414.067">
+
+    <StackPanel>
+        <GroupBox DockPanel.Dock="Top" Header="Tributação">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock>Cfop</TextBlock>
+                    <ComboBox ItemsSource="{Binding ListaDeCfop}"
+                              SelectedItem="{Binding Cfop}"
+                              SelectedValuePath="Id"
+                              SelectedValue="{Binding Cfop.Id}"
+                              IsEditable="True"
+                              DisplayMemberPath="DescricaoFormatada" />
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="{Binding LabelCst}"></TextBlock>
+                    <ComboBox controls:TextBoxHelper.Watermark="Selecione o CSON"
+                              IsEditable="False"
+                              ItemsSource="{Binding TributacoesCst}"
+                              SelectedItem="{Binding TributacaoCstSelecionado, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <TextBlock 
+            controls:VisibilityHelper.IsVisible="{Binding IsNaoPodeDesconto}"
+            HorizontalAlignment="Center"
+            FontWeight="Bold"
+            Margin="5,0,5,0"
+            Foreground="Red"
+            DockPanel.Dock="Top">Não e possível dar desconto pois existem finalizações com "acréscimo lançado". 
+            Na finalização delete todos lançamentos</TextBlock>
+
+        <GroupBox 
+            Margin="0,5,0,0"
+            IsEnabled="{Binding IsRejeicaoOffline}"
+            DockPanel.Dock="Top" Header="Detalhes de venda da mercadoria" Height="182">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="170"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel>
+                        <TextBlock Text="Nome do Produto / Item" />
+                        <TextBox Text="{Binding NomeProduto}" IsReadOnly="True" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                        <TextBlock Text="GTIN / Código de barras" />
+                        <TextBox Text="{Binding GtinProduto}" MaxLength="14"/>
+                    </StackPanel>
+
+                </Grid>
+
+                <StackPanel Margin="0,5,0,0" >
+                    <TextBlock Text="Observação do Produto / Item" />
+                    <TextBox CharacterCasing="Normal" Text="{Binding ObservacaoProduto}" />
+                </StackPanel>
+
+                <Grid Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                        <TextBlock>Valor unitário</TextBlock>
+                        <TextBox caixa:TextBoxValoresNumeroCaixa.Validar="True"
+                                 Text="{Binding PrecoItem.ValorUnitario, StringFormat=N6}"
+                                 x:Name="TbValorUnitario"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="0,0,5,10">
+                        <TextBlock>Quantidade</TextBlock>
+                        <TextBox caixa:TextBoxValoresNumeroCaixa.Validar="True"
+                                 Text="{Binding PrecoItem.Quantidade, StringFormat=N4}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Margin="0,0,5,0">
+                        <TextBlock>Desconto</TextBlock>
+                        <TextBox caixa:TextBoxValoresNumeroCaixa.Validar="True"
+                                 IsEnabled="{Binding IsEditarDesconto}"
+                                 Text="{Binding PrecoItem.DescontoAlteraItem, StringFormat={}{0:0.00}}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3">
+                        <TextBlock>Total</TextBlock>
+                        <TextBox caixa:TextBoxValoresNumeroCaixa.Validar="True"
+                                 Text="{Binding PrecoItem.TotalUnitarioSemDescontoGeral, StringFormat={}{0:0.00}}" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" VerticalAlignment="Center"
+                    HorizontalAlignment="Center" Margin="0,10">
+
+            <Button Click="Aplicar_OnClick" Content="Salvar alterações (F2)" Width="150"
+                    Style="{DynamicResource FusionAccentedButton}"
+                    x:Name="BtnAplicar" RenderTransformOrigin="0.506,2.563"/>
+
+            <Button Click="Fechar_OnClick" Content="Fechar (ESC)" Width="150"
+                    Style="{DynamicResource FusionCleanButton}" Margin="10,0,0,0" RenderTransformOrigin="0.5,0.5" >
+            </Button>
+        </StackPanel>
+
+    </StackPanel>
+
+</controls:MetroWindow>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Produtos"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class table="produto_regra_tributacao_uf" name="ProdutoRegraTributacao">
+    <composite-id> 
+      <key-many-to-one name="Produto">
+        <column name="produto_id" not-null="true" sql-type="int" />
+      </key-many-to-one>
+
+      <key-many-to-one name="Uf">
+        <column name="uf_id" not-null="true" sql-type="tinyint" />
+      </key-many-to-one>
+    </composite-id>
+
+    <property name="Aliquota">
+      <column name="aliquota" not-null="true" precision="5" scale="2" />
+    </property>
+
+    <property name="AliquotaFcp">
+      <column name="aliquotaFcp" not-null="true" precision="5" scale="2" />
+    </property>
+  </class>
+</hibernate-mapping>

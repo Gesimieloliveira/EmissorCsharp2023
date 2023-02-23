@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="02/03/2019 01:56:22" ReportInfo.Modified="12/16/2020 14:30:03" ReportInfo.CreatorVersion="2020.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{  
+  public class ReportScript
+  {         
+    private void Form1_Shown(object sender, EventArgs e)
+    {
+      int paramId = (int)(Report.GetParameterValue(&quot;idProduto&quot;) ?? 0);
+            
+      if (paramId == 0) {
+        TextBoxIdProduto.Focus();
+        return;
+      }
+            
+      TextBoxIdProduto.Text = paramId.ToString();
+      TextBoxQuantidade.Text = &quot;&quot;;
+      TextBoxQuantidade.Focus();
+    }
+    
+    private void btnOk_Click(object sender, EventArgs e)
+    {
+      Report.SetParameterValue(&quot;idProduto&quot;, int.Parse(TextBoxIdProduto.Text));  
+      Report.SetParameterValue(&quot;qtdCopias&quot;, int.Parse(TextBoxQuantidade.Text));
+    }
+    
+    private void TextBoxIdProduto_KeyPress(object sender, KeyPressEventArgs e)
+    {
+      e.Handled = !char.IsDigit(e.KeyChar) &amp;&amp; !char.IsControl(e.KeyChar);
+    }
+
+    private void TextBoxQuantidade_KeyPress(object sender, KeyPressEventArgs e)
+    {
+      e.Handled = !char.IsDigit(e.KeyChar) &amp;&amp; !char.IsControl(e.KeyChar);
+    }
+
+    private void BarCode_BeforePrint(object sender, EventArgs e)
+    {
+      string barras = ((String)Report.GetColumnValue(&quot;Produto.codigoBarra&quot;));
+      
+      if (barras.Length == 13) {
+        Barcode.Barcode = new BarcodeEAN13 {CalcCheckSum = false};
+        Barcode.Text = barras;
+        return;
+        }
+      
+      if (barras.Length == 12) {
+        Barcode.Barcode = new BarcodeUPC_A {CalcCheckSum = false};
+        Barcode.Text = barras;
+        return;
+        }
+      
+      if (barras.Length == 8) {
+        Barcode.Barcode = new BarcodeEAN8 {CalcCheckSum = false};
+        Barcode.Text = barras;
+        return;
+        }
+      
+      Barcode.Text = ((Int32)Report.GetColumnValue(&quot;Produto.id&quot;)).ToString();
+    }
+  }
+}
+</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqAFHGp6KQj27H4qUwAIR20v6HR9/hpbyvqL14yv05wJMl2T7/97+RHrR722NCTENAMJRGzrXLuJaF1cZL3IcxvBwa3J77kmbCJ+6UEyxgxJM64f6+KqEudGxCrIo6Hjc1xVFvGAO5d89KiYTXTxqG53sVQ/v8YMR7dVprOvK9rCEtTUNMgJG8Fq0EFXzno6kvQz6G6BDqS9SyfGNP3KMi+o8Otd64AxpCXy0VHHoMA2tLrrsf8MKJszHMk4yFUtGNqdCyUhSaWhIK5QibVTusVA==">
+      <TableDataSource Name="Table" Alias="Produto" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	p.id,&#13;&#10;	p.referencia, &#13;&#10;	p.precoVenda, &#13;&#10;	p.nome as nome,&#13;&#10;	(select top 1 pa.alias from produto_alias pa where pa.produto_id= p.id and pa.isCodigoBarra = 1)  as codigoBarra&#13;&#10;from produto p&#13;&#10;cross join generate_series(1,convert(int, @qtdCopias, 103),1)&#13;&#10;where p.id = convert(int, @idProduto, 103)">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="precoVenda" DataType="System.Decimal"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="referencia" DataType="System.String"/>
+        <Column Name="codigoBarra" DataType="System.String"/>
+        <CommandParameter Name="idProduto" DataType="22" Expression="[idProduto]"/>
+        <CommandParameter Name="qtdCopias" DataType="22" Expression="[qtdCopias]"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="idProduto" DataType="System.Int32"/>
+    <Parameter Name="qtdCopias" DataType="System.Int32"/>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" PaperWidth="88" PaperHeight="25" LeftMargin="2" TopMargin="0" RightMargin="0" BottomMargin="0" FirstPageSource="15" OtherPagesSource="15" Columns.Count="2" Columns.Width="43" Columns.Positions="0,43" Guides="154.98,7.56" Watermark.Font="Arial, 60pt">
+    <DataBand Name="Data1" Width="162.54" Height="94.5" DataSource="Table" RowCount="10">
+      <TextObject Name="Text1" Left="7.56" Top="1.89" Width="147.42" Height="28.35" Text="[Produto.nome]" HorzAlign="Center" Font="Arial, 7pt, style=Bold"/>
+      <TextObject Name="Text2" Left="7.56" Top="30.24" Width="147.42" Height="15.12" Text="[Produto.precoVenda]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Center" WordWrap="false" Font="Arial, 9pt, style=Bold" Trimming="EllipsisCharacter"/>
+      <BarcodeObject Name="Barcode" Left="7.56" Top="45.36" Width="147.42" Height="49.14" BeforePrintEvent="BarCode_BeforePrint" Text="[Produto.id]" AllowExpressions="true" Barcode="EAN13" Barcode.CalcCheckSum="false"/>
+    </DataBand>
+  </ReportPage>
+  <DialogPage Name="Form1" Width="312" Height="184" AcceptButton="btnOk" CancelButton="btnCancel" Font="Tahoma, 8pt" LoadEvent="" ShownEvent="Form1_Shown">
+    <ButtonControl Name="btnOk" Left="128" Top="106" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="211" Top="106" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="1" Text="Cancelar" DialogResult="Cancel"/>
+    <LabelControl Name="Label3" Left="56" Top="20" Width="95" Height="21" Font="Tahoma, 8pt" TabIndex="2" Text="ID do Produto:" ClickEvent=""/>
+    <TextBoxControl Name="TextBoxIdProduto" Left="152" Top="16" Width="120" Height="24" Font="Tahoma, 8pt" TabIndex="3" ClickEvent="" DoubleClickEvent="" KeyPressEvent="TextBoxIdProduto_KeyPress" MaxLength="5"/>
+    <LabelControl Name="Label2" Left="8" Top="60" Width="143" Height="21" Font="Tahoma, 8pt" TabIndex="4" Text="Quantidade de Copias:" ClickEvent=""/>
+    <TextBoxControl Name="TextBoxQuantidade" Left="152" Top="56" Width="120" Height="24" Font="Tahoma, 8pt" TabIndex="5" KeyPressEvent="TextBoxQuantidade_KeyPress" MaxLength="5"/>
+  </DialogPage>
+</Report>

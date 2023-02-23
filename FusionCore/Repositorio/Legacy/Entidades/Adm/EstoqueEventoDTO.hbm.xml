@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Adm"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="EstoqueEventoDTO" table="produto_estoque_evento">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="ProdutoDTO" column="produto_id" not-null="true" fetch="join" />
+    <property name="TipoEvento" not-null="true">
+      <column name="tipoEvento" sql-type="tinyint" />
+    </property>
+    <property name="TipoEventoTexto" column="tipoEventoTexto" length="35" not-null="true" />
+    <property name="OrigemEvento" not-null="true">
+      <column name="origemEvento" sql-type="tinyint" />
+    </property>
+    <property name="OrigemEventoTexto" column="OrigemEventoTexto" length="60" not-null="true" />
+    <property name="OrigemEventoDetalhe" column="OrigemEventoDetalhe" length="255" not-null="true" />
+    <property name="EstoqueAtual" column="estoqueAtual" not-null="true" />
+    <property name="Movimento" column="movimento" not-null="true" />
+    <property name="EstoqueFuturo" column="estoqueFuturo" not-null="true" />
+    <many-to-one name="UsuarioDTO" column="usuario_id" not-null="true" fetch="join" />
+    <property name="CadastradoEm" column="cadastradoEm" not-null="true" />
+  </class>
+</hibernate-mapping>

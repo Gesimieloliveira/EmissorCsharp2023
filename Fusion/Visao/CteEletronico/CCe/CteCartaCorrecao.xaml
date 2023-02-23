@@ -1,0 +1,136 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.CteEletronico.CCe.CteCartaCorrecao"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:system="clr-namespace:System;assembly=mscorlib"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:cCe="clr-namespace:Fusion.Visao.CteEletronico.CCe"
+                      mc:Ignorable="d"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      Width="750"
+                      Height="574"
+                      Title="CT-e Carta Correção">
+
+
+    <controls:MetroWindow.Resources>
+        <system:Double x:Key="WidthButtonTile">120</system:Double>
+        <system:Double x:Key="HeightButtonTile">60</system:Double>
+        <system:Int32 x:Key="FontSizeTile">14</system:Int32>
+        <system:Double x:Key="GridContentHeight">470</system:Double>
+
+        <system:Double x:Key="FontSizeTab">30</system:Double>
+
+        <Style TargetType="ComboBox" BasedOn="{StaticResource FusionComboBox}">
+            <Setter Property="IsEditable" Value="False" />
+        </Style>
+    </controls:MetroWindow.Resources>
+
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <cCe:FlyoutAddCorrecaoCCe DataContext="{Binding FlyoutAddCorrecaoCCeModel}" />
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+
+    <DockPanel LastChildFill="False">
+        <TabControl DockPanel.Dock="Top">
+            <TabItem Header="Carta Correção">
+                <DockPanel LastChildFill="False">
+                    <!-- grid-content -->
+                    <DockPanel Dock="Top" Height="{DynamicResource GridContentHeight}">
+                        <StackPanel DockPanel.Dock="Left" Width="150">
+                            <StackPanel.Resources>
+                                <Style TargetType="controls:Tile" BasedOn="{StaticResource {x:Type controls:Tile}}">
+                                    <Setter Property="Height" Value="{DynamicResource HeightButtonTile}" />
+                                    <Setter Property="Width" Value="{DynamicResource WidthButtonTile}" />
+                                    <Setter Property="FontSize" Value="{DynamicResource FontSizeTile}" />
+                                    <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <controls:Tile Title="Adicionar Correção" Command="{Binding CommandNovaAdicionarCorrecao}" />
+
+                        </StackPanel>
+
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0,0,0,3">
+                            <DockPanel DockPanel.Dock="Left" Margin="0,0,0,10">
+                                <DataGrid IsReadOnly="True"
+                                          AutoGenerateColumns="False"
+                                          SelectedItem="{Binding CorrecaoSelecionada}"
+                                          ItemsSource="{Binding ListaCorrecao}" Margin="0,5,0,1" Width="586">
+
+                                    <DataGrid.Columns>
+
+                                        <DataGridTemplateColumn Width="42">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <Button 
+                                                            Style="{DynamicResource FusionAccentedButton}" 
+                                                            Click="CartaCorrecao_OnClick" 
+                                                            Content="Salvar alteração"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTextColumn Header="Grupo Alterado" Width="150"
+                                                            Binding="{Binding GrupoAlterado}" />
+                                        <DataGridTextColumn Header="Campo Alterado" Width="150"
+                                                            Binding="{Binding CampoAlterado}" />
+                                        <DataGridTextColumn Header="Numero" Width="73" Binding="{Binding NumeroItem}" />
+                                        <DataGridTextColumn Header="Valor Alterado" Width="*"
+                                                            Binding="{Binding ValorAlterado}">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style>
+                                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                    </DataGrid.Columns>
+
+                                </DataGrid>
+                            </DockPanel>
+                        </ScrollViewer>
+                    </DockPanel>
+                    <!-- /grid-contet -->
+
+                    <!-- bottom-bar -->
+                    <DockPanel DockPanel.Dock="Bottom" Height="42" Background="{DynamicResource AccentColorBrush2}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0">
+                            <Button Style="{DynamicResource FusionCleanButton}" Click="Enviar_OnClick">Emitir Correção</Button>
+                        </StackPanel>
+                    </DockPanel>
+                    <!-- /bottom-bar -->
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Histórico de Correção">
+                <DataGrid Height="514" IsReadOnly="True"
+                          AutoGenerateColumns="False"
+                          HorizontalScrollBarVisibility="Visible"
+                          SelectedItem="{Binding HistoricoItem}"
+                          ItemsSource="{Binding HistoricoCorrecoes}">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Width="50" Binding="{Binding Id}" />
+                        <DataGridTextColumn Header="Data e hora" Width="*" Binding="{Binding OcorreuEm}" />
+                        <DataGridTemplateColumn Width="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <fa:ImageAwesome Icon="Print" Width="22"
+                                                         Foreground="{DynamicResource AccentColorBrush2}"
+                                                         MouseLeftButtonUp="OnClickImprimirCCe" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</controls:MetroWindow>

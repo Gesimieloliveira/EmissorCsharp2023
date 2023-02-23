@@ -1,0 +1,132 @@
+﻿<UserControl x:Class="Fusion.Visao.EmissorFiscalEletronico.Aba.AbaEmissorFiscalSAT"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+             xmlns:flags="clr-namespace:FusionCore.FusionAdm.Fiscal.Flags;assembly=FusionCore"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:flags1="clr-namespace:FusionCore.FusionAdm.Emissores.Flags;assembly=FusionCore"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:versaoFlag="clr-namespace:FusionCore.FusionAdm.Nfce.SatFiscal;assembly=FusionCore"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             mc:Ignorable="d" Background="White" d:DesignWidth="700">
+
+    <DockPanel LastChildFill="true">
+        <Grid DockPanel.Dock="Top" Margin="5,0" Background="{DynamicResource GrayBrush8}">
+            <DockPanel DockPanel.Dock="Top" Margin="5,0">
+                <TextBlock Text="Esse SAT é um Módulo Fical [MF-E]?" FontSize="14" VerticalAlignment="Center" />
+                <controls:ToggleSwitch 
+                    OnContent="Sim" OffContent="Não" IsOn="{Binding IsMFe}" HorizontalAlignment="Right"
+                    ContentDirection="LeftToRight" />
+            </DockPanel>
+        </Grid>
+
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.Column="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <GroupBox Header="Número Caixa/Fabricante-Modelo">
+                        <AdornerDecorator>
+                            <StackPanel>
+                                <TextBlock Text="Número Caixa" />
+                                <TextBox
+                                    Text="{Binding NumeroCaixa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                    MaxLength="3" wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" />
+
+                                <StackPanel
+                                    controls:VisibilityHelper.IsVisible="{Binding IsMFe, Converter={conversores:InverseBooleanConverter}}">
+                                    <TextBlock Text="Fabricante" />
+                                    <ComboBox IsEditable="False"
+                                              ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags1:Modelo}}}"
+                                              SelectedItem="{Binding FabricanteModelo}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </AdornerDecorator>
+                    </GroupBox>
+                </Grid>
+            </StackPanel>
+            <StackPanel Grid.Row="0" Grid.Column="1">
+
+                <GroupBox Header="Configurações">
+                    <StackPanel>
+                        <TextBlock Text="Codificação de Arquivo" />
+                        <ComboBox IsEditable="False"
+                                  ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags1:CodificacaoArquivoXml}}}"
+                                  SelectedItem="{Binding CodificacaoArqivoXml}" />
+
+
+                        <TextBlock Margin="0,5,0,0">Versão Layout</TextBlock>
+                        <ComboBox IsEditable="False"
+                                  ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type versaoFlag:VersaoSat}}}"
+                                  SelectedItem="{Binding VersaoSat}" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+
+            <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Header="Configurações Sefaz">
+                <AdornerDecorator>
+                    <StackPanel>
+                        <TextBlock Text="Ambiente" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox
+                                    IsEnabled="{Binding EditarAmbiente}"
+                                    IsEditable="False"
+                                    SelectedValue="{Binding AmbienteSat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                    SelectedValuePath="Tag">
+                                <ComboBoxItem Tag="{x:Static flags:TipoAmbiente.Producao}" Content="Produção" />
+                                <ComboBoxItem Tag="{x:Static flags:TipoAmbiente.Homologacao}" Content="Homologação" />
+                            </ComboBox>
+
+                            <StackPanel 
+                                    controls:VisibilityHelper.IsCollapsed="{Binding Editar, Converter={conversores:InverseBooleanConverter}}"
+                                    Margin="5,0,0,0"
+                                    Grid.Column="1" VerticalAlignment="Center">
+                                <Button 
+                                        Click="HabilitarEdicaoAmbiente_OnClick"
+                                        Style="{DynamicResource FusionSuccessButton}" Width="200" HorizontalAlignment="Left">Habilitar Edição Ambiente?</Button>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock>Código de ativação (Definido ao ativar o MFE)</TextBlock>
+                        <TextBox
+                                Text="{Binding CodigoAtivacao, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                MaxLength="32" CharacterCasing="Normal" />
+
+                        <TextBlock>Código de vinculação (Software House)</TextBlock>
+                        <TextBox
+                                Text="{Binding CodigoAssociacao, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                MaxLength="344" CharacterCasing="Normal" />
+
+                        <StackPanel controls:VisibilityHelper.IsVisible="{Binding IsMFe}">
+                            <TextBlock>Chave de acesso ao validador (Fornecido pelo integrador)</TextBlock>
+                            <TextBox
+                                    Text="{Binding ChaveAcessoValidador, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    MaxLength="36" CharacterCasing="Normal" />
+                        </StackPanel>
+                    </StackPanel>
+                </AdornerDecorator>
+            </GroupBox>
+        </Grid>
+    </DockPanel>
+</UserControl>

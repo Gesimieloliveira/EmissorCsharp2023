@@ -1,0 +1,46 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.MdfeEletronico.Aba.Flyouts.FlyoutAddValePedagio"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" d:DesignWidth="1000"
+             Position="Top" IsOpen="{Binding IsOpen}" MaxHeight="662"
+             Style="{DynamicResource FusionFlyout}"
+             Background="White">
+    
+    <GroupBox Header="Adicionar vale pedágios">
+        <DockPanel>
+            <StackPanel Margin="0,5,5,0" DockPanel.Dock="Top">
+                <TextBlock>CNPJ da empresa fornecedora do Vale-Pedágio</TextBlock>
+                <TextBox MaxLength="14" Text="{Binding CnpjEmpresaFornecedora}"></TextBox>
+                <TextBlock>CNPJ do responsável pelo pagamento do Vale-Pedágio</TextBlock>
+                <TextBox MaxLength="14" Text="{Binding CnpjResposavelPagamento}"></TextBox>
+                <TextBlock>CPF do responsável pelo pagamento do Vale-Pedágio</TextBlock>
+                <TextBox MaxLength="14" Text="{Binding CpfResposavelPagamento}"></TextBox>
+                <TextBlock>Número do comprovante de compra</TextBlock>
+                <TextBox MaxLength="20" Text="{Binding NumeroComprovante}"></TextBox>
+                <TextBlock>Valor</TextBlock>
+                <TextBox Text="{Binding Valor, StringFormat=N2}"></TextBox>
+            </StackPanel>
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right">
+                <Button Width="50" Height="50"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                    Click="OnClickBotaoAdicionarValePedagio">
+                    <Rectangle Width="20" Height="20"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill">
+                                <VisualBrush.Visual>
+                                    <fa:ImageAwesome Icon="Save" />
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </DockPanel>
+        </DockPanel>
+    </GroupBox>
+</controls:Flyout>
+

@@ -1,0 +1,2972 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.7.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.7.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C87D0580-0EFF-40B4-9815-A2D09E584F26}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fusion</RootNamespace>
+    <AssemblyName>Fusion</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Fusion.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationIcon>adm.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.4.3.2\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="CsvHelper, Version=13.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.13.0.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="CTe.Classes, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.CTe.2022.10.19.1442\lib\net462\CTe.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="CTe.Servicos, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.CTe.2022.10.19.1442\lib\net462\CTe.Servicos.dll</HintPath>
+    </Reference>
+    <Reference Include="CTe.Utils, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.CTe.2022.10.19.1442\lib\net462\CTe.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="CTe.Wsdl, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.CTe.2022.10.19.1442\lib\net462\CTe.Wsdl.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rd\DFeDLL\DFe.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe.Classes, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\DFe.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe.Utils, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\DFe.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe.Wsdl, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\DFe.Wsdl.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.11.4.0\lib\netstandard2.0\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.4\lib\net461\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Ini.Net, Version=1.0.5531.18665, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ini.net.1.1.0\lib\net20\Ini.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.2.2.0\lib\net46\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.SimpleChildWindow, Version=2.0.0.0, Culture=neutral, PublicKeyToken=ca3e0454e54ef52a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.SimpleChildWindow.2.0.0-alpha0043\lib\net46\MahApps.Metro.SimpleChildWindow.dll</HintPath>
+    </Reference>
+    <Reference Include="MDFe.Classes, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.MDFe.2022.10.19.1442\lib\net462\MDFe.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="MDFe.Servicos, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.MDFe.2022.10.19.1442\lib\net462\MDFe.Servicos.dll</HintPath>
+    </Reference>
+    <Reference Include="MDFe.Utils, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.MDFe.2022.10.19.1442\lib\net462\MDFe.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="MDFe.Wsdl, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.MDFe.2022.10.19.1442\lib\net462\MDFe.Wsdl.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="MotorTributarioNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MotorTributarioNet.1.0.10\lib\net40\MotorTributarioNet.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Classes, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\NFe.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Servicos, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\NFe.Servicos.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Utils, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\NFe.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Wsdl, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\NFe.Wsdl.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.4.1.2.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenAC.Net.Balanca, Version=1.5.0.1, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenAC.Net.Balanca.1.5.0.1\lib\net452\OpenAC.Net.Balanca.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenAC.Net.Core, Version=1.5.0.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenAC.Net.Core.1.5.0.1\lib\net452\OpenAC.Net.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenAC.Net.Devices, Version=1.5.0.1, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenAC.Net.Devices.1.5.0.1\lib\net452\OpenAC.Net.Devices.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="SintegraBr.Classes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rd\Sintegra\SintegraBr.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="SintegraBr.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rd\Sintegra\SintegraBr.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.113.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.113.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Presentation" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WpfControls, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rd\WPF-AutoComplete\WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.7.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.7.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.7.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.7.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.7.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Base\Notificacoes\NotificacaoArgs.cs" />
+    <Compile Include="Base\Notificacoes\Notificador.cs" />
+    <Compile Include="ContextoCompartilhado\ClientePickerContexto.cs" />
+    <Compile Include="ContextoCompartilhado\EmpresaComboBoxContexto.cs" />
+    <Compile Include="ContextoCompartilhado\TipoDocumentoComboBoxContexto.cs" />
+    <Compile Include="Controladores\Menu\CaixaControlador.cs" />
+    <Compile Include="Controladores\Menu\MdfeControladorTela.cs" />
+    <Compile Include="Controladores\Menu\RegraTributacaoSaidaController.cs" />
+    <Compile Include="Controles\CheckoutBox.cs" />
+    <Compile Include="Controles\Checkout\CheckoutBalanca.cs" />
+    <Compile Include="Controles\Checkout\CheckoutException.cs" />
+    <Compile Include="Controles\Checkout\CheckoutItem.cs" />
+    <Compile Include="Controles\Checkout\ComandoBuscaCodigo.cs" />
+    <Compile Include="Controles\Checkout\ComandoQuantidade.cs" />
+    <Compile Include="Controles\Checkout\IComando.cs" />
+    <Compile Include="Controles\CidadeComboPicker.cs" />
+    <Compile Include="Controles\ComboBoxEmpresa.cs" />
+    <Compile Include="Controles\Objetos\ProdutoCombo.cs" />
+    <Compile Include="Controles\PickerCliente.cs" />
+    <Compile Include="Controles\ProdutoComboPicker.cs" />
+    <Compile Include="Controles\Providers\ProdutoSuggestionProvider.cs" />
+    <Compile Include="Controles\Utilitarios\ComboBox\ComboBoxDados.cs" />
+    <Compile Include="Controles\Utilitarios\ComboBox\DadosEstrategia.cs" />
+    <Compile Include="Controles\Utilitarios\ComboBox\DadosAttribute.cs" />
+    <Compile Include="Controles\Utilitarios\ComboBox\Dados\DadosEmpresas.cs" />
+    <Compile Include="Controles\Utilitarios\ComboBox\Dados\DadosTabelaPrecos.cs" />
+    <Compile Include="Controles\Utilitarios\ComboBox\Dados\IDadosCombobox.cs" />
+    <Compile Include="Controles\Utilitarios\ComboBox\Dados\DadosTiposDocumento.cs" />
+    <Compile Include="Exceptions\PrecisaAtualizarDatabaseException.cs" />
+    <Compile Include="Facades\ImpressorFaturamento.cs" />
+    <Compile Include="DI\Providers\ControleCaixaProvider.cs" />
+    <Compile Include="Facades\VendedorObrigatorioFacade.cs" />
+    <Compile Include="Factories\FileDialogFactory.cs" />
+    <Compile Include="Factories\DialogFactory.cs" />
+    <Compile Include="Helpers\FiltroHelper.cs" />
+    <Compile Include="Impressoes\Financeiro\ImpressaoDePromissorias.cs" />
+    <Compile Include="Impressoes\Financeiro\ImpressaoPromissoriaComCarne.cs" />
+    <Compile Include="Impressoes\Financeiro\IOpcaoImpressao.cs" />
+    <Compile Include="Licenciamento\ChecadorLicenca.cs" />
+    <Compile Include="Parcelamento\ParcelamentoFactory.cs" />
+    <Compile Include="Parcelamento\RepositorioParcelamento.cs" />
+    <Compile Include="Sessao\SessaoSistema.cs" />
+    <Compile Include="Visao\Backup\BackupForm.xaml.cs">
+      <DependentUpon>BackupForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Backup\BackupFormModel.cs" />
+    <Compile Include="Visao\Base\Grid\GridPadrao.xaml.cs">
+      <DependentUpon>GridPadrao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Base\Grid\GridPadraoModel.cs" />
+    <Compile Include="Visao\Base\Grid\IGridPadraoModel.cs" />
+    <Compile Include="Visao\Base\VisaoModel\FormModelValidationBase.cs" />
+    <Compile Include="Visao\CentroCusto\CentroCustoForm.xaml.cs">
+      <DependentUpon>CentroCustoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CentroCusto\CentroCustoFormModel.cs" />
+    <Compile Include="Visao\CentroCusto\CentroCustoPickerModel.cs" />
+    <Compile Include="Visao\CentroCusto\CentroDeCustoGrid.xaml.cs">
+      <DependentUpon>CentroDeCustoGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CentroCusto\CentroDeCustoGridModel.cs" />
+    <Compile Include="Visao\CentroDeLucro\CentroLucroForm.xaml.cs">
+      <DependentUpon>CentroLucroForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CentroDeLucro\CentroLucroFormModel.cs" />
+    <Compile Include="Visao\CentroDeLucro\CentroLucroGrid.xaml.cs">
+      <DependentUpon>CentroLucroGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CentroDeLucro\CentroLucroGridModel.cs" />
+    <Compile Include="Visao\CentroDeLucro\CentroLucroPickerModel.cs" />
+    <Compile Include="Visao\Cfop\CfopForm.xaml.cs">
+      <DependentUpon>CfopForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Cfop\CfopFormModel.cs" />
+    <Compile Include="Visao\Cfop\CfopGridModel.cs" />
+    <Compile Include="Visao\Cfop\CfopPickerContexto.cs" />
+    <Compile Include="Visao\Cfop\CfopPickerModel.cs" />
+    <Compile Include="Visao\Cfop\CfopPickerView.xaml.cs">
+      <DependentUpon>CfopPickerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Cidade\CidadeGridModel.cs" />
+    <Compile Include="Visao\Compras\Importacao\Contents\ImportacaoChave.xaml.cs">
+      <DependentUpon>ImportacaoChave.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Compras\Importacao\Contents\EscolhaCfopContent.xaml.cs">
+      <DependentUpon>EscolhaCfopContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Compras\Importacao\Contents\ImportacaoContent.xaml.cs">
+      <DependentUpon>ImportacaoContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Compras\Importacao\ImportacaoCompraView.xaml.cs">
+      <DependentUpon>ImportacaoCompraView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Compras\Importacao\ImportacaoCompraViewModel.cs" />
+    <Compile Include="Visao\Compras\Importacao\Models\ItemImportacaoVM.cs" />
+    <Compile Include="Visao\Compras\Importacao\Models\PessoaVM.cs" />
+    <Compile Include="Visao\Compras\Importacao\Models\RegraCfopVM.cs" />
+    <Compile Include="Visao\Compras\NotaFiscal\CompraItemViewModel.cs" />
+    <Compile Include="Visao\Compras\NotaFiscal\Controls\ConfiguracaoRegraCalculoItem.xaml.cs">
+      <DependentUpon>ConfiguracaoRegraCalculoItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Compras\NotaFiscal\Controls\ConfiguracaoRegraCalculoItemModel.cs" />
+    <Compile Include="Visao\Compras\NotaFiscal\FornecedorViewModel.cs" />
+    <Compile Include="Visao\Compras\NotaFiscal\CompraItemView.xaml.cs">
+      <DependentUpon>CompraItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Compras\NotaFiscal\NotaFiscalCompraGridModel.cs" />
+    <Compile Include="Visao\Compras\NotaFiscal\NotaFiscalCompraView.xaml.cs">
+      <DependentUpon>NotaFiscalCompraView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Compras\NotaFiscal\NotaFiscalCompraViewModel.cs" />
+    <Compile Include="Visao\Compras\NotaFiscal\Opcoes\EstornarContasApagar.cs" />
+    <Compile Include="Visao\Compras\NotaFiscal\Opcoes\GerarDocumentosApagar.cs" />
+    <Compile Include="Visao\Compras\NotaFiscal\Opcoes\GerarPrecoVenda.cs" />
+    <Compile Include="Visao\Compras\NotaFiscal\Opcoes\IOutraOpcao.cs" />
+    <Compile Include="Visao\Compras\NotaFiscal\TotaisCompraChildView.xaml.cs">
+      <DependentUpon>TotaisCompraChildView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Compras\NotaFiscal\TotaisCompraChildViewModel.cs" />
+    <Compile Include="Visao\Compras\NotaFiscal\TransportadoraViewModel.cs" />
+    <Compile Include="Visao\Compras\Precos\GeradorPrecoVendaView.xaml.cs">
+      <DependentUpon>GeradorPrecoVendaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Compras\Precos\GeradorPrecoVendaViewModel.cs" />
+    <Compile Include="Visao\Compras\Precos\ItemPrecoModel.cs" />
+    <Compile Include="Visao\Configuracao\ConfiguracaoUserControl.xaml.cs">
+      <DependentUpon>ConfiguracaoUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Configuracao\Model\ConfiguracaoBalancaModel.cs" />
+    <Compile Include="Visao\Configuracao\Model\ConfiguracaoControleCaixaModel.cs" />
+    <Compile Include="Visao\Configuracao\Model\ConfiguracaoEmailModel.cs" />
+    <Compile Include="Visao\Configuracao\Model\ConfiguracaoEstoqueFaturamentoModel.cs" />
+    <Compile Include="Visao\Configuracao\Model\ConfiguracaoEstoqueModel.cs" />
+    <Compile Include="Visao\Configuracao\Model\ConfiguracaoFinanceiroModel.cs" />
+    <Compile Include="Visao\Configuracao\Model\ConfiguracaoFrenteCaixaModel.cs" />
+    <Compile Include="Visao\Configuracao\Model\ConfiguracaoModel.cs" />
+    <Compile Include="Visao\Configuracao\Model\ConfiguracaoServicoModel.cs" />
+    <Compile Include="Visao\Configuracao\Model\ConfiguracaoVendedorModel.cs" />
+    <Compile Include="Visao\ControlarNfces\EmitidaNo.cs" />
+    <Compile Include="Visao\ControlarNfces\FiltroCupomFiscalDto.cs" />
+    <Compile Include="Visao\ControlarNfces\ListarTodasNfces.xaml.cs">
+      <DependentUpon>ListarTodasNfces.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ControlarNfces\ListarTodasNfcesDados.cs" />
+    <Compile Include="Visao\ControlarNfces\OpcaoNfce.xaml.cs">
+      <DependentUpon>OpcaoNfce.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ControlarNfces\OpcaoNfceDados.cs" />
+    <Compile Include="Visao\ControlarNfces\PreferenciaException.cs" />
+    <Compile Include="Visao\ControlarNfces\ResolverNfceFaturamentosForm.xaml.cs">
+      <DependentUpon>ResolverNfceFaturamentosForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ControlarNfces\ResolverNfceFaturamentosFormModel.cs" />
+    <Compile Include="Visao\ControleCaixa\GridCaixasIndividuaisContexto.cs" />
+    <Compile Include="Visao\ControleCaixa\GridCaixasIndividuaisView.xaml.cs">
+      <DependentUpon>GridCaixasIndividuaisView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Builder\CteOsBuilder.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\AbaCabecalhoCteOs.xaml.cs">
+      <DependentUpon>AbaCabecalhoCteOs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\AbaEmitenteTomador.xaml.cs">
+      <DependentUpon>AbaEmitenteTomador.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\AbaPerfilCteOs.xaml.cs">
+      <DependentUpon>AbaPerfilCteOs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\AbaServicoSeguroRodoviario.xaml.cs">
+      <DependentUpon>AbaServicoSeguroRodoviario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\AbaTributacaoCteOs.xaml.cs">
+      <DependentUpon>AbaTributacaoCteOs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\FlyoutAddComponenteCteOs.xaml.cs">
+      <DependentUpon>FlyoutAddComponenteCteOs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\FlyoutAddComponenteCteOsModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\FlyoutAddDocumentoReferenciadoCteOs.xaml.cs">
+      <DependentUpon>FlyoutAddDocumentoReferenciadoCteOs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\FlyoutAddDocumentoReferenciadoCteOsModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\FlyoutAddPercurso.xaml.cs">
+      <DependentUpon>FlyoutAddPercurso.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\FlyoutAddPercursoModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\FlyoutAddSeguro.xaml.cs">
+      <DependentUpon>FlyoutAddSeguro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\FlyoutAddSeguroModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\GridComponenteValorPrestacaoCteOs.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\GridDocumentoReferenciadoCteOs.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\GridSeguro.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\ListasServicoSeguroRodoviario\ListaSeguro.xaml.cs">
+      <DependentUpon>ListaSeguro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Model\AbaCteOsCabecalhoCteOsModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Model\AbaCteOsPerfilCteOsModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Model\AbaCTeOsTributacaoModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Model\AbaCTeOSViewModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Model\AbaEmitenteTomadorModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\Aba\Model\AbaServicoSeguroRodoOsModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\CteOsEletronicaOpcoes.xaml.cs">
+      <DependentUpon>CteOsEletronicaOpcoes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\CteOsEletronicaOpcoesModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\CteOsEmitirForm.xaml.cs">
+      <DependentUpon>CteOsEmitirForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\CteOsEmitirFormModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\EmissaoSefazCteOsView.xaml.cs">
+      <DependentUpon>EmissaoSefazCteOsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Emitir\EmissaoSefazCteOsViewModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\OpcoesTributacao\OpcaoTributacao.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Emitir\OpcoesTributacao\OpcoesTributacaoFactory.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Grid\GridCteOs.xaml.cs">
+      <DependentUpon>GridCteOs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Grid\GridCteOsModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Helpers\CTeOsImpressaoHelper.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Perfil\AbaGeral.xaml.cs">
+      <DependentUpon>AbaGeral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Perfil\AbaOutro.xaml.cs">
+      <DependentUpon>AbaOutro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Perfil\AbaSeguro.xaml.cs">
+      <DependentUpon>AbaSeguro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Perfil\AbaTomador.xaml.cs">
+      <DependentUpon>AbaTomador.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Perfil\AbaTributacao.xaml.cs">
+      <DependentUpon>AbaTributacao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Perfil\Grid\GridPerfilCteOsModel.cs" />
+    <Compile Include="Visao\CteEletronicoOs\Perfil\PerfilCteOsForm.xaml.cs">
+      <DependentUpon>PerfilCteOsForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Perfil\AbaVeiculo.xaml.cs">
+      <DependentUpon>AbaVeiculo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronicoOs\Perfil\PerfilCteOsFormModel.cs" />
+    <Compile Include="Visao\CteEletronico\Builder\CteBuilder.cs" />
+    <Compile Include="Visao\CteEletronico\Cancelar\CancelamentoCTe.xaml.cs">
+      <DependentUpon>CancelamentoCTe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Cancelar\CancelamentoCTeModel.cs" />
+    <Compile Include="Visao\CteEletronico\CCe\CteCartaCorrecao.xaml.cs">
+      <DependentUpon>CteCartaCorrecao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\CCe\CteCartaCorrecaoModel.cs" />
+    <Compile Include="Visao\CteEletronico\CCe\Entidade\Correcao.cs" />
+    <Compile Include="Visao\CteEletronico\CCe\FlyoutAddCorrecaoCCe.xaml.cs">
+      <DependentUpon>FlyoutAddCorrecaoCCe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\CCe\FlyoutAddCorrecaoCCeModel.cs" />
+    <Compile Include="Visao\CteEletronico\Controls\Perfil\AbaVeiculoTracao.xaml.cs">
+      <DependentUpon>AbaVeiculoTracao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Controls\Perfil\PerfilOutros.xaml.cs">
+      <DependentUpon>PerfilOutros.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Controls\Perfil\Geral.xaml.cs">
+      <DependentUpon>Geral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaCabecalhoCte.xaml.cs">
+      <DependentUpon>AbaCabecalhoCte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaDocOriginarios\AbaListaComponenteValorPrestacao.xaml.cs">
+      <DependentUpon>AbaListaComponenteValorPrestacao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaDocOriginarios\AbaListaDocumentosAnteriores.xaml.cs">
+      <DependentUpon>AbaListaDocumentosAnteriores.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaDocOriginarios\AbaListaNfe.xaml.cs">
+      <DependentUpon>AbaListaNfe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaDocOriginarios\AbaListaNotasFiscaisImpressas.xaml.cs">
+      <DependentUpon>AbaListaNotasFiscaisImpressas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaDocOriginarios\AbaOutrosDocumentos.xaml.cs">
+      <DependentUpon>AbaOutrosDocumentos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaDocumentosOriginariosCte.xaml.cs">
+      <DependentUpon>AbaDocumentosOriginariosCte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaInformacoesCargaCte.xaml.cs">
+      <DependentUpon>AbaInformacoesCargaCte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaInformacoesCarga\ListaCarga.xaml.cs">
+      <DependentUpon>ListaCarga.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaPerfilCte.xaml.cs">
+      <DependentUpon>AbaPerfilCte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaInformacoesCte.xaml.cs">
+      <DependentUpon>AbaInformacoesCte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaInformacoesCarga\ListaVeiculos.xaml.cs">
+      <DependentUpon>ListaVeiculos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\AbaTributacaoCte.xaml.cs">
+      <DependentUpon>AbaTributacaoCte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\Models\AbaCabecalhoCteModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\Models\AbaDocumentosOriginariosModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\Models\AbaInformacoesCargaCteModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\Models\AbaPerfilCteModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\Models\AbaInformacoesCteModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Aba\Models\AbaTributacaoModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\CteEmitirForm.xaml.cs">
+      <DependentUpon>CteEmitirForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\CteEmitirFormModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\CteFacade.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\DocAnt\DocumentoAnteriorForm.xaml.cs">
+      <DependentUpon>DocumentoAnteriorForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\DocAnt\DocumentoAnteriorFormModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\DocAnt\FlyoutAddDocumentoAnterior.xaml.cs">
+      <DependentUpon>FlyoutAddDocumentoAnterior.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\DocAnt\FlyoutAddDocumentoAnteriorModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Emissao\AutorizacaoCteModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Emissao\AutorizacaoCteView.xaml.cs">
+      <DependentUpon>AutorizacaoCteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Emissao\EmissaoSefazCteView.xaml.cs">
+      <DependentUpon>EmissaoSefazCteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Emissao\EmissaoSefazCteViewModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Emissao\EmissorModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Emissao\CteEletronicaOpcoes.xaml.cs">
+      <DependentUpon>CteEletronicaOpcoes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Emissao\CteEletronicaOpcoesModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Emissao\TipoNotificacao.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\EntidadesModels\DocAnt\GridDocumentoTransporte.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\EntidadesModels\DocAnt\GridDocumentoAnterior.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\EntidadesModels\GridComponenteValorPrestacao.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\EntidadesModels\GridDocumentoNfeModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\EntidadesModels\GridDocumentoNotaFiscalImpressaModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\EntidadesModels\GridInformacaoCarga.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\EntidadesModels\GridOutroDocumentoModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\EntidadesModels\GridVeiculoParaTransporteModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutAbaInformacoesImportacaoCte.xaml.cs">
+      <DependentUpon>FlyoutAbaInformacoesImportacaoCte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutAddComponenteValorPrestacao.xaml.cs">
+      <DependentUpon>FlyoutAddComponenteValorPrestacao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutAddVeiculoParaTransporte.xaml.cs">
+      <DependentUpon>FlyoutAddVeiculoParaTransporte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutAdicionarNfe.xaml.cs">
+      <DependentUpon>FlyoutAdicionarNfe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutAdicionarNotaFiscalImpressa.xaml.cs">
+      <DependentUpon>FlyoutAdicionarNotaFiscalImpressa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutAdicionarOutroDocumento.xaml.cs">
+      <DependentUpon>FlyoutAdicionarOutroDocumento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutInformacaoCarga.xaml.cs">
+      <DependentUpon>FlyoutInformacaoCarga.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\Models\BuilderPessoaImportacao.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\Models\FlyoutAbaInformacoesImportacaoCteModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\Models\FlyoutAddComponenteValorPrestacaoModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\Models\FlyoutAddVeiculoParaTransporteModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\Models\FlyoutAdicionarNfeModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\Models\FlyoutAdicionarNotaFiscalImpressaModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\Models\FlyoutAdicionarOutroDocumentoModel.cs" />
+    <Compile Include="Visao\CteEletronico\Emitir\Flyouts\Models\FlyoutInformacaoCargaModel.cs" />
+    <Compile Include="Visao\CteEletronico\Grid\GridCTe.xaml.cs">
+      <DependentUpon>GridCTe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Grid\GridCTeModel.cs" />
+    <Compile Include="Visao\CteEletronico\Inutilizacao\CteInutilizacaoForm.xaml.cs">
+      <DependentUpon>CteInutilizacaoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Inutilizacao\CteInutilizacaoFormModel.cs" />
+    <Compile Include="Visao\CteEletronico\Inutilizacao\CteInutilizacaoGridModel.cs" />
+    <Compile Include="Visao\CteEletronico\Perfil\CtePerfilForm.xaml.cs">
+      <DependentUpon>CtePerfilForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\CteEletronico\Perfil\CtePerfilFormModel.cs" />
+    <Compile Include="Visao\CteEletronico\Perfil\PerfilCteGridModel.cs" />
+    <Compile Include="Visao\Dashboard\AniversarianteContexto.cs" />
+    <Compile Include="Visao\Dashboard\AniversariantesControl.xaml.cs">
+      <DependentUpon>AniversariantesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Dashboard\DashboardSimplesModel.cs" />
+    <Compile Include="Visao\Dashboard\DashboardSimples.xaml.cs">
+      <DependentUpon>DashboardSimples.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Dashboard\DashContasPagarContexto.cs" />
+    <Compile Include="Visao\Dashboard\DashContasPagarControl.xaml.cs">
+      <DependentUpon>DashContasPagarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Dashboard\TotalizadoresContexto.cs" />
+    <Compile Include="Visao\Dashboard\TotalizadoresControl.xaml.cs">
+      <DependentUpon>TotalizadoresControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAPagar\DocumentoPagarForm.xaml.cs">
+      <DependentUpon>DocumentoPagarForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAPagar\DocumentoPagarFormModel.cs" />
+    <Compile Include="Visao\DocumentoAPagar\Entidade\DocumentoPagarModel.cs" />
+    <Compile Include="Visao\DocumentoAPagar\GerarContasPagar.xaml.cs">
+      <DependentUpon>GerarContasPagar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAPagar\GerarContasPagarModel.cs" />
+    <Compile Include="Visao\DocumentoAPagar\GerarContasPagarModelFactory.cs" />
+    <Compile Include="Visao\DocumentoAPagar\GridDocumentoPagar.xaml.cs">
+      <DependentUpon>GridDocumentoPagar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAPagar\GridDocumentoPagarModel.cs" />
+    <Compile Include="Visao\DocumentoAPagar\Lancamentos\DocumentoAPagarLancamento.xaml.cs">
+      <DependentUpon>DocumentoAPagarLancamento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAPagar\Lancamentos\DocumentoAPagarlancamentoModel.cs" />
+    <Compile Include="Visao\DocumentoAPagar\Lancamentos\Flyouts\FlyoutAdicionaDesconto.xaml.cs">
+      <DependentUpon>FlyoutAdicionaDesconto.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAPagar\Lancamentos\Flyouts\FlyoutAdicionaDescontoModel.cs" />
+    <Compile Include="Visao\DocumentoAPagar\Lancamentos\Flyouts\FlyoutAdicionaJuro.xaml.cs">
+      <DependentUpon>FlyoutAdicionaJuro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAPagar\Lancamentos\Flyouts\FlyoutAdicionaJuroModel.cs" />
+    <Compile Include="Visao\DocumentoAPagar\Lancamentos\Flyouts\FlyoutAdicionaValor.xaml.cs">
+      <DependentUpon>FlyoutAdicionaValor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAPagar\Lancamentos\Flyouts\FlyoutAdicionaValorModel.cs" />
+    <Compile Include="Visao\DocumentoAPagar\OpcoesDocumento.xaml.cs">
+      <DependentUpon>OpcoesDocumento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAPagar\OpcoesDocumentoModel.cs" />
+    <Compile Include="Visao\DocumentoAPagar\ReciboForm.xaml.cs">
+      <DependentUpon>ReciboForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAPagar\ReciboFormModel.cs" />
+    <Compile Include="Visao\DocumentoAReceber\GridGerenciarAhReceberContexto.cs" />
+    <Compile Include="Visao\DocumentoAReceber\FormularioDocumentoReceberContexto.cs" />
+    <Compile Include="Visao\DocumentoAReceber\FormularioDocumentoReceberView.xaml.cs">
+      <DependentUpon>FormularioDocumentoReceberView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAReceber\GridGerenciarAhReceberView.xaml.cs">
+      <DependentUpon>GridGerenciarAhReceberView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAReceber\ImpressaoDocumentosAhReceberContexto.cs" />
+    <Compile Include="Visao\DocumentoAReceber\ImpressaoDocumentosAhReceberView.xaml.cs">
+      <DependentUpon>ImpressaoDocumentosAhReceberView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAReceber\NovoDocumentoReceberParcelado.xaml.cs">
+      <DependentUpon>NovoDocumentoReceberParcelado.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\DocumentoAReceber\NovoDocumentoReceberParceladoContexto.cs" />
+    <Compile Include="Visao\DocumentoAReceber\QuitarSelecionadosContexto.cs" />
+    <Compile Include="Visao\DocumentoAReceber\QuitarSelecionadosView.xaml.cs">
+      <DependentUpon>QuitarSelecionadosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Ecf\EcfForm.xaml.cs">
+      <DependentUpon>EcfForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Ecf\EcfFormModel.cs" />
+    <Compile Include="Visao\Ecf\EcfGridModel.cs" />
+    <Compile Include="Visao\EmissorFiscalEletronico\Aba\AbaAutorizarBaixarXml.xaml.cs">
+      <DependentUpon>AbaAutorizarBaixarXml.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\EmissorFiscalEletronico\Aba\AbaEmissorFiscalCTe.xaml.cs">
+      <DependentUpon>AbaEmissorFiscalCTe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\EmissorFiscalEletronico\Aba\AbaEmissorFiscalCTeOS.xaml.cs">
+      <DependentUpon>AbaEmissorFiscalCTeOS.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\EmissorFiscalEletronico\Aba\AbaEmissorFiscalMDFe.xaml.cs">
+      <DependentUpon>AbaEmissorFiscalMDFe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\EmissorFiscalEletronico\Aba\AbaEmissorFiscalSAT.xaml.cs">
+      <DependentUpon>AbaEmissorFiscalSAT.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\EmissorFiscalEletronico\Aba\EmissorFiscal.xaml.cs">
+      <DependentUpon>EmissorFiscal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\EmissorFiscalEletronico\Aba\AbaEmissorFiscalNFce.xaml.cs">
+      <DependentUpon>AbaEmissorFiscalNFce.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\EmissorFiscalEletronico\Aba\AbaEmissorFiscalNfe.xaml.cs">
+      <DependentUpon>AbaEmissorFiscalNfe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\EmissorFiscalEletronico\CertificadoDigitalForm.xaml.cs">
+      <DependentUpon>CertificadoDigitalForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\EmissorFiscalEletronico\CertificadoDigitalFormModel.cs" />
+    <Compile Include="Visao\EmissorFiscalEletronico\EmissorFiscalGridModel.cs" />
+    <Compile Include="Visao\EmissorFiscalEletronico\EmissorFiscalForm.xaml.cs">
+      <DependentUpon>EmissorFiscalForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\EmissorFiscalEletronico\EmissorFiscalFormModel.cs" />
+    <Compile Include="Visao\EmissorFiscalEletronico\EmissorFiscalPickerModel.cs" />
+    <Compile Include="Visao\Empresa\Aba\AbaDados.xaml.cs">
+      <DependentUpon>AbaDados.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Empresa\Aba\AbaEmpresaLogo.xaml.cs">
+      <DependentUpon>AbaEmpresaLogo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Empresa\Aba\AbaIdentificacao.xaml.cs">
+      <DependentUpon>AbaIdentificacao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Empresa\Aba\AbaTransportadora.xaml.cs">
+      <DependentUpon>AbaTransportadora.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Empresa\ConsultaNaSefaz\BuscarEmpresaNaSefazForm.xaml.cs">
+      <DependentUpon>BuscarEmpresaNaSefazForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Empresa\ConsultaNaSefaz\BuscarEmpresaNaSefazModel.cs" />
+    <Compile Include="Visao\Empresa\EmpresaForm.xaml.cs">
+      <DependentUpon>EmpresaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Empresa\EmpresaFormModel.cs" />
+    <Compile Include="Visao\Empresa\EmpresaGridModel.cs" />
+    <Compile Include="Visao\EstadoUf\UfGridModel.cs" />
+    <Compile Include="Visao\EventoEstoque\EventoEstoqueGridModel.cs" />
+    <Compile Include="Visao\EventoEstoque\EventoEstoqueWindow.xaml.cs">
+      <DependentUpon>EventoEstoqueWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\EventoEstoque\EventoEstoqueWindowModel.cs" />
+    <Compile Include="Visao\ExportacaoBalanca\ExportacaoBalancaContexto.cs" />
+    <Compile Include="Visao\ExportacaoBalanca\ExportacaoBalancaView.xaml.cs">
+      <DependentUpon>ExportacaoBalancaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ExportacaoBalanca\OpcaoExportacao.cs" />
+    <Compile Include="Visao\ExportacaoBuscaRapida\ExportacaoBuscaRapidaForm.xaml.cs">
+      <DependentUpon>ExportacaoBuscaRapidaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ExportacaoBuscaRapida\ExportacaoBuscaRapidaFormModel.cs" />
+    <Compile Include="Visao\ExportacaoBuscaRapida\Local.cs" />
+    <Compile Include="Visao\ExportacaoBuscaRapida\OpcaoExportacaoBuscaRapida.cs" />
+    <Compile Include="Visao\Fiscal\Estadual\AliquotaInternaForm.xaml.cs">
+      <DependentUpon>AliquotaInternaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Fiscal\Estadual\AliquotaInternaFormModel.cs" />
+    <Compile Include="Visao\Fiscal\Estadual\EditarAliquotaInternaForm.xaml.cs">
+      <DependentUpon>EditarAliquotaInternaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Fiscal\Estadual\EditarAliquotaInternaFormModel.cs" />
+    <Compile Include="Visao\GerenciadorManifestacoesDestinatarios\EfetuarDistribuicao.xaml.cs">
+      <DependentUpon>EfetuarDistribuicao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\GerenciadorManifestacoesDestinatarios\EfetuarDistribuicaoModel.cs" />
+    <Compile Include="Visao\GerenciadorManifestacoesDestinatarios\GridGerenciadorManifestador.xaml.cs">
+      <DependentUpon>GridGerenciadorManifestador.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\GerenciadorManifestacoesDestinatarios\GridGerenciadorManifestadorModel.cs" />
+    <Compile Include="Visao\GerenciadorManifestacoesDestinatarios\JustificativaOperacaoNaoRealizada.xaml.cs">
+      <DependentUpon>JustificativaOperacaoNaoRealizada.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\GerenciadorManifestacoesDestinatarios\JustificativaOperacaoNaoRealizadaModel.cs" />
+    <Compile Include="Visao\GerenciadorManifestacoesDestinatarios\ManifestoOpcoes.xaml.cs">
+      <DependentUpon>ManifestoOpcoes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\GerenciadorManifestacoesDestinatarios\ManifestoOpcoesModel.cs" />
+    <Compile Include="Visao\GerenciadorManifestacoesDestinatarios\NfeResumidaImportadaServico.cs" />
+    <Compile Include="Visao\ImportarIbpt\ImportarIbptModel.cs" />
+    <Compile Include="Visao\ImportarIbpt\JanelaImportarIbpt.xaml.cs">
+      <DependentUpon>JanelaImportarIbpt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Lancamentos\GridCteEntrada.cs" />
+    <Compile Include="Visao\Lancamentos\GridLancamentoOutroModel.cs" />
+    <Compile Include="Visao\Lancamentos\LancamentoCteEntradaForm.xaml.cs">
+      <DependentUpon>LancamentoCteEntradaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Lancamentos\LancamentoCteEntradaFormModel.cs" />
+    <Compile Include="Visao\Lancamentos\LancamentoOutroForm.xaml.cs">
+      <DependentUpon>LancamentoOutroForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Lancamentos\LancamentoOutroFormModel.cs" />
+    <Compile Include="Visao\Licenciamento\FlyoutAdicionaLicencaModel.cs" />
+    <Compile Include="Visao\Licenciamento\FlyoutAdicionaLicenca.xaml.cs">
+      <DependentUpon>FlyoutAdicionaLicenca.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Licenciamento\PainelLicencas.xaml.cs">
+      <DependentUpon>PainelLicencas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Licenciamento\PainelLicencasModel.cs" />
+    <Compile Include="Visao\Login\LoginAdm.xaml.cs">
+      <DependentUpon>LoginAdm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Login\LoginAdmModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\AbaCabecalhoMdfe.xaml.cs">
+      <DependentUpon>AbaCabecalhoMdfe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\AbaMdfeCarregamento.xaml.cs">
+      <DependentUpon>AbaMdfeCarregamento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\AbaRodoviarioMdfe.xaml.cs">
+      <DependentUpon>AbaRodoviarioMdfe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\Entidades\GirdValePedagio.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Entidades\GridCiot.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Entidades\GridCondutor.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Entidades\GridContratante.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Entidades\GridLacre.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Entidades\GridMunicipioCarregamento.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Entidades\GridPercurso.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Entidades\GridSeguroCarga.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Entidades\GridVeiculoReboque.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Entidades\GridVeiculoTracao.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddCiot.xaml.cs">
+      <DependentUpon>FlyoutAddCiot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddCondutor.xaml.cs">
+      <DependentUpon>FlyoutAddCondutor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddContratante.xaml.cs">
+      <DependentUpon>FlyoutAddContratante.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddLacre.xaml.cs">
+      <DependentUpon>FlyoutAddLacre.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddMunicipioCarregamento.xaml.cs">
+      <DependentUpon>FlyoutAddMunicipioCarregamento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddPercurso.xaml.cs">
+      <DependentUpon>FlyoutAddPercurso.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddValePedagio.xaml.cs">
+      <DependentUpon>FlyoutAddValePedagio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddVeiculoReboque.xaml.cs">
+      <DependentUpon>FlyoutAddVeiculoReboque.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddVeiculoTracao.xaml.cs">
+      <DependentUpon>FlyoutAddVeiculoTracao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAdicionaSeguradora.xaml.cs">
+      <DependentUpon>FlyoutAdicionaSeguradora.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\Model\FlyoutAddCiotModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\Model\FlyoutAddCondutorModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\Model\FlyoutAddContratanteModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\Model\FlyoutAddLacreModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\Model\FlyoutAddMunicipioCarregamentoModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\Model\FlyoutAddPercursoModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\Model\FlyoutAddSeguroModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\Model\FlyoutAddValePedagioModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\Model\FlyoutAddVeiculoReboqueModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Flyouts\Model\FlyoutAddVeiculoTracaoModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\IncluirPagamento\IncluirPagamentoForm.xaml.cs">
+      <DependentUpon>IncluirPagamentoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\IncluirPagamento\IncluirPagamentoFormModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\InformacaoVeiculoTracao.xaml.cs">
+      <DependentUpon>InformacaoVeiculoTracao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\ListaCiot.xaml.cs">
+      <DependentUpon>ListaCiot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\ListaCondutor.xaml.cs">
+      <DependentUpon>ListaCondutor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\ListaLacre.xaml.cs">
+      <DependentUpon>ListaLacre.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\ListaMunicipioCarregamento.xaml.cs">
+      <DependentUpon>ListaMunicipioCarregamento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\ListaPagamento.xaml.cs">
+      <DependentUpon>ListaPagamento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\ListaPercurso.xaml.cs">
+      <DependentUpon>ListaPercurso.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\ListaSeguro.xaml.cs">
+      <DependentUpon>ListaSeguro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\ListaValePedagio.xaml.cs">
+      <DependentUpon>ListaValePedagio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\ListaVeiculoReboque.xaml.cs">
+      <DependentUpon>ListaVeiculoReboque.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\MdfeAddDocumentoContexto.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\MdfeAddDocumentoView.xaml.cs">
+      <DependentUpon>MdfeAddDocumentoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\Model\AbaCabecalhoMdfeModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Model\AbaMdfeCarregamentoModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\Model\AbaRodoviarioMdfeModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\ProdutoPerigosoContexto.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\ProdutoPerigosoView.xaml.cs">
+      <DependentUpon>ProdutoPerigosoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Builder\MDFeBuilder.cs" />
+    <Compile Include="Visao\MdfeEletronico\Cancelar\CancelamentoMDFe.xaml.cs">
+      <DependentUpon>CancelamentoMDFe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Cancelar\CancelamentoMDFeModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\EmissaoSefazMdfeView.xaml.cs">
+      <DependentUpon>EmissaoSefazMdfeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\EmissaoSefazMdfeViewModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Emissao\MdfeEletronicaOpcoes.xaml.cs">
+      <DependentUpon>MdfeEletronicaOpcoes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Emissao\MdfeEletronicaOpcoesModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Emissao\MdfeUfEMunicipioEncerramentoForm.xaml.cs">
+      <DependentUpon>MdfeUfEMunicipioEncerramentoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Emissao\MdfeUfEMunicipioEncerramentoFormModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\ExtMDFEletronicoZeus.cs" />
+    <Compile Include="Visao\MdfeEletronico\GridMdfe.xaml.cs">
+      <DependentUpon>GridMdfe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\GridMdfeModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\IncluirCondutor\IncluirCondutorForm.xaml.cs">
+      <DependentUpon>IncluirCondutorForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\IncluirCondutor\IncluirCondutorFormModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\Aba\ListaContratante.xaml.cs">
+      <DependentUpon>ListaContratante.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\Aba\ListaMunicipioDescarregamento.xaml.cs">
+      <DependentUpon>ListaMunicipioDescarregamento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\IncluirPagamento\EventoIncluirPagamentoForm.xaml.cs">
+      <DependentUpon>EventoIncluirPagamentoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\IncluirPagamento\EventoIncluirPagamentoFormModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\IncluirPagamento\IncluirPagamentoForm.xaml.cs">
+      <DependentUpon>IncluirPagamentoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\IncluirPagamento\IncluirPagamentoFormModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\IncluirPagamento\MdfeEventoPagamentoGrid.xaml.cs">
+      <DependentUpon>MdfeEventoPagamentoGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\IncluirPagamento\MdfeEventoPagamentoGridModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\IncluirPagamento\ParcelaDTO.cs" />
+    <Compile Include="Visao\MdfeEletronico\IncluirPagamento\TipoComponenteDTO.cs" />
+    <Compile Include="Visao\MdfeEletronico\MdfeEmitirForm.xaml.cs">
+      <DependentUpon>MdfeEmitirForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\MdfeEmitirFormModel.cs" />
+    <Compile Include="Visao\MdfeEletronico\NaoEncerrados\ConsultaNaoEncerradosForm.xaml.cs">
+      <DependentUpon>ConsultaNaoEncerradosForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MdfeEletronico\NaoEncerrados\ConsultaNaoEncerradosFormModel.cs" />
+    <Compile Include="Controladores\Menu\Controlador.cs" />
+    <Compile Include="Controladores\Menu\EstoqueController.cs" />
+    <Compile Include="Controladores\Menu\ComprasController.cs" />
+    <Compile Include="Controladores\Menu\FaturamentoController.cs" />
+    <Compile Include="Controladores\Menu\PessoaController.cs" />
+    <Compile Include="Visao\Menu\MenuPrincipal.xaml.cs">
+      <DependentUpon>MenuPrincipal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Menu\MenuViewModel.cs" />
+    <Compile Include="Visao\Menu\TopMenuUsuario.xaml.cs">
+      <DependentUpon>TopMenuUsuario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MovimentacaoEstoque\Flyouts\MovimentoItemFlyoutModel.cs" />
+    <Compile Include="Visao\MovimentacaoEstoque\Flyouts\MovimentoEstoqueFlyout.xaml.cs">
+      <DependentUpon>MovimentoEstoqueFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MovimentacaoEstoque\Flyouts\MovimentoItemFlyout.xaml.cs">
+      <DependentUpon>MovimentoItemFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\MovimentacaoEstoque\Flyouts\MovimentoEstoqueFlyoutModel.cs" />
+    <Compile Include="Visao\MovimentacaoEstoque\MovimentoEstoqueGridModel.cs" />
+    <Compile Include="Visao\MovimentacaoEstoque\MovimentoEstoqueFormModel.cs" />
+    <Compile Include="Visao\MovimentacaoEstoque\MovimentoEstoqueForm.xaml.cs">
+      <DependentUpon>MovimentoEstoqueForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Ncm\NcmForm.xaml.cs">
+      <DependentUpon>NcmForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Ncm\NcmFormModel.cs" />
+    <Compile Include="Visao\Ncm\NcmGridModel.cs" />
+    <Compile Include="Visao\Ncm\NcmGridPickerModel.cs" />
+    <Compile Include="Visao\NfeCartaCorrecao\NfeCartaCorrecaoForm.xaml.cs">
+      <DependentUpon>NfeCartaCorrecaoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NfeCartaCorrecao\NfeCartaCorrecaoFormModel.cs" />
+    <Compile Include="Visao\NfeInutilizacaoNumeracao\NfeInutilizacaoNumeracaoForm.xaml.cs">
+      <DependentUpon>NfeInutilizacaoNumeracaoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NfeInutilizacaoNumeracao\NfeInutilizacaoNumeracaoVm.cs" />
+    <Compile Include="Visao\NfeInutilizacaoNumeracao\NfeInutilizacaoNumeracaoGridModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Cancelamento\NfeCancelamentoContexto.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Cancelamento\NfeCancelamentoView.xaml.cs">
+      <DependentUpon>NfeCancelamentoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Contingencia\HistoricoContingenciaView.xaml.cs">
+      <DependentUpon>HistoricoContingenciaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Contingencia\HistoricoContingenciaViewModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Contingencia\IniciarContigenciaViewModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Contingencia\IniciarContingenciaFlyout.xaml.cs">
+      <DependentUpon>IniciarContingenciaFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\EmissaoSefaz\EmissaoSefazView.xaml.cs">
+      <DependentUpon>EmissaoSefazView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\EmissaoSefaz\EmissaoSefazViewModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Emissao\EmissorModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Emissao\TipoNotificacao.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Exportacao\ExportacaoXmlDistribuicaoViewModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Exportacao\ExportacaoXmlDistribuicaoView.xaml.cs">
+      <DependentUpon>ExportacaoXmlDistribuicaoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Exportacao\ExportacaoXmlModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Exportacao\ExportacaoXmlView.xaml.cs">
+      <DependentUpon>ExportacaoXmlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Exportacao\TipoDocumentoFiscalEletronicoSelecao.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Infraestrutura\RepositorioExportaXmlNfce.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\Finalizar.xaml.cs">
+      <DependentUpon>Finalizar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\AbaItensNfe.xaml.cs">
+      <DependentUpon>AbaItensNfe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\AbaCabecalho.xaml.cs">
+      <DependentUpon>AbaCabecalho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\AbaDestinatario.xaml.cs">
+      <DependentUpon>AbaDestinatario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\AbaPerfilPicker.xaml.cs">
+      <DependentUpon>AbaPerfilPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\Models\AbaCabecalhoModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\Models\AbaDestinatarioModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\Models\AbaItensNfeModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\Models\AbaPerfilPickerModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\Models\DestinatarioModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\Models\ExportacaoModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\Models\TransportadoraModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Controles\Events\ProdutoAlteradoEvent.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Controles\IcmsContexto.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Controles\IcmsControl.xaml.cs">
+      <DependentUpon>IcmsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Controles\IOutrasOpcoesContexto.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Controles\IpiContexto.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Controles\IpiControl.xaml.cs">
+      <DependentUpon>IpiControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Controles\ItemContexto.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Controles\ItemControl.xaml.cs">
+      <DependentUpon>ItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Controles\OutrasOpcoesChildWindow.xaml.cs">
+      <DependentUpon>OutrasOpcoesChildWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Finalizar\MeioPagamento\OpcaoCartaoCredito.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Finalizar\MeioPagamento\OpcaoCartaoDebito.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Finalizar\MeioPagamento\OpcaoPix.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Finalizar\NfePagamentoView.xaml.cs">
+      <DependentUpon>NfePagamentoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Finalizar\NfePagamentoContexto.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Finalizar\MeioPagamento\IOpcaoPagamento.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Finalizar\MeioPagamento\OpcaoDinheiro.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Finalizar\MeioPagamento\OpcaoPrazo.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Finalizar\MeioPagamento\Resultado.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\ItemView.xaml.cs">
+      <DependentUpon>ItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Controles\PisCofinsContexto.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Controles\PisCofinsControl.xaml.cs">
+      <DependentUpon>PisCofinsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\TotaisNfeChildWindow.xaml.cs">
+      <DependentUpon>TotaisNfeChildWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\TotaisNfeChildWindowModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\ExceptionCustom\PagamentoNfeException.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Flyouts\FlyoutAlteraNumeroEmissao.xaml.cs">
+      <DependentUpon>FlyoutAlteraNumeroEmissao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Flyouts\FlyoutAlteraEmissor.xaml.cs">
+      <DependentUpon>FlyoutAlteraEmissor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Aba\Models\VolumesModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Flyouts\FlyoutReferenciaNfe.xaml.cs">
+      <DependentUpon>FlyoutReferenciaNfe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Flyouts\FlyoutReferenciasCf.xaml.cs">
+      <DependentUpon>FlyoutReferenciasCf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Flyouts\Models\DocumentoPagarModelNfe.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Flyouts\Models\DuplicataVirtual.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Flyouts\Models\FlyoutAlteraEmissorModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Flyouts\Models\FlyoutAlteraNumeroEmissaoModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Flyouts\Models\FlyoutReferenciaCfModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Flyouts\Models\FlyoutReferenciaNfeModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Flyouts\Models\TipoDocumento.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\ItemViewModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\NfeEletronicaGridControl.xaml.cs">
+      <DependentUpon>NfeEletronicaGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\NfeletronicaGridModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\NfeletronicaOpcoes.xaml.cs">
+      <DependentUpon>NfeletronicaOpcoes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\NfeletronicaOpcoesModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\NfeletronicaWizzard.xaml.cs">
+      <DependentUpon>NfeletronicaWizzard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\NfeletronicaWizzardModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\TransmitirNfeOpcoes.xaml.cs">
+      <DependentUpon>TransmitirNfeOpcoes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Volumes\VolumeForm.xaml.cs">
+      <DependentUpon>VolumeForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Principal\Volumes\VolumeFormModel.cs" />
+    <Compile Include="Visao\NotaFiscalEletronica\Status\ConsultaStatusSefazForm.xaml.cs">
+      <DependentUpon>ConsultaStatusSefazForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\NotaFiscalEletronica\Status\ConsultaStatusSefazFormModel.cs" />
+    <Compile Include="Visao\PedidoDeVenda\EditarItemView.xaml.cs">
+      <DependentUpon>EditarItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PedidoDeVenda\EditarItemViewModel.cs" />
+    <Compile Include="Visao\PedidoDeVenda\ClienteVisitanteContexto.cs" />
+    <Compile Include="Visao\PedidoDeVenda\ClienteVisitanteControl.xaml.cs">
+      <DependentUpon>ClienteVisitanteControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PedidoDeVenda\Finalizacao\FinalizacaoForm.xaml.cs">
+      <DependentUpon>FinalizacaoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PedidoDeVenda\Finalizacao\FinalizacaoFormModel.cs" />
+    <Compile Include="Visao\PedidoDeVenda\Finalizacao\MeioPagamento\IOpcaoPagamento.cs" />
+    <Compile Include="Visao\PedidoDeVenda\Finalizacao\MeioPagamento\OpcaoCartaoCredito.cs" />
+    <Compile Include="Visao\PedidoDeVenda\Finalizacao\MeioPagamento\OpcaoCartaoDebito.cs" />
+    <Compile Include="Visao\PedidoDeVenda\Finalizacao\MeioPagamento\OpcaoDinheiro.cs" />
+    <Compile Include="Visao\PedidoDeVenda\Finalizacao\MeioPagamento\OpcaoPrazo.cs" />
+    <Compile Include="Visao\PedidoDeVenda\Finalizacao\MeioPagamento\Resultado.cs" />
+    <Compile Include="Visao\PedidoDeVenda\Finalizacao\PedidoFinalizacaoContexto.cs" />
+    <Compile Include="Visao\PedidoDeVenda\Finalizacao\PedidoFinalizacaoView.xaml.cs">
+      <DependentUpon>PedidoFinalizacaoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PedidoDeVenda\FormCancelamentoPedido.xaml.cs">
+      <DependentUpon>FormCancelamentoPedido.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PedidoDeVenda\FormCancelamentoPedidoModel.cs" />
+    <Compile Include="Visao\PedidoDeVenda\ObservacaoPedidoVendaControl.xaml.cs">
+      <DependentUpon>ObservacaoPedidoVendaControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PedidoDeVenda\ObservacaoPedidoVendaControlModel.cs" />
+    <Compile Include="Visao\PedidoDeVenda\PedidoVendaController.cs" />
+    <Compile Include="Visao\ConverterVendaParaNfe\ConverterParaNfeForm.xaml.cs">
+      <DependentUpon>ConverterParaNfeForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ConverterVendaParaNfe\ConverterParaNfeFormModel.cs" />
+    <Compile Include="Visao\PedidoDeVenda\DescontoNoTotalPedidoVenda.xaml.cs">
+      <DependentUpon>DescontoNoTotalPedidoVenda.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PedidoDeVenda\DescontoNoTotalPedidoVendaModel.cs" />
+    <Compile Include="Visao\PedidoDeVenda\ListaPedidoVendaControl.xaml.cs">
+      <DependentUpon>ListaPedidoVendaControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PedidoDeVenda\ListaPedidoVendaControlModel.cs" />
+    <Compile Include="Visao\PedidoDeVenda\Lista\GridPedidoVenda.xaml.cs">
+      <DependentUpon>GridPedidoVenda.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PedidoDeVenda\Lista\GridPedidoVendaModel.cs" />
+    <Compile Include="Visao\PedidoDeVenda\Lista\OpcoesPedidoVenda.xaml.cs">
+      <DependentUpon>OpcoesPedidoVenda.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PedidoDeVenda\Lista\OpcoesPedidoVendaModel.cs" />
+    <Compile Include="Visao\PedidoDeVenda\PedidoVendaForm.xaml.cs" />
+    <Compile Include="Visao\PedidoDeVenda\PedidoVendaFormModel.cs" />
+    <Compile Include="Visao\PedidoDeVenda\Preferencias\PedidoVendaPreferenciaForm.xaml.cs">
+      <DependentUpon>PedidoVendaPreferenciaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PedidoDeVenda\Preferencias\PedidoVendaPreferenciaFormModel.cs" />
+    <Compile Include="Visao\PedidoDeVenda\Servicos\ImpressorPedidoVenda.cs" />
+    <Compile Include="Visao\PedidoDeVenda\TipoPedidoControl.xaml.cs" />
+    <Compile Include="Visao\PedidoDeVenda\TipoPedidoContexto.cs" />
+    <Compile Include="Visao\PerfilCfop\PerfilCfopPickerModel.cs" />
+    <Compile Include="Visao\PerfilCfop\PerfilCfopForm.xaml.cs">
+      <DependentUpon>PerfilCfopForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PerfilCfop\PerfilCfopFormModel.cs" />
+    <Compile Include="Visao\PerfilCfop\PerfilCfopGridModel.cs" />
+    <Compile Include="Visao\PerfilNfe\Aba\AbaSimplesNacional.xaml.cs">
+      <DependentUpon>AbaSimplesNacional.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PerfilNfe\Aba\AbaPreDestinatario.xaml.cs">
+      <DependentUpon>AbaPreDestinatario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PerfilNfe\Aba\AbaGeral.xaml.cs">
+      <DependentUpon>AbaGeral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PerfilNfe\PerfilNfeForm.xaml.cs">
+      <DependentUpon>PerfilNfeForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PerfilNfe\PerfilNfeFormModel.cs" />
+    <Compile Include="Visao\PerfilNfe\PerfilNfeGridModel.cs" />
+    <Compile Include="Visao\Pessoa\Aba\PessoaClienteAba.xaml.cs">
+      <DependentUpon>PessoaClienteAba.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\Aba\PessoaEmailAba.xaml.cs">
+      <DependentUpon>PessoaEmailAba.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\Aba\PessoaEnderecoAba.xaml.cs">
+      <DependentUpon>PessoaEnderecoAba.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\Aba\PessoaExtrangeiroAba.xaml.cs">
+      <DependentUpon>PessoaExtrangeiroAba.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\Aba\PessoaFisicaAba.xaml.cs">
+      <DependentUpon>PessoaFisicaAba.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\Aba\PessoaJuridicaAba.xaml.cs">
+      <DependentUpon>PessoaJuridicaAba.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\Aba\PessoaTransportadoraAba.xaml.cs">
+      <DependentUpon>PessoaTransportadoraAba.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\Flyouts\PessoaEmailFlyout.xaml.cs">
+      <DependentUpon>PessoaEmailFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\Flyouts\PessoaEmailFlyoutModel.cs" />
+    <Compile Include="Visao\Pessoa\PessoaForm.xaml.cs">
+      <DependentUpon>PessoaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\PessoaFormInicio.xaml.cs">
+      <DependentUpon>PessoaFormInicio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\PessoaFormInicioModel.cs" />
+    <Compile Include="Visao\Pessoa\PessoaFormModel.cs" />
+    <Compile Include="Visao\Pessoa\PessoaGridControl.xaml.cs">
+      <DependentUpon>PessoaGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\PessoaGridModel.cs" />
+    <Compile Include="Visao\Pessoa\Picker\ClienteEngine.cs" />
+    <Compile Include="Visao\Pessoa\Picker\FornecedorEngine.cs" />
+    <Compile Include="Visao\Pessoa\Picker\IPessoaPickerEngine.cs" />
+    <Compile Include="Visao\Pessoa\Picker\OpcoesBusca\BuscaPessoaPickerPadrao.cs" />
+    <Compile Include="Visao\Pessoa\Picker\OpcoesBusca\BuscaPessoaPickerPorDocumento.cs" />
+    <Compile Include="Visao\Pessoa\Picker\OpcoesBusca\BuscaPessoaPickerPorEmail.cs" />
+    <Compile Include="Visao\Pessoa\Picker\OpcoesBusca\BuscaPessoaPickerPorNome.cs" />
+    <Compile Include="Visao\Pessoa\Picker\OpcoesBusca\BuscaPessoaPickerPorTelefone.cs" />
+    <Compile Include="Visao\Pessoa\Picker\OpcoesBusca\BuscaPessoaPickerVendedor.cs" />
+    <Compile Include="Visao\Pessoa\Picker\OpcoesBusca\BuscaPessoaSelecionaPorEndereco.cs" />
+    <Compile Include="Visao\Pessoa\Picker\PessoaEngine.cs" />
+    <Compile Include="Visao\Pessoa\Picker\PessoaPickerModel.cs" />
+    <Compile Include="Visao\Pessoa\Picker\TransportadoraEngine.cs" />
+    <Compile Include="Visao\Pessoa\Picker\VendedorEngine.cs" />
+    <Compile Include="Visao\Pessoa\SubFormularios\EnderecoForm.xaml.cs">
+      <DependentUpon>EnderecoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\SubFormularios\EnderecoFormModel.cs" />
+    <Compile Include="Visao\Pessoa\SubFormularios\TelefoneForm.xaml.cs">
+      <DependentUpon>TelefoneForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Pessoa\SubFormularios\TelefoneFormModel.cs" />
+    <Compile Include="Visao\Pessoa\SubFormularios\VeiculoForm.xaml.cs">
+      <DependentUpon>VeiculoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ProdutoGrupo\ProdutoGrupoGridModel.cs" />
+    <Compile Include="Visao\ProdutoLocalizacoes\ProdutoLocalizacaoForm.xaml.cs">
+      <DependentUpon>ProdutoLocalizacaoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ProdutoLocalizacoes\ProdutoLocalizacaoFormModel.cs" />
+    <Compile Include="Visao\ProdutoLocalizacoes\ProdutoLocalizacaoGridModel.cs" />
+    <Compile Include="Visao\ProdutoLocalizacoes\ProdutoLocalizacaoGridPickerModel.cs" />
+    <Compile Include="Visao\ProdutoUnidade\ProdutoUnidadeForm.xaml.cs">
+      <DependentUpon>ProdutoUnidadeForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ProdutoUnidade\ProdutoUnidadeFormModel.cs" />
+    <Compile Include="Visao\ProdutoGrupo\ProdutoGrupoForm.xaml.cs">
+      <DependentUpon>ProdutoGrupoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ProdutoGrupo\ProdutoGrupoFormModel.cs" />
+    <Compile Include="Visao\ProdutoUnidade\ProdutoUnidadeGridModel.cs" />
+    <Compile Include="Visao\Produto\Estoque\AjusteSaldoForm.xaml.cs">
+      <DependentUpon>AjusteSaldoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Produto\Estoque\AjusteSaldoFormModel.cs" />
+    <Compile Include="Visao\Produto\FlyoutCodigoBarra.xaml.cs">
+      <DependentUpon>FlyoutCodigoBarra.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Produto\FlyoutCodigoBarraModel.cs" />
+    <Compile Include="Visao\Produto\FlyoutRegraTributacaoModel.cs" />
+    <Compile Include="Visao\Produto\Historico\HistoricoCompraControl.xaml.cs">
+      <DependentUpon>HistoricoCompraControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Produto\Historico\HistoricoCompraModel.cs" />
+    <Compile Include="Visao\Produto\Models\ProdutoIcmsModel.cs" />
+    <Compile Include="Visao\Produto\Models\ProdutoIpiModel.cs" />
+    <Compile Include="Visao\Produto\Models\ProdutoTabelaPrecoViewModel.cs" />
+    <Compile Include="Visao\Produto\OpcoesBusca\GridPicker\BuscaPadraoProdutoGridPicker.cs" />
+    <Compile Include="Visao\Produto\OpcoesBusca\GridPicker\BuscaProdutoGridPickerCodigoBarrasAlias.cs" />
+    <Compile Include="Visao\Produto\ProdutoForm.xaml.cs">
+      <DependentUpon>ProdutoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Produto\ProdutoFormModel.cs" />
+    <Compile Include="Visao\Produto\ProdutoGridControl.xaml.cs">
+      <DependentUpon>ProdutoGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Produto\ProdutoGridModel.cs" />
+    <Compile Include="Visao\Produto\ProdutoGridPickerModel.cs" />
+    <Compile Include="Visao\Produto\ProdutoOpcoes.xaml.cs">
+      <DependentUpon>ProdutoOpcoes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Produto\FlyoutRegraTributacao.xaml.cs">
+      <DependentUpon>FlyoutRegraTributacao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Produto\RegraTribuacaoInfo.cs" />
+    <Compile Include="Visao\Relatorios\Comum\AcaoEscolherArquivoFrx.cs" />
+    <Compile Include="Visao\Relatorios\Comum\AcaoFiltro.cs" />
+    <Compile Include="Visao\Relatorios\Comum\ExportadorTemplate.cs" />
+    <Compile Include="Visao\Relatorios\Comum\ImportadorTemplate.cs" />
+    <Compile Include="Visao\Relatorios\Comum\OpcaoRelatorio.cs" />
+    <Compile Include="Visao\Relatorios\IOpcaoRelatorio.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpacaoRelatorioFiscalEmissaoCTe.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoAnaliseLucroPorItem.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoClientesPorEnderecoCidadeContato.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoCompraDetalhada.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoContagemDeEstoque.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoDocumentoPagar.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoDocumentoReceber.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoEstoqueReposicao.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoItensVendidosAgrupadoPorCliente.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoNcmVencido.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoProdutoComNcmVencido.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoProdutosComCodigoDeBarras.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoTotaisPorFormaPagamento.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoListagemDeEstoquePorGrupo.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoModeloEtiqueta.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoRelaotorioCompletoVendasPorModelo.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoRelatorioFiscalComprasPorNotaEOperacao.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoRelatorioFiscalComprasPorOperacao.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoRelatorioFiscalNFeNFce.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoRValorPorNcmAgrupadoPorIcms.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoTotalVendidoPorVendedor.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoVendasAgrupadoPorCliente.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoVendasComItensPorUsuarios.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\Sistema\OpcaoDanfeNfce58mm.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\Sistema\OpcaoDanfeNfce.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\Sistema\OpcaoDanfeNfceA4.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\Sistema\OpcaoImpressaoDeLinhaTef.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\Sistema\OpcaoImpressaoFaturamento80.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\Sistema\OpcaoImpressaoFaturamentoA4.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoInutilizacoesNfeNfce.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoItensVendidos.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoIventarioEstoque.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoListagemDeProdutosEstoque.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoListagemProdutoTributacao.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpacaoVendasTransmitidasNaNfce.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoRelatorioAniversariantes.cs" />
+    <Compile Include="Visao\Relatorios\Comum\OpcaoRelatorioFixo.cs" />
+    <Compile Include="Visao\Relatorios\Comum\OpcaoRelatorioProprio.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\Sistema\OpcaoImpressaoPedidoVenda.cs" />
+    <Compile Include="Visao\Relatorios\ListagemRelatoriosContexto.cs" />
+    <Compile Include="Visao\Relatorios\ListagemRelatoriosControl.xaml.cs">
+      <DependentUpon>ListagemRelatoriosControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Relatorios\CadastroFastReport.xaml.cs">
+      <DependentUpon>CadastroFastReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Relatorios\CadastroFastReportContexto.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\OpcaoVendasDoFaturamento.cs" />
+    <Compile Include="Visao\Relatorios\Comum\OpcaoRelatorioSistema.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\Sistema\OpcaoListagemDeCaixasFechados.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\Sistema\OpcaoPromissoria.cs" />
+    <Compile Include="Visao\Relatorios\Opcoes\Sistema\OpcaoPromissoriaCarne.cs" />
+    <Compile Include="Visao\SelecionarNfce\SelecionadorNfceFormulario.xaml.cs">
+      <DependentUpon>SelecionadorNfceFormulario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\SelecionarNfce\SelecionadorNfceFormularioModelo.cs" />
+    <Compile Include="Visao\SelecionarNfce\SelecionarUmClienteParaNfeFormulario.xaml.cs">
+      <DependentUpon>SelecionarUmClienteParaNfeFormulario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\SelecionarNfce\SelecionarUmClienteParaNfeFormularioModel.cs" />
+    <Compile Include="Visao\Sintegra\SintegraForm.xaml.cs">
+      <DependentUpon>SintegraForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Sintegra\SintegraFormModel.cs" />
+    <Compile Include="Visao\Splash\SplashFusion.xaml.cs">
+      <DependentUpon>SplashFusion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Splash\SplashFusionModel.cs" />
+    <Compile Include="Visao\TabelasPrecos\CalculadoraAjusteItem.xaml.cs">
+      <DependentUpon>CalculadoraAjusteItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\TabelasPrecos\CalculadoraAjusteItemContexto.cs" />
+    <Compile Include="Visao\TabelasPrecos\NovoPrecoDiferenciadoItemFormulario.xaml.cs">
+      <DependentUpon>NovoPrecoDiferenciadoItemFormulario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\TabelasPrecos\NovoPrecoDiferenciadoItemFormularioModel.cs" />
+    <Compile Include="Visao\TabelasPrecos\TabelaPrecoFormulario.xaml.cs">
+      <DependentUpon>TabelaPrecoFormulario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\TabelasPrecos\TabelaPrecoFormularioModel.cs" />
+    <Compile Include="Visao\TabelasPrecos\TabelaPrecosListagem.xaml.cs">
+      <DependentUpon>TabelaPrecosListagem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\TabelasPrecos\TabelaPrecosListagemModel.cs" />
+    <Compile Include="Visao\Tef\GridPosForm.xaml.cs">
+      <DependentUpon>GridPosForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Tef\GridPosFormModel.cs" />
+    <Compile Include="Visao\Tef\TefPosForm.xaml.cs">
+      <DependentUpon>TefPosForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Tef\TefPosFormModel.cs" />
+    <Compile Include="Visao\Terminal\CfopPickerNfceModel.cs" />
+    <Compile Include="Visao\Terminal\TerminalOfflineFormModel.cs" />
+    <Compile Include="Visao\Terminal\TerminalOfflineForm.xaml.cs">
+      <DependentUpon>TerminalOfflineForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Terminal\TerminalOfflineGridModel.cs" />
+    <Compile Include="Visao\TipoDocumentoFinanceiro\TipoDocumentoFinanceiroForm.xaml.cs">
+      <DependentUpon>TipoDocumentoFinanceiroForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\TipoDocumentoFinanceiro\TipoDocumentoFinanceiroFormModel.cs" />
+    <Compile Include="Visao\TipoDocumentoFinanceiro\TipoDocumentoFinanceiroGridModel.cs" />
+    <Compile Include="Visao\Tributacoes\Regras\GerenciarRegrasListagem.xaml.cs">
+      <DependentUpon>GerenciarRegrasListagem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Tributacoes\Regras\GerenciarRegrasListagemContexto.cs" />
+    <Compile Include="Visao\Tributacoes\Regras\RegraTributacaoSaidaContexto.cs" />
+    <Compile Include="Visao\Tributacoes\Regras\RegraTributacaoSaidaView.xaml.cs">
+      <DependentUpon>RegraTributacaoSaidaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Usuario\GerenciarPermissaoContexto.cs" />
+    <Compile Include="Visao\Usuario\GerenciarPermissao.xaml.cs">
+      <DependentUpon>GerenciarPermissao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Usuario\GerenciarUsuariosControl.xaml.cs">
+      <DependentUpon>GerenciarUsuariosControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Usuario\PapelUsuarioForm.xaml.cs">
+      <DependentUpon>PapelUsuarioForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Usuario\PapelUsuarioFormModel.cs" />
+    <Compile Include="Visao\Usuario\OpcaoPermissao.cs" />
+    <Compile Include="Visao\Usuario\UsuarioForm.xaml.cs">
+      <DependentUpon>UsuarioForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Usuario\UsuarioFormModel.cs" />
+    <Compile Include="Visao\Usuario\GerenciarUsuariosContexto.cs" />
+    <Compile Include="Visao\Usuario\VincularUsuarioAoPapelForm.xaml.cs">
+      <DependentUpon>VincularUsuarioAoPapelForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Usuario\VincularUsuarioAoPapelFormModel.cs" />
+    <Compile Include="Visao\Validacoes\Pessoa\ValidacaoDocumentoUnico.cs" />
+    <Compile Include="Visao\Validacoes\CteOs\ValidacaoTomadorCTeOs.cs" />
+    <Compile Include="Visao\Validacoes\CteOs\ValidarTafRegistroEstadual.cs" />
+    <Compile Include="Visao\Veiculos\ProprietarioVeiculoPickerModel.cs" />
+    <Compile Include="Visao\Veiculos\OpcoesDono.xaml.cs">
+      <DependentUpon>OpcoesDono.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Veiculos\OpcoesDonoModel.cs" />
+    <Compile Include="Visao\Veiculos\VeiculoFormModel.cs" />
+    <Compile Include="Visao\Veiculos\VeiculoGridModel.cs" />
+    <Compile Include="Visao\Veiculos\VeiculoPickerModel.cs" />
+    <Compile Include="Visao\Vendas\AutorizadorNfceTela.cs" />
+    <Compile Include="Visao\Vendas\CancelarNfceTela.cs" />
+    <Compile Include="Visao\Vendas\CarregarConfiguracaoZeusFaturamento.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Desconto\AplicarDescontoView.xaml.cs">
+      <DependentUpon>AplicarDescontoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Desconto\AplciarDescontoViewModel.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\EditarItem\EditarItemViewModel.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\EditarItem\EidtarItemView.xaml.cs">
+      <DependentUpon>EidtarItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\ListarAbertos\ListarAbertosViewModel.cs" />
+    <Compile Include="Visao\Vendas\Gerenciamento\Listagem\GerenciarFaturamentos.xaml.cs">
+      <DependentUpon>GerenciarFaturamentos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\Gerenciamento\Listagem\GerenciarFaturamentosContexto.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\IniciarNovo\AvisoIniciarNovoView.xaml.cs">
+      <DependentUpon>AvisoIniciarNovoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\IniciarNovo\AvisoIniciarNovoViewModel.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Observacao\EditarObservacaoViewModel.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Observacao\EditarObservacaoView.xaml.cs">
+      <DependentUpon>EditarObservacaoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\SolictaTotal\SolicitaTotalView.xaml.cs">
+      <DependentUpon>SolicitaTotalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\SolictaTotal\SolicitaTotalViewModel.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\TrocarEmpresa\TrocarEmpresaView.xaml.cs">
+      <DependentUpon>TrocarEmpresaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\TrocarEmpresa\TrocarEmpresaViewModel.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Cancelamento\CancelarFaturamentoView.xaml.cs">
+      <DependentUpon>CancelarFaturamentoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Cancelamento\CancelarFaturamentoViewModel.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\ListarAbertos\ListarAbertosView.xaml.cs">
+      <DependentUpon>ListarAbertosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Finalizacao\MeioPagamento\IOpcaoPagamento.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Finalizacao\MeioPagamento\OpcaoCartaoCredito.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Finalizacao\MeioPagamento\OpcaoCartaoDebito.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Finalizacao\MeioPagamento\OpcaoDinheiro.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Finalizacao\MeioPagamento\OpcaoPix.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Finalizacao\MeioPagamento\OpcaoPrazo.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Finalizacao\MeioPagamento\Resultado.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Finalizacao\PagamentoViewModel.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Finalizacao\PagamentoView.xaml.cs">
+      <DependentUpon>PagamentoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Opcoes\OpcoesFaturamentoView.xaml.cs">
+      <DependentUpon>OpcoesFaturamentoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Preferencias\PreferenciasViewModel.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Preferencias\PreferenciasView.xaml.cs">
+      <DependentUpon>PreferenciasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\Gerenciamento\Opcoes\FaturamentoOpcaoContexto.cs" />
+    <Compile Include="Visao\Vendas\Gerenciamento\Opcoes\FaturamentoOpcaoView.xaml.cs">
+      <DependentUpon>FaturamentoOpcaoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\IAutorizadorTela.cs" />
+    <Compile Include="Visao\Vendas\AbstractCanceladorTela.cs" />
+    <Compile Include="Visao\Vendas\IImprimirCupomFiscal.cs" />
+    <Compile Include="Visao\Vendas\ImprimirCupomFiscalNfce.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\TabelaPrecos\TabelaPrecosView.xaml.cs">
+      <DependentUpon>TabelaPrecosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Dialogs\TabelaPrecos\TabelaPrecosViewModel.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckout.xaml.cs">
+      <DependentUpon>FaturamentoCheckout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutCancelar.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutChildWindowManager.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutCliente.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutConfigBalanca.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutDesconto.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutFinalizar.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutIniciarNovo.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutItemManager.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutListarAbertos.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutObservacao.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutPreferencias.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutTabelaPrecos.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutTrocarEmpresa.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutVendedor.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\Models\FaturamentoCheckoutModels.cs" />
+    <Compile Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckoutViewModel.cs" />
+    <Compile Include="Visao\Vendas\VerificaHistoricoPendente.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NFe\NFeEvento.frx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="NFe\NFeRetrato.frx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="NFe\NFeSimplificado.frx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Include="Controles\Styles\Controles.PickerCliente.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controles\Styles\Controles.ComboBoxEmpresa.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controles\Styles\Controles.CidadeComboPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <None Include="Properties\app.manifest" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\DataSources\FusionApi.Core.Seguranca.Licenciamento.Algoritimo.ChaveMaquina.datasource" />
+    <None Include="Properties\DataSources\FusionApi.Core.Seguranca.Licenciamento.Algoritimo.IVM.datasource" />
+    <None Include="Properties\DataSources\FusionApi.Core.Seguranca.Licenciamento.Dominio.Licenca.datasource" />
+    <None Include="Properties\DataSources\FusionApi.Core.Seguranca.Licenciamento.Dominio.LicencaEmUso.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.ChaveBloqueio.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.ChaveDesbloqueio.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.ChaveMaquina.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.ChaveMaquina2.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.ChaveRevalidacao.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.ContraChave.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.IVM.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Dominio.AcessoConcedido.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Dominio.Licenca.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Dominio.LicencaEmUso.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Dominio.ResultadoChecagem.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Dominio.SituacaoOnline.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <Page Include="Visao\Vendas\FaturamentoCheckout\Dialogs\IniciarNovo\AvisoIniciarNovoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\FaturamentoCheckout\Dialogs\TabelaPrecos\TabelaPrecosView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\FaturamentoCheckout\FaturamentoCheckout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\Gerenciamento\Opcoes\FaturamentoOpcaoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fusion.FastReport\Fusion.FastReport.csproj">
+      <Project>{8564613c-fd06-4598-b9f7-9e83522c2eb8}</Project>
+      <Name>Fusion.FastReport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fusion.Storage\Fusion.Storage.csproj">
+      <Project>{2AA34B8F-10F4-4715-8F13-3AE46DCA61C3}</Project>
+      <Name>Fusion.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fusion.WhiteLabel\Fusion.WhiteLabel.csproj">
+      <Project>{979d28b2-fdd0-4348-99b6-83fa6f4b163f}</Project>
+      <Name>Fusion.WhiteLabel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FusionCore.DFe\FusionCore.DFe.csproj">
+      <Project>{99B2F8CB-2C0E-41ED-8946-E0BAA0748DB3}</Project>
+      <Name>FusionCore.DFe</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FusionCore\FusionCore.csproj">
+      <Project>{97B55012-27D3-46DD-9D50-1D100A3BDA49}</Project>
+      <Name>FusionCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FusionWPF\FusionWPF.csproj">
+      <Project>{18f7020d-bc95-4230-8eef-90609f6fe0e7}</Project>
+      <Name>FusionWPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Library\FusionLibrary.csproj">
+      <Project>{964065f5-98c9-41e8-8db2-0cad6d227a1a}</Project>
+      <Name>FusionLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controles\Styles\Controles.CheckoutBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controles\Styles\Controles.ProdutoComboPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controles\Styles\CustomControles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\RibbonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Backup\BackupForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Base\Grid\GridPadrao.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\CentroCusto\CentroCustoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CentroCusto\CentroDeCustoGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CentroDeLucro\CentroLucroForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CentroDeLucro\CentroLucroGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Cfop\CfopForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Cfop\CfopPickerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Compras\Importacao\Contents\ImportacaoChave.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Compras\Importacao\Contents\EscolhaCfopContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Compras\Importacao\Contents\ImportacaoContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Compras\Importacao\ImportacaoCompraView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Compras\NotaFiscal\CompraItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Compras\NotaFiscal\Controls\ConfiguracaoRegraCalculoItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Compras\NotaFiscal\NotaFiscalCompraView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Compras\NotaFiscal\TotaisCompraChildView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Compras\Precos\GeradorPrecoVendaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Configuracao\ConfiguracaoUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ControlarNfces\ListarTodasNfces.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ControlarNfces\OpcaoNfce.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ControlarNfces\ResolverNfceFaturamentosForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ControleCaixa\GridCaixasIndividuaisView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\Aba\AbaCabecalhoCteOs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\Aba\AbaEmitenteTomador.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\Aba\AbaPerfilCteOs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\Aba\AbaServicoSeguroRodoviario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\Aba\AbaTributacaoCteOs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\FlyoutAddComponenteCteOs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\FlyoutAddDocumentoReferenciadoCteOs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\FlyoutAddPercurso.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\Aba\Flyouts\FlyoutAddSeguro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\Aba\ListasServicoSeguroRodoviario\ListaSeguro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\CteOsEletronicaOpcoes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\CteOsEmitirForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Emitir\EmissaoSefazCteOsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Grid\GridCteOs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Perfil\AbaGeral.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Perfil\AbaOutro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Perfil\AbaSeguro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Perfil\AbaTomador.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Perfil\AbaTributacao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Perfil\PerfilCteOsForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronicoOs\Perfil\AbaVeiculo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Cancelar\CancelamentoCTe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\CCe\CteCartaCorrecao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\CCe\FlyoutAddCorrecaoCCe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Controls\Perfil\AbaVeiculoTracao.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\CteEletronico\Controls\Perfil\PerfilOutros.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Controls\Perfil\Geral.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaCabecalhoCte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaDocOriginarios\AbaListaComponenteValorPrestacao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaDocOriginarios\AbaListaDocumentosAnteriores.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaDocOriginarios\AbaListaNfe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaDocOriginarios\AbaListaNotasFiscaisImpressas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaDocOriginarios\AbaOutrosDocumentos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaDocumentosOriginariosCte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaInformacoesCargaCte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaInformacoesCarga\ListaCarga.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaPerfilCte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaInformacoesCte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaInformacoesCarga\ListaVeiculos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Aba\AbaTributacaoCte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\CteEmitirForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\DocAnt\DocumentoAnteriorForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\DocAnt\FlyoutAddDocumentoAnterior.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Emissao\AutorizacaoCteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Emissao\CteEletronicaOpcoes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Emissao\EmissaoSefazCteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutAbaInformacoesImportacaoCte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutAddComponenteValorPrestacao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutAddVeiculoParaTransporte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutAdicionarNfe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutAdicionarNotaFiscalImpressa.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutAdicionarOutroDocumento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Emitir\Flyouts\FlyoutInformacaoCarga.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Grid\GridCTe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\CteEletronico\Inutilizacao\CteInutilizacaoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\CteEletronico\Perfil\CtePerfilForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Dashboard\AniversariantesControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Dashboard\DashboardSimples.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Dashboard\DashContasPagarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Dashboard\TotalizadoresControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAPagar\DocumentoPagarForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAPagar\GerarContasPagar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAPagar\GridDocumentoPagar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAPagar\Lancamentos\DocumentoAPagarLancamento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAPagar\Lancamentos\Flyouts\FlyoutAdicionaDesconto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAPagar\Lancamentos\Flyouts\FlyoutAdicionaJuro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAPagar\Lancamentos\Flyouts\FlyoutAdicionaValor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAPagar\OpcoesDocumento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAPagar\ReciboForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAReceber\FormularioDocumentoReceberView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAReceber\GridGerenciarAhReceberView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAReceber\ImpressaoDocumentosAhReceberView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAReceber\NovoDocumentoReceberParcelado.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\DocumentoAReceber\QuitarSelecionadosView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Ecf\EcfForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\EmissorFiscalEletronico\Aba\AbaAutorizarBaixarXml.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\EmissorFiscalEletronico\Aba\AbaEmissorFiscalCTe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\EmissorFiscalEletronico\Aba\AbaEmissorFiscalCTeOS.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\EmissorFiscalEletronico\Aba\AbaEmissorFiscalMDFe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\EmissorFiscalEletronico\Aba\AbaEmissorFiscalSAT.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\EmissorFiscalEletronico\Aba\EmissorFiscal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\EmissorFiscalEletronico\Aba\AbaEmissorFiscalNFce.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\EmissorFiscalEletronico\Aba\AbaEmissorFiscalNfe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\EmissorFiscalEletronico\CertificadoDigitalForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\EmissorFiscalEletronico\EmissorFiscalForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Empresa\Aba\AbaDados.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Empresa\Aba\AbaEmpresaLogo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Empresa\Aba\AbaIdentificacao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Empresa\Aba\AbaTransportadora.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Empresa\ConsultaNaSefaz\BuscarEmpresaNaSefazForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Empresa\EmpresaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\EventoEstoque\EventoEstoqueWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ExportacaoBalanca\ExportacaoBalancaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ExportacaoBuscaRapida\ExportacaoBuscaRapidaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Fiscal\Estadual\AliquotaInternaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Fiscal\Estadual\EditarAliquotaInternaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\GerenciadorManifestacoesDestinatarios\EfetuarDistribuicao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\GerenciadorManifestacoesDestinatarios\GridGerenciadorManifestador.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\GerenciadorManifestacoesDestinatarios\JustificativaOperacaoNaoRealizada.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\GerenciadorManifestacoesDestinatarios\ManifestoOpcoes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ImportarIbpt\JanelaImportarIbpt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Lancamentos\LancamentoCteEntradaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Lancamentos\LancamentoOutroForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Licenciamento\FlyoutAdicionaLicenca.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Licenciamento\PainelLicencas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Login\LoginAdm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\AbaCabecalhoMdfe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\AbaMdfeCarregamento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\AbaRodoviarioMdfe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddCiot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddCondutor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddContratante.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddLacre.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddMunicipioCarregamento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddPercurso.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddValePedagio.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddVeiculoReboque.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAddVeiculoTracao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\Flyouts\FlyoutAdicionaSeguradora.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\IncluirPagamento\IncluirPagamentoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\InformacaoVeiculoTracao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\ListaCiot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\ListaCondutor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\ListaLacre.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\ListaMunicipioCarregamento.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\ListaPagamento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\ListaPercurso.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\ListaSeguro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\ListaValePedagio.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\ListaVeiculoReboque.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\MdfeAddDocumentoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\ProdutoPerigosoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Cancelar\CancelamentoMDFe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\EmissaoSefazMdfeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Emissao\MdfeEletronicaOpcoes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Emissao\MdfeUfEMunicipioEncerramentoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\GridMdfe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\IncluirCondutor\IncluirCondutorForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\ListaContratante.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\Aba\ListaMunicipioDescarregamento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\IncluirPagamento\EventoIncluirPagamentoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\IncluirPagamento\IncluirPagamentoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\IncluirPagamento\MdfeEventoPagamentoGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\MdfeEmitirForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MdfeEletronico\NaoEncerrados\ConsultaNaoEncerradosForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Menu\MenuPrincipal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Menu\TopMenuUsuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MovimentacaoEstoque\Flyouts\MovimentoEstoqueFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\MovimentacaoEstoque\Flyouts\MovimentoItemFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\MovimentacaoEstoque\MovimentoEstoqueForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Ncm\NcmForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NfeCartaCorrecao\NfeCartaCorrecaoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NfeInutilizacaoNumeracao\NfeInutilizacaoNumeracaoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Cancelamento\NfeCancelamentoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Contingencia\HistoricoContingenciaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Contingencia\IniciarContingenciaFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\EmissaoSefaz\EmissaoSefazView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Exportacao\ExportacaoXmlDistribuicaoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Exportacao\ExportacaoXmlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Aba\Finalizar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Aba\AbaItensNfe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Aba\AbaCabecalho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Aba\AbaDestinatario.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Aba\AbaPerfilPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Controles\IcmsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Controles\IpiControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Controles\ItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Controles\OutrasOpcoesChildWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Finalizar\NfePagamentoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\ItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Controles\PisCofinsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\TotaisNfeChildWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Flyouts\FlyoutAlteraNumeroEmissao.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Flyouts\FlyoutAlteraEmissor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Flyouts\FlyoutReferenciaNfe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Flyouts\FlyoutReferenciasCf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\NfeEletronicaGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\NfeletronicaOpcoes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\NfeletronicaWizzard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\TransmitirNfeOpcoes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Principal\Volumes\VolumeForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\NotaFiscalEletronica\Status\ConsultaStatusSefazForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\EditarItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\ClienteVisitanteControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ConverterVendaParaNfe\ConverterParaNfeForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\DescontoNoTotalPedidoVenda.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\Finalizacao\FinalizacaoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\Finalizacao\PedidoFinalizacaoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\FormCancelamentoPedido.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\ListaPedidoVendaControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\Lista\GridPedidoVenda.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\Lista\OpcoesPedidoVenda.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\ObservacaoPedidoVendaControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\PedidoVendaForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\Preferencias\PedidoVendaPreferenciaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PedidoDeVenda\TipoPedidoControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\PerfilCfop\PerfilCfopForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PerfilNfe\Aba\AbaSimplesNacional.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\PerfilNfe\Aba\AbaPreDestinatario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PerfilNfe\Aba\AbaGeral.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PerfilNfe\PerfilNfeForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\Aba\PessoaClienteAba.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\Aba\PessoaEmailAba.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\Aba\PessoaEnderecoAba.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\Aba\PessoaExtrangeiroAba.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\Aba\PessoaFisicaAba.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\Aba\PessoaJuridicaAba.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\Aba\PessoaTransportadoraAba.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\Flyouts\PessoaEmailFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\PessoaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\PessoaFormInicio.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\PessoaGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\SubFormularios\EnderecoForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Pessoa\SubFormularios\TelefoneForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Pessoa\SubFormularios\VeiculoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ProdutoLocalizacoes\ProdutoLocalizacaoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ProdutoUnidade\ProdutoUnidadeForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\ProdutoGrupo\ProdutoGrupoForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Produto\Estoque\AjusteSaldoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Produto\FlyoutCodigoBarra.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Produto\Historico\HistoricoCompraControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Produto\ProdutoForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Produto\ProdutoGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Produto\ProdutoOpcoes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Produto\FlyoutRegraTributacao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Relatorios\ListagemRelatoriosControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Relatorios\CadastroFastReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\SelecionarNfce\SelecionadorNfceFormulario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\SelecionarNfce\SelecionarUmClienteParaNfeFormulario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Sintegra\SintegraForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Splash\SplashFusion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\TabelasPrecos\CalculadoraAjusteItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\TabelasPrecos\NovoPrecoDiferenciadoItemFormulario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\TabelasPrecos\TabelaPrecoFormulario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\TabelasPrecos\TabelaPrecosListagem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Tef\GridPosForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Tef\TefPosForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Terminal\TerminalOfflineForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\TipoDocumentoFinanceiro\TipoDocumentoFinanceiroForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Tributacoes\Regras\GerenciarRegrasListagem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Tributacoes\Regras\RegraTributacaoSaidaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Usuario\GerenciarPermissao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Usuario\GerenciarUsuariosControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Usuario\PapelUsuarioForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Usuario\UsuarioForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Usuario\VincularUsuarioAoPapelForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Veiculos\OpcoesDono.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Desconto\AplicarDescontoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\FaturamentoCheckout\Dialogs\EditarItem\EidtarItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\Gerenciamento\Listagem\GerenciarFaturamentos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Observacao\EditarObservacaoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\FaturamentoCheckout\Dialogs\SolictaTotal\SolicitaTotalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\FaturamentoCheckout\Dialogs\TrocarEmpresa\TrocarEmpresaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Cancelamento\CancelarFaturamentoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\FaturamentoCheckout\Dialogs\ListarAbertos\ListarAbertosView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Finalizacao\PagamentoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Opcoes\OpcoesFaturamentoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\FaturamentoCheckout\Dialogs\Preferencias\PreferenciasView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Imagens\adm-de-olho-no-imposto.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="adm.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Visao\CteEletronico\Impressor\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.7.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.7.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>taskkill.exe /F /FI "IMAGENAME eq taskreport.exe"
+sc stop FusionApi
+exit 0</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" />
+  <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

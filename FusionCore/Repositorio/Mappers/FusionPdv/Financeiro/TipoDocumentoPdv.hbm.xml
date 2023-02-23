@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionPdv.Financeiro"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="TipoDocumentoPdv" table="tipo_documento">
+    <id name="Id" unsaved-value="0">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" length="60" not-null="true" />
+    </property>
+
+    <property name="EstaAtivo">
+      <column name="estaAtivo" sql-type="bit" not-null="true" />
+    </property>
+
+  </class>
+</hibernate-mapping>

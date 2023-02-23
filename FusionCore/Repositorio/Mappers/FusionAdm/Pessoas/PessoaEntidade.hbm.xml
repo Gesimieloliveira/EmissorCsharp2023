@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Pessoas"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PessoaEntidade" table="pessoa">
+    <id name="Id" column="id">
+      <generator class="FusionCore.Repositorio.IdGenerator.CustomIdentityGenerator, FusionCore" />
+    </id>
+
+    <property name="Tipo" column="tipo" length="1" not-null="true"
+              type="FusionCore.Repositorio.Tipos.TipoPessoaEnumStringType, FusionCore" />
+
+    <property access="field.camelcase-underscore" name="Nome" column="nome" length="255" not-null="true" />
+
+    <property access="field.camelcase-underscore" name="NomeFantasia" column="nomeFantasia" length="255"
+              not-null="true" />
+
+    <component name="Cpf">
+      <property access="nosetter.camelcase-underscore" name="Valor" column="cpf" not-null="true" length="11" />
+    </component>
+
+    <component name="Cnpj">
+      <property access="nosetter.camelcase-underscore" name="Valor" column="cnpj" not-null="true" length="14" />
+    </component>
+
+    <component name="Rg">
+      <property name="Rg" column="rg" not-null="true" length="20" />
+      <property name="OrgaoRg" column="orgaoRg" not-null="true" length="20" />
+    </component>
+
+    <property access="field.camelcase-underscore" name="InscricaoMunicipal" column="inscricaoMunicipal" not-null="true"
+              length="30" />
+
+    <property access="field.camelcase-underscore" name="InscricaoEstadual" column="inscricaoEstadual" not-null="true"
+              length="30" />
+
+    <property access="field.camelcase-underscore" name="DocumentoExterior" column="documentoExterior" not-null="true"
+              length="20" />
+
+    <property name="NascidoEm" column="nascidoEm" not-null="false" />
+
+    <property name="Sexo" column="sexo" not-null="true" />
+
+    <property access="field.camelcase-underscore" name="NomeMae" column="nomeMae" length="255" not-null="true" />
+
+    <property access="field.camelcase-underscore" name="NomePai" column="nomePai" length="255" not-null="true" />
+
+    <property name="AlteradoEm" column="alteradoEm" not-null="true" />
+
+    <property name="Ativo" column="ativo" not-null="true" />
+
+    <property name="IndicadorIEDestinatario" column="indicadorIe" not-null="false" />
+
+    <bag access="field.camelcase-underscore" name="Telefones" cascade="none" inverse="true" lazy="true">
+      <key column="pessoa_id" />
+      <one-to-many class="PessoaTelefone" />
+    </bag>
+
+    <bag access="field.camelcase-underscore" name="Enderecos" cascade="none" inverse="true" lazy="true">
+      <key column="pessoa_id" />
+      <one-to-many class="PessoaEndereco" />
+    </bag>
+
+    <bag access="field.camelcase-underscore" name="Emails" cascade="none" inverse="true" lazy="true">
+      <key column="pessoa_id" />
+      <one-to-many class="PessoaEmail" />
+    </bag>
+
+    <one-to-one name="Cliente" cascade="all-delete-orphan" foreign-key="none" />
+    <one-to-one name="Transportadora" cascade="all-delete-orphan" foreign-key="none" />
+    <one-to-one name="Fornecedor" cascade="all-delete-orphan" foreign-key="none" />
+    <one-to-one name="Vendedor" cascade="all-delete-orphan" foreign-key="none" />
+  </class>
+
+</hibernate-mapping>

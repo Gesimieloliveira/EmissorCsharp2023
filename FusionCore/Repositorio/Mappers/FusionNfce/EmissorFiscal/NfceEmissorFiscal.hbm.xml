@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.EmissorFiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceEmissorFiscal" table="emissor_fiscal">
+    <id name="Id" column="id"/>
+
+    <many-to-one name="Empresa" class="FusionCore.FusionNfce.Empresa.EmpresaNfce" outer-join="true" cascade="none">
+      <column name="empresa_id" not-null="true" sql-type="smallint" />
+    </many-to-one>
+
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="TipoCertificadoDigital">
+      <column name="tipoCertificadoDigital" not-null="true" />
+    </property>
+      
+    <property name="ArquivoCertificado">
+      <column name="arquivoCertificado" sql-type="varchar" not-null="true"/>
+    </property>
+
+    <property name="SenhaCertificado">
+      <column name="senhaCertificado" sql-type="varchar" not-null="true"/>
+    </property>
+
+    <property name="SerialNumberCertificado">
+      <column name="serialNumberCertificado" sql-type="varchar"  not-null="true"/>
+    </property>
+
+    <property name="AlteradoEm">
+      <column name="alteradoEm" not-null="true"/>
+    </property>
+
+    <property name="FlagNfe">
+      <column name="flagNfe" not-null="true"/>
+    </property>
+
+    <property name="FlagNfce">
+      <column name="flagNfce" not-null="true"/>
+    </property>
+
+    <property name="FlagSat">
+      <column name="flagSat" not-null="true"/>
+    </property>
+
+    <property name="Sincronizado">
+      <column name="sincronizado" not-null="true" />
+    </property>
+
+    <property name="ProtocoloSeguranca">
+      <column name="protocoloSeguranca" not-null="true" />
+    </property>
+
+    <property name="TerminalOfflineId">
+      <column name="terminalOffline_id" not-null="false" />
+    </property>
+
+    <property name="EmUso">
+      <column name="emUso" not-null="true" />
+    </property>
+
+    <one-to-one name="EmissorFiscalNfce" class="NfceEmissorFiscalNfce" cascade="all-delete-orphan" outer-join="true"/>
+    <one-to-one name="EmissorFiscalSat" class="NfceEmissorFiscalSat" cascade="all-delete-orphan" outer-join="true"/>
+
+    <one-to-one name="AutorizadoBaixarXml" class="NfceAutorizadoBaixarXml" cascade="all-delete-orphan" outer-join="true"/>
+
+  </class>
+</hibernate-mapping>

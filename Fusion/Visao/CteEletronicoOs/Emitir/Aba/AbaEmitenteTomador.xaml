@@ -1,0 +1,243 @@
+﻿<UserControl x:Class="Fusion.Visao.CteEletronicoOs.Emitir.Aba.AbaEmitenteTomador"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Fusion.Visao.CteEletronicoOs.Emitir.Aba"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="600"
+             Background="{StaticResource WhiteBrush}">
+    <UserControl.Resources>
+        <Style TargetType="TextBox" BasedOn="{StaticResource FusionTextBox}">
+            <Setter Property="IsEnabled" Value="False" />
+        </Style>
+
+        <Style TargetType="ComboBox" BasedOn="{StaticResource FusionComboBox}">
+            <Setter Property="IsEnabled" Value="False" />
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel LastChildFill="True">
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="47" />
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <Expander Header="Tomador" DockPanel.Dock="Top" IsExpanded="True">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="155" />
+                                <ColumnDefinition Width="145" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                <TextBlock Text="Nome" />
+                                <controles:SearchTextBox
+                                    Text="{Binding Tomador.Nome}"
+                                    IsReadOnly="True"
+                                    SearchCommand="{Binding CommandBuscarTomador}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                                <TextBlock Text="Documento Unico" />
+                                <TextBox IsReadOnly="True" Focusable="False" Text="{Binding TomadorDocumentoUnico}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="IE" />
+                                <TextBox IsReadOnly="True" Focusable="False"
+                                         Text="{Binding TomadorInscricaoEstadual}" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                <TextBlock Text="CEP" />
+                                <TextBox
+                                    Text="{Binding TomadorCep, Converter={conversores:CepMaskConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                    MaxLength="10"
+                                    IsReadOnly="True" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                                <TextBlock Text="Logradouro" />
+                                <TextBox Text="{Binding TomadorLogradouro}" MaxLength="60" IsReadOnly="True" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Margin="0,0,0,0">
+                                <TextBlock Text="Número" />
+                                <TextBox Text="{Binding TomadorNumero}" MaxLength="10" IsReadOnly="True" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid DockPanel.Dock="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="250" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                <TextBlock Text="Bairro" />
+                                <TextBox Text="{Binding TomadorBairro}" MaxLength="60" IsReadOnly="True" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                                <TextBlock Text="Telefone" />
+                                <TextBox MaxLength="15"
+                                         Text="{Binding TomadorTelefone, Converter={conversores:TelefoneMaskConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                         IsReadOnly="True" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Margin="0,0,5,0">
+                                <TextBlock Text="UF" />
+                                <TextBox Text="{Binding TomadorSiglaUF}" IsReadOnly="True" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="3">
+                                <TextBlock Text="Cidade" />
+                                <TextBox Text="{Binding TomadorNomeCidade}" IsReadOnly="True" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Expander>
+
+                <Expander Header="Emitente" DockPanel.Dock="Top" IsExpanded="True">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="155" />
+                                <ColumnDefinition Width="145" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                <TextBlock Text="Nome" />
+                                <StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBox Text="{Binding Emitente.RazaoSocial}"
+                                                 IsReadOnly="True"
+                                                 MaxLength="60"
+                                                 Focusable="False"
+                                                 controls:TextBoxHelper.ButtonCommand="{Binding CommandBuscarDestinatario}" />
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                                <TextBlock Text="CNPJ" />
+                                <TextBox IsReadOnly="True" Focusable="False"
+                                         Text="{Binding Emitente.Cnpj}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="IE" />
+                                <TextBox IsReadOnly="True" Focusable="False"
+                                         Text="{Binding Emitente.InscricaoEstadual}" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                <TextBlock Text="CEP" />
+                                <TextBox
+                                    Text="{Binding Emitente.Cep, Converter={conversores:CepMaskConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                    IsReadOnly="True"
+                                    MaxLength="10" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                                <TextBlock Text="Logradouro" />
+                                <TextBox Text="{Binding Emitente.Logradouro}" MaxLength="60"
+                                         IsReadOnly="True" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Margin="0,0,0,0">
+                                <TextBlock Text="Número" />
+                                <TextBox Text="{Binding Emitente.Numero}" MaxLength="10"
+                                         IsReadOnly="True" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid DockPanel.Dock="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="250" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                <TextBlock Text="Bairro" />
+                                <TextBox Text="{Binding Emitente.Bairro}" MaxLength="60"
+                                         IsReadOnly="True" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                                <TextBlock Text="Telefone" />
+                                <TextBox MaxLength="15"
+                                         Text="{Binding Emitente.Fone1, Converter={conversores:TelefoneMaskConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                         IsReadOnly="True" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Margin="0,0,5,0">
+                                <TextBlock Text="UF" />
+                                <TextBox Text="{Binding Emitente.EstadoDTO.Sigla}"
+                                         IsReadOnly="True" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="3">
+                                <TextBlock Text="Cidade" />
+                                <TextBox Text="{Binding Emitente.CidadeDTO.Nome}"
+                                         IsReadOnly="True" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" DockPanel.Dock="Top" VerticalAlignment="Bottom" Margin="0,0,0,2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                        <Button Height="40" Focusable="False" Command="{Binding PassoAnteriorCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Height="20" Icon="ArrowLeft" />
+                                <TextBlock Text="Passo Anterior" Margin="10,0,0,0" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                        <Button Height="40" Command="{Binding ProximoPassoCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Próximo Passo" Margin="0,0,10,0" />
+                                <fa:ImageAwesome Height="20" Icon="ArrowRight" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</UserControl>

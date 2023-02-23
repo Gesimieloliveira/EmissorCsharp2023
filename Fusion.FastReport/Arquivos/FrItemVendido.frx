@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="10/16/2019 10:03:56" ReportInfo.CreatorVersion="2019.3.20.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+    private void Form1_Load(object sender, EventArgs e)
+    { 
+      DateTime now = DateTime.Now;
+      
+      CPeriodoInicio.SelectionStart = new DateTime(now.Year, now.Month, 1);
+      CPeriodoFinal.SelectionStart = (new DateTime(now.Year, now.Month + 1, 1)).AddDays(-1);
+    }
+    
+    private void btnOk_Click(object sender, EventArgs e)
+    {
+      Report.SetParameterValue(&quot;PeriodoInicio&quot;, CPeriodoInicio.SelectionStart);
+      Report.SetParameterValue(&quot;PeriodoFinal&quot;, CPeriodoFinal.SelectionStart);
+    }
+
+    private void CbTodosGrupos_CheckedChanged(object sender, EventArgs e)
+    {
+      if (CbTodosGrupos.Checked) {
+        CheckTodosGrupos();
+        return;
+      }
+      
+      UncheckTodosGrupos();
+    }
+    
+    private void CheckTodosGrupos() 
+    {
+      for (int i = 0; i &lt; CbGrupos.Items.Count; i++)
+      {
+        CbGrupos.CheckedListBox.SetItemChecked(i, true);
+      }
+    }
+    
+    private void UncheckTodosGrupos() 
+    {      
+      for (int i = 0; i &lt; CbGrupos.Items.Count; i++)
+      {
+        CbGrupos.CheckedListBox.SetItemChecked(i, false);
+      }
+    }
+  }
+}
+</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqq8kTaCagDxO6zlhwUlmn0ZkkJj7vmEtxC6ejYxyv8rmDcRDLYc4tP3Zj/ApLb4OTJkKrnr7GGak9/9m7NHkyjH1Zok/PCOA10TPJJXWkfec04mug4ycdjwnRYJ4gIQwxF/log2hahx+8SDwFhPdCQuH05s7M+QiMzQWpHhvkMAkXoIIB6cWsiF50fwz78EwD/gVnW7qGc02uTnEOFkRgCQ==">
+      <TableDataSource Name="Table1" Alias="Item" DataType="System.Int32" Enabled="true" SelectCommand="with itens_vendidos as (&#13;&#10;	select &#13;&#10;		'faturamento' as documento,&#13;&#10;		f.finalizadoEm as dataVenda,&#13;&#10;		fp.produto_id,&#13;&#10;		fp.quantidade,&#13;&#10;		fp.total - fp.totalDescontoFixo as total&#13;&#10;	from faturamento_produto fp&#13;&#10;	inner join faturamento_venda f on fp.faturamentoVenda_id = f.id&#13;&#10;	where f.estadoAtual = 1&#13;&#10;	union&#13;&#10;	select &#13;&#10;		'nfe' as documento,&#13;&#10;		n.emitidaEm as dataVenda,&#13;&#10;		ni.produto_id,&#13;&#10;		ni.quantidade,&#13;&#10;		ni.totalItem - ni.valorDescontoFixoRateio as total&#13;&#10;	from nfe_item ni&#13;&#10;	inner join nfe n on n.id = ni.nfe_id&#13;&#10;	where n.statusAtual = 2&#13;&#10;	union&#13;&#10;	select&#13;&#10;		'nfce' as documento,&#13;&#10;		n.emitidaEm as dataVenda,&#13;&#10;		ni.produto_id,&#13;&#10;		ni.quantidade,&#13;&#10;		ni.valorTotal as total&#13;&#10;	from nfce_item ni&#13;&#10;	inner join nfce n on n.id = ni.nfce_id&#13;&#10;	where n.status = 2&#13;&#10;)&#13;&#10;select&#13;&#10;	iv.produto_id,&#13;&#10;	max(p.produtoGrupo_id) as grupoId,&#13;&#10;	max(p.nome) as nomeProduto,&#13;&#10;	max(p.precoVenda) as precoVendaProduto,&#13;&#10;	max(p.precoCompra) as precoCompraProduto,&#13;&#10;	max(p.referencia) as referenciaProduto,&#13;&#10;	(select top 1 b.alias from produto_alias b where b.produto_id = iv.produto_id and b.isCodigoBarra = 1) as codigoBarraProduto,&#13;&#10;	sum(iv.quantidade) as quantidadeVendida,&#13;&#10;	avg(iv.total / (case iv.quantidade when 0 then 1 else iv.quantidade end)) as precoVendaUnitarioMedio,&#13;&#10;	sum(iv.total) as valorTotal&#13;&#10;from itens_vendidos iv&#13;&#10;inner join produto p on iv.produto_id = p.id&#13;&#10;where cast(dataVenda as date) between @pVendaInicio and @pVendaFinal&#13;&#10;group by iv.produto_id;">
+        <Column Name="produto_id" DataType="System.Int32"/>
+        <Column Name="quantidadeVendida" DataType="System.Decimal"/>
+        <Column Name="nomeProduto" DataType="System.String"/>
+        <Column Name="precoVendaProduto" DataType="System.Decimal"/>
+        <Column Name="referenciaProduto" DataType="System.String"/>
+        <Column Name="codigoBarraProduto" DataType="System.String"/>
+        <Column Name="precoVendaUnitarioMedio" DataType="System.Decimal"/>
+        <Column Name="valorTotal" DataType="System.Decimal"/>
+        <Column Name="grupoId" DataType="System.Int32"/>
+        <Column Name="precoCompraProduto" DataType="System.Decimal"/>
+        <CommandParameter Name="pVendaInicio" DataType="31" Expression="[PeriodoInicio]" DefaultValue="1970-01-01"/>
+        <CommandParameter Name="pVendaFinal" DataType="31" Expression="[PeriodoFinal]" DefaultValue="1970-01-01"/>
+      </TableDataSource>
+      <TableDataSource Name="produto_grupo" Alias="Grupo" DataType="System.Int32" Enabled="true" TableName="produto_grupo">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="nome" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Relation Name="produto_grupo_Table11" ParentDataSource="produto_grupo" ChildDataSource="Table1" ParentColumns="id" ChildColumns="grupoId" Enabled="true"/>
+    <Parameter Name="PeriodoInicio" DataType="System.DateTime"/>
+    <Parameter Name="PeriodoFinal" DataType="System.DateTime"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="297" PaperHeight="210" RawPaperSize="9" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="1047.06" Height="71.82" Border.Lines="Bottom">
+      <TextObject Name="Text22" Left="497.07" Top="3.78" Width="549.99" Height="18.9" Text="Relatório de itens vendidos (faturamento, nfe e nfc-e) por periodo" HorzAlign="Right" Font="Arial, 12pt, style=Bold"/>
+      <TextObject Name="Text24" Left="497.07" Top="24.57" Width="549.99" Height="18.9" Text="Periodo das vendas: [PeriodoInicio] à [PeriodoFinal]" HorzAlign="Right" Font="Arial, 12pt">
+        <Formats>
+          <DateFormat/>
+          <DateFormat/>
+        </Formats>
+      </TextObject>
+      <TextObject Name="Text23" Left="497.07" Top="43.47" Width="549.99" Height="17.01" Text="Impresso em: [Date]" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+    </ReportTitleBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="74.49" Width="1047.06" Height="32.13" Border.Lines="Bottom" Border.Style="Dash" Condition="[Item.Grupo.id]">
+      <TextObject Name="Text9" Top="4.67" Width="1047.06" Height="22.68" Text="[Item.Grupo.nome]" Font="Arial, 12pt, style=Bold"/>
+      <DataBand Name="Data1" Top="149.75" Width="1047.06" Height="24.57" CanGrow="true" CanShrink="true" DataSource="Table1" Filter="[Item.Grupo.id] == [Grupo.id]">
+        <TextObject Name="Text1" Width="54.81" Height="15.12" Text="[Item.produto_id]" Format="Custom" Format.Format="0000" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt"/>
+        <TextObject Name="Text3" Left="56.7" Width="438.48" Height="15.12" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[Item.nomeProduto] (ref: [Item.referenciaProduto])" VertAlign="Center" Font="Arial, 9pt"/>
+        <TextObject Name="Text5" Left="495.11" Width="92.61" Height="15.12" Text="[Item.quantidadeVendida]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text11" Left="695.23" Width="88.83" Height="15.12" Text="[Item.valorTotal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text13" Left="591.28" Width="102.06" Height="15.12" Text="[Item.precoVendaUnitarioMedio]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text27" Left="786.11" Width="77.49" Height="15.12" Text="[Item.precoVendaProduto]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text28" Left="863.6" Width="73.71" Height="15.12" Text="[Item.precoCompraProduto]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text7" Left="939.33" Width="107.73" Height="15.12" Text="[Item.codigoBarraProduto]" VertAlign="Center" Font="Arial, 9pt"/>
+        <DataHeaderBand Name="DataHeader1" Top="109.28" Width="1047.06" Height="37.8">
+          <TextObject Name="Text2" Top="16.63" Width="54.81" Height="18.9" Text="Cod" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text4" Left="56.7" Top="16.63" Width="438.48" Height="18.9" Text="Nome do produto" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text6" Left="495.11" Top="16.63" Width="92.61" Height="18.9" Text="Qtd. Vendida" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text25" Left="695.28" Top="16.63" Width="88.83" Height="18.9" Text="Total Vendido" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text26" Left="591.33" Top="16.63" Width="102.06" Height="18.9" Text="P. Venda Médio" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text8" Left="939.33" Top="17.01" Width="107.73" Height="18.9" Text="Cod. Barras" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text29" Left="786.24" Top="17.01" Width="77.49" Height="18.9" Text="P. Venda" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text30" Left="863.73" Top="17.01" Width="73.71" Height="18.9" Text="P. Compra" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text10" Left="786.24" Top="3.78" Width="260.82" Height="11.34" Fill.Color="Gainsboro" Text="Cadastro do Produto" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt, style=Italic"/>
+        </DataHeaderBand>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="176.99" Width="1047.06" Height="37.8"/>
+    </GroupHeaderBand>
+  </ReportPage>
+  <DialogPage Name="Form1" Width="700" Height="520" AcceptButton="btnOk" CancelButton="btnCancel" Font="Tahoma, 8pt" Text="Filtro do Relatório" LoadEvent="Form1_Load" FormClosingEvent="">
+    <GroupBoxControl Name="GroupBox2" Left="8" Top="224" Width="668" Height="180" Font="Tahoma, 8pt" TabIndex="5" Text="Grupo dos produtos" ClickEvent="GroupBox2_Click">
+      <CheckedListBoxControl Name="CbGrupos" Left="4" Top="52" Width="656" Height="120" Font="Tahoma, 8pt" TabIndex="6" Text="CheckedListBox" ClickEvent="" DataColumn="Item.Grupo.nome" ItemHeight="19" CheckOnClick="true"/>
+      <CheckBoxControl Name="CbTodosGrupos" Left="4" Top="20" Width="190" Height="22" Font="Tahoma, 8pt" TabIndex="6" Text="Selecionar todos os grupos" CheckedChangedEvent="CbTodosGrupos_CheckedChanged"/>
+    </GroupBoxControl>
+    <GroupBoxControl Name="GroupBox1" Left="8" Top="4" Width="668" Height="220" Font="Tahoma, 8pt" TabIndex="4" Text="Periodo das finalizações" ClickEvent="GroupBox1_Click">
+      <MonthCalendarControl Name="CPeriodoInicio" Left="132" Top="20" Height="176" Font="Tahoma, 8pt" TabIndex="5" AutoFill="false" MaxSelectionCount="1" ShowToday="false" ShowTodayCircle="false"/>
+      <MonthCalendarControl Name="CPeriodoFinal" Left="352" Top="20" Height="176" Font="Tahoma, 8pt" TabIndex="5" MaxSelectionCount="1" ShowToday="false" ShowTodayCircle="false"/>
+    </GroupBoxControl>
+    <ButtonControl Name="btnOk" Left="516" Top="442" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="599" Top="442" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="1" Text="Cancelar" DialogResult="Cancel"/>
+  </DialogPage>
+</Report>

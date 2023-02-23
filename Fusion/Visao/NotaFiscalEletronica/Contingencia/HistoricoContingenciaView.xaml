@@ -1,0 +1,64 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.NotaFiscalEletronica.Contingencia.HistoricoContingenciaView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:l="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Contingencia"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:c="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+                      mc:Ignorable="d" d:DataContext="{d:DesignInstance l:HistoricoContingenciaViewModel}"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      WindowStartupLocation="CenterScreen" Height="500" Width="964"
+                      Title="Histório de Contigências da NF-e"
+                      Loaded="LoadedHandler">
+
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <l:IniciarContingenciaFlyout DataContext="{Binding IniciarContigenciaModel}" />
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Style="{DynamicResource FusionAccentedButton}" Click="IniciarContingenciaHandler">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="Exchange" Width="16" Foreground="{DynamicResource WhiteBrush}" />
+                            <TextBlock Margin="5,0,0,0" Text="Iniciar contingência agora" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
+
+        <GroupBox DockPanel.Dock="Top" Header="Históricos">
+            <DataGrid Height="374" VerticalAlignment="Top" IsReadOnly="True" ItemsSource="{Binding Historicos}"
+                      AutoGenerateColumns="False"
+                      SelectedItem="{Binding ContigenciaSelecionada}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Emissor Fiscal" Width="250" Binding="{Binding EmissorFiscal.Descricao}" />
+                    <DataGridTextColumn Header="Contingência" Width="*" Binding="{Binding TipoEmissao, Converter={c:EnumDescriptionConverter}}" />
+                    <DataGridTextColumn Header="Iniciada Em" Width="110"
+                                        Binding="{Binding IniciadaEm, StringFormat='dd/MM/yyyy HH:mm'}" />
+                    <DataGridTextColumn Header="Finalizada Em" Width="110"
+                                        Binding="{Binding FinalizadaEm, StringFormat='dd/MM/yyyy HH:mm'}" />
+                    
+                    <DataGridTemplateColumn Width="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel controls:VisibilityHelper.IsVisible="{Binding  Path=EstaAberta}" Margin="1">
+                                    <Button Style="{DynamicResource FusionDangerButton}" ClickMode="Release"
+                                            Click="FinalizarContigenciaHandler">
+                                        <fa:ImageAwesome Icon="Ban" Height="12" Foreground="{DynamicResource WhiteBrush}" />
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+    </DockPanel>
+</controls:MetroWindow>

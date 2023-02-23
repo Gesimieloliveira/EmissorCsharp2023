@@ -1,0 +1,46 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.NotaFiscalEletronica.Principal.Flyouts.FlyoutAlteraNumeroEmissao"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:md="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Principal.Flyouts.Models"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+                 mc:Ignorable="d" d:DesignWidth="960" 
+                 d:DataContext="{d:DesignInstance md:FlyoutAlteraNumeroEmissaoModel}"
+                 Position="Top" IsOpen="{Binding IsOpen}" IsModal="True"
+                 MaxHeight="500" Theme="Adapt"
+                 Header="Identificação">
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top" Header="Identificação única do documento">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Número do documento fiscal" />
+                    <TextBox Text="{Binding NumeroDocumento}" 
+                             wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" 
+                             MaxLength="9" 
+                             controls:TextBoxHelper.SelectAllOnFocus="True"/>
+                </StackPanel>
+
+                <StackPanel Margin="0,10,0,0">
+                    <TextBlock Foreground="{DynamicResource DangerBrush}"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Width="500"
+                               TextAlignment="Center"
+                               TextWrapping="WrapWithOverflow"
+                               Text="{Binding TextoAviso}" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel HorizontalAlignment="Right" Margin="0,0,10,0">
+            <Button 
+                Style="{DynamicResource FusionAccentedButton}" 
+                Click="ClickSalvarHandler" 
+                Content="Salvar alteração"/>
+        </StackPanel>
+    </DockPanel>
+
+</controls:Flyout>

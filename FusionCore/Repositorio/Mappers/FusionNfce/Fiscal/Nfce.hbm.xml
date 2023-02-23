@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Nfce" table="nfce">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <property name="Modelo">
+      <column name="modelo" sql-type="tinyint" not-null="true" />
+    </property>
+  
+    <property name="NaturezaOperacao">
+      <column name="naturezaOperacao" not-null="true" />
+    </property>
+    
+    <property name="EmitidaEm">
+      <column name="emitidaEm" sql-type="datetime" not-null="true" />
+    </property>
+    
+    <property name="EntradaSaidaEm">
+      <column name="entradaSaidaEm" sql-type="datetime" not-null="true" />
+    </property>
+    
+    <property name="TipoOperacao">
+      <column name="tipoOperacao" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="TipoDanfe">
+      <column name="tipoDanfe" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="FinalidadeEmissao">
+      <column name="finalidadeEmissao" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="DestinoOperacao">
+      <column name="destinoOperacao" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="IndicadorConsumidorFinal">
+      <column name="indicadorConsumidorFinal" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="IndicadorComprador">
+      <column name="indicadorComprador" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="ModalidadeFrete">
+      <column name="modalidadeFrete" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="FormaPagamento">
+      <column name="formaPagamento" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="InformacaoAdicional">
+      <column name="informacaoAdicional" sql-type="text" not-null="true" />
+    </property>
+    
+    <property name="TotalBaseCalculo">
+      <column name="totalBaseCalculo" sql-type="decimal" not-null="true" />
+    </property>
+    
+    <property name="TotalIcms">
+      <column name="totalIcms" sql-type="decimal" not-null="true" />
+    </property>
+
+    <property name="TotalBaseCalculoCofins">
+      <column name="totalBaseCalculoCofins" not-null="true" />
+    </property>
+
+    <property name="TotalCofins">
+      <column name="totalCofins" not-null="true" />
+    </property>
+
+    <property name="TotalBaseCalculoPis">
+      <column name="totalBaseCalculoPis" not-null="true" />
+    </property>
+
+    <property name="TotalPis">
+      <column name="totalPis" not-null="true" />
+    </property>
+    
+    <property name="TotalIcmsDesonerado">
+      <column name="totalIcmsDesonerado" sql-type="decimal" not-null="true" />
+    </property>
+    
+    <property name="TotalBaseCalculoSt">
+      <column name="totalBaseCalculoSt" sql-type="decimal" not-null="true" />
+    </property>
+    
+    <property name="TotalSt">
+      <column name="totalSt" sql-type="decimal" not-null="true" />
+    </property>
+    
+    <property name="TotalProdutosServicos">
+      <column name="totalProdutosServicos" sql-type="decimal" not-null="true" />
+    </property>
+    
+    <property name="TotalDesconto">
+      <column name="totalDesconto" not-null="true" />
+    </property>
+    
+    <property name="TotalAcrescimo">
+      <column name="totalAcrescimo" not-null="true" />
+    </property>
+
+    <property name="TotalNfce">
+      <column name="totalNfce" sql-type="decimal" not-null="true" />
+    </property>
+
+    <property name="Troco">
+      <column name="troco" sql-type="decimal" not-null="true" />
+    </property>
+
+    <property name="TerminalOfflineId">
+      <column name="terminalOffline_id" not-null="true" />
+    </property>
+
+    <property name="ValorTributoAproximado">
+      <column name="valorTributoAproximado" not-null="true" />
+    </property>
+
+    <property name="Uuid">
+      <column name="uuid" not-null="true" />
+    </property>
+
+    <property name="Status" access="backfield">
+      <column name="status" not-null="true" />
+    </property>
+
+    <property name="Observacao">
+      <column name="observacao" not-null="true" />
+    </property>
+
+    <property name="UuidVenda">
+      <column name="uuidVenda" not-null="true" />
+    </property>
+    
+    <property name="Sincronizado">
+      <column name="sincronizado" not-null="true" />
+    </property>
+
+    <property name="CriadoEm">
+      <column name="criadoEm" not-null="true" />
+    </property>
+
+    <property name="RegimeTributario" column="regimeTributario" not-null="true" />
+
+    <property name="CodigoNumerico" column="codigoNumerico" not-null="true" />
+
+    <property name="NumeroFiscal" column="numeroFiscal" not-null="true" />
+
+    <property name="Serie" column="serie" not-null="true" />
+
+    <property name="TipoEmissao" column="tipoEmissao" not-null="true" />
+
+    <property name="Denegada" column="denegada" not-null="true" />
+
+    <many-to-one name="UsuarioCriacao">
+      <column name="usuarioCriacao_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="TabelaPreco" class="FusionCore.FusionAdm.TabelasDePrecos.NfceSync.TabelaPrecoNfce" cascade="none">
+      <column name="tabelaPreco_id" not-null="false" />
+    </many-to-one>
+
+    <many-to-one name="Contingencia" column="contingencia_id" cascade="none" outer-join="true"></many-to-one>
+
+    <many-to-one name="Vendedor" column="vendedor_id" cascade="none" outer-join="true" not-null="false"/>
+
+    <one-to-one name="Cobranca" cascade="none" outer-join="true" />
+
+    <one-to-one name="Emissao"
+                class="NfceEmissao"
+                cascade="none"
+                outer-join="true" />
+
+    <one-to-one name="Destinatario"
+                class="NfceDestinatario"
+                cascade="none"
+                outer-join="true" />
+
+    <one-to-one name="Emitente"
+                class="NfceEmitente"
+                cascade="none"
+                outer-join="true" />
+
+    <one-to-one name="Cancelamento"
+                class="NfceCancelamento"
+                cascade="none"
+                outer-join="true" />
+
+    <one-to-one name="FinalizaEmissaoSat"
+                class="FusionCore.FusionNfce.Fiscal.SatFiscal.FinalizaEmissaoSat"
+                cascade="none"
+                outer-join="true" />
+
+    <one-to-one name="CancelamentoSat"
+                class="FusionCore.FusionNfce.Fiscal.SatFiscal.CancelamentoSat"
+                cascade="none"
+                outer-join="true" />
+
+    <bag access="field" name="_itens" table="nfce_item" cascade="all-delete-orphan" inverse="true">
+      <key column="nfce_id" />
+      <one-to-many class="NfceItem" />
+    </bag>
+
+    <bag access="field" name="_formaPagamentos" table="nfce_forma_pagamento" cascade="all-delete-orphan" inverse="true">
+      <key column="nfce_id" />
+      <one-to-many class="FusionCore.FusionNfce.Pagamento.FormaPagamentoNfce" />
+    </bag>
+    
+  </class>
+</hibernate-mapping>

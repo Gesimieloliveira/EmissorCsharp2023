@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.ConfiguracaoTerminal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ConfiguracaoTerminalNfce" table="configuracao_terminal">
+    <id name="Id" column="id" />
+
+    <property name="TerminalOfflineId">
+      <column name="terminalOffline_id" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="IntervaloSync">
+      <column name="intervaloSync" sql-type="int" not-null="true" />
+    </property>
+    
+    <property name="BindTerminal">
+      <column name="bindTerminal" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="TipoEmissao">
+      <column name="tipoEmissao" not-null="true"/>
+    </property>
+
+    <property name="DataUltimaContingencia">
+      <column name="dataUltimaContingencia" />
+    </property>
+
+    <property name="JustificativaUltimaContigencia">
+      <column name="justificativaUltimaContigencia" not-null="true"/>
+    </property>
+
+    <property name="ObservacaoPadrao">
+      <column name="observacaoPadrao" not-null="true" length="5000" />
+    </property>
+
+    <bag name="EmissorFiscalLista" table="emissor_fiscal" cascade="none" inverse="true">
+      <key column="terminalOffline_id" />
+      <one-to-many class="FusionCore.FusionNfce.EmissorFiscal.NfceEmissorFiscal" />
+    </bag>
+  </class>
+</hibernate-mapping>

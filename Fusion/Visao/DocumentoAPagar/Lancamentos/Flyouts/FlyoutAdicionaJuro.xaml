@@ -1,0 +1,111 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.DocumentoAPagar.Lancamentos.Flyouts.FlyoutAdicionaJuro"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Fusion.Visao.DocumentoAPagar.Lancamentos.Flyouts"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:caixa="clr-namespace:FusionLibrary.Helper.Wpf.Caixa;assembly=FusionLibrary"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+             mc:Ignorable="d" 
+             Theme="Adapt"
+             Position="Right"
+             IsModal="True"
+             Header="Adiciona Juro"
+             IsOpen="{Binding IsOpen}"    
+             d:DataContext="{d:DesignInstance local:FlyoutAdicionaJuroModel}"    
+             d:DesignHeight="300" Width="600">
+    <DockPanel Margin="5">
+        <StackPanel DockPanel.Dock="Top">
+            <StackPanel>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <TextBlock FontSize="20" FontWeight="Bold" Margin="0,0,7,0">Valor Original</TextBlock>
+                    <TextBlock HorizontalAlignment="Right" Grid.Column="1" FontSize="20" FontWeight="Bold" Text="{Binding ValorOriginal, StringFormat=N2}"></TextBlock>
+                </Grid>
+
+            </StackPanel>
+
+            <StackPanel>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <TextBlock FontSize="20" FontWeight="Bold" Margin="0,0,7,0">Valor Ajustado</TextBlock>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Right" FontSize="20" FontWeight="Bold" Text="{Binding ValorAjustado, StringFormat=N2}"></TextBlock>
+                </Grid>
+
+            </StackPanel>
+
+            <StackPanel>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <TextBlock FontSize="20" FontWeight="Bold" Margin="0,0,7,0">Valor Quitado</TextBlock>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Right" FontSize="20" FontWeight="Bold" Text="{Binding ValorQuitado, StringFormat=N2}"></TextBlock>
+                </Grid>
+
+            </StackPanel>
+
+            <StackPanel>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <TextBlock FontSize="20" FontWeight="Bold" Margin="0,0,7,0">Juros</TextBlock>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Right" FontSize="20" FontWeight="Bold" Text="{Binding ValorJuros, StringFormat=N2}"></TextBlock>
+                </Grid>
+
+            </StackPanel>
+
+        </StackPanel>
+
+        
+        <StackPanel Margin="0,40,0,0" DockPanel.Dock="Top" VerticalAlignment="Center">
+            <TextBlock>Digite um valor</TextBlock>
+            <TextBox Text="{Binding Valor, UpdateSourceTrigger=LostFocus, StringFormat=N2}"
+                     wpf:TextBoxAcceptHelper.AcceptDecimalFormat="True"></TextBox>
+        </StackPanel>
+        <StackPanel Margin="0,5,0,0" DockPanel.Dock="Top" VerticalAlignment="Center">
+            <TextBlock>Histórico</TextBlock>
+            <TextBox Text="{Binding Historico, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Center">
+            <Button Width="50" Height="50" IsEnabled="{Binding BotaoSalvar}"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                    Click="OnClickSalvar">
+                <Rectangle Width="20" Height="20"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Save" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </StackPanel>
+    </DockPanel>
+</controls:Flyout>

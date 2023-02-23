@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Cidade"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CidadeNfce" table="cidade">
+    <id name="Id" column="id"/>
+
+    <property name="SiglaUf" column="siglaUf" length="2" not-null="true" />
+    <property name="Nome" column="nome" length="75" not-null="true" />
+    <property name="CodigoIbge" column="codigoIbge" not-null="true" />
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,143 @@
+﻿<controls:MetroWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      x:Class="FusionPdv.Visao.ConfiguracaoInicial.ConfiguracaoInicial"
+                      Title="Configuração Inicial"
+                      Width="670.031" ResizeMode="NoResize"
+                      WindowStartupLocation="CenterScreen"
+                      PreviewKeyDown="Window_PreviewKeyDown"
+                      Style="{DynamicResource MetroWindowStyle}" Height="318.795" Closing="ConfiguracaoInicial_OnClosing">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="210" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
+            <fa:ImageAwesome Icon="Gears" Width="120" Foreground="{StaticResource AccentColorBrush4}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+                    <Label Content="Modelo" />
+                    <ComboBox x:Name="CbModelo"
+                              IsEditable="False"
+                              ItemsSource="{Binding ModelosEcf}"
+                              SelectedValue="{Binding ModeloEcfSelecionado.Serie}"
+                              SelectedValuePath="Serie"
+                              SelectedItem="{Binding ModeloEcfSelecionado}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding ModeloEcfTemplate.ObterModeloEcf}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Serie:" Margin="0,0,5,0"></TextBlock>
+                                        <TextBlock Text="{Binding Serie}"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Número:" Margin="0,0,5,0"></TextBlock>
+                                        <TextBlock Text="{Binding Numero}"></TextBlock>
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+                    <Label Content="Porta" />
+                    <ComboBox x:Name="CbPorta"
+                              IsEditable="False"
+                              SelectedValue="{Binding PortaSelecionada}"
+                              SelectedValuePath="Tag">
+                        <ComboBoxItem Content="COM1" Tag="COM1" />
+                        <ComboBoxItem Content="COM2" Tag="COM2" />
+                        <ComboBoxItem Content="COM3" Tag="COM3" />
+                        <ComboBoxItem Content="COM4" Tag="COM4" />
+                        <ComboBoxItem Content="COM5" Tag="COM5" />
+                        <ComboBoxItem Content="COM6" Tag="COM6" />
+                        <ComboBoxItem Content="COM7" Tag="COM7" />
+                        <ComboBoxItem Content="COM8" Tag="COM8" />
+                        <ComboBoxItem Content="COM9" Tag="COM9" />
+                        <ComboBoxItem Content="COM10" Tag="COM10" />
+                        <ComboBoxItem Content="COM11" Tag="COM11" />
+                        <ComboBoxItem Content="COM12" Tag="COM12" />
+                        <ComboBoxItem Content="COM13" Tag="COM13" />
+                        <ComboBoxItem Content="COM14" Tag="COM14" />
+                        <ComboBoxItem Content="COM15" Tag="COM15" />
+                        <ComboBoxItem Content="COM16" Tag="COM16" />
+                        <ComboBoxItem Content="COM17" Tag="COM17" />
+                        <ComboBoxItem Content="COM18" Tag="COM18" />
+                        <ComboBoxItem Content="COM19" Tag="COM19" />
+                        <ComboBoxItem Content="COM20" Tag="COM20" />
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="2">
+                    <TextBlock>
+                        <Run Text="Velocidade" />
+                    </TextBlock>
+                    <ComboBox
+                        x:Name="CbVelocidade"
+                        IsEditable="False"
+                              SelectedValue="{Binding VelocidadeSelecionada}"
+                              SelectedValuePath="Tag">
+                        <ComboBoxItem Content="1200" Tag="1200" />
+                        <ComboBoxItem Content="2400" Tag="2400" />
+                        <ComboBoxItem Content="4800" Tag="4800" />
+                        <ComboBoxItem Content="9600" Tag="9600" />
+                        <ComboBoxItem Content="19200" Tag="19200" />
+                        <ComboBoxItem Content="38400" Tag="38400" />
+                        <ComboBoxItem Content="57600" Tag="57600" />
+                        <ComboBoxItem Content="115200" Tag="115200" />
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <CheckBox IsChecked="{Binding ControlePorta}">Utiliza USB</CheckBox>
+                </StackPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="3" Margin="0,0,5,0">
+                    <TextBlock Text="Serie" />
+                    <TextBox IsEnabled="False" Text="{Binding Serie}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="3">
+                    <TextBlock Text="Número ECF" />
+                    <TextBox IsEnabled="False" Text="{Binding NumeroEcf}" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    Margin="0,20,0,0">
+            <Button x:Name="BtnSalvarDados" Click="BtnSalvarDados_OnClick" Content="Salvar Dados (F3)" Margin="10" Visibility="Collapsed"/>
+            <Button x:Name="BtnSalvar" Click="BtnSalvar_Click" Content="Salvar (F2)" Margin="10" />
+            <Button x:Name="BtnDesativar" Click="BtnDesativar_Click" Content="Desativar (F2)" Margin="10" Visibility="Collapsed" />
+            <Button Click="Button_Click_1" Content="Fechar (ESC)" Margin="40,10,10,10" />
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>

@@ -1,0 +1,54 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.NotaFiscalEletronica.Cancelamento.NfeCancelamentoView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:cancelamento="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Cancelamento"
+                      mc:Ignorable="d" 
+                      d:DataContext="{d:DesignInstance cancelamento:NfeCancelamentoContexto, d:IsDesignTimeCreatable=True}"
+                      Style="{DynamicResource MetroWindowDialogStyle}" 
+                      WindowStartupLocation="CenterScreen"
+                      Title="NFE - Cancelamento"
+                      Height="300" Width="650"
+                      Loaded="LoadedHandler">
+
+    <DockPanel Margin="5">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Chave" />
+                <TextBox 
+                    IsEnabled="False"
+                    Text="{Binding ChaveDocumento}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Width="120" Margin="5,0,0,0">
+                <TextBlock Text="Número" />
+                <TextBox 
+                    IsEnabled="False"
+                    Text="{Binding NumeroDocumento}" />
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Margin="0,5,0,0" DockPanel.Dock="Top">
+            <TextBlock Text="Justificativa do cancelamento" />
+            <TextBox 
+                Name="TbJustificativa"
+                Text="{Binding Justificativa, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                Height="150" AcceptsReturn="True" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Center">
+            <Button
+                Width="180"
+                Style="{DynamicResource FusionAccentedButton}"
+                Content="Fazer o cancelamento" 
+                Click="FazerCancelamentoClickHandler"/>
+        </StackPanel>
+    </DockPanel>
+</controls:MetroWindow>

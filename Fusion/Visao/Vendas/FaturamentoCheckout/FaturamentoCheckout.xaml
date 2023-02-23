@@ -1,0 +1,405 @@
+﻿<fwc:FusionWindow x:Class="Fusion.Visao.Vendas.FaturamentoCheckout.FaturamentoCheckout"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:fwc="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                  xmlns:fc="clr-namespace:Fusion.Controles"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:fa="http://schemas.fontawesome.io/icons/"
+                  xmlns:wl="clr-namespace:Fusion.WhiteLabel;assembly=Fusion.WhiteLabel"
+                  xmlns:cvs="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+                  xmlns:local="clr-namespace:Fusion.Visao.Vendas.FaturamentoCheckout"
+                  mc:Ignorable="d"
+                  d:DataContext="{d:DesignInstance local:FaturamentoCheckoutViewModel, IsDesignTimeCreatable=False}"
+                  MinHeight="750" MinWidth="1000"
+                  WindowState="Maximized"
+                  Title="Faturamento - Checkout"
+                  Loaded="FaturamentoCheckout_OnLoaded"
+                  ContentRendered="FaturamentoCheckout_OnContentRendered">
+
+    <fwc:FusionWindow.RightWindowCommands>
+        <mah:WindowCommands>
+            <Button Margin="0,0,5,0"
+                    mah:VisibilityHelper.IsVisible="{Binding TemPermissaoPreferencias}"
+                    Foreground="{DynamicResource IdealForegroundColorBrush}"
+                    Click="OnClickPreferencias">
+
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome
+                        Icon="Gear" Width="14" Height="14"
+                        Foreground="{DynamicResource IdealForegroundColorBrush}" />
+                    <TextBlock Margin="5,0,0,0" Text="Preferências" />
+                </StackPanel>
+            </Button>
+
+            <Button Margin="0,0,5,0"
+                    mah:VisibilityHelper.IsVisible="{Binding TemPermissaoPreferencias}"
+                    Foreground="{DynamicResource IdealForegroundColorBrush}"
+                    Click="OnClickConfigurarBalanca">
+
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome
+                        Icon="BalanceScale" Width="14" Height="14"
+                        Foreground="{DynamicResource IdealForegroundColorBrush}" />
+                    <TextBlock Margin="5,0,0,0" Text="Balança" />
+                </StackPanel>
+            </Button>
+        </mah:WindowCommands>
+    </fwc:FusionWindow.RightWindowCommands>
+
+    <Grid>
+        <DockPanel>
+            <Border DockPanel.Dock="Top" Padding="0,15" Background="{DynamicResource AccentColorBrush}">
+                <TextBlock
+                    FontSize="34"
+                    FontWeight="Bold"
+                    TextAlignment="Center"
+                    Foreground="{DynamicResource WhiteBrush}"
+                    Text="{Binding TextoInformativo}" />
+            </Border>
+
+            <Border DockPanel.Dock="Top"
+                    Background="{DynamicResource GrayBrush6}"
+                    Padding="0,3">
+
+                <WrapPanel Orientation="Horizontal"
+                           HorizontalAlignment="Center"
+                           mah:VisibilityHelper.IsHidden="{Binding PossuiFaturamento, Converter={cvs:InverseBooleanConverter}}">
+
+                    <TextBlock Padding="10,0"
+                               VerticalAlignment="Bottom"
+                               FontSize="12"
+                               Foreground="{DynamicResource GrayBrush1}">
+
+                        <Run Text="Numero:" />
+                        <Run Text="{Binding Faturamento.Numero}" />
+                    </TextBlock>
+
+                    <TextBlock Padding="10,0"
+                               VerticalAlignment="Bottom"
+                               FontSize="12"
+                               Foreground="{DynamicResource GrayBrush1}">
+
+                        <Run Text="Criado em" />
+                        <Run Text="{Binding Faturamento.DataCriacao}" />
+                        <Run Text="pelo" />
+                        <Run Text="{Binding Faturamento.UsuarioCriou}" />
+                    </TextBlock>
+
+                </WrapPanel>
+            </Border>
+
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="4*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Grid.Column="0" Background="{DynamicResource AccentColorBrush3}">
+                    <DockPanel Margin="20,0">
+                        <fc:CheckoutBox x:Name="ControlCheckoutBox"
+                                        PreviewKeyDown="ControlCheckoutBox_OnPreviewKeyDown"
+                                        DockPanel.Dock="Top"
+                                        Margin="0,20,0,0"
+                                        CheckoutItemChanged="ControlCheckoutBox_OnCheckoutItemChanged"
+                                        CheckoutErrror="ControlCheckoutBox_OnCheckoutErrror" />
+
+                        <StackPanel DockPanel.Dock="Top" Margin="0,35,0,0">
+                            <Image
+                                MaxHeight="120"
+                                Stretch="Uniform"
+                                Source="{x:Static wl:MarcaWhiteLabel.ImgMarcaGestor}" />
+                        </StackPanel>
+
+                        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                            <StackPanel Margin="0,0,0,0">
+                                <TextBlock FontSize="16" Text="[F2] Cliente" />
+
+                                <TextBox FontSize="16"
+                                         IsReadOnly="True"
+                                         Background="{DynamicResource ReadOnlyBackgroundBrush}"
+                                         Text="{Binding Faturamento.NomeCliente}"
+                                         MouseLeftButtonUp="TextBoxCliente_OnMouseDown" />
+
+                            </StackPanel>
+
+                            <StackPanel Margin="0,10,0,0">
+                                <TextBlock FontSize="16" Text="[F7] Tabela de Preços" />
+
+                                <TextBox FontSize="16"
+                                         IsReadOnly="True"
+                                         Background="{DynamicResource ReadOnlyBackgroundBrush}"
+                                         Text="{Binding TabelaPreco.Descricao}"
+                                         MouseLeftButtonUp="TextBoxTabelaPrecos_OnMouseDown" />
+                            </StackPanel>
+
+                            <Button DockPanel.Dock="Bottom"
+                                    Margin="0,20,0,0"
+                                    Focusable="False"
+                                    Style="{DynamicResource FusionSuccessButton}"
+                                    FontWeight="Bold"
+                                    FontSize="24"
+                                    Click="OnClickFinalizar">
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Text="[F4] Finalizar" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+
+                <Grid Grid.Row="0" Grid.Column="1" Background="Transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <ListBox Margin="10,20,0,5"
+                             ItemsSource="{Binding Items}"
+                             SelectedItem="{Binding ItemSelecionado}"
+                             Background="Transparent"
+                             HorizontalContentAlignment="Stretch"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                        <ListBox.Resources>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                <Setter Property="mah:ItemHelper.ActiveSelectionForegroundBrush" Value="Blue" />
+                                <Setter Property="mah:ItemHelper.SelectedForegroundBrush" Value="Blue" />
+                            </Style>
+                        </ListBox.Resources>
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,0,0,0"
+                                        BorderBrush="{DynamicResource GrayBrush2}"
+                                        BorderThickness="0,0,0,1.5"
+                                        Background="{DynamicResource IdealForegroundColorBrush}"
+                                        Padding="5,5,10,5">
+
+                                    <DockPanel>
+                                        <StackPanel DockPanel.Dock="Left">
+                                            <fwc:BotaoIcone
+                                                Tag="{Binding}"
+                                                Margin="0,1" Padding="7,5" Icon="Pencil"
+                                                Background="{DynamicResource AccentColorBrush2}"
+                                                Click="OnClickEditarItemSelecionado" />
+
+                                            <fwc:BotaoIcone
+                                                Tag="{Binding}"
+                                                Margin="0,1" Padding="7,5" Icon="Trash"
+                                                Background="{DynamicResource DangerBrush}"
+                                                Click="OnClickRemoverItemSelecionado" />
+
+                                        </StackPanel>
+
+                                        <StackPanel DockPanel.Dock="Right" Margin="5,0,0,0">
+                                            <TextBlock FontSize="18" TextWrapping="NoWrap">
+                                                <Run Text="{Binding ProdutoId, StringFormat=D5}" />
+                                                <Run Text=" - " />
+                                                <Run Text="{Binding Descricao}" />
+                                            </TextBlock>
+
+                                            <Grid DockPanel.Dock="Right">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition MinWidth="100" Width="Auto" />
+                                                    <ColumnDefinition MinWidth="120" Width="Auto" />
+                                                    <ColumnDefinition MinWidth="150" Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock FontSize="15"
+                                                           Text="{Binding Numero, StringFormat='000', Mode=OneWay}" />
+
+                                                <TextBlock Grid.Column="1"
+                                                           TextAlignment="Right"
+                                                           FontSize="17"
+                                                           Text="{Binding QuantidadeMedida, Mode=OneWay}" />
+
+                                                <TextBlock Grid.Column="2"
+                                                           TextAlignment="Right"
+                                                           FontSize="17"
+                                                           Text="{Binding PrecoUnitario, StringFormat='x {0:C2}', Mode=OneWay}" />
+
+                                                <TextBlock Grid.Column="3"
+                                                           TextAlignment="Right"
+                                                           FontSize="18" FontWeight="Bold"
+                                                           Text="{Binding Total, StringFormat=C2, Mode=OneWay}" />
+                                            </Grid>
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <Border Grid.Row="1"
+                            BorderBrush="{DynamicResource AccentColorBrush3}"
+                            BorderThickness="0,4,0,0"
+                            Background="Transparent"
+                            Height="70">
+
+                        <DockPanel Margin="15,0">
+                            <StackPanel DockPanel.Dock="Right"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom">
+
+                                <TextBlock
+                                    VerticalAlignment="Bottom"
+                                    Padding="0,0,0,8"
+                                    Foreground="{DynamicResource GrayBrush1}"
+                                    FontSize="16"
+                                    Text="Total (R$):" />
+
+                                <TextBlock
+                                    Margin="20,0,0,0"
+                                    FontSize="45" FontWeight="Bold"
+                                    Foreground="{DynamicResource GrayBrush1}"
+                                    Text="{Binding Faturamento.Total, StringFormat=N2}"
+                                    VerticalAlignment="Bottom" />
+                            </StackPanel>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+
+                <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                           Background="{DynamicResource AccentColorBrush3}"
+                           Height="65">
+
+                    <WrapPanel HorizontalAlignment="Center" Margin="0,20,0,0">
+                        <Button Click="OnClickCliente"
+                                Focusable="False"
+                                Margin="2,0"
+                                Style="{DynamicResource FusionCleanButton}">
+
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Icon="IdCard" Height="16"
+                                                 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                                <TextBlock Margin="5,0" Text="[F2] Cliente" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            Focusable="False"
+                            Margin="2,0"
+                            Style="{DynamicResource FusionCleanButton}"
+                            Click="OnClickCancelar">
+
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Icon="Ban" Height="16"
+                                                 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                                <TextBlock Margin="5,0" Text="[F3] Cancelar" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button Focusable="False"
+                                Margin="2,0"
+                                Style="{DynamicResource FusionCleanButton}"
+                                Click="OnClickObservacao">
+
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Icon="StickyNote" Height="16"
+                                                 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                                <TextBlock Margin="5,0" Text="[F5] Observação" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button Focusable="False"
+                                Margin="2,0"
+                                Style="{DynamicResource FusionCleanButton}"
+                                Click="OnClickDesconto">
+
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Icon="Dollar" Height="16"
+                                                 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                                <TextBlock Margin="5,0" Text="[F6] Desconto" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button Focusable="False"
+                                Margin="2,0"
+                                Style="{DynamicResource FusionCleanButton}"
+                                Click="OnClickVendedor">
+
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Icon="AddressBook" Height="16"
+                                                 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                                <TextBlock Margin="5,0" Text="[F8] Vendedor" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button Focusable="False"
+                                Margin="2,0"
+                                Style="{DynamicResource FusionCleanButton}"
+                                Click="OnClickAbrirListagem">
+
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Icon="List" Height="16"
+                                                 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                                <TextBlock Margin="5,0" Text="[F9] Listagem" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button Focusable="False"
+                                Margin="2,0"
+                                Style="{DynamicResource FusionCleanButton}"
+                                Click="OnClickIniciarNovo">
+
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Icon="Plus" Height="16"
+                                                 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                                <TextBlock Margin="5,0" Text="[F12] Novo" />
+                            </StackPanel>
+                        </Button>
+
+                    </WrapPanel>
+                </DockPanel>
+
+                <DockPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                           Background="{DynamicResource AccentColorBrush2}"
+                           Height="40">
+
+                    <WrapPanel Margin="15,0"
+                               Orientation="Horizontal"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center">
+
+                        <TextBlock Margin="20,0"
+                                   FontWeight="Bold"
+                                   FontSize="16"
+                                   Foreground="{DynamicResource WhiteBrush}">
+
+                            <Run Text="Empresa[F11]: " />
+                            <Run Text="{Binding Empresa.Nome, Mode=OneWay}" />
+                        </TextBlock>
+
+                        <TextBlock Margin="20,0"
+                                   FontWeight="Bold"
+                                   FontSize="16"
+                                   Foreground="{DynamicResource WhiteBrush}">
+
+                            <Run Text="Usuário Logado: " />
+                            <Run Text="{Binding Usuario.Nome, Mode=OneWay}" />
+                        </TextBlock>
+
+                        <TextBlock Margin="20,0"
+                                   FontWeight="Bold"
+                                   FontSize="16"
+                                   Foreground="{DynamicResource WhiteBrush}">
+
+                            <Run Text="Vendedor[F8]: " />
+                            <Run Text="{Binding Vendedor.Nome, TargetNullValue='Não informado'}" />
+                        </TextBlock>
+
+                    </WrapPanel>
+                </DockPanel>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</fwc:FusionWindow>

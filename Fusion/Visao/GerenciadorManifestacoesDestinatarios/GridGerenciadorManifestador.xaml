@@ -1,0 +1,249 @@
+﻿<UserControl x:Class="Fusion.Visao.GerenciadorManifestacoesDestinatarios.GridGerenciadorManifestador"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:local="clr-namespace:FusionCore.GerenciarManifestacoesEletronicas;assembly=FusionCore"
+             mc:Ignorable="d" d:DesignWidth="980"
+             Padding="10"
+             Background="{DynamicResource WhiteBrush}"
+             Loaded="GridGerenciadorManifestador_OnLoaded">
+
+    <Grid>
+        <DockPanel DockPanel.Dock="Top">
+            <Border x:Name="PainelFiltro" DockPanel.Dock="Top" Background="{DynamicResource GrayBrush9}" Padding="5">
+                <StackPanel>
+                    <Grid HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Width="310" Margin="0,0,0,0">
+                                <TextBlock Text="Filtrar por Empresa:" />
+
+                                <ComboBox
+                                    ItemsSource="{Binding Path=Empresas}"
+                                    DisplayMemberPath="Nome"
+                                    SelectedItem="{Binding EmpresaSelecionada}" />
+                            </StackPanel>
+
+                            <StackPanel Width="140" Margin="5,15,0,0">
+                                <Button
+                                    x:Name="BotaoFiltro"
+                                    HorizontalAlignment="Left" Width="140"
+                                    Style="{DynamicResource FusionCleanButton}"
+                                    Click="AplicarFiltro_OnClick">
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:ImageAwesome Icon="Filter" Width="15" />
+                                        <TextBlock Text="Aplicar o filtro" Margin="5,0,0,0" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        HorizontalAlignment="Left"
+                        Click="Distribuicao_OnClick"
+                        Style="{DynamicResource FusionAccentedButton}">
+
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome 
+                                Icon="Refresh" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                            <TextBlock Text="Baixar Documentos" Margin="5,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+
+            <DockPanel DockPanel.Dock="Top">
+                <DataGrid
+                    Margin="0,10,0,0"
+                    SelectedItem="{Binding NfeResumidaSelecionada}"
+                    ItemsSource="{Binding ColecaoObservavelNfeResumida}">
+
+                    <DataGrid.Resources>
+                        <DataTemplate x:Key="CellStatusNfe"
+                                      DataType="{x:Type local:NfeResumidaGrid}">
+                            <Grid>
+                                <TextBlock Margin="5,0,0,0" Text="{Binding SituacaoInformativa}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextAlignment" Value="Center" />
+                                            <Setter Property="MinWidth" Value="90" />
+                                            <Setter Property="FontSize" Value="12" />
+                                            <Setter Property="FontWeight" Value="SemiBold" />
+                                            <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+                                            <Setter Property="Background" Value="{DynamicResource GrayBrush5}" />
+                                            <Setter Property="Padding" Value="3,1" />
+
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsAutorizada}" Value="True">
+                                                    <Setter Property="Background"
+                                                            Value="{DynamicResource SuccessBrush}" />
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding IsCancelada}" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource DangerBrush}" />
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding IsPendente}" Value="True">
+                                                    <Setter Property="Background"
+                                                            Value="{DynamicResource WarningBrush}" />
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding IsDenegada}" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource InfoBrush}" />
+                                                </DataTrigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </DataTemplate>
+
+                        <DataTemplate x:Key="CellStatusImportacao"
+                                      DataType="{x:Type local:NfeResumidaGrid}">
+                            <Grid>
+                                <TextBlock Margin="5,0,0,0" Text="{Binding ImportadaTexto}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextAlignment" Value="Center" />
+                                            <Setter Property="MinWidth" Value="90" />
+                                            <Setter Property="FontSize" Value="12" />
+                                            <Setter Property="FontWeight" Value="SemiBold" />
+                                            <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+                                            <Setter Property="Background" Value="{DynamicResource GrayBrush5}" />
+                                            <Setter Property="Padding" Value="3,1" />
+
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsImportada}" Value="True">
+                                                    <Setter Property="Background"
+                                                            Value="{DynamicResource SuccessBrush}" />
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding IsImportada}" Value="False">
+                                                    <Setter Property="Background" Value="{DynamicResource DangerBrush}" />
+                                                </DataTrigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGrid.Resources>
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                            <EventSetter Event="MouseDoubleClick" Handler="DoubleClickDataGridRow" />
+                        </Style>
+                    </DataGrid.RowStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="SizeToCells">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Button Style="{DynamicResource FusionAccentedButton}" ClickMode="Release"
+                                                Click="ClickOpcoesHandler" Padding="7,4">
+                                            <fa:ImageAwesome Icon="List" Foreground="{DynamicResource WhiteBrush}"
+                                                             Height="12" />
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn
+                            helpers:DataGridColumnHelper.Align="Center"
+                            Header="Status Importação" Width="150"
+                            CellTemplate="{StaticResource CellStatusImportacao}"></DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn
+                            helpers:DataGridColumnHelper.Align="Center"
+                            Header="Situação" Width="100"
+                            CellTemplate="{StaticResource CellStatusNfe}" />
+
+                        <DataGridTextColumn
+                            Header="Situação de manifesto" Width="220"
+                            Binding="{Binding SituacaoManifestacao}" />
+
+                        <DataGridTextColumn
+                            Header="Número" Binding="{Binding NumeracaoFiscal, StringFormat=D9}"
+                            helpers:DataGridColumnHelper.Align="Center"
+                            Width="90" />
+
+                        <DataGridTextColumn
+                            Header="Operação" Binding="{Binding TipoOperacao}" Width="Auto" />
+
+                        <DataGridTextColumn
+                            Header="Valor"
+                            Binding="{Binding ValorNFe, StringFormat=N2}"
+                            helpers:DataGridColumnHelper.Align="Right"
+                            Width="95" />
+
+                        <DataGridTextColumn
+                            Header="Emitente" Binding="{Binding RazaoSocialEmitente}"
+                            Width="335" />
+
+                        <DataGridTemplateColumn Header="Chave" Width="325">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type local:NfeResumidaGrid}">
+                                    <StackPanel
+                                        VerticalAlignment="Center" Orientation="Horizontal"
+                                        mah:VisibilityHelper.IsCollapsed="{Binding IsPendente}">
+
+                                        <TextBlock Text="{Binding Chave}" VerticalAlignment="Center" />
+
+                                        <Button
+                                            Style="{DynamicResource FusionCleanButton}"
+                                            Tag="{Binding Chave}"
+                                            Margin="5,0,0,0"
+                                            ClickMode="Release"
+                                            Click="ClickCopyChave" Padding="7,4">
+                                            <fa:ImageAwesome Icon="Copy" Foreground="{DynamicResource BlackBrush}"
+                                                             Height="12" />
+                                        </Button>
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+
+                        <DataGridTextColumn
+                            Header="Autorização Em" Binding="{Binding AutorizacaoEm}"
+                            Width="200" />
+
+                        <DataGridTextColumn
+                            Header="Ambiente Sefaz" Width="150" Binding="{Binding Ambiente}" />
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
+
+
+        <Border
+            Visibility="Collapsed"
+            DockPanel.Dock="Top"
+            x:Name="BarraDeProgresso"
+            Background="{StaticResource AccentColorBrush4}">
+            <mah:ProgressRing
+                IsActive="True"
+                EllipseDiameterScale="1"
+                IsLarge="True" />
+        </Border>
+
+    </Grid>
+
+</UserControl>

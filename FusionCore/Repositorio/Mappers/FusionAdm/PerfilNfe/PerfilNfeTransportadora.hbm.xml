@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF.Perfil"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PerfilNfeTransportadora" table="perfil_nfe_transportadora">
+
+    <id name="Id" column="perfilNfe_id">
+      <generator class="foreign">
+        <param name="property">Parent</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Parent" constrained="true" cascade="none" />
+
+    <many-to-one name="Transportadora" cascade="none" not-found="ignore" outer-join="true">
+      <column name="pessoa_id" sql-type="int" not-null="false" />
+    </many-to-one>
+
+    <many-to-one name="Veiculo" cascade="none" not-found="ignore" outer-join="true">
+      <column name="pessoaTransportadoraVeiculo_id" sql-type="int" not-null="false" />
+    </many-to-one>
+
+  </class>
+</hibernate-mapping>

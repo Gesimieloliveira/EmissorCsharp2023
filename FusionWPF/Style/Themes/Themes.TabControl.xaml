@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.TabControl.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="FusionTabControl" 
+           BasedOn="{StaticResource {x:Type controls:MetroTabControl}}" 
+           TargetType="{x:Type controls:MetroTabControl}">
+        <Setter Property="Padding" Value="0,5,0,0" />
+        <Setter Property="controls:HeaderedControlHelper.HeaderFontSize" Value="17"/>
+        <Setter Property="controls:HeaderedControlHelper.HeaderFontWeight" Value="SemiBold"/>
+        <Setter Property="controls:TabControlHelper.UnderlinePlacement" Value="Bottom"/>
+        <Setter Property="controls:TabControlHelper.Underlined" Value="TabPanel"/>
+    </Style>
+
+    <Style x:Key="FusionTabItem" 
+           BasedOn="{StaticResource {x:Type controls:MetroTabItem}}" 
+           TargetType="{x:Type controls:MetroTabItem}">
+
+    </Style>
+
+</ResourceDictionary>

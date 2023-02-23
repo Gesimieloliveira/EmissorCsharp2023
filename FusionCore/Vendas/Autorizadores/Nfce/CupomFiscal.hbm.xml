@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Vendas.Autorizadores.Nfce"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CupomFiscal" table="cupom_fiscal">
+    <id access="backfield" name="Id" column="id" generator="identity" unsaved-value="0" />
+
+    <property access="backfield" name="EmissorFiscalId" column="emissorFiscal_id" not-null="true" />
+
+    <property access="backfield" name="CriadaEm" column="criadoEm" not-null="true" />
+
+    <property access="backfield" name="NumeroFiscal" column="numeroFiscal" not-null="true" />
+
+    <property access="backfield" name="Serie" column="serie" not-null="true" />
+
+    <property access="backfield" name="CodigoNumerico" column="codigoNumerico" not-null="true" />
+
+    <property access="backfield" name="TipoEmissao" column="tipoEmissao" not-null="true" />
+
+    <property access="backfield" name="SituacaoFiscal" column="situacaoFiscal" not-null="true" />
+
+    <property access="backfield" name="AmbienteSefaz" column="ambienteSefaz" not-null="true" />
+
+	<property access="backfield" name="EmitirEm" column="emitirEm" not-null="true" />
+
+	<property access="backfield" name="ImportadaParaNfe" column="importadaParaNfe" not-null="true" />
+
+    <property access="backfield" name="XmlCancelamento" not-null="false">
+	    <column name="xmlCancelamento" sql-type="xml" length="2147483647"></column>
+    </property>
+
+    <property
+	    name="ContingenciaId"
+	    access="backfield"
+	    column="contingencia_id" not-null="false"
+    />
+
+    <many-to-one
+	  name="UsuarioCriacao"
+	  class="FusionCore.Repositorio.Legacy.Entidades.Adm.UsuarioDTO"
+	  cascade="none"
+	  access="backfield">
+	  <column name="usuario_id" not-null="true"></column>
+	</many-to-one>
+    
+	<many-to-one
+	  name="Venda"
+	  class="FusionCore.Vendas.Faturamentos.FaturamentoVenda"
+	  cascade="none"
+	  access="backfield"
+	  column="faturamentoVenda_id" not-null="true">
+	</many-to-one>
+
+    <one-to-one
+	    name="CupomFiscalFinalizado"
+	    class="CupomFiscalFinalizado"
+	    cascade="none" outer-join="true"
+	    access="backfield"></one-to-one>
+
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="03/09/2018 16:55:20" ReportInfo.Modified="09/16/2022 14:13:38" ReportInfo.CreatorVersion="2021.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {
+    private void Page1_StartPage(object sender, EventArgs e)
+    {
+      string wt = ((String)Report.GetParameterValue(&quot;WatermarkText&quot;));
+      
+      if (!string.IsNullOrEmpty(wt)) {
+        Page1.Watermark.Enabled = true;
+        Page1.Watermark.Text = wt;
+      }
+      
+      int clienteId = ((Int32)Report.GetColumnValue(&quot;dsDestinatario.cliente_id&quot;));
+      int vendedorId = ((Int32)Report.GetColumnValue(&quot;dsVendedor.vendedor_id&quot;));
+      string obs = ((String)Report.GetColumnValue(&quot;dsPedido.observacao&quot;));
+      
+      BlocoCab2.Visible = clienteId &gt; 0;
+      BlocoCab3.Visible = clienteId == 0;
+      BlocoVendedor.Visible = vendedorId &gt; 0;
+      
+    }
+    
+    public string EscreverContatos()
+    {
+      IList&lt;string&gt; contatos = new List&lt;string&gt;();
+      
+      DataSourceBase ds = Report.GetDataSource(&quot;dsTelefone&quot;);
+      ds.Init();
+      
+      while (ds.HasMoreRows)
+      {
+        string descricao = ((String)Report.GetColumnValue(&quot;dsTelefone.descricao&quot;));
+        string numero = ((String)Report.GetColumnValue(&quot;dsTelefone.numero&quot;));
+        
+        contatos.Add(descricao + &quot; &quot; + FormataTelefone(numero));
+        
+        ds.Next();
+      }
+      
+      return String.Join(&quot; / &quot;, contatos);
+    }
+    
+    private string AplicaMascara(string input, string pattern) 
+    {
+      var mask = new MaskedTextProvider(pattern, new System.Globalization.CultureInfo(&quot;pt-BR&quot;, false));
+      mask.Add(input);
+        
+      return mask.ToString();
+    }
+    
+    public string FormataTelefone(string input) 
+    {
+      if (string.IsNullOrEmpty(input)) {
+        return &quot;SEM TELEFONE&quot;;
+      }
+      
+      if (input.Length == 11) {
+        return AplicaMascara(input, &quot;(00) 0 0000-0000&quot;);
+      }
+      
+      if (input.Length == 10) {
+        return AplicaMascara(input, &quot;(00) 0000-0000&quot;);
+      }
+      
+      return input;
+    }
+    
+    public string FormataDocumento(string numero) 
+    {
+      if (numero.Length == 14) {
+        return AplicaMascara(numero, &quot;00.000.000/0000-00&quot;).Replace(&quot;,&quot;, &quot;.&quot;);
+      }
+      
+      return AplicaMascara(numero, &quot;000.000.000-00&quot;).Replace(&quot;,&quot;, &quot;.&quot;);
+    }
+    
+    public string DescricaoEspecie(int especie, string descricaoDocumento) 
+    {
+      switch (especie) {
+        case 0: return &quot;DINHEIRO&quot;;
+        case 1: return descricaoDocumento;
+        case 2: return &quot;CARTÃO CREDITO&quot;;
+        case 3: return &quot;CARTÃO DÉBITO&quot;;
+      }
+      
+      return &quot;DINHEIRO&quot;;
+    }
+    
+    public string FormataCodigo(string codigo)
+    {
+      return codigo.PadLeft(13,'0');
+    }
+  }
+}</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2geBvN02mjOZLuQGKRweVbyRdeyd+ssOhpZQMtpOQpoqvyFi7HwP4cjGbTJI3QM5UkCCMwpvRsjWESHbg1X7+ykksyGDNmiUIzKPFPg/IjrheBvpEfAls/JamVuucSU1bHntPkhfaDNZub3JTNic+cDRfukywTWc1dxwo2xb65KLiVp5FNjp7cW+zkzL7YOi0mAHjDiOQEvPywhpIT0li/ODAsxY7/yo5CjPBfZSSJaE/">
+      <TableDataSource Name="tbPedido" Alias="dsPedido" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select * &#13;&#10;from pedido_venda p &#13;&#10;where p.id = @pedidoId">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="empresa_id" DataType="System.Int32"/>
+        <Column Name="usuario_id" DataType="System.Int32"/>
+        <Column Name="uuid" DataType="System.String"/>
+        <Column Name="estadoAtual" DataType="System.Byte"/>
+        <Column Name="abertoEm" DataType="System.DateTime"/>
+        <Column Name="finalizadoEm" DataType="System.DateTime"/>
+        <Column Name="canceladoEm" DataType="System.DateTime"/>
+        <Column Name="totalProdutos" DataType="System.Decimal"/>
+        <Column Name="percentualDesconto" DataType="System.Decimal"/>
+        <Column Name="totalDesconto" DataType="System.Decimal"/>
+        <Column Name="total" DataType="System.Decimal"/>
+        <Column Name="tipoPedido" DataType="System.Byte"/>
+        <Column Name="referencia" DataType="System.String"/>
+        <Column Name="observacao" DataType="System.String"/>
+        <Column Name="pagamento_id" DataType="System.Guid"/>
+        <CommandParameter Name="pedidoId" DataType="8" Expression="[PedidoId]" DefaultValue="0"/>
+      </TableDataSource>
+      <TableDataSource Name="tbEmpresa" Alias="dsEmpresa" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select &#13;&#10; e.*, &#13;&#10; ci.nome as nomeCidade,&#13;&#10; ci.siglaUf as ufCidade&#13;&#10;from empresa e&#13;&#10;left join cidade ci on ci.id = e.cidade_id&#13;&#10;where e.id = @empresaId">
+        <Column Name="id" DataType="System.Int16"/>
+        <Column Name="razaoSocial" DataType="System.String"/>
+        <Column Name="nomeFantasia" DataType="System.String"/>
+        <Column Name="cnpj" DataType="System.String"/>
+        <Column Name="inscricaoEstadual" DataType="System.String"/>
+        <Column Name="inscricaoMunicipal" DataType="System.String"/>
+        <Column Name="atividadeIniciadaEm" DataType="System.DateTime"/>
+        <Column Name="email" DataType="System.String"/>
+        <Column Name="cep" DataType="System.String"/>
+        <Column Name="uf_id" DataType="System.Byte"/>
+        <Column Name="cidade_id" DataType="System.Int32"/>
+        <Column Name="logradouro" DataType="System.String"/>
+        <Column Name="bairro" DataType="System.String"/>
+        <Column Name="complemento" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <Column Name="fone1" DataType="System.String"/>
+        <Column Name="fone2" DataType="System.String"/>
+        <Column Name="regimeTributario" DataType="System.Byte"/>
+        <Column Name="alteradoEm" DataType="System.DateTime"/>
+        <Column Name="cadastradoEm" DataType="System.DateTime"/>
+        <Column Name="rntrc" DataType="System.String"/>
+        <Column Name="taf" DataType="System.String"/>
+        <Column Name="numeroDoRegistroEstadual" DataType="System.String"/>
+        <Column Name="logo" DataType="System.Byte[]" BindableControl="Picture"/>
+        <Column Name="nomeCidade" DataType="System.String"/>
+        <Column Name="ufCidade" DataType="System.String"/>
+        <CommandParameter Name="empresaId" DataType="8" Expression="[dsPedido.empresa_id]" DefaultValue="0"/>
+      </TableDataSource>
+      <TableDataSource Name="tbItem" Alias="dsItem" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select &#13;&#10;	pp.*,&#13;&#10;	pr.nome as nomeProduto,&#13;&#10;	coalesce((select pa.alias from produto_alias pa&#13;&#10;		where pa.isCodigoBarra = 1 and pa.produto_id = pr.id), cast(pr.id as varchar)) as codigo&#13;&#10;from pedido_produto pp&#13;&#10;left join produto pr on pp.produto_id = pr.id&#13;&#10;where pp.pedidoVenda_id = @pedidoId">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="pedidoVenda_id" DataType="System.Int32"/>
+        <Column Name="numero" DataType="System.Int16"/>
+        <Column Name="produto_id" DataType="System.Int32"/>
+        <Column Name="quantidade" DataType="System.Decimal"/>
+        <Column Name="siglaUnidade" DataType="System.String"/>
+        <Column Name="precoUnitario" DataType="System.Decimal"/>
+        <Column Name="totalBruto" DataType="System.Decimal"/>
+        <Column Name="percentualDesconto" DataType="System.Decimal"/>
+        <Column Name="totalDesconto" DataType="System.Decimal"/>
+        <Column Name="total" DataType="System.Decimal"/>
+        <Column Name="criadoEm" DataType="System.DateTime"/>
+        <Column Name="usuario_id" DataType="System.Int32"/>
+        <Column Name="observacao" DataType="System.String"/>
+        <Column Name="nomeProduto" DataType="System.String"/>
+        <Column Name="precoCusto" DataType="System.Decimal"/>
+        <Column Name="precoVenda" DataType="System.Decimal"/>
+        <Column Name="codigo" DataType="System.String"/>
+        <CommandParameter Name="pedidoId" DataType="8" Expression="[PedidoId]" DefaultValue="0"/>
+      </TableDataSource>
+      <TableDataSource Name="tbDestinatario" Alias="dsDestinatario" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select&#13;&#10;	de.*,&#13;&#10;	p.tipo as tipoPessoa,&#13;&#10;	p.nome as nomePessoa,&#13;&#10;	p.cpf as cpf,&#13;&#10;	p.cnpj as cnpj,&#13;&#10;	ci.nome as nomeCidade,&#13;&#10;	ci.siglaUf as ufCidade&#13;&#10;from pedido_destinatario de&#13;&#10;left join pessoa p on p.id = de.cliente_id&#13;&#10;left join cidade ci on ci.id = de.cidade_id&#13;&#10;where de.pedidoVenda_id = @pedidoId">
+        <Column Name="pedidoVenda_id" DataType="System.Int32"/>
+        <Column Name="cliente_id" DataType="System.Int32"/>
+        <Column Name="cep" DataType="System.String"/>
+        <Column Name="logradouro" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <Column Name="bairro" DataType="System.String"/>
+        <Column Name="complemento" DataType="System.String"/>
+        <Column Name="cidade_id" DataType="System.Int32"/>
+        <Column Name="nomeVisitante" DataType="System.String"/>
+        <Column Name="nomePessoa" DataType="System.String"/>
+        <Column Name="cpf" DataType="System.String"/>
+        <Column Name="cnpj" DataType="System.String"/>
+        <Column Name="nomeCidade" DataType="System.String"/>
+        <Column Name="ufCidade" DataType="System.String"/>
+        <Column Name="tipoPessoa" DataType="System.String"/>
+        <CommandParameter Name="pedidoId" DataType="8" Expression="[PedidoId]" DefaultValue="0"/>
+      </TableDataSource>
+      <TableDataSource Name="tbPgEspecie" Alias="dsPgEspecie" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select &#13;&#10; e.*,&#13;&#10; doc.descricao as descricaoDocumento&#13;&#10;from pedido_negociacao e&#13;&#10;left join tipo_documento doc on e.tipoDocumento_id = doc.id&#13;&#10;where e.pedidoVenda_id = @pedidoId">
+        <Column Name="id" DataType="System.Guid"/>
+        <Column Name="valor" DataType="System.Decimal"/>
+        <Column Name="especie" DataType="System.Byte"/>
+        <Column Name="possuiParcelas" DataType="System.Boolean" BindableControl="CheckBox"/>
+        <Column Name="tipoDocumento_id" DataType="System.Int16"/>
+        <Column Name="descricaoDocumento" DataType="System.String"/>
+        <Column Name="pedidoVenda_id" DataType="System.Int32"/>
+        <Column Name="criadoEm" DataType="System.DateTime"/>
+        <Column Name="usuario_id" DataType="System.Int32"/>
+        <CommandParameter Name="pedidoId" DataType="8" Expression="[PedidoId]" DefaultValue="0"/>
+      </TableDataSource>
+      <TableDataSource Name="tbTelefone" Alias="dsTelefone" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select t.*&#13;&#10;from pessoa_telefone t&#13;&#10;where t.pessoa_id = @pessoaId">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="pessoa_id" DataType="System.Int32"/>
+        <Column Name="descricao" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <CommandParameter Name="pessoaId" DataType="8" Expression="[dsDestinatario.cliente_id]" DefaultValue="0"/>
+      </TableDataSource>
+      <TableDataSource Name="Table" Alias="dsVendedor" DataType="System.Int32" Enabled="true" SelectCommand="select pe.*, p.nome from pedido_vendedor as pe&#13;&#10;inner join pessoa p on p.id = pe.vendedor_id&#13;&#10;where pe.pedidoVenda_id = @pedidoId">
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="pedidoVenda_id" DataType="System.Int32"/>
+        <Column Name="vendedor_id" DataType="System.Int32"/>
+        <CommandParameter Name="@pedidoId" DataType="8" Expression="[PedidoId]" DefaultValue="0"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="PeriodoFiltro" DataType="System.String"/>
+    <Parameter Name="WatermarkText" DataType="System.String"/>
+    <Parameter Name="PedidoId" DataType="System.Int32"/>
+    <Parameter Name="EstadoPedido" DataType="System.String"/>
+    <Total Name="TotalDosProdutos" Expression="[dsItem.total]" Evaluator="Data1" PrintOn="DataFooter1"/>
+    <Total Name="TotalDescontoNosProduto" Expression="[dsItem.totalDesconto]" Evaluator="Data1" PrintOn="DataFooter1"/>
+    <Total Name="QuantidadeItens" TotalType="Count" Evaluator="Data1" PrintOn="DataFooter1"/>
+  </Dictionary>
+  <ReportPage Name="Page1" RawPaperSize="9" LeftMargin="5" RightMargin="5" Guides="754.11" Watermark.Font="Arial, 60pt" StartPageEvent="Page1_StartPage">
+    <ReportTitleBand Name="ReportTitle1" Width="756" Height="77.49" Border.Lines="All" Border.Width="0.25">
+      <TextObject Name="Text1" Left="128.52" Top="1.89" Width="404.46" Height="17.01" CanBreak="false" Text="[dsEmpresa.razaoSocial]" Font="Arial, 12pt, style=Bold"/>
+      <TextObject Name="Text2" Left="128.52" Top="20.79" Width="404.46" Height="15.12" CanBreak="false" Text="[dsEmpresa.logradouro], [dsEmpresa.numero], [dsEmpresa.bairro]" Font="Arial, 9pt"/>
+      <TextObject Name="Text3" Left="128.52" Top="54.81" Width="200.34" Height="13.23" CanBreak="false" Text="CNPJ: [dsEmpresa.cnpj]" Font="Arial, 9pt"/>
+      <TextObject Name="Text34" Left="332.64" Top="54.81" Width="200.34" Height="13.23" CanBreak="false" Text="TEL: [FormataTelefone([dsEmpresa.fone1])]" Font="Arial, 9pt"/>
+      <TextObject Name="Text9" Left="540.54" Top="1.89" Width="213.57" Height="17.01" CanBreak="false" Text="[IIf([dsPedido.tipoPedido]==0,&quot;PEDIDO VENDA&quot;,&quot;ORÇAMENTO&quot;)]: [dsPedido.id]" Format="Custom" Format.Format="0000" HorzAlign="Right" Font="Arial, 12pt, style=Bold"/>
+      <TextObject Name="Text5" Left="540.54" Top="18.9" Width="213.57" Height="15.12" CanBreak="false" Text="Aberto em: [dsPedido.abertoEm]" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt"/>
+      <TextObject Name="Text14" Left="540.54" Top="34.02" Width="213.57" Height="13.23" CanBreak="false" Text="Impresso em: [Date]" HorzAlign="Right" Font="Arial, 10pt"/>
+      <TextObject Name="Text51" Left="128.52" Top="37.8" Width="404.46" Height="15.12" CanBreak="false" Text="[dsEmpresa.nomeCidade] - [dsEmpresa.ufCidade], [dsEmpresa.cep]" Font="Arial, 9pt"/>
+      <LineObject Name="Line1" Left="536.76" Top="1.89" Height="75.6" Border.Width="0.25" Diagonal="true"/>
+      <PictureObject Name="Picture1" Left="1.89" Top="1.89" Width="122.85" Height="73.71" DataColumn="dsEmpresa.logo"/>
+      <TextObject Name="Text28" Left="540.54" Top="54.81" Width="213.57" Height="20.79" Text="[EstadoPedido]" HorzAlign="Center" Font="Arial, 11pt, style=Bold"/>
+      <LineObject Name="Line2" Left="536.76" Top="51.03" Width="217.35" Border.Width="0.25" Diagonal="true"/>
+      <ChildBand Name="BlocoCab1" Top="81.49" Width="756" Height="34.02" Border.Lines="All" Border.Width="0.25" FirstRowStartsNewPage="true">
+        <TextObject Name="Text6" Left="1.89" Top="3.78" Width="752.22" Height="26.46" Text="NÃO É DOCUMENTO FISCAL - NÃO É VALIDO COMO RECIBO E COMO GARANTIA DE MERCADORIA - NÃO COMPROVA PAGAMENTO" HorzAlign="Center" VertAlign="Center" Font="Arial, 8pt, style=Bold, Italic"/>
+        <ChildBand Name="BlocoCab2" Top="119.51" Width="756" Height="111.51" Border.Lines="All" Border.Width="0.25">
+          <TextObject Name="Text8" Left="98.28" Top="7.56" Width="655.83" Height="15.12" Text="[dsDestinatario.nomePessoa]" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text38" Left="1.89" Top="7.56" Width="96.39" Height="15.12" Text="Nome cliente:" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text41" Left="98.28" Top="24.57" Width="655.83" Height="15.12" Text="[dsDestinatario.logradouro], [dsDestinatario.numero]" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text42" Left="1.89" Top="24.57" Width="96.39" Height="15.12" Text="Endereço:" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text43" Left="98.28" Top="41.58" Width="294.84" Height="15.12" Text="[dsDestinatario.bairro]" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text44" Left="1.89" Top="41.58" Width="96.39" Height="15.12" Text="Bairro:" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text45" Left="504.63" Top="41.58" Width="249.48" Height="15.12" Text="[dsDestinatario.complemento]" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text46" Left="406.35" Top="41.58" Width="98.28" Height="15.12" Text="Complemento:" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text47" Left="98.28" Top="58.59" Width="294.84" Height="15.12" Text="[dsDestinatario.nomeCidade] - [dsDestinatario.ufCidade]" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text48" Left="1.89" Top="58.59" Width="96.39" Height="15.12" Text="Cidade:" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text49" Left="504.63" Top="58.59" Width="249.48" Height="15.12" Text="[dsDestinatario.cep]" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text50" Left="406.35" Top="58.59" Width="98.28" Height="15.12" Text="CEP:" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text39" Left="98.28" Top="75.6" Width="294.84" Height="15.12" Text="[IIf([dsDestinatario.tipoPessoa]==&quot;F&quot;,FormataDocumento([dsDestinatario.cpf]),FormataDocumento([dsDestinatario.cnpj]))]" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text40" Left="1.89" Top="75.6" Width="96.39" Height="15.12" Text="CPF/CNPJ:" VertAlign="Center" Font="Arial, 10pt"/>
+          <TextObject Name="Text23" Left="1.89" Top="92.61" Width="96.39" Height="15.12" Text="Contatos:" Font="Arial, 10pt"/>
+          <TextObject Name="Text24" Left="98.28" Top="92.61" Width="655.83" Height="15.12" Text="[EscreverContatos()]" Font="Arial, 10pt"/>
+          <ChildBand Name="BlocoVendedor" Top="235.02" Width="756" Height="34.02" Border.Lines="All">
+            <TextObject Name="Text57" Top="9.45" Width="115.29" Height="15.12" Text="Nome vendedor:" VertAlign="Center" Font="Arial, 10pt"/>
+            <TextObject Name="Text58" Left="117.18" Top="9.45" Width="636.93" Height="15.12" Text="[dsVendedor.nome]" VertAlign="Center" Font="Arial, 10pt"/>
+            <ChildBand Name="BlocoCab3" Top="273.04" Width="756" Height="26.46" Border.Lines="All">
+              <TextObject Name="Text52" Left="1.89" Top="5.67" Width="109.62" Height="15.12" Text="Nome cliente:" VertAlign="Center" Font="Arial, 10pt"/>
+              <TextObject Name="Text7" Left="113.4" Top="5.67" Width="659.61" Height="15.12" Text="[dsDestinatario.nomeVisitante]" Font="Arial, 10pt"/>
+              <ChildBand Name="BlocoCab4" Top="303.5" Width="756" Height="43.47" Border.Lines="All" Border.Width="0.25" CanGrow="true">
+                <TextObject Name="Text36" Left="1.89" Top="21.68" Width="752.22" Height="17.01" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[dsPedido.observacao]" VertAlign="Center" Font="Arial, 9pt"/>
+                <TextObject Name="Text61" Left="2.33" Top="2.17" Width="751.78" Height="18.9" Text="Observação:" Font="Arial, 10pt, style=Bold"/>
+              </ChildBand>
+            </ChildBand>
+          </ChildBand>
+        </ChildBand>
+      </ChildBand>
+    </ReportTitleBand>
+    <DataBand Name="Data1" Top="383.27" Width="756" Height="32.13" Border.Lines="Left, Right" Border.Width="0.25" CanGrow="true" CanShrink="true" DataSource="tbItem">
+      <TextObject Name="Text4" Left="95.08" Top="1.89" Width="321.45" Height="15.12" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[dsItem.nomeProduto]" Font="Arial, 8pt"/>
+      <TextObject Name="Text15" Left="525.42" Top="1.89" Width="81.27" Height="15.12" CanShrink="true" Text="[dsItem.precoUnitario]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text17" Left="682.29" Top="1.89" Width="71.82" Height="15.12" CanShrink="true" Text="[dsItem.total]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text19" Left="606.69" Top="1.89" Width="75.6" Height="15.12" CanShrink="true" Text="[dsItem.totalDesconto]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text60" Left="3.03" Top="2.09" Width="91.14" Height="15.12" Text="[FormataCodigo([dsItem.codigo])]" Font="Arial, 8pt"/>
+      <TextObject Name="Text11" Left="470.04" Top="1.35" Width="55.18" Height="15.12" CanShrink="true" Text="[dsItem.quantidade]" HorzAlign="Right" Font="Arial, 8pt"/>
+      <TextObject Name="Text13" Left="417.1" Top="1.4" Width="53.69" Height="14.94" CanShrink="true" Text="[dsItem.siglaUnidade]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+      <DataHeaderBand Name="DataHeader1" Top="350.97" Width="756" Height="28.3" Border.Lines="All" Border.Width="0.25">
+        <TextObject Name="Text10" Left="93.38" Top="3.77" Width="323.15" Height="18.9" Text="DESCRIÇÃO DO PRODUTO" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text16" Left="525.42" Top="3.78" Width="81.27" Height="18.9" Text="P. UNIT" HorzAlign="Right" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text18" Left="682.29" Top="3.76" Width="71.82" Height="18.9" Text="TOTAL" HorzAlign="Right" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text20" Left="606.69" Top="3.78" Width="75.6" Height="18.9" Text="T. DESC" HorzAlign="Right" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text59" Left="1.76" Top="4.36" Width="91.14" Height="18.9" Text="CÓDIGO" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text12" Left="470.01" Top="3.95" Width="54.43" Height="19.07" Text="QTDE" HorzAlign="Right" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text37" Left="417.1" Top="4.18" Width="53.85" Height="18.89" Text="UNID" HorzAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      </DataHeaderBand>
+      <DataFooterBand Name="DataFooter1" Top="419.4" Width="756" Height="22.68" Border.Lines="All" Border.Width="0.25">
+        <TextObject Name="Text25" Left="681.9" Top="3.78" Width="72.23" Height="13.23" Text="[TotalDosProdutos]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 9pt"/>
+        <TextObject Name="Text53" Left="593.46" Top="3.78" Width="88.44" Height="13.23" Text="[TotalDescontoNosProduto]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 9pt"/>
+        <TextObject Name="Text26" Left="1.89" Top="3.78" Width="589.68" Height="13.23" Text="Itens ([QuantidadeItens])" Font="Arial, 9pt"/>
+        <ChildBand Name="Child1" Top="446.08" Width="756" Height="45.36" Border.Lines="All" Border.Width="0.25">
+          <TextObject Name="Text27" Left="650.16" Top="22.68" Width="103.95" Height="18.9" Text="[dsPedido.total]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt, style=Bold" Trimming="EllipsisCharacter"/>
+          <TextObject Name="Text54" Left="483.84" Top="22.68" Width="164.43" Height="18.9" Text="Total do documento:" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt, style=Bold" Trimming="EllipsisCharacter"/>
+          <TextObject Name="Text55" Left="650.16" Top="3.78" Width="103.95" Height="18.9" Text="[dsPedido.totalDesconto]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt" Trimming="EllipsisCharacter"/>
+          <TextObject Name="Text56" Left="483.84" Top="3.78" Width="164.43" Height="18.9" Text="Desconto no total:" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt" Trimming="EllipsisCharacter"/>
+        </ChildBand>
+      </DataFooterBand>
+    </DataBand>
+    <DataBand Name="Data2" Top="525.57" Width="756" Height="26.46" Border.Lines="Left, Right" Border.Width="0.25" CanGrow="true" CanShrink="true" DataSource="tbPgEspecie">
+      <TextObject Name="Text21" Left="1.89" Top="1.89" Width="168.21" Height="18.9" Text="[DescricaoEspecie([dsPgEspecie.especie],[dsPgEspecie.descricaoDocumento])]" Font="Arial, 10pt"/>
+      <TextObject Name="Text22" Left="171.99" Top="1.89" Width="111.51" Height="18.9" Text="[dsPgEspecie.valor]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt" Trimming="EllipsisCharacter"/>
+      <DataHeaderBand Name="DataHeader2" Top="495.44" Width="756" Height="26.13" Border.Lines="All" Border.Width="0.25">
+        <TextObject Name="Text30" Left="1.89" Top="3.45" Width="168.21" Height="18.9" Text="Forma de pagamento" Font="Arial, 10pt, style=Bold"/>
+        <TextObject Name="Text31" Left="171.99" Top="3.45" Width="111.51" Height="18.9" Text="Valor" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+      </DataHeaderBand>
+      <DataFooterBand Name="DataFooter2" Top="556.03" Width="756" Height="9.45" Border.Lines="Top" Border.Width="0.25" CanShrink="true"/>
+    </DataBand>
+  </ReportPage>
+</Report>

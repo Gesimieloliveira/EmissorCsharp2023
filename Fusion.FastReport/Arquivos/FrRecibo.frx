@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="01/22/2021 17:38:10" ReportInfo.CreatorVersion="2020.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+    
+  }
+}
+
+</ScriptText>
+  <Styles>
+    <Style Name="EvenStyle" Fill.Color="White" Font="Arial, 10pt" ApplyBorder="false" ApplyTextFill="false" ApplyFont="false"/>
+  </Styles>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2geBvN02mjOZLuQGKRweVbyRdeyd+ssOhpZQMtpOQpoqvN68fmvtw3EyZ3z2La+VlNoch9K9fR7xsRMyPcWCdFKzFiAFDm0SQnQPDCEtX/STejQNYFVJS9AYbRD+yF/gl7Dtf1ucH/rHuVyopCWze4tn2LHiswI456LSnD7FsCTFZZvPcAXn8d59OB0c+RHC0M/xVu4hHQ6f8nBBxF/hOZyRvFrWmeYbps2+7MHHAZNeF"/>
+    <BusinessObjectDataSource Name="recibo" ReferenceName="recibo" DataType="FusionCore.Recibos.ReciboDTO[], FusionCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" Enabled="true">
+      <Column Name="Empresa" DataType="FusionCore.Repositorio.Legacy.Entidades.Adm.EmpresaDTO, FusionCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <Column Name="Id" DataType="System.Int32"/>
+        <Column Name="RazaoSocial" DataType="System.String"/>
+        <Column Name="NomeFantasia" DataType="System.String"/>
+        <Column Name="Cnpj" DataType="System.String"/>
+        <Column Name="Cpf" DataType="System.String"/>
+        <Column Name="InscricaoEstadual" DataType="System.String"/>
+        <Column Name="InscricaoMunicipal" DataType="System.String"/>
+        <Column Name="AtividadeIniciadaEm" DataType="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"/>
+        <Column Name="Email" DataType="System.String"/>
+        <Column Name="Cep" DataType="System.String"/>
+        <Column Name="Logradouro" DataType="System.String"/>
+        <Column Name="Bairro" DataType="System.String"/>
+        <Column Name="Complemento" DataType="System.String"/>
+        <Column Name="Numero" DataType="System.String"/>
+        <Column Name="Fone1" DataType="System.String"/>
+        <Column Name="Fone2" DataType="System.String"/>
+        <Column Name="RegimeTributario" DataType="FusionCore.Tributacoes.Flags.RegimeTributario, FusionCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+        <Column Name="CadastradoEm" DataType="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"/>
+        <Column Name="AlteradoEm" DataType="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"/>
+        <Column Name="Rntrc" DataType="System.String"/>
+        <Column Name="Taf" DataType="System.String"/>
+        <Column Name="NumeroRegistroEstadual" DataType="System.String"/>
+        <Column Name="LogoMarca" DataType="System.Byte[]" BindableControl="Picture"/>
+        <Column Name="LogoMarcaNfce" DataType="System.Byte[]" BindableControl="Picture"/>
+        <Column Name="EstadoDTO" DataType="FusionCore.Repositorio.Legacy.Entidades.Adm.EstadoDTO, FusionCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Column Name="Id" DataType="System.Int32"/>
+          <Column Name="Sigla" DataType="System.String"/>
+          <Column Name="Nome" DataType="System.String"/>
+          <Column Name="CodigoIbge" DataType="System.Byte"/>
+        </Column>
+        <Column Name="CidadeDTO" DataType="FusionCore.Repositorio.Legacy.Entidades.Adm.CidadeDTO, FusionCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Column Name="Id" DataType="System.Int32"/>
+          <Column Name="Nome" DataType="System.String"/>
+          <Column Name="CodigoIbge" DataType="System.Int32"/>
+          <Column Name="SiglaUf" DataType="System.String"/>
+        </Column>
+        <Column Name="Referencia" DataType="System.String"/>
+        <Column Name="EntidadeSincronizavel" DataType="FusionCore.NfceSincronizador.Flags.EntidadeSincronizavel, FusionCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+        <Column Name="Endereco" DataType="System.String"/>
+        <Column Name="DocumentoUnico" DataType="System.String"/>
+        <Column Name="DocumentoUnicoFormatado" DataType="System.String"/>
+      </Column>
+      <Column Name="Valor" DataType="System.Decimal"/>
+      <Column Name="Pessoa" DataType="FusionCore.Recibos.ReciboPessoaDTO, FusionCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <Column Name="Nome" DataType="System.String"/>
+        <Column Name="DocumentoUnico" DataType="System.String"/>
+      </Column>
+      <Column Name="CidadeDTO" DataType="FusionCore.Repositorio.Legacy.Entidades.Adm.CidadeDTO, FusionCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <Column Name="Id" DataType="System.Int32"/>
+        <Column Name="Nome" DataType="System.String"/>
+        <Column Name="CodigoIbge" DataType="System.Int32"/>
+        <Column Name="SiglaUf" DataType="System.String"/>
+      </Column>
+      <Column Name="FeitoEm" DataType="System.DateTime"/>
+      <Column Name="Pagando" DataType="System.Boolean" BindableControl="CheckBox"/>
+      <Column Name="ValorPorExtenso" DataType="System.String"/>
+      <Column Name="RecebemosDeNome" DataType="System.String"/>
+      <Column Name="AssinaturaNome" DataType="System.String"/>
+      <Column Name="AssinaturaDocumentoUnico" DataType="System.String"/>
+      <Column Name="Referente" DataType="System.String"/>
+      <Column Name="FeitoEmExtenso" DataType="System.String"/>
+    </BusinessObjectDataSource>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" RawPaperSize="9" LeftMargin="5" RightMargin="5" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PageHeader1" Width="756" Height="96.04" Border.Lines="All" Border.Width="0.25" BeforePrintEvent="PageHeader1_BeforePrint">
+      <PictureObject Name="Picture1" Left="1.89" Top="5.67" Width="110.62" Height="65.39" DataColumn="recibo.Empresa.LogoMarca"/>
+      <TextObject Name="Text35" Left="154.98" Top="5.67" Width="599.13" Height="17.01" Text="[recibo.Empresa.NomeFantasia]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text36" Left="154.98" Top="22.68" Width="599.13" Height="17.01" Text="CNPJ / CPF: [recibo.Empresa.Cnpj][recibo.Empresa.Cpf]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text37" Left="154.98" Top="39.69" Width="599.13" Height="17.01" Text="Endereço: [recibo.Empresa.Logradouro], [recibo.Empresa.Numero], [recibo.Empresa.Bairro], [recibo.Empresa.Cep]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text38" Left="154.98" Top="56.7" Width="599.13" Height="17.01" Text="Fone 1: [recibo.Empresa.Fone1] / Fone 2: [recibo.Empresa.Fone2]" Font="Arial Narrow, 10pt"/>
+      <ChildBand Name="Child1" Top="98.71" Width="756" Height="33.02">
+        <TextObject Name="Text22" Left="1.89" Top="1.89" Width="351.86" Height="17.01" Text="Recibo" Font="Arial Narrow, 11pt, style=Bold"/>
+        <TextObject Name="Text39" Left="353.91" Top="1.92" Width="400.05" Height="17.01" Text="[recibo.Valor]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" Font="Arial Narrow, 11pt, style=Bold"/>
+        <ChildBand Name="Child2" Top="134.39" Width="756" Height="256.31">
+          <TextObject Name="Text40" Left="0.17" Top="1.51" Width="752.98" Height="17.01" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="Recbi(emos) de [recibo.RecebemosDeNome] a quantia de [recibo.ValorPorExtenso]" Font="Arial Narrow, 10pt"/>
+          <TextObject Name="Text41" Left="1.65" Top="74.6" Width="752.98" Height="17.01" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="Referente a(o) [recibo.Referente]" Font="Arial Narrow, 10pt"/>
+          <TextObject Name="Text42" Left="1.51" Top="217.31" Width="752.98" Height="17.01" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[recibo.CidadeDTO.Nome] - [recibo.CidadeDTO.SiglaUf], [recibo.FeitoEmExtenso]" HorzAlign="Center" VertAlign="Center" Font="Arial Narrow, 10pt"/>
+        </ChildBand>
+      </ChildBand>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="629.64" Width="756">
+      <DataHeaderBand Name="DataHeader1" Top="393.37" Width="756" Height="233.6" CanGrow="true" CanShrink="true" CanBreak="true">
+        <TextObject Name="Text44" Left="1.07" Top="47.97" Width="752.98" Height="32.91" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[recibo.AssinaturaNome]&#13;&#10;[recibo.AssinaturaDocumentoUnico]" HorzAlign="Center" VertAlign="Center" Font="Arial Narrow, 10pt"/>
+        <LineObject Name="Line1" Left="138.12" Top="39.88" Width="486.64"/>
+      </DataHeaderBand>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="632.3" Width="756" Height="13.23" CanShrink="true">
+      <TextObject Name="TextPage" Left="599.13" Width="154.98" Height="13.23" Text="Pagina: [Page#]/[TotalPages#]" HorzAlign="Right" Font="Arial Narrow, 8pt, style=Italic"/>
+      <TextObject Name="TextDate" Left="1.89" Width="347.76" Height="13.23" Text="Impresso em: [Date]" Font="Arial Narrow, 8pt, style=Italic"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.Exportacao.ItensBalanca"
+  default-lazy="false" default-cascade="none"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PreferenciaExportacao" table="exportacao_balanca" schema="preferencias">
+    <id name="Id" generator="identity">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="Identificador">
+      <column name="identificadorMaquina" length="40" not-null="true" />
+    </property>
+
+    <property name="LocalExportacao">
+      <column name="localExportacao" not-null="true" length="255" />
+    </property>
+
+    <property name="Tag">
+      <column name="tag" not-null="true" length="25" />
+    </property>
+  </class>
+</hibernate-mapping>

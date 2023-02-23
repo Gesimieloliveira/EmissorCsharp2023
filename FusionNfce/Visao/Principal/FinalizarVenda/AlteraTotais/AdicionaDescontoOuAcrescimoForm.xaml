@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="FusionNfce.Visao.Principal.FinalizarVenda.AlteraTotais.AdicionaDescontoOuAcrescimoForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FusionNfce.Visao.Principal.FinalizarVenda.AlteraTotais"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance local:AdicionaDescontoOuAcrescimoFormModel}"
+             d:DesignHeight="250" d:DesignWidth="200"
+             Height="250" Width="200"
+             Background="White">
+    <StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackPanel VerticalAlignment="Center" Width="170">
+                <TextBlock Text="Acréscimo Fixo" />
+
+                <controles:DecimalTextBox
+                    Text="{Binding AcrescimoFixo, StringFormat=N2}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" VerticalAlignment="Center" Width="170">
+                <TextBlock Text="Acréscimo Percentual" />
+
+                <controles:DecimalTextBox
+                    Text="{Binding AcrescimoPercentual, StringFormat=N2}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" VerticalAlignment="Center" Width="170">
+                <TextBlock Text="Desconto Fixo" />
+
+                <controles:DecimalTextBox
+                    Text="{Binding DescontoFixo, StringFormat=N2}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" VerticalAlignment="Center" Width="170">
+                <TextBlock Text="Desconto Percentual" />
+
+                <controles:DecimalTextBox
+                    Text="{Binding DescontoPercentual, StringFormat=N2}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="5" Margin="0,10,0,0" VerticalAlignment="Center" Width="170">
+                <TextBlock Text="{Binding TotalTexto}" FontWeight="Bold" />
+                <TextBlock Text="Total (calculado)" FontWeight="Bold" />
+
+                <controles:DecimalTextBox
+                    IsReadOnly="True"
+                    KeyDown="EnviarNovoTotal_OnKeyDown"
+                    Text="{Binding TotalCalculado, StringFormat=N2}" />
+            </StackPanel>
+
+        </Grid>
+    </StackPanel>
+</UserControl>

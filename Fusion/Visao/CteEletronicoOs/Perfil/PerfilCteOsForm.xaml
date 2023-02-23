@@ -1,0 +1,51 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.CteEletronicoOs.Perfil.PerfilCteOsForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:Fusion.Visao.CteEletronicoOs.Perfil"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:componentes="clr-namespace:FusionLibrary.Wpf.Componentes;assembly=FusionLibrary"
+                      mc:Ignorable="d"
+                      Title="Cadastro de Perfil para CT-E OS"
+                      SizeToContent="Height"
+                      Width="600"
+                      WindowStartupLocation="CenterScreen"
+                      ContentRendered="CteOSForm_OnContentRendered"
+                      Style="{DynamicResource MetroWindowDialogStyle}">
+
+    <Grid>
+        <StackPanel>
+            <controls:MetroTabControl Padding="5">
+                <controls:MetroTabItem Header="Geral">
+                    <local:AbaGeral />
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem Header="Veículo">
+                    <local:AbaVeiculo />
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem Header="Seguro">
+                    <local:AbaSeguro />
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem Header="Tomador">
+                    <local:AbaTomador />
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem Header="Tributação">
+                    <local:AbaTributacao />
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem Header="Outros">
+                    <local:AbaOutro />
+                </controls:MetroTabItem>
+            </controls:MetroTabControl>
+
+            <componentes:ToolbarFormulario
+                OnSave="OnClickSalvar"
+                OnClose="OnClickFechar"
+                ShowDelete="False" />
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>

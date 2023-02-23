@@ -1,0 +1,116 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.MdfeEletronico.Aba.Flyouts.FlyoutAdicionaSeguradora"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:flags="clr-namespace:FusionCore.FusionAdm.MdfeEletronico.Flags;assembly=FusionCore"
+                 xmlns:model="clr-namespace:Fusion.Visao.MdfeEletronico.Aba.Flyouts.Model"
+                 xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                 mc:Ignorable="d" d:DesignWidth="1000"
+                 Position="Top" IsOpen="{Binding IsOpen}" MaxHeight="662"
+                 d:DataContext="{d:DesignInstance model:FlyoutAddSeguroModel}"
+                 Style="{DynamicResource FusionFlyout}">
+    <StackPanel>
+        <GroupBox Header="Informações do Responsavel Pelo Seguro">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Width="400">
+                    <TextBlock>Responsável pelo Seguro</TextBlock>
+                    <ComboBox IsEditable="False"
+                              ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags:MDFeResponsavelSeguro}}}"
+                              SelectedItem="{Binding ResponsavelSeguro}" />
+                </StackPanel>
+
+                <StackPanel Width="200" Margin="5,0,0,0">
+                    <TextBlock>CPF / CNPJ - Responsável</TextBlock>
+                    <TextBox Text="{Binding DocumentoResponsavel}" MaxLength="14" />
+                </StackPanel>
+
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Informações da Seguradora">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock>Nome Seguradora</TextBlock>
+                    <TextBox Text="{Binding NomeSeguradora}" MaxLength="30" />
+                </StackPanel>
+
+                <StackPanel Margin="0,0,5,0">
+                    <TextBlock>CNPJ da Seguradora</TextBlock>
+                    <TextBox Text="{Binding CnpjSeguradora}" MaxLength="14" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Número Apólice">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Width="200">
+                    <TextBlock>Numero Apólice</TextBlock>
+                    <TextBox Text="{Binding NumeroApolice}" MaxLength="20" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Averbações Seguro">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Width="150">
+                        <TextBlock>Número Averbação</TextBlock>
+                        <TextBox Text="{Binding NumeroAverbacao}" MaxLength="40" Margin="0,5,0,0" />
+                    </StackPanel>
+
+                    <Button
+                        Margin="5,0"
+                        Style="{DynamicResource FusionSuccessButton}"
+                        VerticalAlignment="Bottom"
+                        Click="IncluirAverbacao_OnClick">
+
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="SendOutline" Width="13" Foreground="White" />
+                            <TextBlock Margin="5,0,0,0" Text="Adicionar" Foreground="White" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <DataGrid
+                    Margin="0,10"
+                    Height="150"
+                    ItemsSource="{Binding Averbacoes}"
+                    AutoGenerateColumns="False"
+                    SelectedItem="{Binding AverbacaoSelecionada}"
+                    IsReadOnly="True">
+
+                    <DataGrid.Columns>
+                        <controles:DataGridButtonColumn 
+                            Click="DeletarAverbacao"
+                            Icon="Trash" Background="{DynamicResource DangerBrush}" />
+
+                        <DataGridTextColumn
+                            Header="Número da Averbação" Binding="{Binding Averbacao}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </GroupBox>
+
+
+        <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right">
+            <Button Width="50" Height="50"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                    Click="OnClickBotaoSalvaSeguradora">
+                <Rectangle Width="20" Height="20"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Save" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </DockPanel>
+    </StackPanel>
+</controls:Flyout>

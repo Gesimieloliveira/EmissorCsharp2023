@@ -1,0 +1,53 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.Licenciamento.FlyoutAdicionaLicenca"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:licenciamento="clr-namespace:FusionCore.Seguranca.Licenciamento;assembly=FusionCore"
+                 mc:Ignorable="d" d:DesignWidth="768"
+                 Theme="Light"
+                 IsModal="True" Position="Top"
+                 IsOpen="{Binding IsOpen}">
+    <DockPanel Margin="0,10,0,15">
+        <StackPanel DockPanel.Dock="Top" Width="400">
+            <StackPanel>
+                <TextBlock Text="Sua Chave" HorizontalAlignment="Center" Foreground="{DynamicResource PrimaryBrush}"
+                           FontWeight="Bold" FontSize="16px" />
+
+                <TextBox Height="36" IsReadOnly="True"
+                         Text="{Binding ChaveMaquina, Converter={licenciamento:ChaveMaquinaConverter}}" />
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Chave de Liberação" HorizontalAlignment="Center"
+                           Foreground="{DynamicResource DangerBrush}" FontWeight="Bold" FontSize="16px" />
+
+                <TextBox Height="35"
+                         Text="{Binding ContraChave}"
+                         MaxLength="24" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,10,0,0">
+                <Button Width="50" Height="50"
+                        Style="{DynamicResource MetroCircleButtonStyle}"
+                        Foreground="{DynamicResource PrimaryBrush}"
+                        Click="ClickAtivarHandler">
+                    <Rectangle Width="20" Height="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill">
+                                <VisualBrush.Visual>
+                                    <fa:ImageAwesome Icon="UnlockAlt" />
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+</controls:Flyout>

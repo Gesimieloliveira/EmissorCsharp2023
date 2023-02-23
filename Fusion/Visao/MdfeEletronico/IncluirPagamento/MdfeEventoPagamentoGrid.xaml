@@ -1,0 +1,110 @@
+﻿<controles:FusionWindow x:Class="Fusion.Visao.MdfeEletronico.IncluirPagamento.MdfeEventoPagamentoGrid"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:local="clr-namespace:Fusion.Visao.MdfeEletronico.IncluirPagamento"
+                        xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                        xmlns:fa="http://schemas.fontawesome.io/icons/"
+                        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource MetroWindowDialogStyle}"
+        Title="Evento Incluir Pagamento" Width="1020" MinHeight="662"
+                        ContentRendered="MdfeEventoPagamentoGrid_OnContentRendered">
+    <StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="5" DockPanel.Dock="Top">
+                <Button HorizontalAlignment="Left"
+                        Click="IncluirPagamento_OnClick"
+                        Style="{DynamicResource FusionSuccessButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="SendOutline" Width="13" Foreground="White" />
+                        <TextBlock Margin="5,0,0,0" Text="Incluir Evento" Foreground="White"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <DataGrid Grid.Row="1" Height="425"
+                      ItemsSource="{Binding Eventos}"
+                      AutoGenerateColumns="False"
+                      SelectedItem="{Binding EventoSelecionada}"
+                      IsReadOnly="True">
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                        <EventSetter Event="MouseDoubleClick" Handler="EditarDoubleClickHandler" />
+                    </Style>
+                </DataGrid.RowStyle>
+
+                    <DataGrid.Columns>
+
+                    <DataGridTemplateColumn Width="SizeToCells">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Button Style="{DynamicResource FusionAccentedButton}" ClickMode="Release"
+                                            Tag="{Binding .}"
+                                            Click="Deletar_OnClick"
+                                            Padding="7,4">
+                                        <fa:ImageAwesome Icon="Trash" Foreground="{DynamicResource WhiteBrush}" Height="12" />
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="SizeToCells">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Button Style="{DynamicResource FusionAccentedButton}" ClickMode="Release" Margin="5,0,0,0"
+                                            Tag="{Binding .}"
+                                            Click="Editar_OnClick"
+                                             Padding="7,4">
+                                        <fa:ImageAwesome Icon="Edit" Foreground="{DynamicResource WhiteBrush}" Height="12" />
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="#Codigo/Id" Binding="{Binding Id}"
+                                        Width="150" />
+
+                    <DataGridTextColumn Header="Quantidade Viagens" Binding="{Binding QuantidadeViagens}"
+                                        Width="*" />
+
+                    <DataGridTextColumn Header="Número Referência Viagens" Binding="{Binding NumeroReferenciaViagens}"
+                                        Width="*" />
+
+                    <DataGridTemplateColumn Width="SizeToCells">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Button Style="{DynamicResource FusionAccentedButton}" ClickMode="Release"
+                                            Tag="{Binding .}"
+                                            Background="{DynamicResource WarningBrush}"
+                                            Click="Enviar_OnClick"
+                                            Padding="7,4">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Foreground="{DynamicResource WhiteBrush}" Margin="0,0,5,0">Enviar</TextBlock>
+                                            <fa:ImageAwesome Icon="Rocket" Foreground="{DynamicResource WhiteBrush}" Height="12" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </Grid>
+    </StackPanel>
+</controles:FusionWindow>

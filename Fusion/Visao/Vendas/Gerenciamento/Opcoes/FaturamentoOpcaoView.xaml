@@ -1,0 +1,82 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.Vendas.Gerenciamento.Opcoes.FaturamentoOpcaoView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      mc:Ignorable="d"
+                      Title="Opções para o faturamento"
+                      SizeToContent="WidthAndHeight"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      WindowStartupLocation="CenterScreen">
+
+    <controls:MetroWindow.Resources>
+        <Style x:Key="MediumTileStyle" TargetType="controls:Tile">
+            <Setter Property="Height" Value="90" />
+            <Setter Property="TitleFontSize" Value="12" />
+            <Setter Property="Width" Value="160" />
+        </Style>
+    </controls:MetroWindow.Resources>
+
+    <Border Padding="15">
+        <WrapPanel Width="Auto" MaxHeight="500" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <controls:Tile
+                Title="Imprime o faturamento" 
+                Margin="3" Style="{DynamicResource MediumTileStyle}"
+                Background="{DynamicResource AccentColorBrush}"
+                Click="ImprimeClickHandler">
+
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Print" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </controls:Tile>
+
+            <controls:Tile
+                Title="{Binding TextoBotaoEmitirComFiscal}" 
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="3" Style="{DynamicResource MediumTileStyle}"
+                Background="{DynamicResource AccentColorBrush}"
+                Click="EmitirCupom_Clique">
+
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Print" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </controls:Tile>
+
+            <controls:Tile
+                Title="Cancela o faturamento" 
+                Margin="3" Style="{DynamicResource MediumTileStyle}"
+                Background="{DynamicResource DangerBrush}"
+                Click="CancelaFaturamentoClickHandler">
+
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Ban" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </controls:Tile>
+
+        </WrapPanel>
+    </Border>
+</controls:MetroWindow>

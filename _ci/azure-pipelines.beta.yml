@@ -1,0 +1,72 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+trigger: none
+
+pool:
+  vmImage: 'windows-latest'
+  
+variables:
+  BuildPlatform: 'any cpu'
+  BuildConfiguration: 'release'
+  
+steps:
+  - task: NuGetToolInstaller@0
+    displayName: 'Use NuGet 4.4.1'
+    inputs:
+      versionSpec: 4.4.1
+  
+  - task: NuGetCommand@2
+    displayName: 'NuGet restore'
+    inputs:
+      command: 'restore'
+      restoreSolution: '**\*.sln'
+      feedsToUse: 'select'
+      verbosityRestore: 'Quiet'
+  
+  - task: PowerShell@2
+    displayName: 'Set AssemblyInfo Version'
+    inputs:
+      targetType: filePath
+      filePath: '.\_setup\scripts\set-assembly-version.ps1'
+      arguments: '-AppVersion "v0.0.0"'
+      pwsh: true
+  
+  - task: VSBuild@1
+    displayName: 'Build solution **\*.sln'
+    inputs:
+      solution: '**\*.sln'
+      msbuildArgs: '-p:OutDir=bin\Build'
+      platform: '$(BuildPlatform)'
+      configuration: '$(BuildConfiguration)'
+  
+  - task: VSTest@2
+    displayName: 'VsTest - testAssemblies'
+    inputs:
+      testAssemblyVer2: |
+       **\$(BuildConfiguration)\*test*.dll
+       !**\obj\**
+      platform: '$(BuildPlatform)'
+      configuration: '$(BuildConfiguration)'
+
+  - task: PowerShell@2
+    displayName: 'Prepare White Label Files'
+    inputs:
+      targetType: filePath
+      filePath: '.\_setup\scripts\prepare-wl-files.ps1'
+      pwsh: true
+  
+  - task: PowerShell@2
+    displayName: 'Make Setup: Fusion'
+    inputs:
+      targetType: filePath
+      filePath: '.\_setup\scripts\make-setup.ps1'
+      arguments: '-SetupName "Fusion-Beta" -AppVersion "v0.0.0"'
+      pwsh: true
+  
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: setups'
+    inputs:
+      PathtoPublish: '_setup\Output\'
+      ArtifactName: setups

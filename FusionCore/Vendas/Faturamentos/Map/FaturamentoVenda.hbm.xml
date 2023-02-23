@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.Vendas.Faturamentos"
+  default-lazy="false" default-cascade="none"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="FaturamentoVenda" table="faturamento_venda">
+    <id name="Id" generator="identity" unsaved-value="0">
+      <column name="id" not-null="true" />
+    </id>
+
+    <many-to-one name="Empresa" cascade="none" update="false">
+      <column name="empresa_id" sql-type="int" not-null="true" />
+    </many-to-one>
+
+    <property name="CriadoEm" update="false">
+      <column name="criadoEm" sql-type="datetime" not-null="true" />
+    </property>
+
+    <many-to-one name="CriadoPor" cascade="none" update="false">
+      <column name="usuarioCriacao_id" sql-type="" not-null="true" />
+    </many-to-one>
+
+    <property name="Uuid" update="false">
+      <column name="uuid" sql-type="varchar" length="44" not-null="true" />
+    </property>
+
+    <property name="EstadoAtual">
+      <column name="estadoAtual" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="FinalizadoEm">
+      <column name="finalizadoEm" sql-type="datetime" not-null="false" />
+    </property>
+
+    <property name="TotalProdutos">
+      <column name="totalProdutos" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="PercentualDesconto">
+      <column name="percentualDesconto" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="TotalDesconto">
+      <column name="totalDesconto" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="Total">
+      <column name="total" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="Troco">
+      <column name="troco" not-null="true" />
+    </property>
+
+	<property name="CancelamentoJustificativa">
+      <column name="cancelamentoJustificativa" not-null="true" />
+	</property>
+
+	<many-to-one name="TabelaPreco" cascade="none" outer-join="true">
+	  <column name="tabelaPreco_id" not-null="false" />
+	</many-to-one>
+	  
+	<one-to-one name="Vendedor" outer-join="true" cascade="save-update" />
+
+    <many-to-one name="Malote" cascade="none">
+      <column name="malote_id" sql-type="smallint" not-null="false" />
+    </many-to-one>
+
+    <property name="Observacao">
+      <column name="observacao" not-null="true" />
+    </property>
+
+	  <property access="backfield" name="SituacaoFiscal">
+          <column name="situacaoFiscal" not-null="true" />
+	  </property>
+
+    <one-to-one name="Destinatario" outer-join="true" cascade="save-update" />
+
+    <bag access="field" name="_produtos" table="faturamento_produto" cascade="delete-orphan" inverse="true" batch-size="50">
+      <key column="faturamentoVenda_id" />
+      <one-to-many class="FaturamentoProduto" />
+    </bag>
+
+    <bag access="field" name="_pagamentos" table="faturamento_pagamento" cascade="delete-orphan" inverse="true" batch-size="50">
+      <key column="faturamentoVenda_id" />
+      <one-to-many class="FPagamento" />
+    </bag>
+  </class>
+</hibernate-mapping>

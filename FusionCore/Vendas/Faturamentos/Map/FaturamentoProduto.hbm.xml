@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.Vendas.Faturamentos"
+  default-cascade="none" default-lazy="false"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="FaturamentoProduto" table="faturamento_produto">
+    <id name="Id" generator="identity" unsaved-value="0">
+      <column name="id" not-null="true" />
+    </id>
+
+    <many-to-one name="Faturamento" cascade="none" update="false">
+      <column name="faturamentoVenda_id" sql-type="int" not-null="true" />
+    </many-to-one>
+
+    <property name="Numero">
+      <column name="numero" sql-type="smallint" not-null="true" />
+    </property>
+
+    <many-to-one name="Produto" cascade="none" outer-join="true" fetch="join" update="false">
+      <column name="produto_id" sql-type="int" not-null="true" />
+    </many-to-one>
+
+    <property name="Quantidade" update="false">
+      <column name="quantidade" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="SiglaUnidade" update="false">
+      <column name="siglaUnidade" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="PrecoUnitario" update="true">
+      <column name="precoUnitario" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="TotalBruto" update="true">
+      <column name="totalBruto" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="PercentualDesconto" update="true">
+      <column name="percentualDesconto" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="TotalDesconto" update="true">
+      <column name="totalDesconto" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="Total" update="true">
+      <column name="total" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="CriadoEm" update="false">
+      <column name="criadoEm" sql-type="decimal" not-null="true" />
+    </property>
+
+    <many-to-one name="CriadoPor" cascade="none" update="false">
+      <column name="usuarioCriacao_id" sql-type="int" not-null="true" />
+    </many-to-one>
+
+    <property name="PrecoCusto" not-null="true">
+      <column name="precoCusto" precision="15" scale="4" />
+    </property>
+
+    <property name="PrecoVenda" not-null="true">
+      <column name="precoVenda" precision="15" scale="4" />
+    </property>
+
+    <property name="TotalDescontoFixo" not-null="true">
+      <column name="totalDescontoFixo" precision="15" scale="2" />
+    </property>
+  </class>
+</hibernate-mapping>

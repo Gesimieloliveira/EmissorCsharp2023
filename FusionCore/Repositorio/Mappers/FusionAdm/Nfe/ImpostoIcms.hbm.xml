@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.Tributacoes"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ImpostoIcms" table="nfe_item_icms">
+    <id access="field" name="_itemId" column="nfeItem_id">
+      <generator class="foreign">
+        <param name="property">Item</param>
+      </generator>
+    </id>
+
+    <one-to-one access="field.camelcase-underscore" name="Item" constrained="true" cascade="none" />
+
+    <many-to-one name="Cst">
+      <column name="tributacaoCst_id" not-null="true" />
+    </many-to-one>
+
+    <property name="OrigemMercadoria">
+      <column name="origemMercadoria" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="AliquotaCredito">
+      <column name="aliquotaCredito" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="ValorCredito">
+      <column name="valorCredito" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="ModalidadeBcIcms">
+      <column name="modalidadeBcIcms" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="AliquotaIcms">
+      <column name="aliquotaIcms" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="ReducaoBcIcms">
+      <column name="reducaoBcIcms" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="ValorBcIcms">
+      <column name="valorBcIcms" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="ValorIcms">
+      <column name="valorIcms" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="ModalidadeBcSt">
+      <column name="modalidadeBcIcmsSt" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="AliquotaSt">
+      <column name="aliquotaIcmsSt" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="AliquotaIcmsInternoSt">
+      <column name="aliquotaIcmsInternoSt" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="MvaSt">
+      <column name="mva" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="ReducaoBcSt">
+      <column name="reducaoBcIcmsSt" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="ValorBcSt">
+      <column name="valorBcIcmsSt" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="ValorIcmsSt">
+      <column name="valorIcmsSt" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="IpiCompoeBcIcmsSt">
+      <column name="ipiCompoeBcIcmsSt" sql-type="bit" not-null="true" />
+    </property>
+    
+    <property name="ValorBcFcpSt">
+      <column name="valorBcFcpSt" not-null="true" precision="15" scale="2"/>
+    </property>
+    
+    <property name="AliquotaFcpSt">
+      <column name="aliquotaFcpSt" not-null="true" precision="15" scale="4"/>
+    </property>
+    
+    <property name="ValorFcpSt">
+      <column name="valorFcpSt" not-null="true" precision="15" scale="2"/>
+    </property>
+
+    <property name="ValorBcFcp">
+      <column name="valorBcFcp" not-null="true" precision="15" scale="2"/>
+    </property>
+
+    <property name="AliquotaFcp">
+      <column name="aliquotaFcp" not-null="true" precision="15" scale="4"/>
+    </property>
+
+    <property name="ValorFcp">
+      <column name="valorFcp" not-null="true" precision="15" scale="2"/>
+    </property>
+  </class>
+</hibernate-mapping>

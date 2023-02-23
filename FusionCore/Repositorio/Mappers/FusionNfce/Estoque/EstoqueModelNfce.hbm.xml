@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Servico.Estoque"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="EstoqueModelNfce" table="produto_estoque_evento">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+    
+    <many-to-one name="Produto">
+      <column name="produto_id" sql-type="int" not-null="true" />
+    </many-to-one>
+    
+    <many-to-one name="Usuario">
+      <column name="usuario_id" sql-type="int" not-null="true" />
+    </many-to-one>
+    
+    <property name="TipoEvento">
+      <column name="tipoEvento" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="OrigemEvento">
+      <column name="origemEvento" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="Movimento">
+      <column name="movimento" sql-type="decimal" not-null="true" />
+    </property>
+    
+    <property name="CadastradoEm">
+      <column name="cadastradoEm" sql-type="datetime" not-null="true" />
+    </property>
+
+    <property name="IdRemoto">
+      <column name="idRemoto" not-null="true" />
+    </property>
+  
+    <property name="Sincronizado">
+      <column name="sincronizado" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

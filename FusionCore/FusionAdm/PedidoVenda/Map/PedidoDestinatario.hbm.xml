@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.PedidoVenda"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PedidoDestinatario" table="pedido_destinatario">
+    <id name="PedidoVendaId">
+      <column name="pedidoVenda_id" not-null="true" />
+
+      <generator class="foreign">
+        <param name="property">PedidoVenda</param>
+      </generator>
+    </id>
+
+    <one-to-one name="PedidoVenda" constrained="true" cascade="none" />
+
+    <many-to-one name="Cliente" cascade="none">
+      <column name="cliente_id" not-null="false" />
+    </many-to-one>
+
+    <component name="Visitante">
+      <property name="Nome" access="field.camelcase-underscore">
+        <column name="nomeVisitante" not-null="true" />
+      </property>
+    </component>
+
+    <property name="Cep">
+      <column name="cep" not-null="true" />
+    </property>
+
+    <property name="Logradouro">
+      <column name="logradouro" not-null="true" />
+    </property>
+
+    <property name="Numero">
+      <column name="numero" not-null="true" />
+    </property>
+
+    <property name="Bairro">
+      <column name="bairro" not-null="true" />
+    </property>
+
+    <property name="Complemento">
+      <column name="complemento" not-null="true" />
+    </property>
+
+    <many-to-one name="Cidade" cascade="none">
+      <column name="cidade_id" not-null="false" />
+    </many-to-one>
+  </class>
+
+</hibernate-mapping>

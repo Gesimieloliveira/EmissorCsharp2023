@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ExportacaoNfe" table="nfe_exportacao">
+
+    <id access="field" name="_nfeId" column="nfe_id">
+      <generator class="foreign">
+        <param name="property">Nfe</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfe" constrained="true" cascade="none" />
+
+    <property access="field.camelcase-underscore" name="UfSaidaPais">
+      <column name="ufSaidaPais" sql-type="varchar" length="2" not-null="true" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="LocalEmbarque">
+      <column name="localEmbarque" sql-type="varchar" length="60" not-null="true" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="LocalDespacho">
+      <column name="localDespacho" sql-type="varchar" length="60" not-null="true" />
+    </property>
+
+  </class>
+</hibernate-mapping>

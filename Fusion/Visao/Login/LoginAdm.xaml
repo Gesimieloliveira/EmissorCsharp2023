@@ -1,0 +1,67 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.Login.LoginAdm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:helper="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:wl="clr-namespace:Fusion.WhiteLabel;assembly=Fusion.WhiteLabel"
+                      Height="232" Width="500"
+                      ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+                      Title="{x:Static wl:MarcaWhiteLabel.NomeSoftware}"
+                      Style="{DynamicResource MetroWindowStyle}"
+                      Closing="OnClosing"
+                      Loaded="OnLoadedHandler"
+                      FocusManager.FocusedElement="{Binding ElementName=LoginBox}"
+                      ContentRendered="LoginAdm_OnContentRendered">
+
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Margin="0,0,5,0" Click="OnClickConfigurarConexao">
+                <fa:ImageAwesome Icon="Gear" Width="14" Height="14"
+                                 Foreground="{StaticResource IdealForegroundColorBrush}" />
+            </Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
+    <DockPanel Margin="10">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                <Image Source="{x:Static wl:MarcaWhiteLabel.ImgLoginGestor}" MaxHeight="160" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1"
+                        VerticalAlignment="Center">
+
+                <StackPanel>
+                    <TextBlock Text="Usuário" />
+                    <TextBox Text="{Binding Login}" x:Name="LoginBox" CharacterCasing="Normal" />
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Senha" />
+                    <PasswordBox helper:PasswordHelper.Attach="True"
+                                 helper:PasswordHelper.Password="{Binding Senha, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,20,0,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Text="{Binding Versao}" TextAlignment="Center" FontWeight="Light"
+                                   Foreground="DimGray"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0" />
+
+                        <Button Content="Entrar" Width="80" Click="OnClickEntrar"
+                                HorizontalAlignment="Right"
+                                x:Name="BtnEntrar"
+                                Style="{DynamicResource FusionAccentedButton}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</controls:MetroWindow>

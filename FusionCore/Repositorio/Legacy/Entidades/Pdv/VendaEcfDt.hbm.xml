@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Pdv"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+  <class name="VendaEcfDt" table="venda_ecf">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="EcfDt" column="ecf_id" not-null="true" />
+    <many-to-one name="ClienteDt" column="cliente_id" />
+    <property name="SerieEcf" column="serieEcf" not-null="true" length="20" />
+    <property name="Cfop" not-null="true">
+      <column name="cfop" />
+    </property>
+    <property name="Coo" not-null="true">
+      <column name="coo" sql-type="int" />
+    </property>
+    <property name="Ccf" not-null="true">
+      <column name="ccf" sql-type="int" />
+    </property>
+    <property name="VendidoEm" column="vendidoEm" not-null="true" />
+    <property name="TotalFinal" not-null="true" length="18">
+      <column name="totalFinal" />
+    </property>
+    <property name="TotalCupom" not-null="true">
+      <column name="totalCupom" />
+    </property>
+    <property name="TaxaDesconto" not-null="true">
+      <column name="taxaDesconto" />
+    </property>
+    <property name="Desconto" not-null="true">
+      <column name="desconto" />
+    </property>
+    <property name="TaxaAcrescimo" not-null="true">
+      <column name="taxaAcrescimo" />
+    </property>
+    <property name="Acrescimo" not-null="true">
+      <column name="acrescimo" />
+    </property>
+    <property name="TotalRecebido" not-null="true">
+      <column name="totalRecebido" />
+    </property>
+    <property name="Troco" not-null="true">
+      <column name="troco" />
+    </property>
+    <property name="TotalCancelado" not-null="true">
+      <column name="totalCancelado" />
+    </property>
+    <property name="TotalProdutos" not-null="true">
+      <column name="totalProdutos" />
+    </property>
+    <property name="TotalBaseIcms" not-null="true">
+      <column name="totalBaseIcms" default="0" />
+    </property>
+    <property name="AcrescimoItens" not-null="true">
+      <column name="acrescimoItens" />
+    </property>
+    <property name="DescontoItens" not-null="true">
+      <column name="descontoItens" />
+    </property>
+    <property name="Status" not-null="true">
+      <column name="status" sql-type="tinyint" />
+    </property>
+    <property name="NomeCliente" not-null="true" length="255">
+      <column name="nomeCliente" />
+    </property>
+    <property name="DocumentoCliente" not-null="true" length="14">
+      <column name="documentoCliente" />
+    </property>
+    <property name="Cancelado" not-null="true">
+      <column name="cancelado" sql-type="bit" />
+    </property>
+    <property name="QuantidadeItens">
+      <column name="quantidadeItens" sql-type="tinyint" />
+    </property>
+    <property name="EnderecoCliente" column="enderecoCliente" length="255" />
+    <property name="Observacao" column="observacao" length="255" />
+    <property name="AlteradoEm" column="alteradoEm" not-null="true" />
+
+    <property name="UuidVenda" column="uuidVenda" not-null="true" />
+    
+    <property name="IdentificadorRemoto" column="identificadorRemoto" not-null="false" />
+    
+    <property name="IndicadorPagamento" column="indicadorPagamento"/>
+
+    <bag name="VendaEcfItens"
+         inverse="true"
+         lazy="false">
+      <key column="vendaEcf_id" />
+      <one-to-many class="VendaEcfItemDt" />
+    </bag>
+
+    <bag name="VendaEcfPagamentos"
+         inverse="true"
+         lazy="false"
+         cascade="All">
+      <key column="vendaEcf_id" />
+      <one-to-many class="VendaEcfPagamentoDt" />
+    </bag>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.Repositorio.Legacy.Entidades.Pdv"
+  default-lazy="false"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="EmpresaDt" table="empresa">
+    <id name="Id" column="id" />
+    <property name="RazaoSocial" column="razaoSocial" not-null="true" length="255" />
+    <property name="NomeFantasia" column="nomeFantasia" not-null="true" length="255" />
+    <property name="Cnpj" column="cnpj" not-null="true" length="14" />
+    <property name="InscricaoEstadual" column="inscricaoEstadual" length="30" />
+    <property name="InscricaoMunicipal" column="inscricaoMunicipal" not-null="true" length="30" />
+    <property name="AtividadeIniciadaEm" column="atividadeIniciadaEm" not-null="true" />
+    <property name="Email" column="email" not-null="true" length="255" />
+    <property name="CadastradoEm" column="cadastradoEm" />
+  </class>
+</hibernate-mapping>

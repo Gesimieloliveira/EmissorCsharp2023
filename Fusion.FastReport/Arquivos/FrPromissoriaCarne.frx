@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="04/19/2022 15:24:32" ReportInfo.CreatorVersion="2021.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+using System.Globalization;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+    public string FormataDocumentoPortador(string documento) 
+    {
+      if (string.IsNullOrWhiteSpace(documento)) {
+        return string.Empty;
+      }
+      
+      if (documento.Length == 11) {
+        return &quot;CPF &quot; + documento;
+      }
+      
+      if (documento.Length == 14) {
+        return &quot;CNPJ &quot; + documento;
+      }
+      
+      return documento;
+    }
+    
+    public string FromataDataExtenso(DateTime dataVencimento) {
+      
+      CultureInfo culture = new CultureInfo(&quot;pt-BR&quot;);
+      DateTimeFormatInfo dtfi = culture.DateTimeFormat;
+ 
+      int dia = dataVencimento.Day;
+      int ano = dataVencimento.Year;
+      string mes = culture.TextInfo.ToTitleCase(dtfi.GetMonthName(dataVencimento.Month)).ToLower();
+      string data = NumberToWords(dia) + &quot; dia(s) do mês de &quot; + mes + &quot; do ano de &quot; + NumberToWords(ano);
+      
+      return data;
+    }
+    
+    public static string NumberToWords(int number)
+    {
+      if (number == 0)
+        return &quot;zero&quot;;
+
+      if (number &lt; 0)
+        return &quot;menos &quot; + NumberToWords(Math.Abs(number));
+
+      string words = &quot;&quot;;
+
+      if ((number / 1000000) &gt; 0)
+      {
+        words += NumberToWords(number / 1000000) + &quot; milhão &quot;;
+        number %= 1000000;
+      }
+
+      if ((number / 1000) &gt; 0)
+      {
+        words += NumberToWords(number / 1000) + &quot; mil &quot;;
+        number %= 1000;
+      }
+
+      if ((number / 100) &gt; 0)
+      {
+        words += NumberToWords(number / 100) + &quot; cem &quot;;
+        number %= 100;
+      }
+
+      if (number &gt; 0)
+      {
+        if (words != &quot;&quot;)
+          words += &quot;e &quot;;
+
+        string[] unitsMap = new string[] { &quot;zero&quot;, &quot;um&quot;, &quot;dois&quot;, &quot;três&quot;, &quot;quatro&quot;, &quot;cinco&quot;, &quot;seis&quot;, &quot;sete&quot;, &quot;oito&quot;, &quot;nove&quot;, &quot;dez&quot;, &quot;onze&quot;, &quot;doze&quot;, &quot;treze&quot;, &quot;quatorze&quot;, &quot;quinze&quot;, &quot;dezesseis&quot;, &quot;dezessete&quot;, &quot;dezoito&quot;, &quot;dezenove&quot; };
+        string[] tensMap = new string[] { &quot;zero&quot;, &quot;dez&quot;, &quot;vinte&quot;, &quot;trinta&quot;, &quot;quarenta&quot;, &quot;cinquenta&quot;, &quot;sessenta&quot;, &quot;setenta&quot;, &quot;oitenta&quot;, &quot;noventa&quot; };
+
+        if (number &lt; 20)
+          words += unitsMap[number];
+        else
+        {
+          words += tensMap[number / 10];
+          if ((number % 10) &gt; 0)
+            words += &quot;-&quot; + unitsMap[number % 10];
+        }
+      }
+
+      return words;
+    }
+    
+    public string FormataValorExtenso(decimal valor) {
+      return toExtenso(valor);
+    }
+    
+    public static string toExtenso(decimal valor)
+    {
+      if (valor &lt;= 0 | valor &gt;= 1000000000000000)
+        return &quot;Valor não suportado pelo sistema.&quot;;
+      else
+      {
+        string strValor = valor.ToString(&quot;000000000000000.00&quot;);
+        string valor_por_extenso = string.Empty;
+ 
+        for (int i = 0; i &lt;= 15; i += 3)
+        {
+          valor_por_extenso += escreva_parte(Convert.ToDecimal(strValor.Substring(i, 3)));
+          if (i == 0 &amp; valor_por_extenso != string.Empty)
+          {
+            if (Convert.ToInt32(strValor.Substring(0, 3)) == 1)
+              valor_por_extenso += &quot; TRILHÃO&quot; + ((Convert.ToDecimal(strValor.Substring(3, 12)) &gt; 0) ? &quot; E &quot; : string.Empty);
+            else if (Convert.ToInt32(strValor.Substring(0, 3)) &gt; 1)
+              valor_por_extenso += &quot; TRILHÕES&quot; + ((Convert.ToDecimal(strValor.Substring(3, 12)) &gt; 0) ? &quot; E &quot; : string.Empty);
+          }
+          else if (i == 3 &amp; valor_por_extenso != string.Empty)
+          {
+            if (Convert.ToInt32(strValor.Substring(3, 3)) == 1)
+              valor_por_extenso += &quot; BILHÃO&quot; + ((Convert.ToDecimal(strValor.Substring(6, 9)) &gt; 0) ? &quot; E &quot; : string.Empty);
+            else if (Convert.ToInt32(strValor.Substring(3, 3)) &gt; 1)
+              valor_por_extenso += &quot; BILHÕES&quot; + ((Convert.ToDecimal(strValor.Substring(6, 9)) &gt; 0) ? &quot; E &quot; : string.Empty);
+          }
+          else if (i == 6 &amp; valor_por_extenso != string.Empty)
+          {
+            if (Convert.ToInt32(strValor.Substring(6, 3)) == 1)
+              valor_por_extenso += &quot; MILHÃO&quot; + ((Convert.ToDecimal(strValor.Substring(9, 6)) &gt; 0) ? &quot; E &quot; : string.Empty);
+            else if (Convert.ToInt32(strValor.Substring(6, 3)) &gt; 1)
+              valor_por_extenso += &quot; MILHÕES&quot; + ((Convert.ToDecimal(strValor.Substring(9, 6)) &gt; 0) ? &quot; E &quot; : string.Empty);
+          }
+          else if (i == 9 &amp; valor_por_extenso != string.Empty)
+            if (Convert.ToInt32(strValor.Substring(9, 3)) &gt; 0)
+              valor_por_extenso += &quot; MIL&quot; + ((Convert.ToDecimal(strValor.Substring(12, 3)) &gt; 0) ? &quot; E &quot; : string.Empty);
+ 
+          if (i == 12)
+          {
+            if (valor_por_extenso.Length &gt; 8)
+              if (valor_por_extenso.Substring(valor_por_extenso.Length - 6, 6) == &quot;BILHÃO&quot; | valor_por_extenso.Substring(valor_por_extenso.Length - 6, 6) == &quot;MILHÃO&quot;)
+                valor_por_extenso += &quot; DE&quot;;
+              else
+                if (valor_por_extenso.Substring(valor_por_extenso.Length - 7, 7) == &quot;BILHÕES&quot; | valor_por_extenso.Substring(valor_por_extenso.Length - 7, 7) == &quot;MILHÕES&quot; | valor_por_extenso.Substring(valor_por_extenso.Length - 8, 7) == &quot;TRILHÕES&quot;)
+                valor_por_extenso += &quot; DE&quot;;
+              else
+                if (valor_por_extenso.Substring(valor_por_extenso.Length - 8, 8) == &quot;TRILHÕES&quot;)
+                valor_por_extenso += &quot; DE&quot;;
+ 
+            if (Convert.ToInt64(strValor.Substring(0, 15)) == 1)
+              valor_por_extenso += &quot; REAL&quot;;
+            else if (Convert.ToInt64(strValor.Substring(0, 15)) &gt; 1)
+              valor_por_extenso += &quot; REAIS&quot;;
+ 
+            if (Convert.ToInt32(strValor.Substring(16, 2)) &gt; 0 &amp;&amp; valor_por_extenso != string.Empty)
+              valor_por_extenso += &quot; E &quot;;
+          }
+ 
+          if (i == 15)
+            if (Convert.ToInt32(strValor.Substring(16, 2)) == 1)
+              valor_por_extenso += &quot; CENTAVO&quot;;
+            else if (Convert.ToInt32(strValor.Substring(16, 2)) &gt; 1)
+              valor_por_extenso += &quot; CENTAVOS&quot;;
+        }
+        return valor_por_extenso;
+      }
+    }
+ 
+    static string escreva_parte(decimal valor)
+    {
+      if (valor &lt;= 0)
+        return string.Empty;
+      else
+      {
+        string montagem = string.Empty;
+        if (valor &gt; 0 &amp; valor &lt; 1)
+        {
+          valor *= 100;
+        }
+        string strValor = valor.ToString(&quot;000&quot;);
+        int a = Convert.ToInt32(strValor.Substring(0, 1));
+        int b = Convert.ToInt32(strValor.Substring(1, 1));
+        int c = Convert.ToInt32(strValor.Substring(2, 1));
+ 
+        if (a == 1) montagem += (b + c == 0) ? &quot;CEM&quot; : &quot;CENTO&quot;;
+        else if (a == 2) montagem += &quot;DUZENTOS&quot;;
+        else if (a == 3) montagem += &quot;TREZENTOS&quot;;
+        else if (a == 4) montagem += &quot;QUATROCENTOS&quot;;
+        else if (a == 5) montagem += &quot;QUINHENTOS&quot;;
+        else if (a == 6) montagem += &quot;SEISCENTOS&quot;;
+        else if (a == 7) montagem += &quot;SETECENTOS&quot;;
+        else if (a == 8) montagem += &quot;OITOCENTOS&quot;;
+        else if (a == 9) montagem += &quot;NOVECENTOS&quot;;
+ 
+        if (b == 1)
+        {
+          if (c == 0) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;DEZ&quot;;
+          else if (c == 1) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;ONZE&quot;;
+          else if (c == 2) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;DOZE&quot;;
+          else if (c == 3) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;TREZE&quot;;
+          else if (c == 4) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;QUATORZE&quot;;
+          else if (c == 5) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;QUINZE&quot;;
+          else if (c == 6) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;DEZESSEIS&quot;;
+          else if (c == 7) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;DEZESSETE&quot;;
+          else if (c == 8) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;DEZOITO&quot;;
+          else if (c == 9) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;DEZENOVE&quot;;
+        }
+        else if (b == 2) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;VINTE&quot;;
+        else if (b == 3) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;TRINTA&quot;;
+        else if (b == 4) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;QUARENTA&quot;;
+        else if (b == 5) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;CINQUENTA&quot;;
+        else if (b == 6) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;SESSENTA&quot;;
+        else if (b == 7) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;SETENTA&quot;;
+        else if (b == 8) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;OITENTA&quot;;
+        else if (b == 9) montagem += ((a &gt; 0) ? &quot; E &quot; : string.Empty) + &quot;NOVENTA&quot;;
+ 
+        if (strValor.Substring(1, 1) != &quot;1&quot; &amp; c != 0 &amp; montagem != string.Empty) montagem += &quot; E &quot;;
+ 
+        if (strValor.Substring(1, 1) != &quot;1&quot;)
+          if (c == 1) montagem += &quot;UM&quot;;
+          else if (c == 2) montagem += &quot;DOIS&quot;;
+          else if (c == 3) montagem += &quot;TRÊS&quot;;
+          else if (c == 4) montagem += &quot;QUATRO&quot;;
+          else if (c == 5) montagem += &quot;CINCO&quot;;
+          else if (c == 6) montagem += &quot;SEIS&quot;;
+          else if (c == 7) montagem += &quot;SETE&quot;;
+          else if (c == 8) montagem += &quot;OITO&quot;;
+          else if (c == 9) montagem += &quot;NOVE&quot;;
+ 
+        return montagem;
+      }
+    }
+  }
+}</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2geBvN02mjOZLuQGKRweVbyRdeyd+ssOhpZQMtpOQpoqvlc2Syha9Fc6/Dilt7zYvOJgfn3OdUtFp9KVNQsOaCUi/s/MM3VBCXgEJr4SIFea9riMdjHqF1JCrJL3CY2mDYQOLX5dLx/rKtQpMfPTykq3dbi6k5NlKghyhFexWggna3nmpPSJsLnaNpPI4EbKlG1etlbHqGIn1A+jsAzGTbjoHJU3579dgKw+Ai6ZwKe/rGnrA9NOUAFGZxw1rsqtKjg==">
+      <TableDataSource Name="Table" Alias="Promissoria" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	dr.malote_id as idMalote,&#13;&#10;	p.nome as nomeCliente,&#13;&#10;	case when p.tipo = 'J' then p.cnpj else p.cpf end as documentoCliente,&#13;&#10;	(select top 1 pe.logradouro + ', ' + pe.numero + ' ' + pe.complemento + ' - ' + pe.bairro + ' ' + cc.nome + '/' + cc.siglaUf from pessoa_endereco as pe inner join cidade as cc on cc.id = pe.cidade_id where pe.pessoa_id = p.id) as ruaCliente,&#13;&#10;	e.razaoSocial as razaoSocialEmpresa,&#13;&#10;	case when len(e.cnpj) = 14 then e.cnpj else e.cpf end as documentoEmpresa,&#13;&#10;	e.logradouro + ', ' + e.numero + ' ' + e.complemento + ' - ' + e.bairro + ' ' + c.nome + '/' + c.siglaUf  as ruaEmpresa,&#13;&#10;	c.nome + ' - ' + c.siglaUf as cidadeEstadoEmpresa,&#13;&#10;	dr.parcela as parcela,&#13;&#10;	(SELECT COUNT (*) FROM documento_receber AS drCount WHERE drCount.malote_id = @idMalote) as quantidadeTotalParcelas,&#13;&#10;	cast(dr.vencimento as date) as vencimentoEm, &#13;&#10;	dr.valorAjustado as valor,&#13;&#10;	(select sum(dd.valorAjustado) from documento_receber as dd where dd.malote_id = @idMalote) as total,&#13;&#10;	dr.id as numeroDocumento,&#13;&#10;	dr.emitidoEm as dataEmissao&#13;&#10;from documento_receber as dr&#13;&#10;inner join pessoa as p on p.id = dr.pessoa_id&#13;&#10;inner join empresa as e on e.id = dr.empresa_id&#13;&#10;inner join malote as m on m.id = dr.malote_id&#13;&#10;inner join cidade as c on c.id = e.cidade_id&#13;&#10;where dr.malote_id = @idMalote">
+        <Column Name="parcela" DataType="System.Byte"/>
+        <Column Name="valor" DataType="System.Decimal"/>
+        <Column Name="idMalote" DataType="System.Int32"/>
+        <Column Name="nomeCliente" DataType="System.String"/>
+        <Column Name="razaoSocialEmpresa" DataType="System.String"/>
+        <Column Name="quantidadeTotalParcelas" DataType="System.Int32"/>
+        <Column Name="vencimentoEm" DataType="System.DateTime"/>
+        <Column Name="total" DataType="System.Decimal"/>
+        <Column Name="ruaEmpresa" DataType="System.String"/>
+        <Column Name="numeroDocumento" DataType="System.String"/>
+        <Column Name="cidadeEstadoEmpresa" DataType="System.String"/>
+        <Column Name="ruaCliente" DataType="System.String"/>
+        <Column Name="documentoCliente" DataType="System.String"/>
+        <Column Name="documentoEmpresa" DataType="System.String"/>
+        <Column Name="dataEmissao" DataType="System.DateTime"/>
+        <CommandParameter Name="idMalote" DataType="8" Expression="[IdMalote]" DefaultValue="0"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+    <Parameter Name="IdMalote" DataType="System.Int32"/>
+  </Dictionary>
+  <ReportPage Name="Page1" RawPaperSize="9" Guides="714.42,3.78" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="226.8" Border.Lines="All" Border.Width="0.25">
+      <TextObject Name="Text1" Left="3.78" Top="7.56" Width="24.57" Height="13.23" Text="Nº" WordWrap="false" Font="Times New Roman, 10pt"/>
+      <TextObject Name="Text71" Left="30.24" Top="7.56" Width="60.48" Height="13.23" Text="[Promissoria.idMalote]" Format="Custom" Format.Format="000000" WordWrap="false" Font="Times New Roman, 10pt, style=Bold"/>
+      <TextObject Name="Text2" Left="92.61" Top="7.56" Width="77.49" Height="13.23" Text="Vencimento" HorzAlign="Right" WordWrap="false" Font="Times New Roman, 10pt"/>
+      <TextObject Name="Text3" Left="170.1" Top="7.56" Width="277.83" Height="13.23" CanGrow="true" Text="[Promissoria.vencimentoEm]" Format="Date" Format.Format="D" WordWrap="false" Font="Times New Roman, 10pt, style=Bold"/>
+      <TextObject Name="Text4" Left="633.15" Top="7.56" Width="81.27" Height="13.23" Text="[Promissoria.total]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" WordWrap="false" Font="Times New Roman, 10pt, style=Bold"/>
+      <TextObject Name="Text72" Left="584.01" Top="7.56" Width="49.14" Height="13.23" Text="Total:" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" WordWrap="false" Font="Times New Roman, 10pt"/>
+      <RichObject Name="Rich1" Left="3.78" Top="24.57" Width="710.64" Height="98.28" Text="{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1046{\fonttbl{\f0\fnil\fcharset0 Times New Roman;}}&#13;&#10;{\*\generator Riched20 10.0.19041}\viewkind4\uc1 &#13;&#10;\pard\f0\fs20 Ao(s) \b [FromataDataExtenso([Promissoria.vencimentoEm])] \b0 pagarei por esta \'fanica via de \b NOTA PROMISS\'d3RIA \b0\'e0 \b [Promissoria.razaoSocialEmpresa]\b0 , portador do [FormataDocumentoPortador([Promissoria.documentoEmpresa])]\line\par&#13;&#10;Ou \'e0 sua ordem, a quantia de \b [FormataValorExtenso([Promissoria.total])] \b0 em moeda corrente deste pa\'eds, pag\'e1vel em \b [Promissoria.cidadeEstadoEmpresa]\par&#13;&#10;\b0\fs16\par&#13;&#10;}&#13;&#10;"/>
+      <TextObject Name="Text42" Left="447.93" Top="7.56" Width="136.08" Height="13.23" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="Emissão: [Promissoria.dataEmissao]" Format="Custom" Format.Format="dd/MM/yyyy" WordWrap="false" Font="Times New Roman, 10pt"/>
+      <RichObject Name="Rich3" Left="3.78" Top="128.52" Width="710.64" Height="45.36" Text="{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1046{\fonttbl{\f0\fnil\fcharset0 Times New Roman;}}&#13;&#10;{\*\generator Riched20 10.0.19041}\viewkind4\uc1 &#13;&#10;\pard\f0\fs20 Emitente: \b [Promissoria.nomeCliente]\b0 , portador do [FormataDocumentoPortador([Promissoria.documentoCliente])], residente na [Promissoria.ruaCliente]\b\par&#13;&#10;}&#13;&#10;"/>
+      <TextObject Name="Text48" Left="3.78" Top="190.89" Width="134.19" Height="13.23" Text="Ass. do Emitente:" HorzAlign="Right" WordWrap="false" Font="Times New Roman, 10pt"/>
+      <LineObject Name="Line1" Left="139.86" Top="204.12" Width="527.31" Diagonal="true"/>
+      <ChildBand Name="Child1" Top="230.8" Width="718.2" Height="11.34" PrintIfDatabandEmpty="true"/>
+    </ReportTitleBand>
+    <DataBand Name="Data1" Top="246.14" Width="718.2" Height="226.8" Border.Lines="All" Border.Width="0.25" DataSource="Table">
+      <LineObject Name="Line5" Left="154.98" Top="3.78" Height="219.24" Border.Style="Dash" Diagonal="true"/>
+      <TextObject Name="Text19" Left="3.78" Top="5.67" Width="60.48" Height="13.23" Text="Parcela" Font="Times New Roman, 8pt"/>
+      <TextObject Name="Text20" Left="3.78" Top="18.9" Width="60.48" Height="13.23" Text="[Promissoria.parcela]" Format="Custom" Format.Format="000000" Font="Times New Roman, 8pt, style=Bold"/>
+      <TextObject Name="Text21" Left="66.15" Top="5.67" Width="85.05" Height="13.23" Text="Vencimento" HorzAlign="Center" Font="Times New Roman, 8pt"/>
+      <TextObject Name="Text22" Left="66.15" Top="18.9" Width="85.05" Height="13.23" Text="[Promissoria.vencimentoEm]" Format="Date" Format.Format="d" HorzAlign="Center" Font="Times New Roman, 8pt, style=Bold"/>
+      <TextObject Name="Text23" Left="3.78" Top="34.02" Width="149.31" Height="13.23" Text="(=) Valor Documento" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text24" Left="3.78" Top="49.14" Width="149.31" Height="13.23" Text="[Promissoria.valor]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" VertAlign="Center" Font="Times New Roman, 10pt, style=Bold"/>
+      <LineObject Name="Line8" Left="3.78" Top="64.26" Width="149.31" Diagonal="true"/>
+      <LineObject Name="Line9" Left="3.78" Top="32.13" Width="149.31" Diagonal="true"/>
+      <LineObject Name="Line10" Left="64.26" Top="3.78" Height="28.35" Diagonal="true"/>
+      <TextObject Name="Text25" Left="3.78" Top="66.15" Width="149.31" Height="13.23" Text="(-) Desconto" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text26" Left="3.78" Top="81.27" Width="149.31" Height="13.23" VertAlign="Center" Font="Times New Roman, 10pt"/>
+      <LineObject Name="Line11" Left="3.78" Top="96.39" Width="149.31" Diagonal="true"/>
+      <TextObject Name="Text27" Left="3.78" Top="98.28" Width="149.31" Height="13.23" Text="(-) Outras Deduções" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text28" Left="3.78" Top="113.4" Width="149.31" Height="13.23" VertAlign="Center" Font="Times New Roman, 10pt"/>
+      <LineObject Name="Line12" Left="3.78" Top="128.52" Width="149.31" Diagonal="true"/>
+      <TextObject Name="Text29" Left="3.78" Top="130.41" Width="149.31" Height="13.23" Text="(+) Outros Acréscimos" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text30" Left="3.78" Top="145.53" Width="149.31" Height="13.23" VertAlign="Center" Font="Times New Roman, 10pt"/>
+      <LineObject Name="Line13" Left="3.78" Top="160.65" Width="149.31" Diagonal="true"/>
+      <TextObject Name="Text31" Left="3.78" Top="162.54" Width="149.31" Height="13.23" Text="(=) Valor Cobrado" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text32" Left="3.78" Top="177.66" Width="149.31" Height="13.23" VertAlign="Center" Font="Times New Roman, 10pt"/>
+      <LineObject Name="Line14" Left="3.78" Top="192.78" Width="149.31" Diagonal="true"/>
+      <TextObject Name="Text33" Left="3.78" Top="194.67" Width="71.82" Height="24.57" Text="Nº Malote" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text34" Left="73.71" Top="194.67" Width="77.49" Height="24.57" Text="[Promissoria.idMalote]" Format="Custom" Format.Format="000000" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <LineObject Name="Line16" Left="563.22" Top="3.78" Height="219.24" Diagonal="true"/>
+      <TextObject Name="Text51" Left="156.87" Top="5.67" Width="404.46" Height="13.23" Text="Local de pagamento" VertAlign="Center" Font="Times New Roman, 9.5pt, style=Italic"/>
+      <TextObject Name="Text52" Left="156.87" Top="18.9" Width="404.46" Height="13.23" Text="Realizar o Pagamento Apenas no Estabelecimento Emissor" VertAlign="Center" Font="Times New Roman, 9.5pt"/>
+      <LineObject Name="Line17" Left="156.87" Top="32.13" Width="406.35" Diagonal="true"/>
+      <TextObject Name="Text53" Left="156.87" Top="34.02" Width="54.81" Height="13.23" Text="Cedente" VertAlign="Center" Font="Times New Roman, 9.5pt, style=Italic"/>
+      <TextObject Name="Text54" Left="214.52" Top="34.02" Width="347.76" Height="27.19" CanBreak="false" Text="[Promissoria.razaoSocialEmpresa] [Promissoria.documentoEmpresa]" Font="Times New Roman, 7pt"/>
+      <LineObject Name="Line25" Left="156.87" Top="64.26" Width="406.35" Diagonal="true"/>
+      <TextObject Name="Text55" Left="565.11" Top="5.67" Width="60.48" Height="13.23" Text="Parcela" Font="Times New Roman, 8pt"/>
+      <TextObject Name="Text56" Left="565.11" Top="18.9" Width="60.48" Height="13.23" Text="[Promissoria.parcela]" Format="Custom" Format.Format="000000" Font="Times New Roman, 8pt, style=Bold"/>
+      <TextObject Name="Text57" Left="629.37" Top="5.67" Width="85.05" Height="13.23" Text="Vencimento" HorzAlign="Center" Font="Times New Roman, 8pt"/>
+      <TextObject Name="Text58" Left="629.37" Top="18.9" Width="85.05" Height="13.23" Text="[Promissoria.vencimentoEm]" Format="Date" Format.Format="d" HorzAlign="Center" Font="Times New Roman, 8pt, style=Bold"/>
+      <TextObject Name="Text59" Left="565.11" Top="34.02" Width="149.31" Height="13.23" Text="(=) Valor Documento" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text60" Left="565.11" Top="49.14" Width="149.31" Height="13.23" Text="[Promissoria.valor]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" VertAlign="Center" Font="Times New Roman, 10pt, style=Bold"/>
+      <LineObject Name="Line26" Left="563.22" Top="64.26" Width="151.2" Diagonal="true"/>
+      <LineObject Name="Line27" Left="563.22" Top="32.13" Width="151.2" Diagonal="true"/>
+      <LineObject Name="Line28" Left="627.48" Top="3.78" Height="28.35" Diagonal="true"/>
+      <TextObject Name="Text61" Left="565.11" Top="66.15" Width="149.31" Height="13.23" Text="(-) Desconto" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text62" Left="565.11" Top="81.27" Width="149.31" Height="13.23" VertAlign="Center" Font="Times New Roman, 10pt"/>
+      <LineObject Name="Line29" Left="563.22" Top="96.39" Width="151.2" Diagonal="true"/>
+      <TextObject Name="Text63" Left="565.11" Top="98.28" Width="149.31" Height="13.23" Text="(-) Outras Deduções" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text64" Left="565.11" Top="113.4" Width="149.31" Height="13.23" VertAlign="Center" Font="Times New Roman, 10pt"/>
+      <LineObject Name="Line30" Left="563.22" Top="128.52" Width="151.2" Diagonal="true"/>
+      <TextObject Name="Text65" Left="565.11" Top="130.41" Width="149.31" Height="13.23" Text="(+) Outros Acréscimos" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text66" Left="565.11" Top="145.53" Width="149.31" Height="13.23" VertAlign="Center" Font="Times New Roman, 10pt"/>
+      <LineObject Name="Line31" Left="563.22" Top="160.65" Width="151.2" Diagonal="true"/>
+      <TextObject Name="Text67" Left="565.11" Top="162.54" Width="149.31" Height="13.23" Text="(=) Valor Cobrado" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text68" Left="565.11" Top="177.66" Width="149.31" Height="13.23" VertAlign="Center" Font="Times New Roman, 10pt"/>
+      <LineObject Name="Line32" Left="563.22" Top="192.78" Width="151.2" Diagonal="true"/>
+      <TextObject Name="Text69" Left="565.11" Top="194.67" Width="71.82" Height="24.57" Text="Nº Malote" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text70" Left="636.93" Top="194.67" Width="77.49" Height="24.57" Text="[Promissoria.idMalote]" Format="Custom" Format.Format="000000" VertAlign="Center" Font="Times New Roman, 10pt, style=Italic"/>
+      <TextObject Name="Text36" Left="156.87" Top="66.15" Width="66.15" Height="13.23" Text="Nº Malote" Font="Times New Roman, 9.5pt"/>
+      <TextObject Name="Text37" Left="156.87" Top="81.27" Width="66.15" Height="13.23" Text="[Promissoria.idMalote]" Format="Custom" Format.Format="000000" VertAlign="Center" Font="Times New Roman, 9.5pt"/>
+      <LineObject Name="Line18" Left="224.91" Top="64.26" Height="32.13" Diagonal="true"/>
+      <LineObject Name="Line19" Left="156.87" Top="96.39" Width="406.35" Diagonal="true"/>
+      <TextObject Name="Text38" Left="226.8" Top="66.15" Width="90.72" Height="13.23" Text="Nº Documento" VertAlign="Center" Font="Times New Roman, 9.5pt"/>
+      <TextObject Name="Text39" Left="319.41" Top="66.15" Width="241.92" Height="28.35" CanBreak="false" Text="[Promissoria.numeroDocumento]" Format="Custom" Format.Format="000000000" Font="Times New Roman, 9.5pt"/>
+      <TextObject Name="Text40" Left="156.87" Top="194.67" Width="51.03" Height="13.23" Text="Cliente" Font="Times New Roman, 9.5pt"/>
+      <LineObject Name="Line20" Left="156.87" Top="192.78" Width="406.35" Diagonal="true"/>
+      <TextObject Name="Text41" Left="156.87" Top="207.9" Width="404.46" Height="13.23" CanBreak="false" Text="[Promissoria.nomeCliente] [Promissoria.documentoCliente]" Font="Times New Roman, 8pt"/>
+      <DataBand Name="Data2" Top="476.94" Width="718.2" Height="11.34" PrintIfDetailEmpty="true" PrintIfDatasourceEmpty="true"/>
+    </DataBand>
+  </ReportPage>
+</Report>

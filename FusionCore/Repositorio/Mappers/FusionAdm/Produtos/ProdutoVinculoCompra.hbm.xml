@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Produtos"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class table="produto_vinculo_compra" name="ProdutoVinculoCompra">
+    <id name="Id" generator="identity">
+      <column name="id" not-null="true" />
+    </id>
+
+    <many-to-one name="Produto" cascade="none">
+      <column name="produto_id" not-null="true" />
+    </many-to-one>
+
+    <property name="Codigo">
+      <column name="codigo" not-null="true" />
+    </property>
+
+    <property name="UnidadeCompra">
+      <column name="unidadeCompra" not-null="true" />
+    </property>
+
+    <property name="FatorUtilizado">
+      <column name="fatorUtilizado" not-null="true" />
+    </property>
+
+    <property name="DocumentoFornecedor">
+      <column name="documentoFornecedor" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

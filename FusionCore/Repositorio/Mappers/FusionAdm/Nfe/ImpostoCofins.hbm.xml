@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.Tributacoes"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ImpostoCofins" table="nfe_item_cofins">
+    <id access="field" name="_itemId" column="nfeItem_id">
+      <generator class="foreign">
+        <param name="property">Item</param>
+      </generator>
+    </id>
+
+    <one-to-one access="field.camelcase-underscore" name="Item" constrained="true" cascade="none" />
+
+    <many-to-one name="Cst">
+      <column name="situacaoTributariaCofins_id" not-null="true" />
+    </many-to-one>
+
+    <property name="ValorBcCofins">
+      <column name="valorBaseCalculoCofins" sql-type="decimal" precision="13" scale="2" not-null="true" />
+    </property>
+
+    <property name="AliquotaCofins">
+      <column name="aliquotaCofins" sql-type="decimal" precision="7" scale="4" not-null="true" />
+    </property>
+
+    <property name="ValorCofins">
+      <column name="valorCofins" sql-type="decimal" precision="13" scale="2" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

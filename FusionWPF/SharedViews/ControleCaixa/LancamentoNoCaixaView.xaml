@@ -1,0 +1,99 @@
+﻿<fuc:FusionWindow x:Class="FusionWPF.SharedViews.ControleCaixa.LancamentoNoCaixaView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:fuc="clr-namespace:FusionWPF.Controles"
+                  xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                  xmlns:flags="clr-namespace:FusionCore.Core.Flags;assembly=FusionCore"
+                  xmlns:controleCaixa="clr-namespace:FusionCore.ControleCaixa;assembly=FusionCore"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  mc:Ignorable="d"
+                  Title="Formulário de lançamento no caixa"
+                  SizeToContent="Height" Width="700"
+                  Loaded="LoadedHandler"
+                  Background="{DynamicResource WhiteBrush}">
+
+    <Border Padding="15" Background="{DynamicResource AccentColorBrush2}">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Width="200">
+                        <TextBlock
+                            TextAlignment="Center" Foreground="White"
+                            FontSize="22" FontWeight="Bold"
+                            Text="Operação" />
+
+                        <ComboBox
+                            IsEnabled="{Binding IsNovo}"
+                            ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags:TipoOperacao}}}"
+                            SelectedItem="{Binding Operacao}"
+                            VerticalContentAlignment="Center"
+                            Height="42" FontSize="22" FontWeight="Bold"
+                            x:Name="CbTipoOperacao" />
+                    </StackPanel>
+
+                    <StackPanel Width="200" Margin="15,0,0,0">
+                        <TextBlock
+                            TextAlignment="Center" Foreground="White"
+                            FontSize="22" FontWeight="Bold"
+                            Text="Valor" />
+
+                        <fuc:DecimalTextBox
+                            IsEnabled="{Binding IsNovo}"
+                            x:Name="TbValor"
+                            VerticalContentAlignment="Center"
+                            Height="42" FontSize="22" FontWeight="Bold"
+                            LimiteDecimal="2"
+                            Text="{Binding ValorOperacao, StringFormat=N2}" />
+
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Margin="0,15,0,0">
+                    <TextBlock
+                        TextAlignment="Center" Foreground="White"
+                        FontSize="22" FontWeight="Bold"
+                        Text="Motivo" />
+
+                    <TextBox
+                        IsEnabled="{Binding IsNovo}" Height="42"
+                        x:Name="TbMotivo"
+                        Text="{Binding Motivo}" />
+
+                </StackPanel>
+
+                <StackPanel Margin="0,15,0,0">
+                    <StackPanel mah:VisibilityHelper.IsCollapsed="{Binding IsChamadoPeloNfce}">
+                        <TextBlock
+                            Text="Onde será feito a operação?"
+                            TextAlignment="Center" Foreground="White"
+                            FontSize="22" FontWeight="Bold" />
+
+                        <ComboBox
+                            IsEditable="False"
+                            IsEnabled="{Binding DestinoLancamentoIsEnabled}"
+                            VerticalContentAlignment="Center"
+                            Height="42" FontSize="22" FontWeight="Bold"
+                            ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type controleCaixa:TipoLancamentoCaixa}}}"
+                            SelectedItem="{Binding DestinoLancamento}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel
+                HorizontalAlignment="Center"
+                Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,20,0,0">
+
+                <Button
+                    IsEnabled="{Binding IsNovo}"
+                    x:Name="BtnSalvar"
+                    Width="220" FontSize="18"
+                    Click="LancarMovimentoClickHandler"
+                    Style="{DynamicResource FusionSuccessButton}"
+                    HorizontalAlignment="Center"
+                    Content="[F2] - Salvar movimento" />
+            </StackPanel>
+        </DockPanel>
+    </Border>
+</fuc:FusionWindow>

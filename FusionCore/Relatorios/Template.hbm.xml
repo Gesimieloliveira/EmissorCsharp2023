@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Relatorios"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Template" table="relatorio_template">
+    <id name="Id">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="Dados">
+      <column name="template" not-null="true" length="2147483647" />
+    </property>
+  </class>
+</hibernate-mapping>

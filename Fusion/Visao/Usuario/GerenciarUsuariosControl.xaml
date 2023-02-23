@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Fusion.Visao.Usuario.GerenciarUsuariosControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Fusion.Visao.Usuario"
+             mc:Ignorable="d" d:DesignWidth="960"
+             d:DataContext="{d:DesignInstance local:GerenciarUsuariosContexto}"
+             Padding="5" Background="White"
+             Loaded="LoadedHandler">
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <WrapPanel Orientation="Horizontal" ItemWidth="150">
+                <Button 
+                    Click="NovoUsuarioClickHandler"
+                    Style="{DynamicResource FusionAccentedButton}" 
+                    Content="Novo usuário" />
+                
+                <Button 
+                    Click="GerenciarPapeisClickHandler"
+                    Style="{DynamicResource FusionAccentedButton}" 
+                    Content="Gerenciar Papeis" Margin="5,0,0,0" />
+            </WrapPanel>
+        </StackPanel>
+
+        <DataGrid 
+            DockPanel.Dock="Top" Margin="0,10,0,0"
+            ItemsSource="{Binding ListaDeUsuarios}"
+            SelectedItem="{Binding UsuarioSelecionado}">
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="LinhaUsuarioDoubleClickHandler" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Header="Cód/ID" Width="100" Binding="{Binding Id}"/>
+                <DataGridTextColumn 
+                    Header="Login" Width="*" Binding="{Binding Login}"/>
+            </DataGrid.Columns>
+
+        </DataGrid>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceCobranca" table="nfce_cobranca">
+    <id name="NfceId" column="nfce_id">
+      <generator class="foreign">
+        <param name="property">Nfce</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfce" constrained="true" cascade="none" />
+
+    <property name="NumeroFatura">
+      <column name="numeroFatura" not-null="true" />
+    </property>
+
+    <property name="ValorOriginal">
+      <column name="valorOriginal" not-null="true" />
+    </property>
+
+    <property name="ValorLiquido">
+      <column name="valorLiquido" not-null="true" />
+    </property>
+
+    <property name="ValorDesconto">
+      <column name="valorDesconto" not-null="true" />
+    </property>
+
+    <property name="ValorEntrada">
+      <column name="valorEntrada" not-null="true" />
+    </property>
+
+    <property name="Descricao">
+      <column name="descricao" not-null="true"/>
+    </property>
+
+    <property name="TipoParcela">
+      <column name="tipoParcela" not-null="true"/>
+    </property>
+
+    <property name="DiaParcelaFixa">
+      <column name="diaParcelaFixa" not-null="true"/>
+    </property>
+
+    <many-to-one name="TipoDocumento">
+      <column  name="tipoDocumento_id" not-null="true" />
+    </many-to-one>
+
+    <property name="CentroLucroId">
+      <column name="centroLucro_id" not-null="false"/>
+    </property>
+
+    <bag name="CobrancaDuplicatas" table="nfce_cobranca_duplicata" inverse="true" cascade="none">
+      <key column="nfce_id" />
+      <one-to-many class="NfceCobrancaDuplicata" />
+    </bag>
+    
+  </class>
+</hibernate-mapping>

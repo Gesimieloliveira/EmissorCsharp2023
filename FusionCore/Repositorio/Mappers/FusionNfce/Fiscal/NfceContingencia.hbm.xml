@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceContingencia" table="nfce_contingencia">
+    <id name="Id" column="id" generator="identity" />
+
+    <property name="Motivo">
+      <column name="motivo" not-null="true"></column>
+    </property>
+
+    <property name="EntrouEm">
+      <column name="entrouEm" not-null="true"></column>
+    </property>
+
+    <property name="Ativa">
+      <column name="ativa" not-null="true"></column>
+    </property>
+  </class>
+</hibernate-mapping>

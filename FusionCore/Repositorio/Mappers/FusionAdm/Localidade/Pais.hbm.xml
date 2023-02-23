@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Localidade"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Pais" table="pais">
+    <id name="Id" generator="identity" unsaved-value="0">
+      <column name="id" sql-type="smallint" not-null="true" />
+    </id>
+
+    <property name="Nome">
+      <column name="nome" sql-type="varchar" length="60" not-null="true" />
+    </property>
+
+    <property name="Bacen">
+      <column name="bacen" sql-type="smallint" not-null="true" unique="true" />
+    </property>
+  </class>
+</hibernate-mapping>

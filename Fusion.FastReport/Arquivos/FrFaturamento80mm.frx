@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" StartReportEvent="_StartReport" ReportInfo.Created="04/27/2018 10:22:00" ReportInfo.Modified="04/14/2022 17:47:39" ReportInfo.CreatorVersion="2021.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+    private string FormatDocumento(string input)
+    {
+      if (input.Length != 11 &amp;&amp; input.Length != 14) {
+        return input;
+      }
+      
+      string mask = &quot;000.000.000-00&quot;;
+      
+      if (input.Length == 14) {
+        mask = &quot;00.000.000/0000-00&quot;;
+      }
+      
+      MaskedTextProvider format = new MaskedTextProvider(mask);
+      format.Add(input);
+    
+      string formated = format.ToString();
+      
+      return formated.Replace(',', '.');
+    }
+    
+    private void pageContent_StartPage(object sender, EventArgs e)
+    {            
+      bool contemTroco = ((Decimal)Report.GetColumnValue(&quot;dsFaturamento.Troco&quot;)) != 0;
+      
+      txtTroco.Visible = contemTroco;
+      txtTrocoValor.Visible = contemTroco;
+            
+      ChildCliente.Visible = !string.IsNullOrWhiteSpace((string)Report.GetColumnValue(&quot;dsFaturamento.NomeCliente&quot;));
+      ChildObs.Visible = !string.IsNullOrEmpty(((String)Report.GetColumnValue(&quot;dsFaturamento.Observacao&quot;)));
+    }
+  }
+}</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2geBvN02mjOZLuQGKRweVbyRdeyd+ssOhpZQMtpOQpoqvN68fmvtw3EyZ3z2La+VlNoch9K9fR7xsRMyPcWCdFKzFiAFDm0SQnQPDCEtX/STejQNYFVJS9AYbRD+yF/gl7Dtf1ucH/rHuVyopCWze4tn2LHiswI456LSnD7FsCTFZZvPcAXn8d59OB0c+RHC0M/xVu4hHQ6f8nBBxF/hOZyQe01hME8YDJNi58sfVVq+0"/>
+    <BusinessObjectDataSource Name="dsFaturamento" ReferenceName="dsFaturamento" DataType="System.Collections.Generic.List`1[[Fusion.FastReport.DataSources.DsFaturamento, Fusion.FastReport, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]" Enabled="true">
+      <Column Name="Id" DataType="System.Int32"/>
+      <Column Name="FinalizadoEm" DataType="System.DateTime"/>
+      <Column Name="ClienteId" DataType="System.Int32"/>
+      <Column Name="NomeCliente" DataType="System.String"/>
+      <Column Name="CpfCliente" DataType="System.String"/>
+      <Column Name="CnpjCliente" DataType="System.String"/>
+      <Column Name="LogradouroCliente" DataType="System.String"/>
+      <Column Name="NumeroCliente" DataType="System.String"/>
+      <Column Name="BairroCliente" DataType="System.String"/>
+      <Column Name="CidadeCliente" DataType="FusionCore.Repositorio.Legacy.Entidades.Adm.CidadeDTO, FusionCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <Column Name="Id" DataType="System.Int32"/>
+        <Column Name="Nome" DataType="System.String"/>
+        <Column Name="CodigoIbge" DataType="System.Int32"/>
+        <Column Name="SiglaUf" DataType="System.String"/>
+      </Column>
+      <Column Name="EmpresaId" DataType="System.Int32"/>
+      <Column Name="NomeEmpresa" DataType="System.String"/>
+      <Column Name="LogradouroEmpresa" DataType="System.String"/>
+      <Column Name="NumeroEmpresa" DataType="System.String"/>
+      <Column Name="BairroEmpresa" DataType="System.String"/>
+      <Column Name="CidadeEmpresa" DataType="FusionCore.Repositorio.Legacy.Entidades.Adm.CidadeDTO, FusionCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <Column Name="Id" DataType="System.Int32"/>
+        <Column Name="Nome" DataType="System.String"/>
+        <Column Name="CodigoIbge" DataType="System.Int32"/>
+        <Column Name="SiglaUf" DataType="System.String"/>
+      </Column>
+      <Column Name="CnpjEmpresa" DataType="System.String"/>
+      <Column Name="IeEmpresa" DataType="System.String"/>
+      <Column Name="Observacao" DataType="System.String"/>
+      <Column Name="TotalProdutos" DataType="System.Decimal"/>
+      <Column Name="TotalDesconto" DataType="System.Decimal"/>
+      <Column Name="Total" DataType="System.Decimal"/>
+      <Column Name="EnderecoEmpresa" DataType="System.String"/>
+      <Column Name="DocumentoCliente" DataType="System.String"/>
+      <Column Name="EnderecoCliente" DataType="System.String"/>
+      <BusinessObjectDataSource Name="BusinessObjectDataSource1" Alias="Pagamentos" DataType="System.Collections.Generic.IList`1[[Fusion.FastReport.DataSources.DsPagamento, Fusion.FastReport, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]" PropName="Pagamentos" Enabled="true">
+        <Column Name="TipoPagamento" DataType="FusionCore.Core.Flags.ETipoPagamento, FusionCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+        <Column Name="TipoPagamentoTexto" DataType="System.String"/>
+        <Column Name="Valor" DataType="System.Decimal"/>
+        <BusinessObjectDataSource Name="Parcelas" DataType="System.Collections.Generic.IList`1[[Fusion.FastReport.DataSources.DsParcela, Fusion.FastReport, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]" Enabled="true">
+          <Column Name="Numero" DataType="System.Int16"/>
+          <Column Name="Vencimento" DataType="System.DateTime"/>
+          <Column Name="Valor" DataType="System.Decimal"/>
+        </BusinessObjectDataSource>
+        <Column Name="Id" DataType="System.Int32"/>
+      </BusinessObjectDataSource>
+      <BusinessObjectDataSource Name="BusinessObjectDataSource2" Alias="TelefonesDestinatario" DataType="System.Collections.Generic.IList`1[[Fusion.FastReport.DataSources.DsTelefone, Fusion.FastReport, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]" PropName="TelefonesDestinatario" Enabled="true">
+        <Column Name="Descricao" DataType="System.String"/>
+        <Column Name="Numero" DataType="System.String"/>
+      </BusinessObjectDataSource>
+      <Column Name="Troco" DataType="System.Decimal"/>
+      <Column Name="NomeVendedor" DataType="System.String"/>
+      <Column Name="Logo" DataType="System.Byte[]" BindableControl="Picture"/>
+    </BusinessObjectDataSource>
+    <BusinessObjectDataSource Name="dsItem" ReferenceName="dsItem" DataType="System.Collections.Generic.List`1[[Fusion.FastReport.DataSources.DsFaturamentoItem, Fusion.FastReport, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]" Enabled="true">
+      <Column Name="ItemId" DataType="System.Int32"/>
+      <Column Name="FaturamentoId" DataType="System.Int32"/>
+      <Column Name="Descricao" DataType="System.String"/>
+      <Column Name="SiglaUnidade" DataType="System.String"/>
+      <Column Name="Quantidade" DataType="System.Decimal"/>
+      <Column Name="ValorUnitario" DataType="System.Decimal"/>
+      <Column Name="Total" DataType="System.Decimal"/>
+      <Column Name="ProdutoId" DataType="System.Int32"/>
+    </BusinessObjectDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1" PaperWidth="80" LeftMargin="3" TopMargin="0" RightMargin="7" BottomMargin="0" Guides="264.6,0,289.17" Watermark.Font="Arial, 60pt" StartPageEvent="pageContent_StartPage">
+    <DataBand Name="Data2" Width="264.6" Height="124.2" CanGrow="true" DataSource="dsFaturamento" PrintIfDetailEmpty="true">
+      <TextObject Name="Text31" Top="59.96" Width="264.6" Height="17.01" CanGrow="true" GrowToBottom="true" CanBreak="false" Text="[dsFaturamento.NomeEmpresa]" HorzAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text33" Top="76.97" Width="264.6" Height="13.23" CanBreak="false" Text="CNPJ: [FormatDocumento([dsFaturamento.CnpjEmpresa])] / IE: [dsFaturamento.IeEmpresa]" HorzAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text34" Top="90.2" Width="264.6" Height="26.46" CanGrow="true" CanShrink="true" CanBreak="false" Text="[dsFaturamento.EnderecoEmpresa]" HorzAlign="Center" Font="Arial, 8pt, style=Italic"/>
+      <PictureObject Name="Picture1" Left="0.84" Top="6.92" Width="262.83" Height="48.13" DataColumn="dsFaturamento.Logo"/>
+      <ChildBand Name="Child1" Top="128.2" Width="264.6" Height="32.13" Border.Lines="Top, Bottom" Border.Width="0.25">
+        <TextObject Name="Text35" Top="1.89" Width="264.6" Height="15.12" CanBreak="false" Text="NÃO É VÁLIDO COMO DOCUMENTO FISCAL" HorzAlign="Center" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text38" Top="17.01" Width="264.6" Height="13.23" CanBreak="false" Text="COMPROVANTE DE FATURAMENTO" HorzAlign="Center" VertAlign="Center" Font="Arial, 7pt"/>
+        <ChildBand Name="Child2" Top="164.33" Width="264.6" Height="20.79" Border.Lines="Top, Bottom" Border.Width="0.25">
+          <TextObject Name="Text36" Top="1.89" Width="83.16" Height="17.01" CanBreak="false" Text="[dsFaturamento.Id]" Format="Custom" Format.Format="Número: 0000" VertAlign="Center" WordWrap="false" Font="Arial, 8pt"/>
+          <TextObject Name="Text37" Left="83.16" Top="1.89" Width="181.44" Height="17.01" CanBreak="false" Text="Finalizado: [dsFaturamento.FinalizadoEm]" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt"/>
+          <ChildBand Name="ChildCliente" Top="189.12" Width="264.6" Height="62.37" Border.Lines="Top, Bottom" Border.Width="0.25" CanGrow="true" CanShrink="true">
+            <TextObject Name="Text59" Top="43.47" Width="264.6" Height="15.12" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[dsFaturamento.LogradouroCliente], [dsFaturamento.NumeroCliente], [dsFaturamento.BairroCliente], [dsFaturamento.CidadeCliente.Nome] - [dsFaturamento.CidadeCliente.SiglaUf]" HorzAlign="Center" Font="Arial, 9pt, style=Italic"/>
+            <TextObject Name="TextCliente" Top="15.12" Width="264.6" Height="28.35" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[dsFaturamento.NomeCliente]&#13;&#10;[FormatDocumento([dsFaturamento.DocumentoCliente])]" HorzAlign="Center" Font="Arial, 9pt, style=Italic"/>
+            <TextObject Name="LabelCliente" Width="264.6" Height="15.12" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="Destinatário" HorzAlign="Center" Font="Arial, 7pt, style=Bold"/>
+            <ChildBand Name="Child3" Top="255.49" Width="264.6" Height="20.79" Border.Lines="Bottom" Border.Width="0.25">
+              <TextObject Name="Text60" Top="1.89" Width="54.22" Height="17.01" CanBreak="false" Text="Vendedor: " Format="Custom" Format.Format="Número: 0000" VertAlign="Center" WordWrap="false" Font="Arial, 8pt"/>
+              <TextObject Name="Text61" Left="54.33" Top="1.89" Width="210.27" Height="17.01" CanBreak="false" Text="[dsFaturamento.NomeVendedor]" Format="Custom" Format.Format="Número: 0000" VertAlign="Center" WordWrap="false" Font="Arial, 8pt"/>
+              <ChildBand Name="ChildObs" Top="280.28" Width="264.6" Height="37.8" Border.Lines="Top, Bottom" Border.Width="0.25" CanGrow="true" CanShrink="true">
+                <TextObject Name="Text1" Top="14.34" Width="264.6" Height="22.68" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[dsFaturamento.Observacao]" Font="Arial, 9pt"/>
+                <TextObject Name="Text2" Top="1.11" Width="264.6" Height="13.23" Text="Observação" Font="Arial, 7pt, style=Bold"/>
+              </ChildBand>
+            </ChildBand>
+          </ChildBand>
+        </ChildBand>
+      </ChildBand>
+      <DataBand Name="Data3" Top="344.98" Width="264.6" Height="32.13" DataSource="dsItem">
+        <TextObject Name="Text48" Top="1.89" Width="37.8" Height="13.23" CanBreak="false" Text="[dsItem.ProdutoId]" Format="Custom" Format.Format="0000" HorzAlign="Center" Font="Arial, 8pt"/>
+        <TextObject Name="Text49" Left="37.8" Top="1.89" Width="226.8" Height="13.23" CanBreak="false" Text="[dsItem.Descricao]" WordWrap="false" Font="Arial, 8pt"/>
+        <TextObject Name="Text50" Top="15.12" Width="184.26" Height="13.23" Text="[dsItem.Quantidade][dsItem.SiglaUnidade] x [dsItem.ValorUnitario]" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter">
+          <Formats>
+            <NumberFormat UseLocale="false" DecimalDigits="4" DecimalSeparator="," GroupSeparator="." NegativePattern="1"/>
+            <GeneralFormat/>
+            <NumberFormat UseLocale="false" DecimalDigits="4" DecimalSeparator=","/>
+          </Formats>
+        </TextObject>
+        <TextObject Name="Text51" Left="185.43" Top="15.12" Width="79.17" Height="13.23" Text="[dsItem.Total]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+        <DataHeaderBand Name="DataHeader1" Top="322.08" Width="264.6" Height="18.9">
+          <TextObject Name="Text42" Left="119.07" Top="7.56" Width="30.24" Height="11.34" Text="Qtde" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 7.5pt"/>
+          <TextObject Name="Text43" Left="149.31" Top="7.56" Width="26.46" Height="11.34" Text="Und" HorzAlign="Right" VertAlign="Center" Font="Arial, 7.5pt"/>
+          <TextObject Name="Text44" Left="175.77" Top="7.56" Width="51.03" Height="11.34" Text="V.Unit" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" VertAlign="Center" Font="Arial, 7.5pt"/>
+          <TextObject Name="Text45" Left="228.69" Top="7.56" Width="35.91" Height="11.34" Text="Total" HorzAlign="Right" VertAlign="Center" Font="Arial, 7.5pt"/>
+          <TextObject Name="Text46" Top="7.56" Width="37.8" Height="11.34" Text="Cód" HorzAlign="Center" VertAlign="Center" Font="Arial, 7.5pt"/>
+          <TextObject Name="Text47" Left="37.8" Top="7.56" Width="81.27" Height="11.34" Text="Descrição" VertAlign="Center" Font="Arial, 7.5pt"/>
+        </DataHeaderBand>
+        <DataFooterBand Name="DataFooter1" Top="381.11" Width="264.6" Height="60.08" Border.Lines="Top, Bottom" Border.Width="0.25" CanGrow="true">
+          <TextObject Name="Text52" Left="158.76" Top="3.56" Width="105.84" Height="13.23" Text="[dsFaturamento.TotalProdutos]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+          <TextObject Name="Text53" Left="158.76" Top="16.79" Width="105.84" Height="13.23" Text="[dsFaturamento.TotalDesconto]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+          <TextObject Name="Text54" Left="158.76" Top="30.01" Width="105.84" Height="13.23" Text="[dsFaturamento.Total]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+          <TextObject Name="Text55" Left="-0.01" Top="3.56" Width="158.76" Height="13.23" Text="Produtos:" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+          <TextObject Name="Text56" Left="-0.01" Top="16.79" Width="158.76" Height="13.23" Text="Desconto:" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+          <TextObject Name="Text57" Left="-0.01" Top="30.01" Width="158.76" Height="13.23" Text="Total:" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+          <TextObject Name="txtTroco" Left="-0.01" Top="43.26" Width="158.76" Height="13.23" Text="Troco:" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+          <TextObject Name="txtTrocoValor" Left="158.76" Top="43.26" Width="105.84" Height="13.23" Text="[dsFaturamento.Troco]&#13;&#10;" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+        </DataFooterBand>
+      </DataBand>
+      <DataBand Name="Data4" Top="467.1" Width="264.6" Height="14.15" CanGrow="true" DataSource="BusinessObjectDataSource1" PrintIfDetailEmpty="true">
+        <TextObject Name="Text3" Width="168.21" Height="13.23" Text="[dsFaturamento.Pagamentos.TipoPagamentoTexto]" Font="Arial, 8pt"/>
+        <TextObject Name="Text5" Left="168.21" Width="96.39" Height="13.23" Text="[dsFaturamento.Pagamentos.Valor]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+        <DataHeaderBand Name="DataHeader3" Top="445.19" Width="264.6" Height="17.91">
+          <TextObject Name="Text58" Top="0.38" Width="264.6" Height="13.23" Text="Pagamento" HorzAlign="Center" VertAlign="Center" Font="Arial, 7pt, style=Bold"/>
+        </DataHeaderBand>
+        <DataBand Name="Data5" Top="485.25" Width="264.6" Height="16.85" CanShrink="true" DataSource="Parcelas">
+          <TextObject Name="Text64" Left="100.05" Top="0.38" Width="119.62" Height="12.06" CanShrink="true" Text="[dsFaturamento.Pagamentos.Parcelas.Valor]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter"/>
+          <TextObject Name="Text62" Left="14.38" Top="0.38" Width="19.01" Height="12.06" CanShrink="true" Text="[dsFaturamento.Pagamentos.Parcelas.Numero]" Font="Arial, 7pt"/>
+          <TextObject Name="Text63" Left="35.42" Top="0.38" Width="64.31" Height="12.06" CanShrink="true" Text="[dsFaturamento.Pagamentos.Parcelas.Vencimento]" Format="Date" Format.Format="d" Font="Arial, 7pt"/>
+        </DataBand>
+      </DataBand>
+      <DataFooterBand Name="DataFooter2" Top="506.1" Width="264.6" Height="28.98" Border.Lines="Top" Border.LeftLine.Width="0.25" Border.TopLine.Style="Dash" Border.TopLine.Width="0.25" Border.RightLine.Width="0.25" Border.BottomLine.Width="0.25">
+        <TextObject Name="Text65" Left="2.27" Top="8.31" Width="261.47" Height="18.9" CanBreak="false" Text="Impresso em [Date]" HorzAlign="Center" VertAlign="Center" Font="Arial, 8pt"/>
+      </DataFooterBand>
+    </DataBand>
+  </ReportPage>
+</Report>

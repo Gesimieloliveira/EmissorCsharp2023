@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MDFeEmissao" table="mdfe_emissao">
+    <id column="mdfe_id" name="MDFeId">
+      <generator class="foreign">
+        <param name="property">MDFeEletronico</param>
+      </generator>
+    </id>
+
+    <one-to-one name="MDFeEletronico" class="MDFeEletronico" constrained="true" cascade="none" />
+    
+    <property name="VersaoLayout" column="versaoLayout" not-null="true"/>
+
+    <property name="TagId" column="tagId" not-null="true" />
+
+    <property name="Ambiente" column="tipoAmbiente" not-null="true" />
+
+    <property name="Serie" column="serie" not-null="true" />
+
+    <property name="NumeroDocumento" column="numeroDocumento" not-null="true" />
+
+    <property name="CodigoNumerico" column="codigoNumerico" not-null="true" />
+
+    <property name="DigitoVerificador" column="digitoVerificador" not-null="true" />
+
+    <property name="EmitidoEm" column="emitidaEm" not-null="true" />
+
+    <property name="TipoEmissao" column="tipoEmissao" not-null="true" />
+
+    <property name="ModeloManifesto" column="modeloManifesto" not-null="true" />
+    
+    <property name="Autorizado" column="autorizado" not-null="true" />
+
+    <property name="XmlAssinado" not-null="true">
+      <column name="xmlAssinado" sql-type="xml" length="2147483647" />
+    </property>
+
+    <property name="CodigoAutorizacao" column="codigoAutorizacao" not-null="true" />
+
+    <property name="Chave" column="chave" not-null="true" />
+
+    <property name="VersaoAplicativoAutorizacao" column="versaoAplicativoAutorizacao" not-null="true" />
+
+    <property name="DigestValue" column="digestValue" not-null="true" />
+
+    <property name="Protocolo" column="protocolo" not-null="true" />
+
+    <property name="XmlAutorizado">
+      <column name="xmlAutorizado" sql-type="xml" not-null="false" length="2147483647" />
+    </property>
+
+    <property name="NumeroRecibo" column="numeroRecibo" not-null="false" />
+
+    <property name="Motivo" column="motivo" not-null="false" />
+
+    <property name="RecebidoEm" column="recebidoEm" not-null="false" />
+
+  </class>
+
+</hibernate-mapping>

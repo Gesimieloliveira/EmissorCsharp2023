@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" StartReportEvent="_StartReport" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="04/01/2020 11:28:56" ReportInfo.CreatorVersion="2020.1.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+    private void _StartReport(object sender, EventArgs e)
+    {
+      bool? configurado = Report.GetParameterValue(&quot;JaConfigurado&quot;) as bool?;
+      
+      if (configurado == true) {
+        Form1.Visible = false;
+      }
+    }
+    
+    public string AgruparAnoMes(int ano, int mes) 
+    {
+      return ano.ToString(&quot;0000&quot;) + &quot;/&quot; + mes.ToString(&quot;00&quot;);
+    }
+    
+    private void PageHeader1_BeforePrint(object sender, EventArgs e)
+    {
+      Report.GetDataSource(&quot;Empresa&quot;).Init();
+    }
+
+    private void Form1_Load(object sender, EventArgs e)
+    {      
+      DateTime today = DateTime.Today;
+      DateTime mesAnterior = (new DateTime(today.Year, today.Month, 1)).AddMonths(-1);
+      CDataInicial.Value = mesAnterior;
+      CDataFinal.Value = mesAnterior.AddMonths(1).AddDays(-1);
+    }
+
+    private void btnOk_Click(object sender, EventArgs e)
+    {
+      var empresaId = 0;
+      
+      if (!string.IsNullOrEmpty(CbEmpresas.Text)) {
+        string[] partes = CbEmpresas.Text.Split('-');
+        empresaId = int.Parse(partes[0]);
+      }
+      
+      Report.SetParameterValue(&quot;EmpresaId&quot;, empresaId);
+      Report.SetParameterValue(&quot;DataInicial&quot;, CDataInicial.Value);
+      Report.SetParameterValue(&quot;DataFinal&quot;, CDataFinal.Value);
+    }
+  }
+}</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqq8kTaCagDxO6zlhwUlmn0ZkkJj7vmEtxC6ejYxyv8rmDcRDLYc4tP3Zj/ApLb4OTJX9LGRLnezGQ30Jc1EAeFXO/tiQRF6IHW9wwOoT+nY0lYtrh+hxm24yIewACS8ISW5ggZePZESCyQAGNRUVPTo4dYJAkoxG08UE+O/fQ+H7/QCyABgaBioGmIQY9nennt1Qx3XOpTwsV4b3cEt3m/szuo0vxJBJdPMdQmn3U3TBf2y1kqjWNhyf7HJBfuh27">
+      <TableDataSource Name="TbOperacao" Alias="Operacao" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="with classificacao as (&#13;&#10;	select &#13;&#10;		nc.emitidaEm as dataEmissao,&#13;&#10;		nc.entradaSaidaEm as dataEntrada,&#13;&#10;		nc.numeroDocumento as numero,&#13;&#10;		nc.empresa_id as empresaId,&#13;&#10;		nc.serie as serie,&#13;&#10;		YEAR(nc.entradaSaidaEm) as ano,&#13;&#10;		month(nc.entradaSaidaEm) as mes,&#13;&#10;		item.cfop_id as cfop,&#13;&#10;		icms.aliquota as aliquota,&#13;&#10;		icms.valorIcms as valorIcms,&#13;&#10;		icms.situacaoTributariaIcms_id as cst,&#13;&#10;		item.valorTotal as valorTotal,&#13;&#10;		icms.valorSt as valorSt,&#13;&#10;		icms.valorFcpSt as valorFcpSt,&#13;&#10;		item.valorDespesasRateio as valorDespesas,&#13;&#10;		item.valorFreteRateio as valorFrete,&#13;&#10;		item.valorSeguroRateio as valorSeguro,&#13;&#10;		ipi.valorIpi as valorIpi,&#13;&#10;		(&#13;&#10;			item.valorTotal + &#13;&#10;			item.valorFreteRateio + &#13;&#10;			item.valorDespesasRateio + &#13;&#10;			item.valorSeguroRateio +&#13;&#10;			icms.valorFcpSt + &#13;&#10;			icms.valorSt +&#13;&#10;			ipi.valorIpi&#13;&#10;		) as valorFiscal&#13;&#10;	from nf_compra nc&#13;&#10;	inner join nf_compra_item item on nc.id = item.nfCompra_id&#13;&#10;	inner join nf_compra_item_icms icms on item.id = icms.nfCompraItem_id&#13;&#10;	inner join nf_compra_item_ipi ipi on item.id = ipi.nfCompraItem_id&#13;&#10;) &#13;&#10;select&#13;&#10;	cs.ano,&#13;&#10;	cs.mes,&#13;&#10;	cs.cfop,&#13;&#10;	sum(cs.valorTotal) as totalItem,&#13;&#10;	sum(cs.valorIcms) as totalIcms,&#13;&#10;	sum(cs.valorSt) as totalSt,&#13;&#10;	sum(cs.valorFcpSt) as totalFcpSt,&#13;&#10;	sum(cs.valorIpi) as totalIpi,&#13;&#10;	sum(cs.valorFrete) as totalFrete,&#13;&#10;	sum(cs.valorSeguro) as totalSeguro,&#13;&#10;	sum(cs.valorDespesas) as totalOutros,&#13;&#10;	sum(cs.valorFiscal) as totalFiscal&#13;&#10;from classificacao cs&#13;&#10;where cs.empresaId = @pEmpresaId and cast(cs.dataEntrada as date) between @pDataInicial and @pDataFinal&#13;&#10;group by cs.ano, cs.mes, cs.cfop">
+        <Column Name="ano" DataType="System.Int32"/>
+        <Column Name="mes" DataType="System.Int32"/>
+        <Column Name="cfop" DataType="System.String"/>
+        <Column Name="totalItem" DataType="System.Decimal"/>
+        <Column Name="totalSt" DataType="System.Decimal"/>
+        <Column Name="totalFcpSt" DataType="System.Decimal"/>
+        <Column Name="totalIpi" DataType="System.Decimal"/>
+        <Column Name="totalFrete" DataType="System.Decimal"/>
+        <Column Name="totalSeguro" DataType="System.Decimal"/>
+        <Column Name="totalOutros" DataType="System.Decimal"/>
+        <Column Name="totalFiscal" DataType="System.Decimal"/>
+        <Column Name="totalIcms" DataType="System.Decimal"/>
+        <CommandParameter Name="pEmpresaId" DataType="8" Expression="[EmpresaId]" DefaultValue="0"/>
+        <CommandParameter Name="pDataInicial" DataType="4" Expression="[DataInicial]" DefaultValue="1900-01-01"/>
+        <CommandParameter Name="pDataFinal" DataType="4" Expression="[DataFinal]" DefaultValue="1900-01-01"/>
+      </TableDataSource>
+      <TableDataSource Name="TbEmpresa" Alias="Empresa" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select &#13;&#10;	cast(id as varchar) + ' - ' + razaoSocial as identificador,&#13;&#10;	razaoSocial,&#13;&#10;	nomeFantasia,&#13;&#10;	cnpj,&#13;&#10;	inscricaoEstadual&#13;&#10;from empresa">
+        <Column Name="razaoSocial" DataType="System.String"/>
+        <Column Name="nomeFantasia" DataType="System.String"/>
+        <Column Name="cnpj" DataType="System.String"/>
+        <Column Name="inscricaoEstadual" DataType="System.String"/>
+        <Column Name="identificador" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="JaConfigurado" DataType="System.Boolean"/>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+    <Parameter Name="EmpresaId" DataType="System.Int32"/>
+    <Parameter Name="DataInicial" DataType="System.DateTime"/>
+    <Parameter Name="DataFinal" DataType="System.DateTime"/>
+    <Total Name="Pg1-TotalFiscal" Expression="[Operacao.totalFiscal]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="Pg1-Total" Expression="[Operacao.totalItem]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="Pg1-Icms" Expression="[Operacao.totalIcms]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="Pg1-St" Expression="[Operacao.totalSt]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="Pg1-FcpST" Expression="[Operacao.totalFcpSt]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="Pg1-Ipi" Expression="[Operacao.totalIpi]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="Pg1-Frete" Expression="[Operacao.totalFrete]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="Pg1-Seguro" Expression="[Operacao.totalSeguro]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="Pg1-Outros" Expression="[Operacao.totalOutros]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+  </Dictionary>
+  <DialogPage Name="Form1" Width="612" Height="296" AcceptButton="btnOk" CancelButton="btnCancel" Font="Tahoma, 8pt" LoadEvent="Form1_Load">
+    <ButtonControl Name="btnOk" Left="428" Top="218" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" MouseDownEvent="" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="511" Top="218" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="1" Text="Cancelar" DialogResult="Cancel"/>
+    <GroupBoxControl Name="GroupBox1" Left="8" Top="88" Width="576" Height="80" Font="Tahoma, 8pt" TabIndex="2" Text="Escolha o Periodo das Operações">
+      <DateTimePickerControl Name="CDataInicial" Left="8" Top="28" Font="Tahoma, 8pt" TabIndex="3" Format="Short" Value="03/28/2020 19:01:39"/>
+      <DateTimePickerControl Name="CDataFinal" Left="228" Top="28" Font="Tahoma, 8pt" TabIndex="3" Format="Short" Value="03/28/2020 19:01:36"/>
+    </GroupBoxControl>
+    <GroupBoxControl Name="GroupBox2" Left="8" Width="576" Height="72" Font="Tahoma, 8pt" TabIndex="3" Text="Escolha qual Empresa filtrar">
+      <ComboBoxControl Name="CbEmpresas" Left="8" Top="28" Width="549" Font="Tahoma, 8pt" TabIndex="4" DataColumn="Empresa.identificador" DropDownWidth="549" ItemHeight="13"/>
+    </GroupBoxControl>
+  </DialogPage>
+  <ReportPage Name="Page1" RawPaperSize="9" LeftMargin="5" TopMargin="5" RightMargin="5" BottomMargin="5" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PageHeader1" Width="756" Height="58.59" BeforePrintEvent="PageHeader1_BeforePrint">
+      <TextObject Name="Text32" Top="3.78" Width="756" Height="17.01" Text="[Empresa.razaoSocial]" Font="Arial, 10pt">
+        <Formats>
+          <DateFormat/>
+          <DateFormat/>
+        </Formats>
+      </TextObject>
+      <TextObject Name="Text34" Top="37.8" Width="224.91" Height="17.01" Text="CNPJ: [Empresa.cnpj]" Font="Arial, 10pt">
+        <Formats>
+          <DateFormat/>
+          <DateFormat/>
+        </Formats>
+      </TextObject>
+      <TextObject Name="Text35" Left="224.91" Top="37.8" Width="224.91" Height="17.01" Text="IE: [Empresa.inscricaoEstadual]" Font="Arial, 10pt">
+        <Formats>
+          <DateFormat/>
+          <DateFormat/>
+        </Formats>
+      </TextObject>
+      <TextObject Name="Text33" Top="20.79" Width="756" Height="17.01" Text="[Empresa.nomeFantasia]" Font="Arial, 10pt">
+        <Formats>
+          <DateFormat/>
+          <DateFormat/>
+        </Formats>
+      </TextObject>
+      <ChildBand Name="Child1" Top="60.86" Width="756" Height="47.25">
+        <TextObject Name="Text30" Top="3.78" Width="756" Height="18.9" Text="[DescricaoRelatorio]" HorzAlign="Center" Font="Arial, 12pt, style=Bold"/>
+        <TextObject Name="Text31" Top="22.68" Width="756" Height="15.12" Text="Período: [DataInicial] à [DataFinal]" HorzAlign="Center" Font="Arial, 9pt, style=Italic">
+          <Formats>
+            <DateFormat/>
+            <DateFormat/>
+          </Formats>
+        </TextObject>
+      </ChildBand>
+    </PageHeaderBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="110.39" Width="756" Height="34.02" RepeatOnEveryPage="true" Condition="AgruparAnoMes([Operacao.ano],[Operacao.mes])">
+      <TextObject Name="Text18" Top="3.78" Width="209.79" Height="26.46" Text="Ano da Operação: [Operacao.ano]" VertAlign="Center" Font="Arial, 12pt, style=Italic"/>
+      <TextObject Name="Text26" Left="209.79" Top="3.78" Width="209.79" Height="26.46" Text="Mês da Operação: [Operacao.mes]" Format="Custom" Format.Format="00" VertAlign="Center" Font="Arial, 12pt, style=Italic"/>
+      <DataBand Name="Data1" Top="173.52" Width="756" Height="34.02" Border.Lines="Left, Right" Border.Width="0.25" CanGrow="true" CanShrink="true" DataSource="TbOperacao" Columns.Count="1">
+        <TextObject Name="Text1" Width="107.73" Height="17.01" Text="[Operacao.cfop]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text3" Left="107.73" Width="100.17" Height="17.01" Text="[Operacao.totalItem]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text5" Left="272.16" Width="58.59" Height="17.01" Text="[Operacao.totalSt]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text7" Left="330.75" Width="58.59" Height="17.01" Text="[Operacao.totalFcpSt]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text9" Left="389.34" Width="47.25" Height="17.01" Text="[Operacao.totalIpi]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text11" Left="436.59" Width="68.04" Height="17.01" Text="[Operacao.totalFrete]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text13" Left="504.63" Width="73.71" Height="17.01" Text="[Operacao.totalSeguro]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text15" Left="578.34" Width="68.04" Height="17.01" Text="[Operacao.totalOutros]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text17" Left="646.38" Width="109.62" Height="17.01" Text="[Operacao.totalFiscal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text36" Left="207.9" Width="64.26" Height="17.01" Text="[Operacao.totalIcms]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <DataHeaderBand Name="DataHeader1" Top="146.68" Width="756" Height="24.57" Border.Lines="All" Border.Width="0.25" RepeatOnEveryPage="true">
+          <TextObject Name="Text2" Width="107.73" Height="24.57" Text="CFOP" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text4" Left="107.73" Width="100.17" Height="24.57" Text="Valor" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text6" Left="272.16" Width="58.59" Height="24.57" Text="V. ST" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text8" Left="330.75" Width="58.59" Height="24.57" Text="FCP ST" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text10" Left="389.34" Width="47.25" Height="24.57" Text="IPI" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text12" Left="436.59" Width="68.04" Height="24.57" Text="V. Frete" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text14" Left="504.63" Width="73.71" Height="24.57" Text="V. Seguro" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text16" Left="578.34" Width="68.04" Height="24.57" Text="V. Outros" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text25" Left="646.38" Width="109.62" Height="24.57" Text="Valor Contábil" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+          <TextObject Name="Text37" Left="207.9" Width="64.26" Height="24.57" Text="Icms" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+        </DataHeaderBand>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="209.81" Width="756" Height="22.68" Border.Lines="All" Border.Width="0.25">
+        <TextObject Name="Text27" Left="646.38" Width="109.62" Height="22.68" Text="[Pg1-TotalFiscal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text38" Left="578.34" Width="68.04" Height="22.68" Text="[Pg1-Outros]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text39" Left="504.63" Width="73.71" Height="22.68" Text="[Pg1-Seguro]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text40" Left="436.59" Width="68.04" Height="22.68" Text="[Pg1-Frete]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text41" Left="389.34" Width="47.25" Height="22.68" Text="[Pg1-Ipi]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text42" Left="328.86" Width="60.48" Height="22.68" Text="[Pg1-FcpST]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text43" Left="272.16" Width="56.7" Height="22.68" Text="[Pg1-St]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text44" Left="207.9" Width="64.26" Height="22.68" Text="[Pg1-Icms]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text45" Left="107.73" Width="100.17" Height="22.68" Text="[Pg1-Total]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text46" Width="107.73" Height="22.68" Text="totalizadores:" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+      </GroupFooterBand>
+    </GroupHeaderBand>
+    <PageFooterBand Name="PageFooter1" Top="234.77" Width="756" Height="15.12" CanGrow="true" CanShrink="true">
+      <TextObject Name="Text28" Top="1.89" Width="179.55" Height="13.23" Text="Impresso em: [Date]" Font="Arial, 8pt, style=Italic"/>
+      <TextObject Name="Text29" Left="578.34" Top="1.89" Width="177.66" Height="13.23" Text="página: [Page#]/[TotalPages#]" HorzAlign="Right" Font="Arial, 8pt, style=Italic"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

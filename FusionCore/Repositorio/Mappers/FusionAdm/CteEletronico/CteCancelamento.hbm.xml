@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteCancelamento" table="cte_cancelamento">
+    <id name="CteId" column="cte_id">
+      <generator class="foreign">
+        <param name="property">Cte</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Cte" class="Cte" constrained="true" cascade="none" />
+
+    <property name="XmlEnvio" not-null="true">
+      <column name="xmlEnvio" sql-type="xml" length="2147483647"></column>
+    </property>
+
+    <property name="XmlRetorno" not-null="false">
+      <column name="xmlRetorno" sql-type="xml" length="2147483647"></column>
+    </property>
+
+    <property name="Ambiente" not-null="true">
+      <column name="tipoAmbiente"></column>
+    </property>
+
+    <property name="StatusResposta" not-null="true">
+      <column name="statusResposta"></column>
+    </property>
+
+    <property name="Justificativa" not-null="true">
+      <column name="justificativa"></column>
+    </property>
+
+    <property name="OcorreuEm" not-null="true">
+      <column name="ocorreuEm"></column>
+    </property>
+
+    <property name="Motivo" not-null="true">
+      <column name="motivo"></column>
+    </property>
+
+  </class>
+</hibernate-mapping>

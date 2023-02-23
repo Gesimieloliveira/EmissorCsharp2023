@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteImpostoDifal" table="cte_imposto_difal">
+    <id name="CteId" column="cte_id">
+      <generator class="foreign">
+        <param name="property">Cte</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Cte" class="Cte" constrained="true" cascade="none" />
+
+    <property name="BaseCalculo" column="baseCalculo" not-null="true" />
+    
+    <property name="PercentualFcp" column="percentualFcp" not-null="true" />
+    
+    <property name="PercentualAliquotaInterna" column="percentualAliquotaInterna" not-null="true" />
+    
+    <property name="PercentualAliquotaInterestadual" column="percentualAliquotaInterestadual" not-null="true" />
+    
+    <property name="PercentualProvisorio" column="percentualProvisorio" not-null="true" />
+    
+    <property name="ValorIcmsFcp" column="valorIcmsFcp" not-null="true" />
+    
+    <property name="ValorIcmsUfTermino" column="valorIcmsUfTermino" not-null="true" />
+    
+    <property name="ValorIcmsUfInicio" column="valorIcmsUfInicio" not-null="true" />
+    
+    <property name="Observacao" column="observacao" not-null="true" />
+
+  </class>
+</hibernate-mapping>

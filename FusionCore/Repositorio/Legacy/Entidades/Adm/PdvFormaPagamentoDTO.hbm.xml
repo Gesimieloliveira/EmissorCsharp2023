@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore" namespace="FusionCore.Repositorio.Legacy.Entidades.Adm" default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+  <class name="PdvFormaPagamentoDTO" table="pdv_forma_pagamento_ecf">
+    <id name="Id">
+      <column name="id" sql-type="tinyint" />
+    </id>
+    <property name="Nome" column="nome" not-null="true" length="30" />
+    <property name="AlteradoEm" column="alteradoEm" not-null="true" />
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronicoOs.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteOsSeguro" table="cte_os_seguro">
+    
+    <id name="Id" column="id" generator="identity"/>
+
+    <many-to-one name="CteOs" not-null="true" cascade="none">
+      <column name="cteOs_id"></column>
+    </many-to-one>
+
+    <property name="ResponsavelSeguro" not-null="true" column="responsavelSeguro"></property>
+
+    <property name="NomeSeguradora" not-null="true" column="nomeSeguradora"></property>
+
+    <property name="NumeroApolice" not-null="true" column="numeroApolice"></property>
+    
+  </class>
+</hibernate-mapping>

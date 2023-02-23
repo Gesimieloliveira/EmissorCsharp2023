@@ -1,0 +1,96 @@
+﻿<controles:FusionWindow x:Class="FusionNfce.Visao.Principal.ConsultaProdutoRapida.ConsultaProdutoRapidaForm"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                        xmlns:consultaProdutoRapida="clr-namespace:FusionNfce.Visao.Principal.ConsultaProdutoRapida"
+                        xmlns:fa="http://schemas.fontawesome.io/icons/"
+                        xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                        mc:Ignorable="d"
+                        Title="Consultar Produtos por código de brras"
+                        WindowStartupLocation="CenterScreen"
+                        d:DataContext="{d:DesignInstance consultaProdutoRapida:ConsultaProdutoRapidaFormModel}"
+                        Style="{DynamicResource MetroWindowDialogStyle}"
+                        FocusManager.FocusedElement="{Binding ElementName=TextBoxCodigoBarra}"
+                        Height="259" Width="720">
+
+    <DockPanel Margin="10" LastChildFill="False">
+        <Border DockPanel.Dock="Top"
+                BorderBrush="{StaticResource GrayBrush5}"
+                HorizontalAlignment="Stretch"
+                BorderThickness="1">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Margin="7,0,0,0" Grid.Column="0">
+                    <TextBlock Text="Código de barra" FontSize="9" />
+                    <TextBox BorderBrush="Transparent"
+                             x:Name="TextBoxCodigoBarra"
+                             BorderThickness="0"
+                             Text="{Binding Path=CodigoBarra, UpdateSourceTrigger=PropertyChanged}"
+                             KeyDown="CodigoBarra_OnKeyDown" />
+                </StackPanel>
+
+                <Button Grid.Column="1" BorderBrush="Transparent"
+                        Background="Transparent"
+                        Click="BuscarProduto_Click">
+                    <fa:ImageAwesome Icon="Search" Width="20" />
+                </Button>
+            </Grid>
+        </Border>
+
+        <GroupBox Header="Detalhes do produto" DockPanel.Dock="Top" Margin="0,10">
+            <StackPanel>
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Nome do produto:" FontSize="11" />
+                        <TextBlock Text="{Binding Produto.Nome}" FontSize="16" />
+                    </StackPanel>
+                </Grid>
+
+                <Grid Margin="0,40,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Unidade:" FontSize="11" />
+                        <TextBlock Text="{Binding Produto.UnidadeMedida.Sigla}" FontSize="16" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Aliquota ICMS:" FontSize="11" />
+                        <TextBlock Text="{Binding Produto.AliquotaIcms, StringFormat=N2}" FontSize="16" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Estoque:" FontSize="11" />
+                        <TextBlock Text="{Binding Produto.Estoque, StringFormat=N2}"
+                                   FontSize="16" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3" Background="{StaticResource AccentColorBrush4}">
+                        <TextBlock Text="Preço venda:" FontSize="11" />
+                        <TextBlock Text="{Binding Produto.PrecoVenda, StringFormat=C}"
+                                   FontSize="16"
+                                   HorizontalAlignment="Right"
+                                   FontWeight="Bold" />
+                    </StackPanel>
+
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+    </DockPanel>
+</controles:FusionWindow>

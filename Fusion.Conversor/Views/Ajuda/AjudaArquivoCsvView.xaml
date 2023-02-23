@@ -1,0 +1,56 @@
+﻿<controls:MetroWindow x:Class="Fusion.Conversor.Views.Ajuda.AjudaArquivoCsvView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:ajuda="clr-namespace:Fusion.Conversor.Views.Ajuda"
+                      mc:Ignorable="d" d:DataContext="{d:DesignInstance ajuda:AjudaArquivoCsvContexto}"
+                      Title="Ajuda layout arquivo CSV"
+                      SizeToContent="Height"
+                      MaxHeight="600" Width="650"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      WindowStartupLocation="CenterScreen"
+                      Loaded="LoadedHandler">
+
+    <DockPanel Margin="10">
+        <GroupBox DockPanel.Dock="Top" Header="Infomações sobre o arquivo">
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock
+                    FontSize="18" FontWeight="DemiBold" Margin="0,5,0,0"
+                    Text="A ordem das colunas no arquivo não interfere na importação" />
+
+                <TextBlock
+                    FontSize="18" FontWeight="DemiBold" Margin="0,5,0,0"
+                    Text="O arquivo precisa conter a primeira linha sendo o cabecalho" />
+
+                <TextBlock
+                    FontSize="18" FontWeight="DemiBold" Margin="0,5,0,0"
+                    Text="O arquivo deve utilizar como separador o 'ponto e virgula'" />
+
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox DockPanel.Dock="Top" Header="Informação sobre as colunas">
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock FontSize="18" FontWeight="DemiBold" Margin="0,5,0,0" TextWrapping="WrapWithOverflow">
+                    <Run Text="As colunas obrigatórias são: " />
+                    <Run Foreground="{DynamicResource DangerBrush}" Text="{Binding ColunasObrigatorias}" />
+                </TextBlock>
+
+                <TextBlock FontSize="18" FontWeight="DemiBold" Margin="0,5,0,0" TextWrapping="WrapWithOverflow">
+                    <Run Text="O arquivo pode conter as seguintes colunas: " />
+                    <Run Foreground="{DynamicResource AccentColorBrush}" Text="{Binding ColunasPossiveis}" />
+                </TextBlock>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0">
+            <Button
+                Width="158"
+                Content="Bacana, entendi!" HorizontalAlignment="Center"
+                Style="{DynamicResource FusionAccentedButton}" 
+                Click="EntendiClickHandler"/>
+        </StackPanel>
+    </DockPanel>
+</controls:MetroWindow>

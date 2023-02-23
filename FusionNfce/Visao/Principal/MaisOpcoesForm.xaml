@@ -1,0 +1,54 @@
+﻿<controls:MetroWindow x:Class="FusionNfce.Visao.Principal.MaisOpcoesForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        Title="Opções disponíveis" Height="150" Width="450"
+        Style="{DynamicResource MetroWindowDialogStyle}"
+        WindowStartupLocation =" CenterScreen">
+
+    <controls:MetroWindow.Resources>
+        <Style x:Key="MediumTileStyle" TargetType="controls:Tile">
+            <Setter Property="Height" Value="90" />
+            <Setter Property="TitleFontSize" Value="12" />
+            <Setter Property="Width" Value="160" />
+        </Style>
+    </controls:MetroWindow.Resources>
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <WrapPanel Width="Auto" MaxHeight="500" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+            <controls:Tile Title="Listar Vendas" Margin="5,0" Style="{DynamicResource MediumTileStyle}" 
+                           Command="{Binding CommandVendas, Mode=OneWay}">
+
+                <Grid Width="40" Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Print" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </controls:Tile>
+
+            <controls:Tile Title="Importar Pedido" Margin="5,0" Style="{DynamicResource MediumTileStyle}"
+                           Command="{Binding CommandPedidoVenda, Mode=OneWay}"
+                           controls:VisibilityHelper.IsVisible="{Binding IsPossuiGestor}">
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="NewspaperOutline" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </controls:Tile>
+        </WrapPanel>
+    </StackPanel>
+</controls:MetroWindow>

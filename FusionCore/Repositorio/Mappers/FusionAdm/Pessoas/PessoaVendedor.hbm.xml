@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Pessoas"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Vendedor" table="pessoa_vendedor">
+    <id name="Id" column="pessoa_id">
+      <generator class="foreign">
+        <param name="property">Pessoa</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Pessoa" constrained="true" cascade="none" />
+
+  </class>
+
+</hibernate-mapping>

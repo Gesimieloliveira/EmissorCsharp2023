@@ -1,0 +1,43 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.Backup.BackupForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:Fusion.Visao.Backup"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:wl="clr-namespace:Fusion.WhiteLabel;assembly=Fusion.WhiteLabel" xmlns:backup="clr-namespace:Fusion.Visao.Backup" xmlns:controls1="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                      mc:Ignorable="d"
+                      Title="Backup" Width="400" SizeToContent="Height"
+                      d:DataContext="{d:DesignInstance backup:BackupFormModel}"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      Loaded="MetroWindow_Loaded">
+    <Grid Margin="10">
+        <StackPanel>
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="FontSize" Value="15" />
+                </Style>
+            </StackPanel.Resources>
+
+            <TextBlock Text="Manter diretório padrão ou alterar na lupa"
+                       FontWeight="Bold" />
+            <StackPanel>
+                <controls1:SearchTextBox
+                    IsReadOnly="true"
+                    Text="{Binding Diretorio}"
+                    SearchEvent="SearchTextBox"/>
+            </StackPanel>
+            
+            <StackPanel Margin="0,5,0,0">
+                <Button Style="{DynamicResource FusionAccentedButton}" Width="150" HorizontalAlignment="Right" Click="FazerBackup">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Fazer Backup" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>

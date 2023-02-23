@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Vendas.Autorizadores.Nfce.Contingencia.Dominio"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ContingenciaNfce" table="cupom_fiscal_contingencia">
+    <id name="Id" column="id" generator="identity" />
+
+    <property name="EntrouEm">
+	    <column name="entrouEm" not-null="true"></column>
+    </property>
+
+	  <property name="FinalizaEm">
+      <column name="finalizaEm" not-null="true"></column>
+    </property>
+  </class>
+</hibernate-mapping>

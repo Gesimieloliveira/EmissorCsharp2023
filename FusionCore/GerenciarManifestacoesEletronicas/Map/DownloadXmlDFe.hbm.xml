@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.GerenciarManifestacoesEletronicas"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+
+  <class name="DownloadXmlDFe" table="mde_download_xml">
+
+    <id name="NfeResumidaId" column="mdeResumo_id">
+      <generator class="foreign">
+        <param name="property">NfeResumida</param>
+      </generator>
+    </id>
+
+    <property name="Xml">
+      <column name="xml" not-null="true" length="2147483647"/>
+    </property>
+
+    <one-to-one name="NfeResumida" constrained="true" />
+  </class>
+
+</hibernate-mapping>

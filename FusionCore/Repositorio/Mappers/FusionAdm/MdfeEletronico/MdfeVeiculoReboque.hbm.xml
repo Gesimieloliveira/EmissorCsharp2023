@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+
+  <class name="MDFeVeiculoReboque" table="mdfe_veiculo_reboque">
+    
+    <id column="id" name="Id" generator="identity"/>
+    
+    <many-to-one column="mdfeRodoviario_id" name="Rodoviario" class="MDFeRodoviario" not-null="true" cascade="none"/>
+    
+    <many-to-one column="veiculo_id" name="Veiculo" not-null="true" cascade="none"/>
+    
+  </class>
+  
+
+</hibernate-mapping>

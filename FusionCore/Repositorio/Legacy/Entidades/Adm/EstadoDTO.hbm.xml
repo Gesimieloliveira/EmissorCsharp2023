@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Adm"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="EstadoDTO" table="uf">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+    
+    <property name="Sigla" column="sigla" length="2" not-null="true" />
+    <property name="Nome" column="nome" length="75" not-null="true" />
+    <property name="CodigoIbge" column="codigoIbge" not-null="true" />
+  </class>
+</hibernate-mapping>

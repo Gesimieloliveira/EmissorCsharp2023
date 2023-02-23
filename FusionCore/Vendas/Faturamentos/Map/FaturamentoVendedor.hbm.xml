@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.PedidoVenda"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PedidoVendedor" table="pedido_vendedor">
+    <id access="field" name="_pedidoVendaId" unsaved-value="0">
+      <column name="pedidoVenda_id" not-null="true" />
+
+      <generator class="foreign">
+        <param name="property">PedidoVenda</param>
+      </generator>
+    </id>
+
+    <one-to-one name="PedidoVenda" constrained="true" cascade="none" />
+
+    <many-to-one name="Vendedor" cascade="none">
+      <column name="vendedor_id" not-null="false" />
+    </many-to-one>
+  </class>
+
+</hibernate-mapping>

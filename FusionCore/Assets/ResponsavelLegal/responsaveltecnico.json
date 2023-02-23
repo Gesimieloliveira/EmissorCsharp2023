@@ -1,0 +1,14 @@
+{
+  "razaoSocial": "",
+  "cnpj": "",
+  "inscricaoEstadual": "",
+  "email": "",
+  "telefone": "",
+  "nomeAplicacaoNfce": "",
+  "nomeAplicacaoPdv": "",
+  "Estado": {
+    "codigoIbge": "",
+    "nome": "",
+    "sigla": ""
+  }
+}

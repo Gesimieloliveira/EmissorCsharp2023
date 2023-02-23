@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="VolumeNfe" table="nfe_volume">
+    <id name="Id" generator="identity" >
+      <column name="id"></column>
+    </id>
+
+    <many-to-one name="Nfe" column="nfe_id" class="Nfeletronica" not-null="true" cascade="none"></many-to-one>
+
+    <property name="Quantidade" not-null="true">
+      <column name="quantidade"></column>
+    </property>
+
+    <property name="PesoBruto" not-null="true">
+      <column name="pesoBruto"></column>
+    </property>
+
+    <property name="PesoLiquido" not-null="true">
+      <column name="pesoLiquido"></column>
+    </property>
+    
+    <property name="Especie" not-null="true">
+      <column name="especie"></column>
+    </property>
+
+    <property name="Numeracao" not-null="true">
+      <column name="numeracao"></column>
+    </property>
+    
+    <property name="Marca" not-null="true">
+      <column name="marca"></column>
+    </property>
+
+    <!-->bag name="Lacres" table="nfe_volume_lacre" cascade="all-delete-orphan" lazy="true" inverse="true">
+      <key column="volume_id" />
+      <one-to-many class="LacreNfe" />
+    </-->
+
+  </class>
+</hibernate-mapping>

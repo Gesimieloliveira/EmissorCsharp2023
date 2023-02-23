@@ -1,0 +1,155 @@
+﻿<controles:FusionWindow x:Class="Fusion.Visao.TabelasPrecos.TabelaPrecoFormulario"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:fa="http://schemas.fontawesome.io/icons/"
+                  xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+                  xmlns:tipo="clr-namespace:FusionCore.FusionAdm.TabelasDePrecos;assembly=FusionCore"
+                  xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                  mc:Ignorable="d"
+                  WindowStartupLocation="CenterScreen" WindowState="Normal"
+                  Title="Formulário tabela de preços" 
+                  Style="{DynamicResource MetroWindowDialogStyle}"
+                  SizeToContent="Height" Width="800">
+
+    <StackPanel Margin="5">
+
+        <StackPanel>
+
+            <mah:ToggleSwitch
+                Width="Auto"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                OffContent="Inativo" OnContent="Ativo"
+                ContentDirection="LeftToRight"
+                IsOn="{Binding Status}" />
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock>Descrição da tabela de preços</TextBlock>
+            <TextBox Text="{Binding Descricao}" MaxLength="120"></TextBox>
+        </StackPanel>
+
+        <Grid Margin="0,5,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Margin="0,0,5,0">
+                <TextBlock>Qual o tipo do ajuste no preço?</TextBlock>
+                <ComboBox
+                    IsEnabled="{Binding IsPodeEditar}"
+                    Focusable="False"
+                    ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type tipo:TipoAjustePreco}}}"
+                    SelectedValue="{Binding TipoAjustePreco}"
+                    IsEditable="False"
+                     />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                <TextBlock Text="Qual % de ajuste aplicar?" />
+                <controles:DecimalTextBox Text="{Binding PercentualAjuste, StringFormat=N2}"></controles:DecimalTextBox>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" VerticalAlignment="Bottom">
+                <CheckBox 
+                    Content="Apenas para os itens da lista"
+                    IsChecked="{Binding ApenasItensDaLista}" />
+            </StackPanel>
+
+        </Grid>
+
+        <StackPanel Margin="0,40,0,0" Height="300">
+            <mah:MetroTabControl>
+                <mah:MetroTabItem Header="Ajuste diferenciado">
+                    <StackPanel>
+                        <StackPanel HorizontalAlignment="Right">
+                            <Button Width="135" Click="AdicionarPrecoDiferenciadoItem_OnClick" Style="{DynamicResource FusionAccentedButton}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:ImageAwesome Height="14" Width="14" 
+                                                         Foreground="White"
+                                                         Icon="Plus" 
+                                                         Margin="0,0,5,0" />
+                                        <TextBlock Text="Adicionar item" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <StackPanel>
+                                <TextBlock>Pesquisar Produto (Pressione ENTER para pesquisar o produto)</TextBlock>
+                                <TextBox Text="{Binding NomeParaPesquisa, Mode=TwoWay}" KeyDown="TextPesquisar_OnKeyUp"></TextBox>
+                            </StackPanel>
+                        </StackPanel>
+                        
+                        <DataGrid
+                            Height="180"
+                            x:Name="DataGridAjusteDiferenciado"
+                            Margin="0,10,0,0"
+                            HorizontalScrollBarVisibility="Auto"
+                            VerticalScrollBarVisibility="Auto"
+                            ItemsSource="{Binding AjusteDiferenciadoListagem}"
+                            AutoGenerateColumns="false"
+                            IsReadOnly="True"
+                            SelectedItem="{Binding AjusteDiferenciadoSelecionada}">
+
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                                    <EventSetter Event="MouseDoubleClick" Handler="ManipularUmAjuste" />
+                                </Style>
+                            </DataGrid.RowStyle>
+
+                            <DataGrid.Columns>
+
+                                <DataGridTemplateColumn Width="SizeToCells" IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Button Style="{DynamicResource FusionAccentedButton}" ClickMode="Release"
+                                                        Click="ClickExcluir_OnClick" Padding="7,4">
+                                                    <fa:ImageAwesome Icon="Trash" Foreground="{DynamicResource WhiteBrush}" Height="12" />
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTextColumn Header="Nome produto" Width="*" Binding="{Binding Produto.Nome}"
+                                                    helpers:DataGridColumnHelper.Align="Left" />
+                                <DataGridTextColumn 
+                                    helpers:DataGridColumnHelper.Align="Right"
+                                    Header="Preço venda" Width="110" Binding="{Binding Produto.PrecoVenda, StringFormat=N2}" />
+                                <DataGridTextColumn helpers:DataGridColumnHelper.Align="Right" Header="Ajuste" Width="110"
+                                                    Binding="{Binding PercentualAjuste, StringFormat=N2}" />
+                                <DataGridTextColumn helpers:DataGridColumnHelper.Align="Right" Header="Novo preço" Width="110"
+                                                    Binding="{Binding NovoPreco, StringFormat=N2}" />
+                            </DataGrid.Columns>
+
+                        </DataGrid>
+                    </StackPanel>
+                </mah:MetroTabItem>
+            </mah:MetroTabControl>
+        </StackPanel>
+
+        <StackPanel Background="{DynamicResource AccentColorBrush4}" Margin="0,20,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10"
+            >
+                <Button Style="{DynamicResource FusionAccentedButton}" Width="150" Click="Salvar_OnClick">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Save" Width="15" Foreground="{DynamicResource WhiteBrush}" />
+                        <TextBlock Text="Salvar registro" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+
+            </StackPanel>
+        </StackPanel>
+
+    </StackPanel>
+</controles:FusionWindow>

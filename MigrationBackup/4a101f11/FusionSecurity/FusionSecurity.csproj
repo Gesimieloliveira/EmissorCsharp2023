@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{244F455D-FE18-4D0E-B0E9-74CED2D5FD86}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FusionSecurity</RootNamespace>
+    <AssemblyName>FusionSecurity</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Exceptions\ArquivoLicencaOfflineException.cs" />
+    <Compile Include="Exceptions\ServidorLicencaException.cs" />
+    <Compile Include="Licenciamento\Offline\AlocadorAcesso.cs" />
+    <Compile Include="Licenciamento\Offline\Armazenamento\ArquivoLicencaOffline.cs" />
+    <Compile Include="Licenciamento\Offline\Armazenamento\LicenciadorOffline.cs" />
+    <Compile Include="Licenciamento\Offline\Armazenamento\SchemaArquivoLicencaOffline.cs" />
+    <Compile Include="Licenciamento\Offline\ChecadorLicencaOffline.cs" />
+    <Compile Include="Licenciamento\Revalidacao\RevalidadorLicenciamento.cs" />
+    <Compile Include="Licenciamento\ServiceFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\Api\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.ChaveDesbloqueio.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.ChaveMaquina.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.ChaveMaquina1.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.ChaveRevalidacao.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.ContraChave.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Algoritimo.IVM.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Dominio.AcessoConcedido.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Dominio.Licenca.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Dominio.LicencaEmUso.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Dominio.ResultadoChecagem.datasource" />
+    <None Include="Properties\DataSources\FusionCore.Seguranca.Licenciamento.Dominio.SituacaoOnline.datasource" />
+    <None Include="Service References\Api\FusionApi.Core.Faults.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Api\FusionCore.Seguranca.Licenciamento.Algoritimo.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Api\FusionCore.Seguranca.Licenciamento.Dominio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Api\service.wsdl" />
+    <None Include="Service References\Api\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Api\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\Api\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Api\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Api\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Api\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FusionCore\FusionCore.csproj">
+      <Project>{97B55012-27D3-46DD-9D50-1D100A3BDA49}</Project>
+      <Name>FusionCore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

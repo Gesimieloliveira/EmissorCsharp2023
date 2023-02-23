@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Papeis"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Papel" table="papel">
+    <id name="Id" column="id"></id>
+
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" length="60" not-null="true" />
+    </property>
+
+    <bag access="field" name="_usuarios" table="usuario_papel" cascade="none">
+      <key column="papel_id" />
+      <many-to-many class="FusionCore.Repositorio.Legacy.Entidades.Adm.UsuarioDTO" column="usuario_id" />
+    </bag>
+
+    <bag access="field" name="_permissoes" inverse="true" cascade="all-delete-orphan">
+      <key column="papel_id" />
+      <one-to-many class="FusionCore.Papeis.PapelPermissao" />
+    </bag>
+    
+  </class>
+</hibernate-mapping>

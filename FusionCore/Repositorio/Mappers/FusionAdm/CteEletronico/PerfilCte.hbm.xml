@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PerfilCte" table="perfil_cte">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="EmissorFiscal" cascade="none">
+      <column name="emissorFiscal_id" sql-type="tinyint" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="PerfilCfop" cascade="none">
+      <column name="perfilCfop_id" sql-type="smallint" />
+    </many-to-one>
+    
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" not-null="true" length="255" />
+    </property>
+
+    <property name="NaturezaOperacao">
+      <column name="naturezaOperacao" sql-type="varchar" not-null="true" length="60" />
+    </property>
+
+    <property name="TipoCte">
+      <column name="tipoCte" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="TipoServico">
+      <column name="tipoServico" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="Observacao">
+      <column name="observacao" sql-type="text" />
+    </property>
+
+    <property name="Ativo">
+      <column name="ativo" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="RemetentePadrao">
+      <column name="remetentePadrao" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="DocumentoPadrao">
+      <column name="documentoPadrao" sql-type="bit" not-null="true" />
+    </property>
+    
+    <property name="ProdutoPredominante">
+      <column name="produtoPredominante" sql-type="varchar" not-null="true" length="60" />
+    </property>
+
+    <property name="CodigoIbpt">
+      <column name="tabelaIbpt_codigo" not-null="false" />
+    </property>
+
+    <component name="Carga">
+      <property name="Ativo">
+        <column name="cargaPredefinida" not-null="true" />
+      </property>
+
+      <property name="Unidade">
+        <column name="cargaUnidade" not-null="true" />
+      </property>
+
+      <property name="TipoMedida">
+        <column name="cargaTipoMedida" not-null="true" />
+      </property>
+
+      <property name="Quantidade">
+        <column name="cargaQuantidade" not-null="true" />
+      </property>
+    </component>
+
+  </class>
+</hibernate-mapping>

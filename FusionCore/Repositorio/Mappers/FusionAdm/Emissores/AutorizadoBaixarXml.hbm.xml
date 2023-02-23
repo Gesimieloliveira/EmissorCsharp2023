@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Emissores"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+
+  <class name="AutorizadoBaixarXml" table="autorizado_baixar_xml">
+
+    <id name="EmissorFiscalId" column="emissorFiscal_id">
+      <generator class="foreign">
+        <param name="property">EmissorFiscal</param>
+      </generator>
+    </id>
+
+    <property name="Descricao">
+      <column name="descricao" not-null="true" />
+    </property>
+
+    <property name="DocumentoUnico">
+      <column name="documentoUnico" not-null="true" />
+    </property>
+
+    <one-to-one name="EmissorFiscal" constrained="true" lazy="proxy" />
+  </class>
+
+</hibernate-mapping>

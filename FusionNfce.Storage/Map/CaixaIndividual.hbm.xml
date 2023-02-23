@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.ControleCaixa"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CaixaIndividual" table="caixa_individual">
+    <id name="Id" generator="assigned">
+      <column name="id" not-null="true" />
+    </id>
+
+    <many-to-one
+      name="Usuario" cascade="none"
+      class="FusionCore.FusionNfce.Usuario.UsuarioNfce">
+
+      <column name="usuario_id" not-null="true" />
+    </many-to-one>
+
+    <property name="EstadoAtual">
+      <column name="estado" not-null="true" />
+    </property>
+
+    <property name="LocalEvento">
+      <column name="localEvento" not-null="true" />
+    </property>
+
+    <property name="TerminalId">
+      <column name="terminalOffline_id" not-null="false" />
+    </property>
+
+    <property name="DataAbertura">
+      <column name="dataAbertura" not-null="true" />
+    </property>
+
+    <property name="SaldoInicial">
+      <column name="saldoInicial" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="DataFechamento">
+      <column name="dataFechamento" not-null="false" />
+    </property>
+
+    <property name="SaldoCalculado">
+      <column name="saldoCalculado" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="SaldoInformado">
+      <column name="saldoInformado" not-null="true" precision="15" scale="2" />
+    </property>
+  </class>
+</hibernate-mapping>

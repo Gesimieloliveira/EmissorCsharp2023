@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="11/25/2021 14:27:38" ReportInfo.CreatorVersion="2021.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      // Aqui vai o código no momento do formulário iniciar
+      usarFiltro.Checked = false;
+      TxtCodigo.Enabled = false;
+      TxtDias.Enabled = false;
+      
+    }
+    
+    private void PageHeader1_BeforePrint(object sender, EventArgs e)
+    {
+      // Força o inicio do Data Source Empresa
+      Report.GetDataSource(&quot;Empresa&quot;).Init();
+      Report.GetDataSource(&quot;Cliente&quot;).Init();
+    }
+
+    private void btnOk_Click(object sender, EventArgs e)
+    {  
+      int empresaId = 0;
+      string[] partesEmpresa = CbEmpresa.Text.Split(',');
+      if (string.IsNullOrEmpty(CbEmpresa.Text) || partesEmpresa.Length &lt;= 1) {
+        MessageBox.Show(&quot;Preciso que escolha uma empresa!&quot;);
+        Form1.Form.DialogResult = DialogResult.None;
+        return;
+      }
+      
+      if (!string.IsNullOrWhiteSpace(TxtCodigo.Text) &amp;&amp; string.IsNullOrWhiteSpace(TxtDias.Text))
+      {
+        TableDataSource tds = (TableDataSource) Report.GetDataSource(&quot;Vendas&quot;);
+        string situacaoWhere = &quot; and uc.cliente_id = &quot; + int.Parse(TxtCodigo.Text) + &quot; order by uc.dataUltimaVenda DESC&quot;;
+        tds.SelectCommand += situacaoWhere;
+      }
+      
+      if (!string.IsNullOrWhiteSpace(TxtDias.Text) &amp;&amp; string.IsNullOrWhiteSpace(TxtCodigo.Text))
+      {
+        TableDataSource tds = (TableDataSource) Report.GetDataSource(&quot;Vendas&quot;);
+        string situacaoWhere = &quot; and DATEDIFF(day, uc.dataUltimaVenda, getdate()) &gt;= &quot; + int.Parse(TxtDias.Text) + &quot; order by uc.dataUltimaVenda DESC&quot;;
+        tds.SelectCommand += situacaoWhere;
+      }
+      
+      if (!string.IsNullOrWhiteSpace(TxtDias.Text) &amp;&amp; !string.IsNullOrWhiteSpace(TxtCodigo.Text))
+      {
+        TableDataSource tds = (TableDataSource) Report.GetDataSource(&quot;Vendas&quot;);
+        string situacaoWhere = &quot; and DATEDIFF(day, uc.dataUltimaVenda, getdate()) &gt;= &quot; + int.Parse(TxtDias.Text) + &quot;and uc.cliente_id = &quot; + int.Parse(TxtCodigo.Text) + &quot; order by uc.dataUltimaVenda DESC&quot;;
+        tds.SelectCommand += situacaoWhere;
+      }
+
+      Report.SetParameterValue(&quot;EmpresaId&quot;, empresaId);
+    }
+    
+    private void usar_Filtro(object sender, EventArgs e)
+    {
+      
+      if (usarFiltro.Checked == true)
+      {
+        TxtCodigo.Enabled = true;
+        TxtDias.Enabled = true;
+        return;
+      }
+      
+      if (usarFiltro.Checked == false)
+      {
+        TxtCodigo.Enabled = false;
+        TxtDias.Enabled = false;
+      }
+    }
+    
+    private string CortarString(string input, int length)
+    {
+      if (input != null &amp;&amp; input.Length &gt; length) {
+        return input.Substring(0, length);
+      }
+      
+      return input;
+    }
+  }
+}
+
+</ScriptText>
+  <Styles>
+    <Style Name="EvenStyle" Font="Arial, 10pt" ApplyBorder="false" ApplyTextFill="false" ApplyFont="false"/>
+  </Styles>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqAFHGp6KQj27H4qUwAIR20osKoEuMThoNBEGHpCn7frKFhbPuTyfJ5QdaTyoPdhf9mhFPFOiaHRCHYKYRYerZEA2XjnEvtma5aKDgnRbuTZn+jTrmMXVcuNvkV0tsy/8v5bJuQYBNpolFdj+0NLRFfPBQIK+book/PLVGEdqQQUrzK7Qn25hd5iHZyFjMh+6dpWdRvk4U81N67T7+DhT0Xu6i5cWt/GsKxs4/imvu61FkVNzq4y8/liLSZp8woKT2">
+      <TableDataSource Name="TbEmpresa" Alias="Empresa" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	(e.razaoSocial + ',' + cast(e.id as varchar)) as nome,&#13;&#10;	e.razaoSocial,&#13;&#10;	e.nomeFantasia,&#13;&#10;	e.logradouro,&#13;&#10;	e.cep,&#13;&#10;	e.bairro,&#13;&#10;	e.numero,&#13;&#10;	e.fone1,&#13;&#10;	e.fone2,&#13;&#10;	case when len(e.cnpj) = 14 then e.cnpj else e.cpf end as cpfnpj,&#13;&#10;	e.logo&#13;&#10;from empresa e">
+        <Column Name="bairro" DataType="System.String"/>
+        <Column Name="cep" DataType="System.String"/>
+        <Column Name="cpfnpj" DataType="System.String"/>
+        <Column Name="fone1" DataType="System.String"/>
+        <Column Name="fone2" DataType="System.String"/>
+        <Column Name="logo" DataType="System.Byte[]" BindableControl="Picture"/>
+        <Column Name="logradouro" DataType="System.String"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="nomeFantasia" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <Column Name="razaoSocial" DataType="System.String"/>
+      </TableDataSource>
+      <TableDataSource Name="Table" Alias="Cliente" DataType="System.Int32" Enabled="true" SelectCommand="select top 1&#13;&#10;		p.nome,&#13;&#10;		case when p.cpf = '' then p.cnpj else p.cpf end as documento,&#13;&#10;		pe.logradouro,&#13;&#10;		pe.complemento,&#13;&#10;		pe.numero,&#13;&#10;		pe.bairro,&#13;&#10;		pe.cep,&#13;&#10;		c.nome as cidade,&#13;&#10;		c.siglaUf,&#13;&#10;		pt.numero as telefone,&#13;&#10;		pm.email&#13;&#10;		&#13;&#10;from pessoa p&#13;&#10;left join pessoa_endereco pe on pe.pessoa_id = p.id&#13;&#10;left join pessoa_email pm on pm.pessoa_id = p.id&#13;&#10;left join pessoa_telefone pt on pt.pessoa_id = p.id&#13;&#10;left join cidade c on c.id = pe.cidade_id&#13;&#10;where p.id = @cliente">
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="Documento" DataType="System.String"/>
+        <Column Name="logradouro" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <Column Name="bairro" DataType="System.String"/>
+        <Column Name="complemento" DataType="System.String"/>
+        <Column Name="email" DataType="System.String"/>
+        <Column Name="cep" DataType="System.String"/>
+        <Column Name="siglaUf" DataType="System.String"/>
+        <Column Name="cidade" DataType="System.String"/>
+        <Column Name="telefone" DataType="System.String"/>
+        <CommandParameter Name="cliente" DataType="22" Expression="[clienteFiltro]"/>
+      </TableDataSource>
+      <TableDataSource Name="Table2" Alias="Vendas" DataType="System.Int32" Enabled="true" SelectCommand="with ultima_compra&#13;&#10;&#10;as (&#10;    &#13;&#10;	select &#10;       &#13;&#10;	 vv.cliente_id, &#10;        &#13;&#10;	max(vv.dataVenda)  as dataUltimaVenda&#13;&#10;&#10;    	from view_vendas vv&#10;    &#13;&#10;	group by vv.cliente_id&#13;&#10;&#10;)&#13;&#10;&#10;select &#10;    &#13;&#10;	uc.cliente_id,&#10;    p.nome,&#10;    &#13;&#10;	uc.dataUltimaVenda as dataUltimaCompra,&#10;    &#13;&#10;	DATEDIFF(day, uc.dataUltimaVenda, getdate()) as diasUltimaCompra,&#10;    (select top 1 pt.numero from pessoa_telefone pt where pt.pessoa_id = p.id) as telefone,&#10;    &#13;&#10;(select top 1 pe.email from pessoa_email pe where pe.pessoa_id = p.id) as email&#13;&#10;&#10;from ultima_compra uc&#13;&#10;&#10;inner join pessoa p on p.id = uc.cliente_id&#13;&#10;where 1 = 1">
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="telefone" DataType="System.String"/>
+        <Column Name="email" DataType="System.String"/>
+        <Column Name="cliente_id" DataType="System.Int32"/>
+        <Column Name="dataUltimaCompra" DataType="System.DateTime"/>
+        <Column Name="diasUltimaCompra" DataType="System.Int32"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="EmpresaId" DataType="System.Int32"/>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+    <Parameter Name="Parameter" DataType="System.String"/>
+    <Parameter Name="Cliente" DataType="System.String"/>
+    <Parameter Name="clienteFiltro" DataType="System.Int32"/>
+  </Dictionary>
+  <ReportPage Name="Page1" RawPaperSize="9" LeftMargin="5" RightMargin="5" FirstPageSource="15" OtherPagesSource="15" LastPageSource="15" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PageHeader1" Width="756" Height="88.83" Border.Lines="All" Border.Width="0.25" BeforePrintEvent="PageHeader1_BeforePrint">
+      <PictureObject Name="Picture1" Left="1.89" Top="5.67" Width="110.62" Height="65.39" DataColumn="Empresa.logo"/>
+      <TextObject Name="Text35" Left="154.98" Top="5.67" Width="599.13" Height="17.01" Text="[Empresa.nomeFantasia]" Font="Microsoft Sans Serif, 10pt"/>
+      <TextObject Name="Text36" Left="154.98" Top="22.68" Width="599.13" Height="17.01" Text="CNPJ / CPF: [Empresa.cpfnpj]" Font="Microsoft Sans Serif, 10pt"/>
+      <TextObject Name="Text37" Left="154.98" Top="39.69" Width="599.13" Height="17.01" Text="Endereço: [Empresa.logradouro], [Empresa.numero], [Empresa.bairro], [Empresa.cep]" Font="Microsoft Sans Serif, 10pt"/>
+      <TextObject Name="Text38" Left="154.98" Top="56.7" Width="599.13" Height="17.01" Text="Fone 1: [Empresa.fone1] / Fone 2: [Empresa.fone2]" Font="Microsoft Sans Serif, 10pt"/>
+      <ChildBand Name="Child1" Top="92.03" Width="756" Height="41.58">
+        <TextObject Name="Text27" Left="1.89" Top="18.9" Width="752.22" Height="22.68" Text="Última Compra" HorzAlign="Center" Font="Microsoft Sans Serif, 9pt, style=Italic">
+          <Formats>
+            <DateFormat/>
+            <DateFormat/>
+          </Formats>
+        </TextObject>
+        <TextObject Name="Text22" Left="1.89" Top="1.89" Width="752.22" Height="17.01" Text="[DescricaoRelatorio]" HorzAlign="Center" Font="Microsoft Sans Serif, 11pt, style=Bold"/>
+      </ChildBand>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="165.89" Width="756" Height="22.68" Fill.Color="WhiteSmoke" CanShrink="true" EvenStyle="EvenStyle" DataSource="Table2">
+      <TextObject Name="Text41" Left="1.89" Width="234.36" Height="18.9" CanShrink="true" CanBreak="false" Text="[Vendas.nome]" VertAlign="Center" WordWrap="false" Font="Arial, 8pt"/>
+      <TextObject Name="Text43" Left="453.6" Width="226.8" Height="18.9" CanShrink="true" Text="[Vendas.email]" VertAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text44" Left="680.4" Width="75.6" Height="18.9" CanShrink="true" Text="[Vendas.telefone]" VertAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text46" Left="236.25" Width="85.05" Height="18.9" CanShrink="true" Text="[Vendas.dataUltimaCompra]" Format="Date" Format.Format="d" VertAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text50" Left="321.3" Width="132.3" Height="18.9" CanShrink="true" Text="[Vendas.diasUltimaCompra]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center" Font="Arial, 8pt"/>
+      <DataHeaderBand Name="DataHeader1" Top="136.81" Width="756" Height="18.9" Border.Lines="All" Border.Width="0.5" RepeatOnEveryPage="true">
+        <TextObject Name="Text39" Left="1.89" Width="234.36" Height="18.9" Text="Nome" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text1" Left="453.6" Width="226.8" Height="18.9" Text="Email" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text2" Left="680.4" Width="75.6" Height="18.9" Text="Telefone" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text45" Left="236.25" Width="85.05" Height="18.9" Text="Data Venda" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text49" Left="321.3" Width="132.3" Height="18.9" Text="Dias sem comprar" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        <ChildBand Name="Child2" Top="158.91" Width="756" Height="3.78"/>
+      </DataHeaderBand>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="191.77" Width="756" Height="13.23" CanShrink="true">
+      <TextObject Name="TextPage" Left="599.13" Width="154.98" Height="13.23" Text="Pagina: [Page#]/[TotalPages#]" HorzAlign="Right" Font="Microsoft Sans Serif, 8pt, style=Italic"/>
+    </PageFooterBand>
+  </ReportPage>
+  <DialogPage Name="Form1" AcceptButton="btnOk" CancelButton="btnCancel" AutoScaleDimensions="96, 96" LoadEvent="Form1_Load" ClientSize="592, 257">
+    <GroupBoxControl Name="GroupBox5" Left="4" Top="76" Width="576" Height="132" Font="Tahoma, 8pt" TabIndex="7" Text="Filtro">
+      <GroupBoxControl Name="GroupBox4" Left="8" Top="44" Width="164" Height="56" Font="Tahoma, 8pt" TabIndex="6" Text="Informe Id/Código do cliente">
+        <TextBoxControl Name="TxtCodigo" Left="32" Top="24" Font="Tahoma, 8pt" TabIndex="7" ClickEvent="TextBox1_Click"/>
+      </GroupBoxControl>
+      <LabelControl Name="Label1" Left="8" Top="20" Width="109" Height="18" Font="Tahoma, 8pt" TabIndex="8" Text="Usar opções do filtro?" ClickEvent="Label1_Click"/>
+      <CheckBoxControl Name="usarFiltro" Left="124" Top="20" Width="15" Height="14" Font="Tahoma, 8pt" TabIndex="8" ClickEvent="usar_Filtro"/>
+      <GroupBoxControl Name="GroupBox6" Left="184" Top="44" Height="56" Font="Tahoma, 8pt" TabIndex="8" Text="Dias maior ou igual à última compra">
+        <TextBoxControl Name="TxtDias" Left="48" Top="24" Font="Tahoma, 8pt" TabIndex="8"/>
+      </GroupBoxControl>
+    </GroupBoxControl>
+    <GroupBoxControl Name="GroupBox3" Left="4" Top="8" Width="576" Height="60" Font="Tahoma, 8pt" TabIndex="5" Text="Escolha qual empresa fez as vendas">
+      <ComboBoxControl Name="CbEmpresa" Left="8" Top="20" Width="549" Font="Tahoma, 8pt" TabIndex="4" Text="Escolha uma empresa" DataColumn="Empresa.nome" DropDownWidth="513" ItemHeight="13"/>
+    </GroupBoxControl>
+    <ButtonControl Name="btnOk" Left="424" Top="218" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="507" Top="218" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="1" Text="Cancel" DialogResult="Cancel"/>
+  </DialogPage>
+</Report>

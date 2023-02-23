@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore" 
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Adm" 
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="UsuarioDTO" table="usuario">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <property name="Login" column="login" length="20" not-null="true" />
+    <property name="Senha" column="senha" length="40" not-null="true" />
+    <property name="AlteradoEm" column="alteradoEm" not-null="true" />
+    <property name="CadastradoEm" column="cadastradoEm" not-null="true" />
+    <property name="Tema" column="tema" length="7" not-null="true" />
+    
+    <property name="ApenasFaturamento">
+      <column name="apenasFaturamento" not-null="true" />
+    </property>
+
+    <bag access="field" name="_papeis" table="usuario_papel" inverse="true" cascade="none">
+      <key column="usuario_id" update="false" />
+      <many-to-many class="FusionCore.Papeis.Papel" column="papel_id" />
+    </bag>
+
+  </class>
+</hibernate-mapping>

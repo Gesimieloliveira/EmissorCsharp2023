@@ -1,0 +1,39 @@
+﻿<controls:MetroWindow x:Class="FusionNfce.Visao.Principal.ConfiguracoesSAT.ConfiguracoesSATForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:FusionNfce.Visao.Principal.ConfiguracoesSAT"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                      xmlns:configuracao="clr-namespace:FusionNfce.AutorizacaoSatFiscal.Configuracao.Configuracao"
+                      xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                      mc:Ignorable="d"
+                      WindowStartupLocation="CenterScreen"
+                      ResizeMode="NoResize"
+                      Style="{DynamicResource MetroWindowStyle}"
+                      Title="Configurações SAT" Height="160" Width="600">
+    <Grid>
+
+
+        <StackPanel>
+
+            <TextBlock Margin="0,5,0,0">Tipo Chamada</TextBlock>
+            <ComboBox TabIndex="1"
+                      ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type configuracao:ModeloSatFusion}}}"
+                      SelectedValue="{Binding ModeloSat}"
+                      IsEditable="False" />
+
+            <TextBlock Margin="0,5,0,0">Caminho Dll</TextBlock>
+
+            <controles:SearchTextBox
+                Text="{Binding CaminhoDll}" 
+                IsReadOnly="True"
+                SearchCommand="{Binding CommandBuscarDll}" />
+
+            <Button Margin="0,5,0,0" Command="{Binding CommandSalvar}">Salvar</Button>
+
+        </StackPanel>
+
+    </Grid>
+</controls:MetroWindow>

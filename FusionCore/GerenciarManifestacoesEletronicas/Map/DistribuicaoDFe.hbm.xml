@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore" 
+                   namespace="FusionCore.GerenciarManifestacoesEletronicas" 
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="DistribuicaoDFe" table="mde_distribuicao">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <property name="DocumentoUnicoInteressado" column="documentoUnicoInteressado" not-null="true" />
+    <property name="AmbienteSefaz" column="ambienteSefaz" not-null="true" />
+    <property name="UltimoNsuPesquisado" column="ultimoNsuPesquisado" not-null="true" />
+    <property name="MaiorNsu" column="maiorNsu" not-null="true" />
+    <property name="Xml" column="xml" not-null="true" length="2147483647" />
+    <property name="DataCriacao" column="dataCriacao" not-null="true" />
+
+    <bag name="_itens" access="field" table="mde_distribuicao_item" cascade="all-delete-orphan" inverse="true">
+        <key column="mdeDistribuicao_id"/>
+        <one-to-many class="ItemDistribuicaoDFe" />
+    </bag>
+
+  </class>
+</hibernate-mapping>

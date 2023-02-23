@@ -1,0 +1,69 @@
+﻿<fuc:FusionWindow x:Class="FusionWPF.SharedViews.ControleCaixa.AberturaDeCaixaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fuc="clr-namespace:FusionWPF.Controles"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:th="clr-namespace:FusionWPF.SharedViews.ControleCaixa"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance th:AberturaDeCaixaContexto}"
+        Title="Abertura de caixa"
+        Width="520" SizeToContent="Height"
+        Loaded="LoadedHandler">
+
+    <Border Padding="10">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock FontWeight="Bold" FontSize="24" Text="Operador: " />
+                <TextBlock FontWeight="Bold" FontSize="24" Text="{Binding OperadorCaixa.Login}" />
+            </StackPanel>
+
+            <Separator DockPanel.Dock="Top" Height="25" />
+
+            <StackPanel 
+                DockPanel.Dock="Top"
+                mah:VisibilityHelper.IsVisible="{Binding JaExisteCaixaAberto}">
+
+                <TextBlock 
+                    FontSize="22" TextAlignment="Center" 
+                    Text="Já existe um caixa aberto!" />
+            </StackPanel>
+
+            <StackPanel 
+                DockPanel.Dock="Top" 
+                mah:VisibilityHelper.IsCollapsed="{Binding JaExisteCaixaAberto}">
+
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock  
+                        Width="320" VerticalAlignment="Center"
+                        FontSize="18" Text="Data abertura: " />
+
+                    <TextBox 
+                        TextAlignment="Right" IsReadOnly="True"
+                        FontSize="18" Text="{Binding DataAbertura, StringFormat=d, Mode=OneWay}"/>
+                </DockPanel>
+
+                <DockPanel DockPanel.Dock="Top" Margin="0,5,0,0">
+                    <TextBlock  
+                        Width="320" VerticalAlignment="Center"
+                        FontSize="18" Text="Saldo Inicial: " />
+
+                    <fuc:DecimalTextBox
+                        x:Name="TbSaldoInicial"
+                        LimiteDecimal="2"
+                        FontSize="18" Text="{Binding SaldoInicial, StringFormat=N2}"/>
+                </DockPanel>
+
+                <StackPanel DockPanel.Dock="Top" Margin="0,30,0,0">
+                    <Button 
+                        Width="200"
+                        Click="AbrirNovoCaixaClickHandler"
+                        Style="{DynamicResource FusionAccentedButton}"
+                        Content="Abrir caixa" />
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
+    </Border>
+
+</fuc:FusionWindow>

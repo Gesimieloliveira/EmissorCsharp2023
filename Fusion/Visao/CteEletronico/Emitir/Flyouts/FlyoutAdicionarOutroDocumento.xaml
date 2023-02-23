@@ -1,0 +1,96 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.CteEletronico.Emitir.Flyouts.FlyoutAdicionarOutroDocumento"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                 xmlns:flags1="clr-namespace:FusionCore.FusionAdm.CteEletronico.Flags;assembly=FusionCore"
+                 xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                 mc:Ignorable="d" d:DesignWidth="1000"
+                 Position="Top" IsOpen="{Binding IsOpen}" IsModal="True" MaxHeight="662" Theme="Adapt"
+                 
+                 Loaded="FlyoutAdicionarOutroDocumento_OnLoaded">
+
+    <GroupBox Header="Informações de Outros Documentos">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Margin="0,0,5,0">
+                        <TextBlock Text="Tipo Documento" />
+                        <ComboBox IsEditable="False"
+                                  x:Name="ComboBoxTipoDocumento"
+                                  ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags1:TipoDocumento}}}"
+                                  SelectedItem="{Binding TipoDocumento}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock>Descrição outros</TextBlock>
+                        <TextBox Text="{Binding DescricaoOutros}" IsEnabled="{Binding EditarDescricaoOutros}"
+                                 MaxLength="100" />
+                    </StackPanel>
+
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="400" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                        <TextBlock>Número</TextBlock>
+                        <TextBox Text="{Binding Numero}" MaxLength="20" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                        <TextBlock>Data de emissão</TextBlock>
+                        <DatePicker SelectedDate="{Binding EmitidoEm}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock>Data prevista entrega</TextBlock>
+                        <DatePicker SelectedDate="{Binding PrevisaoEntregaEm}" />
+                    </StackPanel>
+
+                </Grid>
+
+
+                <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right">
+                    <StackPanel Width="150">
+                        <TextBlock>Valor do documento</TextBlock>
+                        <controles:DecimalTextBox Text="{Binding ValorTotal, StringFormat=N2}" />
+                    </StackPanel>
+                </DockPanel>
+            </StackPanel>
+
+            <!-- toolbar-bottom -->
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right">
+                <Button Width="50" Height="50"
+                        Style="{DynamicResource MetroCircleButtonStyle}"
+                        Click="OnClickBotaoSalvaOutroDocumento">
+                    <Rectangle Width="20" Height="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill">
+                                <VisualBrush.Visual>
+                                    <fa:ImageAwesome Icon="Save" />
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </DockPanel>
+            <!-- /toolbar-bottom -->
+        </DockPanel>
+
+    </GroupBox>
+</controls:Flyout>

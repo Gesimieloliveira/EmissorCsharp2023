@@ -1,0 +1,242 @@
+﻿<scw:ChildWindow x:Class="Fusion.Visao.DocumentoAReceber.FormularioDocumentoReceberView"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:local="clr-namespace:Fusion.Visao.DocumentoAReceber"
+                 xmlns:scw="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+                 xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                 xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+                 xmlns:cvs="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:financeiro="clr-namespace:FusionCore.FusionAdm.Financeiro;assembly=FusionCore"
+                 mc:Ignorable="d" d:DataContext="{d:DesignInstance local:FormularioDocumentoReceberContexto}"
+                 Style="{DynamicResource ChildWindowStyle}"
+                 Title="Cadastro de Documento a Receber"
+                 Background="White"
+                 Loaded="LoadedHandler">
+
+    <DockPanel Width="998" Margin="8">
+        <DockPanel DockPanel.Dock="Top" IsEnabled="{Binding PodeEditar, Mode=OneWay}">
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="450" />
+                </Grid.ColumnDefinitions>
+
+                <GroupBox Header="Dados do documento">
+                    <StackPanel>
+                        <StackPanel DockPanel.Dock="Top">
+                            <TextBlock
+                                Foreground="{DynamicResource AccentColorBrush}"
+                                TextAlignment="Right" FontSize="18" FontWeight="Bold"
+                                Text="{Binding StatusDocumento}" />
+                        </StackPanel>
+
+                        <StackPanel>
+                            <TextBlock Text="Empresa / Beneficiário" />
+
+                            <ComboBox
+                                ItemsSource="{Binding EmpresaContexto.EmpresasDisponiveis}"
+                                SelectedItem="{Binding EmpresaContexto.EmpresaSelecionada}" />
+                        </StackPanel>
+
+                        <DockPanel Margin="0,5,0,0">
+                            <StackPanel DockPanel.Dock="Left" Width="390">
+                                <TextBlock Text="Cliente / Pagador" />
+                                <controles:SearchTextBox
+                                    IsReadOnly="True"
+                                    IsEnabled="{Binding EhNovoRegistro}"
+                                    SearchCommand="{Binding ClienteContexto.PickerCommand}"
+                                    Text="{Binding ClienteContexto.ClienteSelecionado.Nome, Mode=OneWay}" />
+
+                            </StackPanel>
+
+                            <StackPanel DockPanel.Dock="Left" Margin="5,0,0,0">
+                                <TextBlock Text="Tipo documento" />
+
+                                <ComboBox
+                                    ItemsSource="{Binding TipoDocumentoContexto.TiposDisponiveis}"
+                                    SelectedItem="{Binding TipoDocumentoContexto.TipoSelecionado}"
+                                    DisplayMemberPath="Descricao" />
+                            </StackPanel>
+                        </DockPanel>
+
+                        <StackPanel Margin="0,5,0,0">
+                            <TextBlock Text="Descrição da cobrança (opcional)" />
+                            <TextBox Text="{Binding Descricao}" />
+                        </StackPanel>
+
+                        <WrapPanel Margin="0,10,0,0">
+                            <StackPanel DockPanel.Dock="Left" Width="130">
+                                <TextBlock Text="Data de emissão" />
+                                <DatePicker SelectedDate="{Binding DataEmissao, StringFormat=d}" />
+                            </StackPanel>
+
+                            <StackPanel DockPanel.Dock="Left" Width="135" Margin="5,0,0,0">
+                                <TextBlock Text="Vencimento" />
+                                <DatePicker SelectedDate="{Binding DataVencimento, StringFormat=d}" />
+                            </StackPanel>
+
+                            <StackPanel DockPanel.Dock="Left" Margin="5,0,0,0" Width="135">
+                                <TextBlock Text="Valor Documento" />
+                                <controles:DecimalTextBox Text="{Binding ValorDocumento, StringFormat=N2}"
+                                                          LimiteDecimal="2" />
+                            </StackPanel>
+
+                            <StackPanel DockPanel.Dock="Left" Margin="5,0,0,0" Width="75">
+                                <TextBlock Text="N. Parcela" />
+
+                                <TextBox
+                                    TextAlignment="Right"
+                                    IsEnabled="False" Text="{Binding NumeroParcela, StringFormat=D3}" />
+                            </StackPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+
+
+                <GroupBox Grid.Column="1" Header="Lançamentos feitos">
+                    <DataGrid
+                        HeadersVisibility="All" ItemsSource="{Binding Lancamentos}"
+                        CellStyle="{DynamicResource FusionDataGridCellNoTab}"
+                        Height="250">
+
+                        <DataGrid.RowDetailsTemplate>
+                            <DataTemplate DataType="financeiro:DocumentoReceberLancamento">
+                                <StackPanel Margin="3">
+                                    <TextBlock
+                                        Margin="1.5"
+                                        Text="{Binding CriadoEm, StringFormat='Data foi criado: {0}'}" />
+                                    <TextBlock
+                                        Margin="1.5"
+                                        Text="{Binding Estornado, StringFormat='Estornado: {0}', Converter={cvs:BooleanToSnConverter}}" />
+                                    <TextBlock
+                                        Margin="1.5"
+                                        Text="{Binding DataEstorno, StringFormat='Data do estorno: {0}'}" />
+                                    <TextBlock
+                                        Margin="1.5"
+                                        Text="{Binding UsuarioEstorno, StringFormat='Usuário estorno: {0}'}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="financeiro:DocumentoReceberLancamento">
+                                        <fa:ImageAwesome Height="13" HorizontalAlignment="Center" Margin="8,0">
+                                            <fa:ImageAwesome.Style>
+                                                <Style TargetType="fa:ImageAwesome">
+                                                    <Setter Property="Foreground"
+                                                            Value="{DynamicResource SuccessBrush}" />
+                                                    <Setter Property="Icon" Value="CheckCircleOutline" />
+
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Estornado}" Value="True">
+                                                            <Setter Property="Foreground"
+                                                                    Value="{DynamicResource DangerBrush}" />
+                                                            <Setter Property="Icon" Value="CircleOutline" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </fa:ImageAwesome.Style>
+                                        </fa:ImageAwesome>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn
+                                Header="Data"
+                                Width="Auto" Binding="{Binding CriadoEm, StringFormat='dd/MM/yy'}" />
+                            <DataGridTextColumn
+                                Header="Tipo lançamento"
+                                Width="*" Binding="{Binding DescricaoLancamento}" />
+                            <DataGridTextColumn
+                                Header="Op"
+                                Width="Auto" Binding="{Binding UsuarioCriacao, StringFormat=N2}" />
+                            <DataGridTextColumn
+                                Header="Valor"
+                                helpers:DataGridColumnHelper.Align="Right" Width="75"
+                                Binding="{Binding Valor, StringFormat=N2}" />
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
+            </Grid>
+
+            <GroupBox Header="Totais" DockPanel.Dock="Top">
+                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Width="115" Margin="1,0">
+                        <TextBlock Text="Valor original" />
+                        <controles:DecimalTextBox IsReadOnly="True" Text="{Binding ValorOriginal}" />
+                    </StackPanel>
+
+                    <StackPanel Width="115" Margin="1,0">
+                        <TextBlock Text="Valor documento" />
+                        <controles:DecimalTextBox IsReadOnly="True" Text="{Binding ValorDocumento, StringFormat=N2}" />
+                    </StackPanel>
+
+                    <StackPanel Width="115" Margin="1,0">
+                        <TextBlock Text="Juros lançado" />
+                        <controles:DecimalTextBox IsReadOnly="True" Text="{Binding JurosCalculado, StringFormat=N2}" />
+                    </StackPanel>
+
+                    <StackPanel Width="115" Margin="1,0">
+                        <TextBlock Text="Valor Desconto" />
+                        <controles:DecimalTextBox IsReadOnly="True" Text="{Binding ValorDesconto, StringFormat=N2}" />
+                    </StackPanel>
+
+                    <StackPanel Width="115" Margin="1,0">
+                        <TextBlock Text="Valor recebido" />
+                        <controles:DecimalTextBox IsReadOnly="True" Text="{Binding ValorRecebido, StringFormat=N2}" />
+                    </StackPanel>
+
+                    <StackPanel Width="115" Margin="1,0">
+                        <TextBlock Text="Valor restante" />
+                        <controles:DecimalTextBox IsReadOnly="True" Text="{Binding ValorRestante, StringFormat=N2}" />
+                    </StackPanel>
+
+                    <StackPanel Width="115" Margin="1,0">
+                        <TextBlock Text="Juros pendente" />
+                        <controles:DecimalTextBox IsReadOnly="True" Text="{Binding JurosPendente, StringFormat=N2}" />
+                    </StackPanel>
+
+                    <StackPanel Width="145" Margin="1,0">
+                        <TextBlock Text="Valor restante com juros" />
+                        <controles:DecimalTextBox IsReadOnly="True"
+                                                  Text="{Binding ValorRestanteCorrigido, StringFormat=N2}" />
+                    </StackPanel>
+                </WrapPanel>
+            </GroupBox>
+        </DockPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,20,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button
+                    Name="BotaoSalvar"
+                    IsEnabled="{Binding PodeEditar, Mode=OneWay}"
+                    Margin="5" Width="150"
+                    Style="{DynamicResource FusionAccentedButton}"
+                    Content="Salvar"
+                    Click="SalvarDocumentoLCickHandler" />
+
+                <Button
+                    Name="BotaoCancelar"
+                    Margin="5"
+                    Focusable="False"
+                    Style="{DynamicResource FusionDangerButton}"
+                    Content="Cancelar Documento"
+                    Click="CancelarDocumentoClickHandler" />
+
+                <Button
+                    Name="BotaoEstornar"
+                    Margin="5"
+                    Style="{DynamicResource FusionWarningButton}"
+                    Focusable="False"
+                    Content="Estornar lançamento"
+                    Click="EstornarLancamentoClickHandler" />
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+</scw:ChildWindow>

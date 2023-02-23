@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore" namespace="FusionCore.Repositorio.Legacy.Entidades.Adm"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+  <class name="PdvEcfDTO" table="pdv_ecf">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <property name="Ativo" not-null="true">
+      <column name="ativo" sql-type="bit" />
+    </property>
+
+    <property name="NumeroEcf" column="numeroEcf" not-null="true" length="5" />
+    <property name="Serie" column="serie" not-null="true" length="20" />
+    <property name="Modelo" column="modelo" not-null="true" length="30" />
+    <property name="AlteradoEm" column="alteradoEm" not-null="true" />
+  </class>
+</hibernate-mapping>

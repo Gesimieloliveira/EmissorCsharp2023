@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Tributacoes.Estadual"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="TributacaoIcms" table="situacao_tributaria_icms" mutable="false">
+    <id name="Codigo">
+      <column name="id" not-null="true" sql-type="varchar" length="2" />
+    </id>
+
+    <property name="Descricao">
+      <column name="descricao" length="255" not-null="true" />
+    </property>
+    
+    <property name="IsNFe" column="isNFe" not-null="true" />
+    
+    <property name="IsCTe" column="isCTe" not-null="true" />
+
+    <property name="IsCTeOs" column="isCTeOs" not-null="true" />
+    
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MDFeEletronico" table="mdfe">
+    
+    <id name="Id" column="id" >
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="EmissorFiscal" not-null="true" cascade="none">
+      <column name="emissorFiscal_id"/>
+    </many-to-one>
+
+    <one-to-one name="Emissao" class="MDFeEmissao" cascade="none" />
+
+    <one-to-one name="Emitente" class="MDFeEmitente" cascade="none" />
+    
+    <one-to-one name="Rodoviario" class="MDFeRodoviario" cascade="none"/>
+
+	<property access="backfield" name="CriadoEm" not-null="true">
+	  <column name="criadoEm" />
+	</property>
+
+    <property name="TipoEmitente" not-null="true">
+      <column name="tipoEmitente" />
+    </property>
+
+    <property name="Modal" not-null="true">
+      <column name="modal" />
+    </property>
+
+    <property name="ProcessoEmissao" not-null="true">
+      <column name="processoEmissao" />
+    </property>
+
+    <property name="VersaoAplicativo" not-null="true">
+      <column name="versaoAplicativo" />
+    </property>
+
+    <many-to-one name="EstadoCarregamento" class="FusionCore.Repositorio.Legacy.Entidades.Adm.EstadoDTO" not-null="true" cascade="none">
+      <column name="ufCarregamento_id"></column>
+    </many-to-one>
+
+    <many-to-one name="EstadoDescarregamento" class="FusionCore.Repositorio.Legacy.Entidades.Adm.EstadoDTO" not-null="true" cascade="none">
+      <column name="ufDescarregamento_id"></column>
+    </many-to-one>
+
+    <property name="QuantidadeCTe" not-null="true">
+      <column name="quantidadeCTe" />
+    </property>
+
+    <property name="QuantidadeNFe" not-null="true">
+      <column name="quantidadeNFe" />
+    </property>
+
+    <property name="ValorTotalCarga" not-null="true">
+      <column name="valorTotalCarga" />
+    </property>
+
+    <property name="UnidadeMedida" not-null="true">
+      <column name="codigoUnidadeMedida" />
+    </property>
+    
+    <property name="PesoBrutoCarga" not-null="true">
+      <column name="pesoBrutoTotalCarga" />
+    </property>
+
+    <property name="Observacao" not-null="true">
+      <column name="observacao" />
+    </property>
+
+    <property name="TipoEmissao" not-null="true">
+      <column name="tipoEmissao" />
+    </property>
+    
+    <property name="Status" not-null="true">
+      <column name="status" />
+    </property>
+    
+    <property name="TipoDoTransportador" not-null="true">
+      <column name="tipoTransportador"/>
+    </property>
+
+    <property name="EmissaoEm" not-null="true">
+      <column name="emissaoEm" />
+    </property>
+
+    <property name="PrevisaoInicioViagemEm" not-null="true">
+      <column name="previsaoInicioViagemEm" />
+    </property>
+
+    <property name="SerieEmissao" not-null="true">
+      <column name="serieEmissao" />
+    </property>
+
+    <property name="NumeroFiscalEmissao" not-null="true">
+      <column name="numeroFiscalEmissao" />
+    </property>
+
+    <property name="CodigoNumericoEmissao" not-null="true">
+      <column name="codigoNumericoEmissao" />
+    </property>
+
+    <property name="IsCalcularTotalCargaAutomatico" not-null="true">
+      <column name="isCalcularTotalCargaAutomatico" />
+    </property>
+
+    <property name="CargaFechada" not-null="true">
+      <column name="cargaFechada"></column>
+    </property>
+
+    <component name="ProdutoPredominante"
+               class="FusionCore.FusionAdm.MdfeEletronico.ProdutoPredominante">
+
+      <property name="TipoCarga" not-null="true">
+        <column name="tipoCargaProdutoPredominante"></column>
+      </property>
+
+      <property name="Nome" not-null="true">
+        <column name="nomeProdutoPredominante"></column>
+      </property>
+
+      <property name="CodigoBarras" not-null="true">
+        <column name="codigoBarrasProdutoPredominante"></column>
+      </property>
+
+      <property name="Ncm" not-null="true">
+        <column name="ncmProdutoPredominante"/>
+      </property>
+
+      <property name="CepCarregamento" not-null="true">
+        <column name="cepCarregamento"></column>
+      </property>
+
+      <property name="CepDescarregamento" not-null="true">
+        <column name="cepDescarregamento"></column>
+      </property>
+
+    </component>
+
+	  <property name="CategoriaComercialVeiculo" not-null="true">
+		  <column name="categoriaComercialVeiculo"></column>
+	  </property>
+
+    <bag name="MunicipioCarregamentos" table="mdfe_info_municipio_carregamento" cascade="none" inverse="true">
+      <key column="mdfe_id"/>
+      <one-to-many class="MDFeMunicipioCarregamento"/>
+    </bag>
+
+    <bag access="field" name="_descarregamentos" table="mdfe_descarregamento" cascade="all-delete-orphan" inverse="true">
+      <key column="mdfe_id"/>
+      <one-to-many class="MDFeDescarregamento"/>
+    </bag>
+
+    <bag name="Lacres" table="mdfe_lacre" cascade="none" inverse="true">
+      <key column="mdfe_id"/>
+      <one-to-many class="MDFeLacre"/>
+    </bag>
+    
+    <bag name="Percursos" table="mdfe_info_percurso" cascade="none" inverse="true">
+      <key column="mdfe_id"/>
+      <one-to-many class="MDFePercurso"/>
+    </bag>
+
+    <bag name="Eventos" table="mdfe_evento" cascade="none" inverse="true">
+      <key column="mdfe_id"/>
+      <one-to-many class="MDFeEvento"/>
+    </bag>
+    
+    <bag name="SeguroCargas" table="mdfe_seguro_carga" cascade="none" inverse="true">
+      <key column="mdfe_id"/>
+      <one-to-many class="MDFeSeguroCarga"/>
+    </bag>
+
+    <bag name="EventosPagamentos" table="mdfe_evento_pagamento" cascade="none" inverse="true">
+      <key column="mdfe_id"/>
+      <one-to-many class="FusionCore.FusionAdm.MdfeEletronico.EventoPagamento.Entidades.MDFeEventoPagamento"/>
+    </bag>
+
+    <bag name="InformacaoPagamentos" table="mdfe_autorizacao_informacao_pagamento" cascade="none" inverse="true" batch-size="50">
+      <key column="mdfe_id" />
+      <one-to-many class="FusionCore.FusionAdm.MdfeEletronico.Autorizador.MdfeAutorizacaoInformacaoPagamento" />
+    </bag>
+    
+  </class>
+</hibernate-mapping>

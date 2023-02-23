@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MDFeLacre" table="mdfe_lacre">
+    <id name="Id" column="id" generator="identity"/>
+
+    <many-to-one name="MDFeEletronico" class="MDFeEletronico" not-null="true" cascade="none">
+      <column name="mdfe_id"/>
+    </many-to-one>
+    
+    <property name="Numero" column="numero" not-null="true"/>
+    
+  </class>
+  
+</hibernate-mapping>

@@ -1,0 +1,97 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.CteEletronico.Emitir.CteEmitirForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:aba="clr-namespace:Fusion.Visao.CteEletronico.Emitir.Aba"
+                      xmlns:system="clr-namespace:System;assembly=mscorlib"
+                      xmlns:flyouts="clr-namespace:Fusion.Visao.CteEletronico.Emitir.Flyouts"
+                      mc:Ignorable="d" d:DesignHeight="662" d:DesignWidth="1020"
+                      WindowStartupLocation="CenterScreen" WindowState="Normal"
+                      Title="Conhecimento Transporte Eletrônico"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      Loaded="CteEmitirForm_OnLoaded"
+                      Width="1020" MinHeight="662">
+
+    <controls:MetroWindow.Resources>
+        <system:Double x:Key="FontSizeTab">15</system:Double>
+
+        <Style TargetType="ComboBox" BasedOn="{StaticResource FusionComboBox}">
+            <Setter Property="IsEditable" Value="False" />
+        </Style>
+    </controls:MetroWindow.Resources>
+
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <flyouts:FlyoutAdicionarNfe DataContext="{Binding FlyoutAdicionarNfeModel}" />
+            <flyouts:FlyoutAdicionarNotaFiscalImpressa DataContext="{Binding FlyoutAdicionarNotaFiscalImpressaModel}" />
+            <flyouts:FlyoutAdicionarOutroDocumento DataContext="{Binding FlyoutAdicionarOutroDocumentoModel}" />
+            <flyouts:FlyoutInformacaoCarga DataContext="{Binding FlyoutInformacaoCargaModel}" />
+            <flyouts:FlyoutAddVeiculoParaTransporte DataContext="{Binding FlyoutAddVeiculoParaTransporteModel}" />
+            <flyouts:FlyoutAbaInformacoesImportacaoCte DataContext="{Binding FlyoutAbaInformacoesImportacaoCteModel}" />
+            <flyouts:FlyoutAddComponenteValorPrestacao DataContext="{Binding FlyoutAddComponenteValorPrestacaoModel}" />
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+
+    <AdornerDecorator>
+        <DockPanel LastChildFill="true" IsEnabled="{Binding EdicaoCte}">
+            <controls:MetroTabControl x:Name="TabControl" DockPanel.Dock="Top">
+                <controls:MetroTabItem
+                    controls:HeaderedControlHelper.HeaderFontSize="{DynamicResource FontSizeTab}"
+                    IsEnabled="False"
+                    Header="Passo 1: Perfil"
+                    DataContext="{Binding AbaPerfilModel}">
+                    <aba:AbaPerfilCte />
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem controls:HeaderedControlHelper.HeaderFontSize="{DynamicResource FontSizeTab}"
+                         DataContext="{Binding AbaCabecalhoCteModel}"
+                         Header="Passo 2: Cabeçalho"
+                         IsEnabled="{Binding Habilitado}"
+                         IsSelected="{Binding Selecionado}">
+                    <aba:AbaCabecalhoCte />
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem controls:HeaderedControlHelper.HeaderFontSize="{DynamicResource FontSizeTab}"
+                         DataContext="{Binding AbaInformacoesCteModel}"
+                         IsEnabled="{Binding Habilitado}"
+                         Header="Passo 3: Remetente/Destinatário"
+                         IsSelected="{Binding Selecionado}">
+
+                    <aba:AbaInformacoesCte />
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem controls:HeaderedControlHelper.HeaderFontSize="{DynamicResource FontSizeTab}"
+                         Header="Passo 4: Documentos"
+                         DataContext="{Binding AbaDocumentosOriginariosModel}"
+                         IsEnabled="{Binding Habilitado}"
+                         IsSelected="{Binding Selecionado}">
+
+                    <aba:AbaDocumentosOriginariosCte />
+
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem controls:HeaderedControlHelper.HeaderFontSize="{DynamicResource FontSizeTab}"
+                         controls:VisibilityHelper.IsVisible="{Binding Visivel}"
+                         Header="Passo 5: Tributação"
+                         DataContext="{Binding AbaTributacaoModel}"
+                         IsEnabled="{Binding Habilitado}"
+                         IsSelected="{Binding Selecionado}">
+
+                    <aba:AbaTributacaoCte controls:VisibilityHelper.IsVisible="{Binding Visivel}" />
+
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem controls:HeaderedControlHelper.HeaderFontSize="{DynamicResource FontSizeTab}"
+                         Header="{Binding Header}"
+                         DataContext="{Binding AbaInformacoesCargaCteModel}"
+                         IsEnabled="{Binding Habilitado}"
+                         IsSelected="{Binding Selecionado}">
+                    <aba:AbaInformacoesCargaCte />
+                </controls:MetroTabItem>
+            </controls:MetroTabControl>
+        </DockPanel>
+
+    </AdornerDecorator>
+</controls:MetroWindow>

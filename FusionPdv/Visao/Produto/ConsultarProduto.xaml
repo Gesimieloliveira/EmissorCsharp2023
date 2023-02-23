@@ -1,0 +1,99 @@
+﻿<controls:MetroWindow x:Class="FusionPdv.Visao.Produto.ConsultarProduto"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      Title="Fusion Pdv - Consultar Produtos"
+                      KeyDown="ConsultarProduto_OnKeyDown" Height="600" Width="800"
+                      ResizeMode="NoResize"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowStyle}"
+                      Language="pt-BR">
+    
+    <DockPanel LastChildFill="False" Margin="10,0">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="8*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Column="0" Grid.Row="0" Margin="0, 10, 0, 0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBox PreviewKeyDown="TBConsulta_OnPreviewKeyDown"
+                             KeyDown="TBConsulta_OnKeyDown"
+                             Name="TBConsulta"
+                             FontSize="18" Grid.Column="0" Grid.Row="0"
+                             Text="{Binding FiltroPorNome, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Button Name="BtBuscarProdutoPorNome" Grid.Column="1" Grid.Row="0"
+                            Click="BtBuscarProdutoPorNome_Click">
+                        <fa:ImageAwesome Icon="Search" Width="18" Height="18" />
+                    </Button>
+
+                </Grid>
+            </StackPanel>
+
+            <ListBox
+                KeyDown="LbListaDeProdutos_OnKeyDown" 
+                Name="LbListaDeProdutos"
+                Grid.Column="0" 
+                Grid.Row="1"
+                Height="467"
+                ItemsSource="{Binding ListaDeProduto}" 
+                SelectedItem="{Binding ProdutoSelecionado}">
+
+                <ListBox.Resources>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <EventSetter Event="MouseDoubleClick" Handler="DoubleClickEditarEnderecoHandler" />
+                    </Style>
+                </ListBox.Resources>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock FontSize="16" FontWeight="Bold" Text="{Binding Nome}" />
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" Margin="0, 0, 7, 0">
+                                    <TextBlock Margin="0, 0, 5, 0">Preço de Venda:</TextBlock>
+                                    <TextBlock Text="{Binding PrecoVenda, StringFormat=C}" />
+                                </StackPanel>
+                                
+                                <StackPanel Orientation="Horizontal" Margin="0, 0, 7, 0">
+                                    <TextBlock Margin="0, 0, 5, 0">Unidade:</TextBlock>
+                                    <TextBlock Text="{Binding SiglaUnidade}" />
+                                </StackPanel>
+                                
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="0, 0, 5, 0">Estoque:</TextBlock>
+                                    <TextBlock Text="{Binding Estoque, StringFormat=N2}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <DockPanel Dock="Bottom" Height="60" Background="{StaticResource AccentColorBrush4}">
+            <StackPanel HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+
+                <Button Name="BtConfirmar" Width="200" Click="BtConfirmar_Click" Margin="0,0,30,0"
+                        Content="Confirmar (F2)" />
+                <Button Name="BtCancelar" Width="200" Click="BtCancelar_OnClick" Margin="30,0,0,0"
+                        Content="Cancelar (ESC)" />
+            </StackPanel>
+        </DockPanel>
+    </DockPanel>
+</controls:MetroWindow>

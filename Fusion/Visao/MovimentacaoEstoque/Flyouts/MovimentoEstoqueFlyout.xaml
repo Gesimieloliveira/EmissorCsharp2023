@@ -1,0 +1,56 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.MovimentacaoEstoque.Flyouts.MovimentoEstoqueFlyout"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:system="clr-namespace:System;assembly=mscorlib"
+                 xmlns:flags="clr-namespace:FusionCore.Repositorio.Legacy.Flags;assembly=FusionCore"
+                 xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                 mc:Ignorable="d" MinWidth="650" 
+                 Header="Cadastrar movimentação" 
+                 Position="Left" IsModal="True" Theme="Light" 
+                 IsOpen="{Binding IsOpen}"
+                 CloseCommand="{Binding CloseCommand}"
+                 Loaded="LoadedHandler">
+
+    <DockPanel Margin="8,15">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Tipo do Evento" />
+            <ComboBox ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags:TipoEventoEstoque}}}"
+                      SelectedItem="{Binding TipoEvento}" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Descrição" />
+            <TextBox MaxLength="255" Text="{Binding Descricao}" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Data Movimento" />
+            <DatePicker SelectedDate="{Binding DataMovimento}" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,10,0,0"
+                    VerticalAlignment="Top">
+
+            <Button Width="50" Height="50"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                    Click="OnClickSalvarMovimentacao">
+                <Rectangle Width="20" Height="20"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Save" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </StackPanel>
+    </DockPanel>
+</controls:Flyout>

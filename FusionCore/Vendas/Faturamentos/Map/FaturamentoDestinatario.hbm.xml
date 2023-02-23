@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.Vendas.Faturamentos"
+  default-lazy="false" default-cascade="none"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Destinatario" table="faturamento_destinatario">
+    <id name="Id" column="faturamentoVenda_id" unsaved-value="0">
+      <generator class="foreign">
+        <param name="property">Faturamento</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Faturamento" constrained="true" cascade="none" />
+
+    <many-to-one name="Cliente" cascade="none">
+      <column name="cliente_id" sql-type="int" not-null="true" />
+    </many-to-one>
+
+    <component name="Endereco">
+      <property name="Cep">
+        <column name="cep" not-null="true" sql-type="varchar" length="8" />
+      </property>
+
+      <property name="Logradouro">
+        <column name="logradouro" not-null="true" sql-type="varchar" length="60" />
+      </property>
+
+      <property name="Numero">
+        <column name="numero" not-null="true" sql-type="varchar" length="60" />
+      </property>
+
+      <property name="Bairro">
+        <column name="bairro" not-null="true" sql-type="varchar" length="60" />
+      </property>
+
+      <property name="Complemento">
+        <column name="complemento" not-null="true" sql-type="varchar" length="60" />
+      </property>
+
+      <many-to-one name="Cidade" cascade="none">
+        <column name="cidade_id" not-null="true" sql-type="int" />
+      </many-to-one>
+    </component>
+  </class>
+</hibernate-mapping>

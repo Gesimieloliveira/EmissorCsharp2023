@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Fusion.Visao.Pessoa.Aba.PessoaTransportadoraAba"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:flags1="clr-namespace:FusionCore.FusionAdm.CteEletronico.Flags;assembly=FusionCore"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d"
+             d:DesignWidth="650"
+             Background="{StaticResource WhiteBrush}">
+
+    <UserControl.Resources>
+        <conversores:BooleanToSnConverter x:Key="BooleanToSnConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="6,0,0,0" HorizontalAlignment="Left">
+            <TextBlock>RNTRC</TextBlock>
+            <TextBox Width="225" MaxLength="8" Text="{Binding Rntrc}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="6,0,0,0" HorizontalAlignment="Left">
+            <TextBlock>Tipo</TextBlock>
+            <ComboBox IsEditable="False" Width="225"
+                      ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags1:TipoProprietario}}}"
+                      SelectedItem="{Binding TipoProprietario}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="0" Grid.Row="1" Margin="6,5,0,0" HorizontalAlignment="Left">
+            <TextBlock>TAF (Termo de Autorização de Fretamento)</TextBlock>
+            <TextBox Width="225" MaxLength="12" Text="{Binding Taf}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="6,5,0,0" HorizontalAlignment="Left">
+            <TextBlock>Número do Registro Estadual</TextBlock>
+            <TextBox Width="225" MaxLength="25" Text="{Binding NumeroDoRegistroEstadual}" />
+        </StackPanel>
+    </Grid>
+
+
+</UserControl>

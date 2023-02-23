@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Adm"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ProdutoDTO" table="produto">
+    <id name="Id" column="id" type="Int32">
+      <generator class="FusionCore.Repositorio.IdGenerator.CustomIdentityGenerator, FusionCore" />
+    </id>
+
+    <many-to-one class="FusionCore.FusionAdm.Produtos.ProdutoLocalizacao" name="Localizacao"
+                 column="produtoLocalizacao_id" outer-join="true" />
+
+    <many-to-one name="ProdutoUnidadeDTO" column="produtoUnidade_id" not-null="true" outer-join="true" />
+
+    <many-to-one name="ProdutoUnidadeTributavel" column="produtoUnidadeTributavel_id" not-null="false" outer-join="true" />
+
+    <many-to-one name="ProdutoGrupoDTO" column="produtoGrupo_id" not-null="true" outer-join="true" />
+
+    <property name="Nome" type="AnsiString" length="100">
+      <column name="nome" not-null="true" />
+    </property>
+
+    <property name="PrecoCompra">
+      <column name="precoCompra" not-null="true" />
+    </property>
+
+    <property name="PrecoCusto">
+      <column name="precoCusto" not-null="true" />
+    </property>
+
+    <property name="MargemLucro">
+      <column name="margemLucro" not-null="true" />
+    </property>
+
+    <property name="PrecoVenda">
+      <column name="precoVenda" not-null="true" />
+    </property>
+
+    <property name="Ativo" not-null="true">
+      <column name="ativo" sql-type="bit" />
+    </property>
+
+    <property name="Ncm" column="tabelaNcm_id" not-null="true" length="8" />
+
+    <property name="Cest" column="codigoCest" not-null="true" length="7" />
+
+    <property name="OrigemMercadoria">
+      <column name="origemMercadoria" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="AliquotaIcms" column="aliquotaIcms" not-null="true" precision="5" scale="2" />
+
+    <property name="ReducaoIcms" not-null="true">
+      <column name="reducaoIcms" precision="5" scale="2" sql-type="decimal" />
+    </property>
+
+    <property name="PercentualMva" not-null="true">
+      <column name="percentualMva" precision="5" scale="2" sql-type="decimal" />
+    </property>
+
+    <property name="QuantidadeUnidadeTributavel" not-null="true">
+      <column name="quantidadeUnidadeTributavel" />
+    </property>
+
+    <many-to-one name="Pis">
+      <column name="situacaoTributariaPis_id" not-null="true" length="2" sql-type="varchar" />
+    </many-to-one>
+
+    <property name="AliquotaPis" column="aliquotaPis" not-null="true" precision="5" scale="2" />
+
+    <many-to-one name="Cofins">
+      <column name="situacaoTributariaCofins_id" not-null="true" length="2" sql-type="varchar" />
+    </many-to-one>
+
+    <property name="AliquotaCofins" column="aliquotaCofins" not-null="true" precision="5" scale="2" />
+
+    <many-to-one name="SituacaoTributariaIpi">
+      <column name="situacaoTributariaIpi_id" not-null="true" length="2" sql-type="varchar" />
+    </many-to-one>
+
+    <property name="AliquotaIpi" column="aliquotaIpi" not-null="true" precision="5" scale="2" />
+
+    <property name="CadastradoEm" column="cadastradoEm" not-null="true" />
+
+    <property name="AlteradoEm" column="alteradoEm" not-null="true" />
+
+    <property name="ReferenciaInterna" column="referencia" not-null="true" type="AnsiString" length="30" />
+
+    <property name="Observacao" column="observacao" not-null="true" />
+
+    <property name="CodigoBalanca" column="codigoBalanca" not-null="true" />
+
+    <property name="CodigoAnp">
+      <column name="codigoAnp" not-null="true" />
+    </property>
+
+    <property name="IsIndicadorEscalaRelevante" column="indicadorEscalaRelevante" not-null="true" />
+
+    <property name="CnpjFabricante" column="cnpjFabricanteDaMercadoria" not-null="true" />
+
+    <property name="IsControlaIndicadorEscala" column="isControlaIndicadorEscala" not-null="true" />
+
+    <property name="PercentualGlpPetroleo" column="percentualGlpPetroleo" not-null="true" />
+
+    <property name="PercentualGasNacional" column="percentualGasNacional" not-null="true" />
+
+    <property name="PercentualGasImportador" column="percentualGasImportador" not-null="true" />
+
+    <property name="ValorDePartida" column="valorDePartida" not-null="true" />
+
+    <property name="CodigoDfe" column="codigoDfe" not-null="true" />
+
+    <property name="UsarObservacaoNoItemFiscal" column="usarObservacaoNoItemFiscal" not-null="true" />
+
+
+    <many-to-one name="RegraTributacaoSaida">
+      <column name="regraTributacaoSaida_id" not-null="true" sql-type="smallint" />
+    </many-to-one>
+
+    <many-to-one name="EnquadramentoIpi">
+      <column name="enquadramentoIpi_id" not-null="true" />
+    </many-to-one>
+
+    <bag table="produto_regra_tributacao_uf" access="field" name="_regrasInterstaduais" lazy="true" inverse="true"
+         cascade="none">
+      <key column="produto_id" not-null="true" />
+      <one-to-many class="FusionCore.FusionAdm.Produtos.ProdutoRegraTributacao" />
+    </bag>
+
+    <bag table="produto_alias" name="ProdutosAlias" lazy="true" inverse="true" cascade="none">
+      <key column="produto_id" not-null="true" />
+      <one-to-many class="FusionCore.Repositorio.Legacy.Entidades.Adm.ProdutoAlias" />
+    </bag>
+  </class>
+</hibernate-mapping>

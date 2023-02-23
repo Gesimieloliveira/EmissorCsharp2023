@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Tef"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Pos" table="pos">
+    <id name="Id" column="id" generator="identity" unsaved-value="0" />
+
+    <property name="Descricao" column="descricao" not-null="true" />
+
+    <property name="Serial" column="serial" not-null="true" />
+
+    <property name="EstabelecimentoCodigo" column="estabelecimentoCodigo" not-null="true" />
+
+    <property name="Adquirente" column="adquirente" not-null="true" />
+
+    <property name="CnpjCredenciadora" column="cnpjCredenciadora" not-null="true" />
+
+    <property name="FlagMfe" column="flagMfe" not-null="true" />
+
+    <property name="FlagNfce" column="flagNfce" not-null="true" />
+
+    <property name="Credenciadora" column="credenciadora" not-null="false" />
+
+	<property name="Status" column="status" not-null="true" />
+
+  </class>
+
+</hibernate-mapping>

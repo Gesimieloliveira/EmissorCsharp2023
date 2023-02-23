@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="DestinatarioNfe" table="nfe_destinatario">
+    <id access="field" name="_nfeId" column="nfe_id" unsaved-value="0">
+      <generator class="foreign">
+        <param name="property">Nfe</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfe" class="Nfeletronica" constrained="true" cascade="none" />
+
+    <property access="field" name="_pessoaId">
+      <column name="pessoa_id" sql-type="int" not-null="true" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="DocumentoUnico">
+      <column name="documentoUnico" sql-type="varchar" length="14" not-null="true" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="Nome">
+      <column name="nome" not-null="true" />
+    </property>
+
+    <property name="IndicadorIE">
+      <column name="indicadorInscricaoEstadual" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="InscricaoEstadual">
+      <column name="inscricaoEstadual" sql-type="varchar" length="14" not-null="true" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="Email">
+      <column name="email" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="SolicitaPedido">
+      <column name="solicitaPedido" not-null="true" />
+    </property>
+
+    <component name="Endereco" class="EnderecoFiscal">
+      <property name="Cep">
+        <column name="cep" not-null="true" />
+      </property>
+
+      <property access="field" name="_logradouro">
+        <column name="logradouro" not-null="true" />
+      </property>
+
+      <property access="field" name="_numero">
+        <column name="numero" not-null="true" />
+      </property>
+
+      <property name="Complemento">
+        <column name="complemento" not-null="true" />
+      </property>
+
+      <property name="Bairro">
+        <column name="bairro" not-null="true" />
+      </property>
+
+      <property name="Telefone">
+        <column name="telefone" sql-type="varchar" length="14" not-null="true" />
+      </property>
+
+      <component name="Localizacao" class="LocalizacaoFiscal">
+        <property name="NomeMunicipio">
+          <column name="nomeMunicipio" sql-type="varchar" length="60" not-null="true" />
+        </property>
+
+        <property name="CodigoMunicipio">
+          <column name="codigoMunicipio" sql-type="int" length="60" not-null="true" />
+        </property>
+
+        <property name="CodigoUF">
+          <column name="codigoUf" sql-type="tinyint" not-null="true" />
+        </property>
+
+        <property name="SiglaUF">
+          <column name="siglaUf" sql-type="char" length="2" not-null="true" />
+        </property>
+
+        <property name="CodigoPais">
+          <column name="pais_bacen" sql-type="smallint" not-null="true" />
+        </property>
+
+        <property name="NomePais">
+          <column name="nomePais" sql-type="varchar" length="60" not-null="true" />
+        </property>
+      </component>
+    </component>
+
+    <property name="IndicadorOperacaoFinal">
+      <column name="indicadorOperacaoFinal" sql-type="int" not-null="false" />
+    </property>
+
+    <property name="IndicadorPresenca">
+      <column name="indicadorPresenca" sql-type="int" not-null="false" />
+    </property>
+
+    <property name="IndicadorDestinoOperacao">
+      <column name="IndicadorDestinoOperacao" sql-type="int" not-null="false" />
+    </property>
+
+  </class>
+</hibernate-mapping>

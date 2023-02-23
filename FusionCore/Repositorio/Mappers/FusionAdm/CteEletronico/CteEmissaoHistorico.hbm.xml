@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteEmissaoHistorico" table="cte_emissao_historico">
+    
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="Cte" cascade="none">
+      <column name="cte_id" not-null="true" />
+    </many-to-one>
+
+    <property name="AmbienteSefaz" not-null="true">
+      <column name="ambienteSefaz"></column>
+    </property>
+
+    <property name="TipoEmissao" not-null="true">
+      <column name="tipoEmissao"></column>
+    </property>
+
+    <property name="Chave" not-null="true">
+      <column name="chave"></column>
+    </property>
+
+    <property name="Finalizada" not-null="true" >
+      <column name="finalizada" ></column>
+    </property>
+
+    <property name="XmlEnvio" not-null="true">
+      <column name="xmlEnvio" length="2147483647"></column>
+    </property>
+
+    <property name="XmlRetorno" not-null="false">
+      <column name="xmlRetorno" length="2147483647"></column>
+    </property>
+
+    <property name="CriadaEm" not-null="true">
+      <column name="criadoEm"></column>
+    </property>
+
+    <property name="EnviadaEm" not-null="true">
+      <column name="enviadoEm"></column>
+    </property>
+
+    <property name="NumeroRecibo" not-null="true">
+      <column name="numeroRecibo"></column>
+    </property>
+
+    <property name="XmlLote" not-null="true">
+      <column name="xmlLote" length="2147483647"></column>
+    </property>
+
+    <property name="FalhaReceberLote" not-null="true">
+      <column name="falhaReceberLote"></column>
+    </property>
+
+    <property name="StatusConsultaRecibo" not-null="true">
+      <column name="statusConsultaRecibo"></column>
+    </property>
+
+    <property name="CodigoAutorizacao" not-null="true" >
+      <column name="codigoAutorizacao" ></column>
+    </property>
+
+    <property name="Motivo" not-null="true">
+      <column name="motivo"></column>
+    </property>
+
+    <property name="RecebidoEm" not-null="true">
+      <column name="recebidoEm"></column>
+    </property>
+
+  </class>
+</hibernate-mapping>

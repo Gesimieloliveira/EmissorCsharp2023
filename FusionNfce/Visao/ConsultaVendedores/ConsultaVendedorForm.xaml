@@ -1,0 +1,89 @@
+﻿<controles:FusionWindow x:Class="FusionNfce.Visao.ConsultaVendedores.ConsultaVendedorForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FusionNfce.Visao.ConsultaVendedores"
+        xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+        mc:Ignorable="d"
+        Title="Vendedores" Height="620" Width="998"
+        ContentRendered="ConsultaVendedorForm_OnContentRendered"
+        FocusManager.FocusedElement="{Binding ElementName=TextBoxPesquisa}">
+
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock
+                FontSize="12" TextAlignment="Center"
+                Text="[F6] - Retornar Foco " />
+
+            <DockPanel DockPanel.Dock="Top">
+
+                <controles:SearchTextBox
+                    FontSize="22"
+                    Name="TextBoxPesquisa"
+                    mah:TextBoxHelper.Watermark="pesquisa por nome, código"
+                    Text="{Binding TextoPesquisa}"
+                    SearchEvent="TextBoxBuscaClickHandler"
+                    PreviewKeyDown="TextBoxBuscaKeyDownHandler" />
+            </DockPanel>
+        </StackPanel>
+
+        <Grid DockPanel.Dock="Top" Margin="0,20,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <ScrollViewer
+                VerticalScrollBarVisibility="Disabled"
+                HorizontalScrollBarVisibility="Auto">
+
+                <DataGrid
+                    Name="GridProdutos"
+                    ItemsSource="{Binding Vendedores}"
+                    SelectedItem="{Binding VendedorSelecionado}"
+                    VerticalScrollBarVisibility="Hidden"
+                    AutoGenerateColumns="False" IsReadOnly="True"
+                    GridLinesVisibility="Horizontal">
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                            <Setter Property="FontSize" Value="16" />
+                            <Setter Property="MinHeight" Value="28" />
+
+                            <EventSetter Event="PreviewKeyDown" Handler="DataGridRowKeyDownHandler" />
+                            <EventSetter Event="MouseDoubleClick" Handler="DataGridRowDoubleClickHandler" />
+                        </Style>
+                    </DataGrid.RowStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding Id, StringFormat=D6}"
+                            Header="ID/COD" MinWidth="90"
+                            helpers:DataGridColumnHelper.Align="Center" />
+
+                        <DataGridTextColumn
+                            Binding="{Binding Nome}"
+                            ElementStyle="{DynamicResource WrapText}"
+                            Header="Nome" Width="570" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
+
+            <StackPanel 
+                Grid.Row="1" Margin="0,5,0,0" 
+                Background="{DynamicResource WarningBrush}"
+                mah:VisibilityHelper.IsVisible="{Binding QtdeMaximaFoiAlcancada}">
+
+                <TextBlock
+                    Padding="4" Foreground="{DynamicResource WhiteBrush}"
+                    TextAlignment="Center" FontWeight="Bold" FontSize="16"
+                    Text="{Binding QtdeMaximaItens, StringFormat='Quantidade total de vendedores ativos {0}'}" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+
+
+</controles:FusionWindow>

@@ -1,0 +1,32 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.Pessoa.Flyouts.PessoaEmailFlyout"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:flyouts="clr-namespace:Fusion.Visao.Pessoa.Flyouts"
+                 mc:Ignorable="d" d:DesignWidth="600"
+                 d:DataContext="{d:DesignInstance flyouts:PessoaEmailFlyoutModel}"
+                 Position="Top" IsModal="True" Theme="Light"
+                 IsOpen="{Binding IsOpen}">
+
+    <GroupBox Header="Adição de E-mail">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock Text="Digite o e-mail que deseja adicionar" />
+                <TextBox Text="{Binding EmailDigitado}" controls:TextBoxHelper.Watermark="seuemail@dominio.xx"
+                         CharacterCasing="Normal"
+                         x:Name="TbEmail"
+                         MaxLength="255" />
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Right">
+                <Button Style="{DynamicResource FusionAccentedButton}"
+                        Click="ClickSalvarHandler"
+                        Content="Adicionar e-mail" />
+
+            </StackPanel>
+        </DockPanel>
+    </GroupBox>
+</controls:Flyout>

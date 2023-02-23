@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.FusionAdm.Compras"
+  default-lazy="false"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="IcmsCompra" table="nf_compra_item_icms">
+    <id name="Id" column="nfCompraItem_id">
+      <generator class="foreign">
+        <param name="property">Item</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Item" constrained="true" cascade="none" fetch="join" />
+
+    <many-to-one name="Icms" cascade="none">
+      <column name="situacaoTributariaIcms_id" not-null="true" />
+    </many-to-one>
+
+    <property name="Reducao">
+      <column name="reducaoBc" not-null="true" />
+    </property>
+
+    <property name="Aliquota">
+      <column name="aliquota" not-null="true" />
+    </property>
+
+    <property name="BaseCalculo">
+      <column name="baseCalculo" not-null="true" />
+    </property>
+
+    <property name="ValorIcms">
+      <column name="valorIcms" not-null="true" />
+    </property>
+    
+    <property name="ReducaoSt">
+      <column name="reducaoSt" not-null="true" />
+    </property>
+
+    <property name="Mva">
+      <column name="mva" not-null="true" />
+    </property>
+
+    <property name="AliquotaSt">
+      <column name="aliquotaSt" not-null="true" />
+    </property>
+
+    <property name="BaseCalculoSt">
+      <column name="baseCalculoSt" not-null="true" />
+    </property>
+
+    <property name="ValorSt">
+      <column name="valorSt" not-null="true" />
+    </property>
+
+    <property name="ValorFcpSt">
+      <column name="valorFcpSt" not-null="true" />
+    </property>
+
+    <property name="BaseCalculoFcpSt">
+      <column name="bcFcpSt" not-null="true" />
+    </property>
+
+    <property name="PercentualFcpSt">
+      <column name="percentualFcpSt" not-null="true" />
+    </property>
+
+  </class>
+</hibernate-mapping>

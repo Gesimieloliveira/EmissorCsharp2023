@@ -1,0 +1,91 @@
+﻿<fuc:FusionWindow x:Class="FusionWPF.SharedViews.ControleCaixa.ResumoCaixaIndividualView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:fuc="clr-namespace:FusionWPF.Controles"
+                  xmlns:controleCaixa="clr-namespace:FusionWPF.SharedViews.ControleCaixa"
+                  xmlns:helpers="clr-namespace:FusionWPF.Helpers"
+                  mc:Ignorable="d"
+                  d:DataContext="{d:DesignInstance controleCaixa:ResumoCaixaIndividualContexto}"
+                  Title="Fechamento de Caixa"
+                  SizeToContent="Height"
+                  Width="750" MaxHeight="650"
+                  Loaded="LoadedHandler">
+
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock 
+                Foreground="{DynamicResource PrimaryBrush}"
+                FontSize="16" FontWeight="Bold" 
+                Text="{Binding CaixaIndividual.EstadoAtual, StringFormat='Status: {0}'}" />
+
+            <TextBlock
+                FontSize="14" FontWeight="DemiBold"
+                Text="{Binding CaixaIndividual.Usuario.Login, StringFormat='Aberto por: {0}'}" />
+
+            <TextBlock
+                FontSize="14" FontWeight="DemiBold"
+                Text="{Binding CaixaIndividual.DataAbertura, StringFormat='Aberto em: {0}'}" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,5">
+            <Button
+                Click="FecharCaixaClickHandler"
+                Style="{DynamicResource FusionDangerButton}"
+                HorizontalAlignment="Right"
+                Width="170">
+
+                <TextBlock Text="Fechar o Caixa" />
+            </Button>
+        </StackPanel>
+
+        <GroupBox DockPanel.Dock="Top" Header="Total por Meio de Pagamento">
+            <StackPanel>
+                <DataGrid
+                    Height="150" DockPanel.Dock="Top"
+                    ItemsSource="{Binding TotalPorMeioPagamento}">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding Key}"
+                            Header="Meio de Pagamento" Width="200" />
+
+                        <DataGridTextColumn
+                            helpers:DataGridColumnHelper.Align="Right"
+                            Binding="{Binding Value, StringFormat=N2}"
+                            Header="Total" Width="*" MinWidth="140" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox DockPanel.Dock="Top" Header="Resumo por Operação e Meio de Pagamento">
+            <StackPanel>
+                <DataGrid
+                    Height="220" DockPanel.Dock="Top"
+                    ItemsSource="{Binding ResumoCaixa}">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding MeioPagamento}"
+                            Header="Meio de Pagamento" Width="200" />
+
+                        <DataGridTextColumn
+                            Binding="{Binding OrigemEvento}"
+                            Header="Origem Operação" Width="180" />
+
+                        <DataGridTextColumn
+                            Binding="{Binding TipoOperacao}"
+                            Header="Operação" Width="140" />
+
+                        <DataGridTextColumn
+                            helpers:DataGridColumnHelper.Align="Right"
+                            Binding="{Binding TotalOperacao, StringFormat=N2}"
+                            Header="Total" Width="*" MinWidth="140" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </GroupBox>
+    </DockPanel>
+</fuc:FusionWindow>

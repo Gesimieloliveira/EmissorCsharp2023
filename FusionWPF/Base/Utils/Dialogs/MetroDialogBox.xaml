@@ -1,0 +1,136 @@
+﻿<controls:MetroWindow x:Class="FusionWPF.Base.Utils.Dialogs.MetroDialogBox"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:dialogs="clr-namespace:FusionWPF.Base.Utils.Dialogs"
+                      mc:Ignorable="d" d:DataContext="{d:DesignInstance dialogs:MetroDialogBoxModel}"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      WindowStartupLocation="CenterScreen"
+                      Title="{Binding Titulo}" 
+                      SizeToContent="WidthAndHeight" 
+                      MinHeight="180" MinWidth="350" 
+                      MaxHeight="300"  MaxWidth="{Binding LarguraMaxima}"
+                      FocusManager.FocusedElement="{Binding ElementName=ButtonOk}">
+
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Height="{Binding AlturaMensagem}" Margin="5,0">
+            <StackPanel DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70">
+                <fa:ImageAwesome Height="40" Width="40">
+                    <fa:ImageAwesome.Style>
+                        <Style TargetType="fa:ImageAwesome">
+                            <Setter Property="Icon" Value="InfoCircle" />
+                            <Setter Property="Foreground" Value="{DynamicResource InfoBrush}" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Tipo}" Value="{x:Static dialogs:BoxType.Error}">
+                                    <Setter Property="Icon" Value="TimesCircle" />
+                                    <Setter Property="Foreground" Value="{DynamicResource DangerBrush}" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Tipo}" Value="{x:Static dialogs:BoxType.Warning}">
+                                    <Setter Property="Icon" Value="ExclamationTriangle" />
+                                    <Setter Property="Foreground" Value="{DynamicResource WarningBrush}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </fa:ImageAwesome.Style>
+                </fa:ImageAwesome>
+            </StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" DockPanel.Dock="Left" Margin="0,0,5,0"
+                          controls:VisibilityHelper.IsCollapsed="{Binding HabilitaConfirmacao}">
+                <TextBox 
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Text="{Binding Mensagem, Mode=OneWay}" 
+                    IsReadOnly="True" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Left" 
+                    FontSize="14" 
+                    TextWrapping="WrapWithOverflow" />
+
+            </ScrollViewer>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" DockPanel.Dock="Left" Margin="0,0,5,0"
+                          controls:VisibilityHelper.IsVisible="{Binding HabilitaConfirmacao}">
+                <TextBox 
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Text="{Binding Mensagem, Mode=OneWay}" 
+                    IsReadOnly="True" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Left" 
+                    FontSize="16" 
+                    FontWeight="Bold"
+                    TextWrapping="WrapWithOverflow" />
+
+            </ScrollViewer>
+        </DockPanel>
+
+        <DockPanel DockPanel.Dock="Top">
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Setter Property="Background" Value="{DynamicResource InfoBrush}" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Tipo}" Value="{x:Static dialogs:BoxType.Error}">
+                            <Setter Property="Background" Value="{DynamicResource DangerBrush}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Tipo}" Value="{x:Static dialogs:BoxType.Warning}">
+                            <Setter Property="Background" Value="{DynamicResource WarningBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+
+            <DockPanel DockPanel.Dock="Bottom" LastChildFill="False" Margin="5,0">
+                <StackPanel VerticalAlignment="Center" DockPanel.Dock="Left"
+                            controls:VisibilityHelper.IsVisible="{Binding TemException}">
+                    
+                    <Button Click="ClickDetalheErro" Background="Transparent" BorderBrush="Transparent" ClickMode="Release">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="LightbulbOutline" Width="9"
+                                             Foreground="{DynamicResource WhiteBrush}" />
+                            <TextBlock Text="Quero uma luz sobre o erro" Foreground="{DynamicResource WhiteBrush}"
+                                       FontSize="9"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center" Width="60" controls:VisibilityHelper.IsCollapsed="{Binding HabilitaConfirmacao}">
+                    <Button Style="{DynamicResource FusionCleanButton}" Content="Ok" Click="ClickOkHandler" x:Name="ButtonOk" />
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Right" controls:VisibilityHelper.IsVisible="{Binding HabilitaConfirmacao}">
+                    <TextBlock FontSize="16">
+                        <Run Foreground="White">Digite </Run>
+                        <Run Foreground="Red"
+                             FontWeight="Bold" Text="{Binding MensagemConfirmacao}"></Run>
+                        <Run Foreground="White">para confirmar.</Run>
+                    </TextBlock>
+                    <Border
+                        BorderThickness="1"
+                        CornerRadius="0"
+                        Padding="5">
+                        <TextBox 
+                            BorderThickness="0"
+                            Text="{Binding MensagemConfirmadaDigitada, UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"></TextBox>
+                    </Border>
+                    <Border
+                        BorderThickness="1"
+                        CornerRadius="0"
+                        Padding="5">
+                        <Button 
+                            BorderThickness="0"
+                            IsEnabled="{Binding HabilitarBotaoConfirmar}"
+                            Style="{DynamicResource FusionCleanButton}" Content="Confirmar" Click="ClickConfirmarHandler" x:Name="ButtonConfirmacao" />
+                    </Border>
+                </StackPanel>
+            </DockPanel>
+        </DockPanel>
+    </DockPanel>
+</controls:MetroWindow>

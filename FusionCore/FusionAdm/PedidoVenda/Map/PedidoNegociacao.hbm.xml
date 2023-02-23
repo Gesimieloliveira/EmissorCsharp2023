@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.PedidoVenda"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Negociacao" table="pedido_negociacao">
+    <id name="Id" column="id" generator="identity" unsaved-value="0" />
+
+    <many-to-one name="Pedido" cascade="none">
+      <column name="pedidoVenda_id" not-null="true" />
+    </many-to-one>
+
+    <property name="Especie">
+      <column name="especie" not-null="true" sql-type="tinyint" />
+    </property>
+
+    <property name="CriadoEm">
+      <column name="criadoEm" not-null="true" />
+    </property>
+
+    <many-to-one name="CriadoPor" cascade="none">
+      <column name="usuario_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="TipoDocumento" class="FusionCore.FusionAdm.Financeiro.TipoDocumento" cascade="none">
+      <column name="tipoDocumento_id" not-null="false" />
+    </many-to-one>
+
+    <property name="Valor">
+      <column name="valor" not-null="false" precision="15" scale="2" />
+    </property>
+
+    <property name="PossuiParcelas">
+      <column name="possuiParcelas" not-null="true" />
+    </property>
+
+    <set name="Parcelas" access="nosetter.camelcase-underscore" inverse="true" cascade="all-delete-orphan">
+      <key column="pedidoNegociacao_id" />
+      <one-to-many class="NegociacaoParcela" />
+    </set>
+  </class>
+
+</hibernate-mapping>

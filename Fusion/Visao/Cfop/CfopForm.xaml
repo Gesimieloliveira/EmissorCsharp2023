@@ -1,0 +1,41 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.Cfop.CfopForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:Fusion.Visao.Cfop"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      mc:Ignorable="d" d:DataContext="{d:DesignInstance local:CfopFormModel}"
+                      Loaded="LoadedHandler" WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      Title="Formulário de CFOP" Height="261" Width="550">
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Código" />
+                    <TextBox Text="{Binding Codigo}" IsReadOnly="True" />
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Descrição" />
+                    <TextBox Text="{Binding Descricao}" TextWrapping="WrapWithOverflow" Height="Auto" IsReadOnly="True" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"
+                            Margin="0,10,0,0">
+                    <TextBlock Text="Elegível para utilização na NFC-E?" />
+                    <controls:ToggleSwitch 
+                        OnContent="Sim" OffContent="Não" 
+                        Margin="10,0,0,0" IsOn="{Binding ElegivelNfce}" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Margin="0,10,5,5" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <Button Content="{Binding SaveButtonContent}"
+                    MinWidth="150" Style="{DynamicResource FusionAccentedButton}"
+                    Command="{Binding SalvarCommand}" />
+        </StackPanel>
+    </DockPanel>
+</controls:MetroWindow>

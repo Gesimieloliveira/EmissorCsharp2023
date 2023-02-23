@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Vendas.Faturamentos"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="FParcela" table="faturamento_pagamento_parcela">
+    <id name="Id" generator="identity">
+      <column name="id" not-null="true" />
+    </id>
+
+    <many-to-one name="Pagamento" cascade="none">
+      <column name="pagamento_id" not-null="true" />
+    </many-to-one>
+
+    <property name="Numero">
+      <column name="numero" not-null="true" />
+    </property>
+
+    <property name="Vencimento">
+      <column name="vencimento" not-null="true" />
+    </property>
+
+    <property name="Valor">
+      <column name="valor" not-null="false" precision="15" scale="2" />
+    </property>
+  </class>
+
+</hibernate-mapping>

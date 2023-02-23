@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Adm"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="EmpresaDTO" table="empresa">
+    <id name="Id" column="id" generator="identity" />
+    <property name="RazaoSocial" column="razaoSocial" length="255" not-null="true" />
+    <property name="NomeFantasia" column="nomeFantasia" length="255" not-null="true" />
+    <property name="Cnpj" column="cnpj" length="14" not-null="true" />
+    <property name="Cpf" column="cpf" length="11" not-null="true" />
+    <property name="InscricaoEstadual" column="inscricaoEstadual" length="30" />
+    <property name="InscricaoMunicipal" column="inscricaoMunicipal" length="30" not-null="true" />
+    <property name="AtividadeIniciadaEm" column="atividadeIniciadaEm" not-null="true" />
+    <property name="Email" column="email" not-null="true" length="255" />
+    <property name="Cep" column="cep" not-null="true" length="8" />
+    <property name="Logradouro" column="logradouro" not-null="true" length="255" />
+    <property name="Bairro" column="bairro" not-null="true" length="75" />
+    <property name="Complemento" column="complemento" not-null="true" length="75" />
+    <property name="Numero" column="numero" not-null="true" length="10" />
+    <property name="Fone1" column="fone1" not-null="true" length="11" />
+    <property name="Fone2" column="fone2" not-null="true" length="11" />
+    <property name="RegimeTributario" column="regimeTributario" not-null="true" />
+    <property name="CadastradoEm" column="cadastradoEm" not-null="true" />
+    <property name="AlteradoEm" column="alteradoEm" not-null="true" />
+    <property name="Rntrc" column="rntrc" not-null="true" />
+    <property name="Taf" column="taf" not-null="true" />
+    <property name="NumeroRegistroEstadual" column="numeroDoRegistroEstadual" not-null="true" />
+    <property name="LogoMarca" column="logo" not-null="false" length="2147483647" />
+    <property name="LogoMarcaNfce" column="logoNfce" not-null="false" length="2147483647" />
+
+    <many-to-one name="EstadoDTO" outer-join="true" cascade="none">
+      <column name="uf_id" not-null="true" sql-type="tinyint" />
+    </many-to-one>
+
+    <many-to-one name="CidadeDTO" outer-join="true" cascade="none">
+      <column name="cidade_id" not-null="true" sql-type="int" />
+    </many-to-one>
+    
+  </class>
+</hibernate-mapping>

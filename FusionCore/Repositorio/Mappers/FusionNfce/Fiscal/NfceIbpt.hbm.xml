@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal.Tributacoes"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceIbpt" table="tabela_tributo_ibpt">
+    
+    <composite-id name="Id">
+      <key-property name="Codigo" column="codigo" />
+      <key-property name="Tipo" column="tipo" />
+      <key-property name="ExcecaoFiscal" column="excecaoFiscal" />
+    </composite-id>
+
+    <property name="Descricao" length="600" not-null="true">
+      <column name="descricao" />
+    </property>
+
+    <property name="Nacional" length="4" column="nacionalFederal" />
+    <property name="Importado" length="4" column="importadoFederal" />
+    <property name="Estadual" length="4" column="estadual" />
+    <property name="ChaveIbpt" length="6" column="chaveIbpt" />
+    
+    
+  </class>
+  
+</hibernate-mapping>

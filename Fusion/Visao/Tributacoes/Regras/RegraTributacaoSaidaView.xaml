@@ -1,0 +1,88 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.Tributacoes.Regras.RegraTributacaoSaidaView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:regras="clr-namespace:Fusion.Visao.Tributacoes.Regras"
+                      mc:Ignorable="d" 
+                      d:DataContext="{d:DesignInstance regras:RegraTributacaoSaidaContexto, d:IsDesignTimeCreatable=True}"
+                      Title="Cadastro - Regra de tributação para saidas"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      WindowStartupLocation="CenterScreen"
+                      SizeToContent="Height" MaxHeight="720" Width="650"
+                      Loaded="LoadedHandler">
+
+    <DockPanel Margin="5">
+        <StackPanel DockPanel.Dock="Top" controls:VisibilityHelper.IsHidden="{Binding IsNovo}">
+            <controls:ToggleSwitch 
+                HorizontalAlignment="Right" MinWidth="110"
+                OnContent="Ativo" OffContent="Inativo" ContentDirection="LeftToRight" 
+                IsOn="{Binding IsAtivo}" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,5,0,0">
+            <StackPanel>
+                <TextBlock Text="Descrição da regra" />
+                <TextBox Text="{Binding Descricao}" CharacterCasing="Normal" />
+            </StackPanel>
+
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock Text="CST de ICMS (Regime Normal)" />
+                <ComboBox 
+                    SelectedItem="{Binding Icms}"
+                    ItemsSource="{Binding IcmsDisponiveis}" />
+            </StackPanel>
+
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock Text="CSOSN de ICMS (Simples Nacional)" />
+                <ComboBox 
+                    SelectedItem="{Binding Csosn}"
+                    ItemsSource="{Binding CsosnDisponiveis}" />
+            </StackPanel>
+        </StackPanel>
+
+        <GroupBox Header="CFOP NF-E" DockPanel.Dock="Top" Margin="0,5,0,0">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock Text="CFOP para saidas dentro do estado (Intermunicipal)" />
+                    <ComboBox 
+                        SelectedItem="{Binding PerfilIntermunicipal}"
+                        ItemsSource="{Binding PerfisDisponiveis}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,5,0,0">
+                    <TextBlock Text="CFOP para saidas fora do estado (Interestadual)" />
+                    <ComboBox 
+                        SelectedItem="{Binding PerfilInterestadual}"
+                        ItemsSource="{Binding PerfisDisponiveis}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,5,0,0">
+                    <TextBlock Text="CFOP para saidas exterior (Exportação)" />
+                    <ComboBox 
+                        SelectedItem="{Binding PerfilExterior}"
+                        ItemsSource="{Binding PerfisDisponiveis}" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="CFOP NFC-E" DockPanel.Dock="Top" Margin="0,5,0,0">
+            <StackPanel>
+                <TextBlock Text="CFOP saidas dentro do estado (único hoje na NFC-E)" />
+                <ComboBox 
+                    SelectedItem="{Binding CfopNfce}"
+                    ItemsSource="{Binding CfopDisponveis}" />
+            </StackPanel>
+        </GroupBox>
+
+        <Grid DockPanel.Dock="Top" Background="{DynamicResource GrayBrush9}" Margin="0,5,0,0">
+            <StackPanel VerticalAlignment="Center" Margin="0,10">
+                <Button
+                    Click="SalvarAlteracoesClickHandler"
+                    Width="150" Style="{DynamicResource FusionAccentedButton}"
+                    Content="Salvar alterações" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</controls:MetroWindow>

@@ -1,0 +1,42 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.MdfeEletronico.Aba.Flyouts.FlyoutAddPercurso"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 mc:Ignorable="d" d:DesignWidth="1000"
+                 Position="Top" IsOpen="{Binding IsOpen}" MaxHeight="662"
+                 Style="{DynamicResource FusionFlyout}">
+    
+    <GroupBox Header="Adicionar lacres">
+        <DockPanel>
+            <StackPanel Margin="0,5,5,0" DockPanel.Dock="Top">
+                <TextBlock>Estado(UF) Percurso</TextBlock>
+                <ComboBox
+                    ItemsSource="{Binding EstadosPercurso}"
+                    IsEditable="True"
+                    SelectedItem="{Binding EstadoPercurso, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                    SelectedValuePath="Sigla"
+                    SelectedValue="{Binding EstadoPercurso.Sigla}"
+                    DisplayMemberPath="Sigla" />
+            </StackPanel>
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right">
+                <Button Width="50" Height="50"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                    Click="OnClickBotaoAdicionaPercurso">
+                    <Rectangle Width="20" Height="20"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill">
+                                <VisualBrush.Visual>
+                                    <fa:ImageAwesome Icon="Save" />
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </DockPanel>
+        </DockPanel>
+    </GroupBox>
+</controls:Flyout>

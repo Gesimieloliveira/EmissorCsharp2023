@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.GerenciarManifestacoesEletronicas"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MdeConsulta" table="mde_consulta">
+    <id name="Id" generator="assigned">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="DocumentoUnico" column="documentoUnico" not-null="true" />
+    <property name="AmbienteSefaz" column="ambienteSefaz" not-null="true" />
+    <property name="Uf" column="uf" not-null="true" />
+    <property name="DataCadastro" column="dataCadastro" not-null="true" />
+    <property name="DataResposta" column="dataResposta" not-null="true" />
+    <property name="NsuPesquisado" column="nsuPesquisado" not-null="true" />
+    <property name="UltimoNsu" column="ultimoNsu" not-null="true" />
+    <property name="MaiorNsu" column="maiorNsu" not-null="true" />
+    <property name="CodigoStatus" column="codigoStatus" not-null="true" />
+    <property name="MotivoStatus" column="motivoStatus" not-null="true" />
+    <property name="XmlResposta" column="xmlResposta" not-null="true" length="2147483647" />
+
+  </class>
+</hibernate-mapping>

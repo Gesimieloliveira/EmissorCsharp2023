@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{964065F5-98C9-41E8-8DB2-0CAD6D227A1A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FusionLibrary</RootNamespace>
+    <AssemblyName>FusionLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Command\SimpleCommand.cs" />
+    <Compile Include="Execoes\FecharSistemaSemErroException.cs" />
+    <Compile Include="Execoes\ViewModelErrorsException.cs" />
+    <Compile Include="Helper\Conversores\ConverteImage.cs" />
+    <Compile Include="Helper\Criptografia\ArquivoAuxiliarInvalidoException.cs" />
+    <Compile Include="Helper\Criptografia\Base64Helper.cs" />
+    <Compile Include="Helper\Criptografia\DesencriptaBase64.cs" />
+    <Compile Include="Helper\Criptografia\EncriptaBase64.cs" />
+    <Compile Include="Helper\Criptografia\GuuidHelper.cs" />
+    <Compile Include="Helper\Criptografia\HexHelper.cs" />
+    <Compile Include="Helper\Criptografia\Md5Helper.cs" />
+    <Compile Include="Helper\Criptografia\SenhaHelper.cs" />
+    <Compile Include="Helper\Criptografia\Sha1Helper.cs" />
+    <Compile Include="Helper\Criptografia\SimetricaCrip.cs" />
+    <Compile Include="Helper\Criptografia\TripleDesHelper.cs" />
+    <Compile Include="Helper\Diversos\DateTimeHelper.cs" />
+    <Compile Include="Helper\Diversos\DecimalHelper.cs" />
+    <Compile Include="Helper\Diversos\FormatadorHelper.cs" />
+    <Compile Include="Helper\Diversos\ProcessHelper.cs" />
+    <Compile Include="Helper\Diversos\StringHelper.cs" />
+    <Compile Include="Helper\ExtImagens\ExtImage.cs" />
+    <Compile Include="Helper\Wpf\Caixa\TextBoxCodigoBarras.cs" />
+    <Compile Include="Helper\Wpf\Caixa\TextBoxValoresNumeroCaixa.cs" />
+    <Compile Include="Helper\Wpf\ComboBoxFusionHelper.cs" />
+    <Compile Include="Helper\Wpf\DataGridMover.cs" />
+    <Compile Include="Helper\Wpf\PasswordBoxHelper.cs" />
+    <Compile Include="Helper\Wpf\TextBoxAcceptHelper.cs" />
+    <Compile Include="Helper\Wpf\TextBoxSemAcentosEspacosHelper.cs" />
+    <Compile Include="Helper\Wpf\TextBoxTrim.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidacaoAnotacao\ApenasNumeros.cs" />
+    <Compile Include="ValidacaoAnotacao\Alcance.cs" />
+    <Compile Include="ValidacaoAnotacao\CnpjAttribute.cs" />
+    <Compile Include="ValidacaoAnotacao\CpfAttribute.cs" />
+    <Compile Include="ValidacaoAnotacao\DecimalRequired.cs" />
+    <Compile Include="ValidacaoAnotacao\EmailAttribute.cs" />
+    <Compile Include="ValidacaoAnotacao\GreaterThan.cs" />
+    <Compile Include="ValidacaoAnotacao\NaoAceitaValorNegativo.cs" />
+    <Compile Include="ValidacaoAnotacao\Requirido.cs" />
+    <Compile Include="ValidacaoAnotacao\TamanhoMinimo.cs" />
+    <Compile Include="ValidacaoAnotacao\ValorMinimo.cs" />
+    <Compile Include="Validacao\RegraExtension.cs" />
+    <Compile Include="Validacao\Regras\ArquivoExtensaoZip.cs" />
+    <Compile Include="Validacao\Regras\CnpjRegra.cs" />
+    <Compile Include="Validacao\Regras\CpfRegra.cs" />
+    <Compile Include="Validacao\Regras\DocumentoUnicoRegra.cs" />
+    <Compile Include="Validacao\Regras\EmailRegra.cs" />
+    <Compile Include="Validacao\Regras\IRegra.cs" />
+    <Compile Include="Validacao\Regras\StringRegra.cs" />
+    <Compile Include="VisaoModel\AutoSaveModel.cs" />
+    <Compile Include="VisaoModel\FormModelBase.cs" />
+    <Compile Include="VisaoModel\ModelBase.cs" />
+    <Compile Include="VisaoModel\ModelValidation.cs" />
+    <Compile Include="VisaoModel\ContextoObservado.cs" />
+    <Compile Include="VisaoModel\ViewModel.cs" />
+    <Compile Include="Wpf\Componentes\TabItemFechavel.cs" />
+    <Compile Include="Wpf\Componentes\TextBoxPesquisa.xaml.cs">
+      <DependentUpon>TextBoxPesquisa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wpf\Componentes\ToolbarFormulario.xaml.cs">
+      <DependentUpon>ToolbarFormulario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wpf\Conversores\BooleanToSnConverter.cs" />
+    <Compile Include="Wpf\Conversores\CepMaskConverter.cs" />
+    <Compile Include="Wpf\Conversores\CestMaskConverter.cs" />
+    <Compile Include="Wpf\Conversores\CpfCnpjMaskConverter.cs" />
+    <Compile Include="Wpf\Conversores\RealConverter.cs" />
+    <Compile Include="Wpf\Conversores\RemoveAccentsConverter.cs" />
+    <Compile Include="Wpf\Conversores\TextToIntegerOrNull.cs" />
+    <Compile Include="Wpf\Conversores\TrueToTextConverter.cs" />
+    <Compile Include="Wpf\Conversores\ValueToIntegerNullableConverter.cs" />
+    <Compile Include="Wpf\Conversores\EnumDescriptionConverter.cs" />
+    <Compile Include="Wpf\Conversores\EnumToBooleanConverter.cs" />
+    <Compile Include="Wpf\Conversores\EnumTypeDescriptionConverter.cs" />
+    <Compile Include="Wpf\Conversores\NullToBooleanConverter.cs" />
+    <Compile Include="Wpf\Conversores\TelefoneMaskConverter.cs" />
+    <Compile Include="Wpf\Conversores\CnpjMaskConverter.cs" />
+    <Compile Include="Wpf\Conversores\CpfMaskConverter.cs" />
+    <Compile Include="Wpf\Conversores\IntBinaryToVisibilityConverter.cs" />
+    <Compile Include="Wpf\Conversores\InverseBooleanConverter.cs" />
+    <Compile Include="Wpf\Conversores\ParamToBooleanConverter.cs" />
+    <Compile Include="Wpf\Conversores\ParamToVisibilityConverter.cs" />
+    <Compile Include="Wpf\Conversores\TextToDecimalOrNull.cs" />
+    <Compile Include="Wpf\Markup\EnumBindingSourceExtension.cs" />
+    <Compile Include="Wpf\Tools\Base\RibbonHelperBase.cs" />
+    <Compile Include="Wpf\Tools\FocusAdvancement.cs" />
+    <Compile Include="Wpf\Tools\ImageFromFont.cs" />
+    <Compile Include="Wpf\Tools\RibbonButtonHelper.cs" />
+    <Compile Include="Wpf\Tools\RibbonMenuItemHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Wpf\Componentes\TextBoxPesquisa.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Wpf\Componentes\ToolbarFormulario.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FontAwesome.WPF">
+      <Version>4.7.0.9</Version>
+    </PackageReference>
+    <PackageReference Include="JetBrains.Annotations">
+      <Version>10.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="MahApps.Metro">
+      <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="NETStandard.Library">
+      <Version>2.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Remotion.Linq">
+      <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime">
+      <Version>4.3.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

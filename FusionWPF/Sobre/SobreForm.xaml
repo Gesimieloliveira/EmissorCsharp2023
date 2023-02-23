@@ -1,0 +1,35 @@
+﻿<controls:MetroWindow x:Class="FusionWPF.Sobre.SobreForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:FusionWPF.Sobre"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:wl="clr-namespace:Fusion.WhiteLabel;assembly=Fusion.WhiteLabel"
+                      mc:Ignorable="d"
+                      Title="Sobre" Width="400" SizeToContent="Height"
+                      d:DataContext="{d:DesignInstance local:SobreFormModel}"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowDialogStyle}">
+    <Grid>
+        <StackPanel>
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="FontSize" Value="20" />
+                </Style>
+            </StackPanel.Resources>
+
+            <TextBlock Text="Nome Sistema"
+                       FontWeight="Bold" />
+
+            <TextBlock Text="{x:Static wl:MarcaWhiteLabel.NomeSoftware}" />
+
+            <TextBlock
+                FontWeight="Bold"
+                Text="Versão Sistema" />
+
+            <TextBlock Text="{Binding VersaoSistema}" />
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>

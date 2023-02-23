@@ -1,0 +1,76 @@
+﻿<fuc:FusionWindow x:Class="Fusion.Visao.NotaFiscalEletronica.Principal.NfeletronicaWizzard"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                  xmlns:aba="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Principal.Aba"
+                  xmlns:flyouts="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Principal.Flyouts"
+                  xmlns:system="clr-namespace:System;assembly=mscorlib"
+                  xmlns:fuc="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                  mc:Ignorable="d" d:DesignHeight="662" d:DesignWidth="1020"
+                  WindowStartupLocation="CenterScreen" WindowState="Normal"
+                  Title="Nota Fiscal Eletrônica" Style="{DynamicResource MetroWindowDialogStyle}"
+                  Width="1020" MinHeight="662"
+                  Loaded="Wizzard_OnLoaded"
+                  IsEnabled="{Binding IsEnabled}">
+
+    <controls:MetroWindow.Resources>
+        <system:Double x:Key="FontSizeTab">19</system:Double>
+
+        <Style TargetType="ComboBox" BasedOn="{StaticResource FusionComboBox}">
+            <Setter Property="IsEditable" Value="False" />
+        </Style>
+    </controls:MetroWindow.Resources>
+
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl x:Name="FlyoutsControl">
+            <flyouts:FlyoutReferenciaNfe DataContext="{Binding FlyoutReferenciaNfeModel}" />
+            <flyouts:FlyoutReferenciasCf DataContext="{Binding FlyoutReferenciaCfModel}" />
+            <flyouts:FlyoutAlteraEmissor DataContext="{Binding FlyoutAlteraEmissorModel}" />
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+
+    <DockPanel LastChildFill="true">
+        <controls:MetroTabControl
+            controls:TabControlHelper.UnderlinePlacement="Bottom">
+
+            <controls:MetroTabItem
+                controls:HeaderedControlHelper.HeaderFontSize="{DynamicResource FontSizeTab}"
+                Header="Passo 1: Perfil"
+                DataContext="{Binding AbaPerfilModel}"
+                IsSelected="{Binding Selecionado}"
+                IsEnabled="False">
+                <aba:AbaPerfilPicker />
+            </controls:MetroTabItem>
+
+            <controls:MetroTabItem
+                controls:HeaderedControlHelper.HeaderFontSize="{DynamicResource FontSizeTab}"
+                Header="Passo 2: Cabeçalho"
+                DataContext="{Binding AbaCabecalhoModel}"
+                IsEnabled="False"
+                IsSelected="{Binding Selecionado}">
+                <aba:AbaCabecalho />
+            </controls:MetroTabItem>
+
+            <controls:MetroTabItem
+                controls:HeaderedControlHelper.HeaderFontSize="{DynamicResource FontSizeTab}"
+                Header="Passo 3: Destino/Transporte"
+                DataContext="{Binding AbaDestinoModel}"
+                IsEnabled="False"
+                IsSelected="{Binding Selecionado}">
+                <aba:AbaDestinatario />
+            </controls:MetroTabItem>
+
+            <controls:MetroTabItem
+                controls:HeaderedControlHelper.HeaderFontSize="{DynamicResource FontSizeTab}"
+                Name="TabItems"
+                Header="Passo 4: Itens"
+                DataContext="{Binding AbaItensModel}"
+                IsSelected="{Binding Selecionado}"
+                IsEnabled="False">
+                <aba:AbaItensNfe />
+            </controls:MetroTabItem>
+        </controls:MetroTabControl>
+    </DockPanel>
+</fuc:FusionWindow>

@@ -1,0 +1,165 @@
+﻿<controls:MetroWindow x:Class="FusionNfce.Visao.Principal.FinalizarVenda.AddClienteVendaForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                      mc:Ignorable="d"
+                      Title="Adicionar Cliente" Width="700"
+                      SizeToContent="Height"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      KeyDown="AddClienteVendaForm_OnKeyDown"
+                      ContentRendered="AddClienteVendaForm_OnContentRendered"
+                      FocusManager.FocusedElement="{Binding ElementName=TbDocumentoUnico}">
+
+    <StackPanel Margin="5">
+        <StackPanel Background="{DynamicResource WarningBrush}"
+                    controls:VisibilityHelper.IsVisible="{Binding ExibirMensagemCliente}">
+            <TextBlock
+                Margin="3"
+                FontSize="14" Foreground="{DynamicResource WhiteBrush}"
+                TextAlignment="Center"
+                Text="Cliente é obrigatório para essa venda (cpf e nome)" />
+        </StackPanel>
+
+        <Grid Margin="0,5,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Bottom">
+                    <TextBlock>CPF/CNPJ</TextBlock>
+                    <TextBox x:Name="TbDocumentoUnico"
+                             Height="28"
+                             Text="{Binding DocumentoUnicoCliente, UpdateSourceTrigger=PropertyChanged, Converter={conversores:CpfCnpjMaskConverter}}"
+                             MaxLength="17" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
+                    <TextBlock>Cliente</TextBlock>
+                    <controles:SearchTextBox
+                        Height="28"
+                        MaxLength="60"
+                        Text="{Binding NomeCliente, UpdateSourceTrigger=LostFocus}"
+                        SearchCommand="{Binding CommandBuscaCliente}" />
+
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <StackPanel Margin="0,5,0,0">
+            <TextBlock>Inscrição Estadual</TextBlock>
+            <TextBox Text="{Binding InscricaoEstadual}" />
+        </StackPanel>
+
+        <StackPanel Margin="0,5,0,0">
+            <TextBlock>Endereços</TextBlock>
+            <ComboBox
+                ItemsSource="{Binding Enderecos}"
+                DisplayMemberPath="Logradouro"
+                SelectedValuePath="Id"
+                SelectedItem="{Binding EnderecoSelecionado}" />
+        </StackPanel>
+
+        <StackPanel Margin="0,5,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Margin="0,0,5,0">
+                    <TextBlock Text="CEP" />
+                    <TextBox
+                        Text="{Binding Cep, Converter={conversores:CepMaskConverter}, UpdateSourceTrigger=LostFocus}"
+                        MaxLength="10" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Logradouro" />
+                    <TextBox Text="{Binding Logradouro}" MaxLength="60" />
+                </StackPanel>
+            </Grid>
+
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="220" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                    <TextBlock Text="Número" />
+                    <TextBox Text="{Binding Numero}" MaxLength="60" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,5,0">
+                    <TextBlock Text="Bairro" />
+                    <TextBox Text="{Binding Bairro}" MaxLength="60" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,5,0">
+                    <TextBlock Text="UF" />
+                    <ComboBox ItemsSource="{Binding Estados}"
+                              DisplayMemberPath="Sigla"
+                              SelectedValuePath="Sigla"
+                              SelectedItem="{Binding UfSelecionado}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="3">
+                    <TextBlock Text="CidadeSelacionada" />
+
+                    <ComboBox ItemsSource="{Binding Cidades}"
+                              SelectedItem="{Binding CidadeSelacionada, Mode=TwoWay}"
+                              SelectedValuePath="Id"
+                              SelectedValue="{Binding CidadeSelacionada.Id}"
+                              DisplayMemberPath="Nome" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4">
+                    <TextBlock>Complemento</TextBlock>
+                    <TextBox Text="{Binding Complemento}" MaxLength="60" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Margin="0,5,0,0">
+                <Button Style="{DynamicResource FusionAccentedButton}" Command="{Binding CommandSalvarCliente}"
+                        HorizontalAlignment="Center" Width="200">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Save" Height="18" Width="18" Foreground="White" />
+                        <TextBlock Margin="5,0,0,0">Salvar Cliente</TextBlock>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="0,5,0,0">
+                <Button Style="{DynamicResource FusionDangerButton}" Command="{Binding CommandRemoverCliente}"
+                        HorizontalAlignment="Center" Width="200">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Trash" Height="18" Width="18" Foreground="White" />
+                        <TextBlock Margin="5,0,0,0">Excluir Cliente</TextBlock>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+    </StackPanel>
+</controls:MetroWindow>

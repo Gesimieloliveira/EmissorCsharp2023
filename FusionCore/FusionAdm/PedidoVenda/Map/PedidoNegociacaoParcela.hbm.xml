@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.PedidoVenda"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NegociacaoParcela" table="pedido_negociacao_parcela">
+    <id name="Id" generator="identity">
+      <column name="id" not-null="true" />
+    </id>
+
+    <many-to-one name="Negociacao" cascade="none">
+      <column name="pedidoNegociacao_id" not-null="true" />
+    </many-to-one>
+
+    <property name="Numero">
+      <column name="numero" not-null="true" />
+    </property>
+
+    <property name="Vencimento">
+      <column name="vencimento" not-null="true" />
+    </property>
+
+    <property name="Valor">
+      <column name="valor" not-null="false" precision="15" scale="2" />
+    </property>
+  </class>
+
+</hibernate-mapping>

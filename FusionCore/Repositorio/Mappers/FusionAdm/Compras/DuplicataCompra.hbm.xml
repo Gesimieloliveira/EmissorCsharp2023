@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.FusionAdm.Compras"
+  default-lazy="false"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="DuplicataCompra" table="nf_compra_duplicata">
+    <id name="Id" column="id" generator="identity" />
+
+    <many-to-one name="NfCompra" not-null="true">
+      <column name="nfCompra_id" />
+    </many-to-one>
+
+    <property name="Numero" not-null="true" column="numero" />
+    
+    <property name="Vencimento" not-null="true" column="vencimento" />
+    
+    <property name="Valor" not-null="true" column="valor" />
+  </class>
+</hibernate-mapping>

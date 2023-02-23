@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="03/22/2022 15:58:07" ReportInfo.CreatorVersion="2021.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+using FastReport.Format;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      // Aqui vai o código no momento do formulário iniciar 
+    }
+    
+    private void PageHeader1_BeforePrint(object sender, EventArgs e)
+    {
+      // Força o inicio do Data Source Empresa
+      Report.GetDataSource(&quot;Empresa&quot;).Init();
+    }
+
+    private void btnOk_Click(object sender, EventArgs e)
+    {  
+      int empresaId = 0;
+      string[] partesEmpresa = CbEmpresa.Text.Split(',');
+      if (string.IsNullOrEmpty(CbEmpresa.Text) || partesEmpresa.Length &lt;= 1) {
+        MessageBox.Show(&quot;Preciso que escolha uma empresa!&quot;);
+        Form1.Form.DialogResult = DialogResult.None;
+        return;
+      }
+          
+      Report.SetParameterValue(&quot;EmpresaId&quot;, empresaId);
+      Report.SetParameterValue (&quot;DTinicio&quot;, DTinicio.Value.Date);
+      Report.SetParameterValue (&quot;DTfinal&quot;, DTfinal.Value.Date);
+
+    }
+    
+    private string CortarString(string input, int length)
+    {
+      if (input != null &amp;&amp; input.Length &gt; length) {
+        return input.Substring(0, length);
+     }
+      
+      return input;
+    }
+    
+    private string FormatarPayload(string payload)
+    {
+      return payload.Trim().Trim('{','}').Replace(&quot;\&quot;&quot;,&quot;&quot;).Replace(&quot;,&quot;,&quot;, &quot;).Replace(&quot;:&quot;, &quot;: &quot;);
+      
+      
+      string output = payload.Trim().Trim('{','}');
+      string[] partes = output.Split(',');
+      List&lt;string&gt; valores = new List&lt;string&gt;();
+      
+      foreach (string p in partes) {
+        string[] o = p.Split(':');
+        string key = o[0].Trim('&quot;');
+        string val = o[1].Trim('&quot;');
+         
+        valores.Add(key + &quot;: &quot; + val);
+        //valores.Add(p);
+      }
+      
+      return string.Join(&quot;, &quot;, valores);
+    }
+  }
+}
+
+</ScriptText>
+  <Styles>
+    <Style Name="EvenStyle" Fill.Color="White" Font="Arial, 10pt" ApplyBorder="false" ApplyTextFill="false" ApplyFont="false"/>
+  </Styles>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2geBvN02mjOZLuQGKRweVbyRdeyd+ssOhpZQMtpOQpoqvN68fmvtw3EyZ3z2La+VlNoch9K9fR7xsRMyPcWCdFKzFiAFDm0SQnQPDCEtX/STejQNYFVJS9AYbRD+yF/gl7Dtf1ucH/rHuVyopCWze4tn2LHiswI456LSnD7FsCTFZZvPcAXn8d59OB0c+RHC0M/xVu4hHQ6f8nBBxF/hOZySkCULIQdgztgso841+r/Sd">
+      <TableDataSource Name="TbEmpresa" Alias="Empresa" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	(e.razaoSocial + ',' + cast(e.id as varchar)) as nome,&#13;&#10;	e.razaoSocial,&#13;&#10;	e.nomeFantasia,&#13;&#10;	e.logradouro,&#13;&#10;	e.cep,&#13;&#10;	e.bairro,&#13;&#10;	e.numero,&#13;&#10;	e.fone1,&#13;&#10;	e.fone2,&#13;&#10;	case when len(e.cnpj) = 14 then e.cnpj else e.cpf end as cpfnpj,&#13;&#10;	e.logo&#13;&#10;from empresa e">
+        <Column Name="bairro" DataType="System.String"/>
+        <Column Name="cep" DataType="System.String"/>
+        <Column Name="cpfnpj" DataType="System.String"/>
+        <Column Name="fone1" DataType="System.String"/>
+        <Column Name="fone2" DataType="System.String"/>
+        <Column Name="logo" DataType="System.Byte[]" BindableControl="Picture"/>
+        <Column Name="logradouro" DataType="System.String"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="nomeFantasia" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <Column Name="razaoSocial" DataType="System.String"/>
+      </TableDataSource>
+      <TableDataSource Name="Table" Alias="evento_autorizacao" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;		e.dataCriacao,&#13;&#10;		ul.login as usuarioLogado,&#13;&#10;		ua.login as usuarioAutorizou,&#13;&#10;		e.permissao,&#13;&#10;		e.permissaoTexto,&#13;&#10;		e.payload&#13;&#10;&#13;&#10;&#13;&#10;from evento_operacao_autorizada e&#13;&#10;inner join usuario ul on ul.id = e.usuarioLogado_id&#13;&#10;inner join usuario ua on ua.id = e.usuarioAutorizou_id&#13;&#10;where cast(e.dataCriacao as date) between @DTinicio and @DTfinal">
+        <Column Name="dataCriacao" DataType="System.DateTime"/>
+        <Column Name="usuarioLogado" DataType="System.String"/>
+        <Column Name="usuarioAutorizou" DataType="System.String"/>
+        <Column Name="permissao" DataType="System.Int32"/>
+        <Column Name="permissaoTexto" DataType="System.String"/>
+        <Column Name="payload" DataType="System.String"/>
+        <CommandParameter Name="DTinicio" DataType="4" Expression="[DTinicio]" DefaultValue="01-01-1999"/>
+        <CommandParameter Name="DTfinal" DataType="4" Expression="[DTfinal]" DefaultValue="01-01-1999"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="EmpresaId" DataType="System.Int32"/>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+    <Parameter Name="DTinicio" DataType="System.DateTime"/>
+    <Parameter Name="DTfinal" DataType="System.DateTime"/>
+  </Dictionary>
+  <ReportPage Name="Page1" RawPaperSize="9" LeftMargin="5" RightMargin="5" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PageHeader1" Width="756" Height="88.83" Border.Lines="All" Border.Width="0.25" BeforePrintEvent="PageHeader1_BeforePrint">
+      <PictureObject Name="Picture1" Left="1.89" Top="5.67" Width="110.62" Height="65.39" DataColumn="Empresa.logo"/>
+      <TextObject Name="Text35" Left="154.98" Top="5.67" Width="599.13" Height="17.01" Text="[Empresa.nomeFantasia]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text36" Left="154.98" Top="22.68" Width="599.13" Height="17.01" Text="CNPJ / CPF: [Empresa.cpfnpj]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text37" Left="154.98" Top="39.69" Width="599.13" Height="17.01" Text="Endereço: [Empresa.logradouro], [Empresa.numero], [Empresa.bairro], [Empresa.cep]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text38" Left="154.98" Top="56.7" Width="599.13" Height="17.01" Text="Fone 1: [Empresa.fone1] / Fone 2: [Empresa.fone2]" Font="Arial Narrow, 10pt"/>
+      <ChildBand Name="Child1" Top="92.83" Width="756" Height="46.31">
+        <TextObject Name="Text27" Left="1.88" Top="26.84" Width="752.22" Height="16.06" Text="Período das autorizações: [DTinicio] à [DTfinal]" HorzAlign="Center" Font="Arial Narrow, 9pt, style=Italic">
+          <Formats>
+            <DateFormat/>
+            <DateFormat/>
+          </Formats>
+        </TextObject>
+        <TextObject Name="Text22" Left="1.89" Top="1.89" Width="752.22" Height="25.88" CanGrow="true" Text="[DescricaoRelatorio]" HorzAlign="Center" Font="Arial Narrow, 11pt, style=Bold"/>
+      </ChildBand>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="166.04" Width="756" Height="35.72" CanGrow="true" CanShrink="true" DataSource="Table">
+      <TextObject Name="Text39" Left="1.89" Top="5.48" Width="162.54" Height="18.9" Text="[evento_autorizacao.dataCriacao]" Format="Date" Format.Format="d" Font="Arial, 8pt"/>
+      <TextObject Name="Text40" Left="163.71" Top="5.48" Width="143.61" Height="18.9" Text="[evento_autorizacao.usuarioLogado]" Font="Arial, 10pt"/>
+      <TextObject Name="Text41" Left="308.98" Top="5.48" Width="136.43" Height="18.9" Text="[evento_autorizacao.usuarioAutorizou]" Font="Arial, 10pt"/>
+      <TextObject Name="Text42" Left="446.05" Top="5.48" Width="176.92" Height="18.9" GrowToBottom="true" Text="[evento_autorizacao.permissaoTexto]" Font="Arial, 10pt"/>
+      <ChildBand Name="Child2" Top="205.76" Width="756" Height="34.02" Border.Lines="Bottom" Fill.Color="WhiteSmoke" CanGrow="true">
+        <TextObject Name="Text43" Left="117.18" Top="3.78" Width="636.93" Height="24.57" CanGrow="true" Text="[FormatarPayload([evento_autorizacao.payload])]" VertAlign="Center" Font="Arial, 9pt"/>
+        <TextObject Name="Text44" Left="1.89" Top="3.78" Width="115.29" Height="24.57" Fill.Color="WhiteSmoke" Text="Registro afetado: " VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      </ChildBand>
+      <DataHeaderBand Name="DataHeader1" Top="143.14" Width="756" Height="18.9" Border.Lines="All">
+        <TextObject Name="Text1" Left="1.89" Width="161.02" Height="18.9" Text="Data Autorização" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text2" Left="163.71" Top="-0.01" Width="145.55" Height="18.9" Text="Usuário Logado" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text3" Left="309.89" Top="-0.01" Width="136.27" Height="18.9" Text="Usuário Autorizou" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text4" Left="446.06" Top="-0.01" Width="176.75" Height="18.9" Text="Permissão" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+      </DataHeaderBand>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="243.78" Width="756" Height="13.23" CanShrink="true">
+      <TextObject Name="TextPage" Left="599.13" Width="154.98" Height="13.23" Text="Pagina: [Page#]/[TotalPages#]" HorzAlign="Right" Font="Arial Narrow, 8pt, style=Italic"/>
+      <TextObject Name="TextDate" Left="2.75" Width="347.76" Height="13.23" Text="Impresso em: [Date]" Font="Arial Narrow, 8pt, style=Italic"/>
+    </PageFooterBand>
+  </ReportPage>
+  <DialogPage Name="Form1" AcceptButton="btnOk" CancelButton="btnCancel" AutoScaleDimensions="96, 96" LoadEvent="Form1_Load" ClientSize="592, 221">
+    <GroupBoxControl Name="GroupBox3" Left="4" Top="8" Width="576" Height="60" Font="Tahoma, 8pt" TabIndex="5" Text="Escolha qual empresa fez as vendas">
+      <ComboBoxControl Name="CbEmpresa" Left="8" Top="20" Width="549" Font="Tahoma, 8pt" TabIndex="4" Text="Escolha uma empresa" DataColumn="Empresa.nome" DropDownWidth="513" ItemHeight="13"/>
+    </GroupBoxControl>
+    <ButtonControl Name="btnOk" Left="424" Top="182" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="507" Top="182" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="1" Text="Cancel" DialogResult="Cancel"/>
+    <GroupBoxControl Name="GroupBox4" Left="4" Top="72" Width="576" Font="Tahoma, 8pt" TabIndex="6" Text="Período das autorizações">
+      <LabelControl Name="Label1" Left="8" Top="24" Width="56" Height="18" Font="Tahoma, 8pt" TabIndex="7" Text="Data Inicio"/>
+      <DateTimePickerControl Name="DTinicio" Left="8" Top="40" Font="Tahoma, 8pt" TabIndex="7" Value="03/22/2022 15:34:08"/>
+      <LabelControl Name="Label2" Left="232" Top="24" Width="53" Height="18" Font="Tahoma, 8pt" TabIndex="7" Text="Data Final"/>
+      <DateTimePickerControl Name="DTfinal" Left="232" Top="40" Font="Tahoma, 8pt" TabIndex="7" Value="03/22/2022 15:34:44"/>
+    </GroupBoxControl>
+  </DialogPage>
+</Report>

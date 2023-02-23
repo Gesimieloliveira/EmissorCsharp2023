@@ -1,0 +1,68 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.Veiculos.OpcoesDono"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fusion.Visao.Veiculos"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource MetroWindowDialogStyle}"
+        Title="Registrar" SizeToContent="Height" Width="510.428">
+    
+    <controls:MetroWindow.Resources>
+        <Style x:Key="MediumTileStyle" TargetType="controls:Tile">
+            <Setter Property="Height" Value="90" />
+            <Setter Property="TitleFontSize" Value="12" />
+            <Setter Property="Width" Value="160" />
+        </Style>
+    </controls:MetroWindow.Resources>
+
+    <StackPanel HorizontalAlignment="Center" Margin="2">
+        <WrapPanel Width="Auto" MaxHeight="500" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+            <controls:Tile Title="Transportadora" Margin="3" Style="{DynamicResource MediumTileStyle}" 
+                           Command="{Binding CommandNovaPessoa, Mode=OneWay}">
+
+                <Grid Width="40" Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Car" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </controls:Tile>
+
+            <controls:Tile Title="Empresa" Margin="3" Style="{DynamicResource MediumTileStyle}"
+                           Command="{Binding CommandNovaEmpresa, Mode=OneWay}">
+                <Grid Width="40"
+                      Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="University" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </controls:Tile>
+
+            <controls:Tile Title="Fechar (ESC)" Margin="3" Style="{DynamicResource MediumTileStyle}" Background="{DynamicResource DangerBrush}"
+                           Command="{Binding CommandFechar, Mode=OneWay}">
+                <Grid Width="40" Background="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:Tile}}}">
+                    <Grid.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Close" Width="30" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+            </controls:Tile>
+
+        </WrapPanel>
+    </StackPanel>
+</controls:MetroWindow>

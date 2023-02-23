@@ -1,0 +1,77 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.Produto.FlyoutRegraTributacao"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:local="clr-namespace:Fusion.Visao.Produto"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 mc:Ignorable="d" d:DesignWidth="600"
+                 d:DataContext="{d:DesignInstance local:FlyoutRegraTributacaoModel}"
+                 IsOpen="{Binding IsOpen}"
+                 IsModal="True" Theme="Light" Position="Top"
+                 Height="230">
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top" Header="Regra da tributação interstadual">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Estado / UF" />
+                    <ComboBox ItemsSource="{Binding Estados}"
+                              IsEnabled="{Binding IsNew}"
+                              DisplayMemberPath="Nome"
+                              SelectedValuePath="Id"
+                              SelectedValue="{Binding Regra.UnidadeFederativaId}"
+                              SelectedItem="{Binding Regra.Uf}" />
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="% Aliquota" />
+                    <TextBox wpf:TextBoxAcceptHelper.AcceptDecimalFormat="True"
+                             controls:TextBoxHelper.SelectAllOnFocus="True"
+                             Text="{Binding Regra.Aliquota, StringFormat=N2}" />
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="% Aliquota Fundo de Combate a Pobreza (FCP)" />
+                    <TextBox wpf:TextBoxAcceptHelper.AcceptDecimalFormat="True"
+                             controls:TextBoxHelper.SelectAllOnFocus="True"
+                             Text="{Binding Regra.AliquotaFcp, StringFormat=N2}" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="0,0,10,0" Orientation="Horizontal">
+            <Button Width="50" Height="50" Click="ClickSalvarRegraHandler"
+                    Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="20" Height="20"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Save" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <Button Width="50" Height="50" Click="ClickRemoverRegraHandler" Margin="15,0,0,0"
+                    controls:VisibilityHelper.IsCollapsed="{Binding IsNew}"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                    Foreground="{DynamicResource WhiteBrush}"
+                    Background="{DynamicResource DangerBrush}">
+                <Rectangle Width="20" Height="20"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="TrashOutline" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </StackPanel>
+    </DockPanel>
+</controls:Flyout>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.Tributacoes"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="IcmsInterstadual" table="nfe_item_icms_interstadual">
+
+    <id name="ItemId" column="nfeItem_id" unsaved-value="0">
+      <generator class="foreign">
+        <param name="property">Item</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Item" constrained="true" cascade="none" />
+
+    <property name="AliquotaInternaDestino">
+      <column name="aliquotaInternaDestino" sql-type="decimal" not-null="true" precision="5" scale="2" />
+    </property>
+
+    <property name="ValorBcIcmsDestino">
+      <column name="valorBcIcmsDestino" sql-type="decimal" not-null="true" precision="10" scale="2" />
+    </property>
+
+    <property name="AliquotaInterstadual">
+      <column name="aliquotaInterstadual" sql-type="decimal" not-null="true" precision="5" scale="2" />
+    </property>
+
+    <property name="ValorIcmsDestino">
+      <column name="valorIcmsDestino" sql-type="decimal" not-null="true" precision="10" scale="2" />
+    </property>
+
+    <property name="AliquotaCombatePobreza">
+      <column name="aliquotaCombatePobreza" sql-type="decimal" not-null="true" precision="5" scale="2" />
+    </property>
+
+    <property name="ValorCombatePobreza">
+      <column name="valorCombatePobreza" sql-type="decimal" not-null="true" precision="10" scale="2" />
+    </property>
+
+    <property name="ValorIcmsOrigem">
+      <column name="valorIcmsOrigem" sql-type="decimal" not-null="true" precision="10" scale="2" />
+    </property>
+
+    <property name="PercentualParaDestino">
+      <column name="percentualParaDestino" sql-type="decimal" not-null="true" precision="5" scale="2" />
+    </property>
+
+  </class>
+</hibernate-mapping>

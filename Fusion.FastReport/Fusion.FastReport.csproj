@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8564613C-FD06-4598-B9F7-9E83522C2EB8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fusion.FastReport</RootNamespace>
+    <AssemblyName>Fusion.FastReport</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FastReport, Version=2019.3.20.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
+      <HintPath>..\3rd\FastReport\FastReport.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="FastReport.Bars, Version=2020.4.0.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rd\FastReport\FastReport.Bars.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.Compat, Version=2020.3.2.0, Culture=neutral, PublicKeyToken=406e1f4c3c8ef97e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rd\FastReport\FastReport.Compat.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.DataVisualization, Version=2020.3.1.0, Culture=neutral, PublicKeyToken=5ceb240df42bf6e8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rd\FastReport\FastReport.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.Editor, Version=2020.4.0.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rd\FastReport\FastReport.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Danfe.Base, Version=1.0.0.731, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rd\ImpressoesZeus\NFe.Danfe.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Facades\DanfeNfceConfiguracaoDto.cs" />
+    <Compile Include="Facades\IImprimirNfce.cs" />
+    <Compile Include="Facades\Infra\RepositorioDanfeCupomFiscalNfce.cs" />
+    <Compile Include="Facades\Infra\RepositorioDanfeNfce.cs" />
+    <Compile Include="Facades\Infra\RepositorioDanfeNfceAdm.cs" />
+    <Compile Include="Facades\IObterXml.cs" />
+    <Compile Include="Facades\IServicoObterXml.cs" />
+    <Compile Include="Facades\LayoutImpressaoExt.cs" />
+    <Compile Include="Facades\ServicoObterXml.cs" />
+    <Compile Include="Relatorios\Fixos\RClassificacaoFiscalDeComprasPorNotaEOperacao.cs" />
+    <Compile Include="Relatorios\Fixos\RClassificacaoFiscalDeComprasPorOperacao.cs" />
+    <Compile Include="Relatorios\Fixos\RDocumentoPagar.cs" />
+    <Compile Include="Relatorios\Fixos\RDocumentoReceber.cs" />
+    <Compile Include="Relatorios\Fixos\REstoqueReposicao.cs" />
+    <Compile Include="Relatorios\Fixos\RListagemEstoquePorGrupo.cs" />
+    <Compile Include="Relatorios\Fixos\RModeloEtiqueta.cs" />
+    <Compile Include="Relatorios\Fixos\RNcmVencido.cs" />
+    <Compile Include="Relatorios\Fixos\RProdutosComNcmVencido.cs" />
+    <Compile Include="Relatorios\Fixos\RRelatorioFiscalEmissaoCte.cs" />
+    <Compile Include="Relatorios\Fixos\RRelatorioFiscalEmissaoNFeNFce.cs" />
+    <Compile Include="Relatorios\Fixos\RTotalVendidoPorVendedor.cs" />
+    <Compile Include="Relatorios\Fixos\RValorPorNcmAgrupadoPorIcms.cs" />
+    <Compile Include="Relatorios\Fixos\RValorPorNcmAgrupadoPorPisCofins.cs" />
+    <Compile Include="Relatorios\Fixos\RVendasComItensPorUsuario.cs" />
+    <Compile Include="Relatorios\RelatorioCustomizado.cs" />
+    <Compile Include="Relatorios\RelatorioFixo.cs" />
+    <Compile Include="Relatorios\Sistema\Caixa\RListagemDeCaixasFechados.cs" />
+    <Compile Include="Relatorios\Sistema\FaturamentoMei\RImpressaoFaturamento.cs" />
+    <Compile Include="Relatorios\Sistema\FaturamentoMei\RImpressaoFaturamento80.cs" />
+    <Compile Include="Relatorios\Sistema\FaturamentoMei\RImpressaoFaturamentoA4.cs" />
+    <Compile Include="Relatorios\Sistema\Financeiro\RPromissoria.cs" />
+    <Compile Include="Relatorios\Sistema\Financeiro\RPromissoriaCarne.cs" />
+    <Compile Include="Relatorios\Sistema\IRDanfeNfce.cs" />
+    <Compile Include="Relatorios\Sistema\RDanfeNfce58mm.cs" />
+    <Compile Include="Relatorios\Sistema\RDanfeNfceA4.cs" />
+    <Compile Include="Relatorios\Fixos\RRecibo.cs" />
+    <Compile Include="Relatorios\Sistema\RImpressaoPedidoVenda.cs" />
+    <Compile Include="Relatorios\Fixos\RIventarioEstoque.cs" />
+    <Compile Include="Relatorios\GuidsDosRelatorios.cs" />
+    <Compile Include="Relatorios\FornecedorTemplate.cs" />
+    <Compile Include="DataSources\DsAniversariante.cs" />
+    <Compile Include="DataSources\DsDocumentosPagar.cs" />
+    <Compile Include="DataSources\DsFaturamento.cs" />
+    <Compile Include="DataSources\DsFaturamentoItem.cs" />
+    <Compile Include="DataSources\DsInutilizacao.cs" />
+    <Compile Include="DataSources\DsPagamento.cs" />
+    <Compile Include="DataSources\DsParcela.cs" />
+    <Compile Include="DataSources\DsProdutoEstoque.cs" />
+    <Compile Include="DataSources\DsTelefone.cs" />
+    <Compile Include="Facades\DanfeNfceFacade.cs" />
+    <Compile Include="Facades\TefImpressaoFacade.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Relatorios\FrSettings.cs" />
+    <Compile Include="Relatorios\RelatorioBase.cs" />
+    <Compile Include="Relatorios\Fixos\RAniversariantes.cs" />
+    <Compile Include="Relatorios\Fixos\RComprasDetalhado.cs" />
+    <Compile Include="Relatorios\Fixos\RContagemEstoque.cs" />
+    <Compile Include="Relatorios\Sistema\RDanfeNfce.cs" />
+    <Compile Include="Relatorios\Sistema\RImpressaoTef.cs" />
+    <Compile Include="Relatorios\Fixos\RInutilizacoesNfeNFce.cs" />
+    <Compile Include="Relatorios\Fixos\RItensVendidos.cs" />
+    <Compile Include="Relatorios\Fixos\RAnaliseLucroPorItem.cs" />
+    <Compile Include="Relatorios\Fixos\RVendasDoFaturamento.cs" />
+    <Compile Include="Relatorios\Fixos\RListagemProdutoEstoque.cs" />
+    <Compile Include="Relatorios\Fixos\RListagemProdutoTributacao.cs" />
+    <Compile Include="Relatorios\Fixos\RVendasTrasmitidasNaNfce.cs" />
+    <Compile Include="Repositorios\Repositorio.cs" />
+    <Compile Include="Repositorios\RepositorioAniversariante.cs" />
+    <Compile Include="Repositorios\RepositorioDsDocumentoPagar.cs" />
+    <Compile Include="Repositorios\RepositorioFaturamento.cs" />
+    <Compile Include="Repositorios\RepositorioInutilizacao.cs" />
+    <Compile Include="Repositorios\RepositorioPedido.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <EmbeddedResource Include="Arquivos\FrInutilizacoesNFeNFCe.frx" />
+    <EmbeddedResource Include="Arquivos\FrAniversariantes.frx" />
+    <EmbeddedResource Include="Arquivos\FrFaturamento80mm.frx" />
+    <EmbeddedResource Include="Arquivos\FrMovimentacoesVenda.frx" />
+    <EmbeddedResource Include="Arquivos\FrVendasTrasmitidasNaNfce.frx" />
+    <EmbeddedResource Include="Arquivos\FrListagemProdutoTributacao.frx" />
+    <EmbeddedResource Include="Arquivos\FrListagemProdutoEstoque.frx" />
+    <EmbeddedResource Include="Arquivos\FrPedidoVenda.frx" />
+    <EmbeddedResource Include="Arquivos\FrFaturamentoA4.frx" />
+    <EmbeddedResource Include="Arquivos\FrVendaFaturamento.frx" />
+    <EmbeddedResource Include="Arquivos\FrItemVendido.frx" />
+    <EmbeddedResource Include="Arquivos\FrEmptyTemplate.frx" />
+    <EmbeddedResource Include="Arquivos\FrCompraDetalhada.frx" />
+    <EmbeddedResource Include="Arquivos\FrContagemEstoque.frx" />
+    <EmbeddedResource Include="Arquivos\FrDanfeNfce.frx" />
+    <EmbeddedResource Include="Arquivos\FrIventarioEstoque.frx" />
+    <EmbeddedResource Include="Arquivos\FrImprimirTef.frx" />
+    <EmbeddedResource Include="Arquivos\FrEtiquetaModeloPadrao.frx" />
+    <EmbeddedResource Include="Assets\Portuguese-%28Brazil%29.frl" />
+    <EmbeddedResource Include="Arquivos\FrListagemDeCaixasFechados.frx" />
+    <EmbeddedResource Include="Arquivos\FrRelatorioFiscalEmissaoNFeNFCe.frx" />
+    <EmbeddedResource Include="Arquivos\FrListagemEstoquePorGrupo.frx" />
+    <EmbeddedResource Include="Arquivos\FrPromissoria.frx" />
+    <EmbeddedResource Include="Arquivos\FrEstoqueReposicao.frx" />
+    <EmbeddedResource Include="Arquivos\FrRelatorioFiscalEmissaoCTe.frx" />
+    <EmbeddedResource Include="Arquivos\FrClassificacaoFiscalDeComprasPorOperacao.frx" />
+    <EmbeddedResource Include="Arquivos\FrClassificacaoFiscalDeComprasPorNotaEOperacao.frx" />
+    <EmbeddedResource Include="Arquivos\FrTotalVendidoPorVendedor.frx" />
+    <EmbeddedResource Include="Arquivos\FrValorPorNcmAgrupadoPorIcms.frx" />
+    <EmbeddedResource Include="Arquivos\FrValorPorNcmAgrupadoPorPisCofins.frx" />
+    <EmbeddedResource Include="Arquivos\FrRelatorioCompletoVendasPorModelo.frx" />
+    <EmbeddedResource Include="Arquivos\FrTotaisPorFormaDePagamento.frx" />
+    <EmbeddedResource Include="Arquivos\FrVendasItensNfce.frx" />
+    <EmbeddedResource Include="Arquivos\FrDanfeNfce58mm.frx" />
+    <EmbeddedResource Include="Arquivos\FrDocumentoReceber.frx" />
+    <EmbeddedResource Include="Arquivos\FrItensVendidosAgrupadoPorCliente.frx" />
+    <EmbeddedResource Include="Arquivos\FrVendasAgrupadoPorCliente.frx" />
+    <EmbeddedResource Include="Arquivos\FrDanfeNfceA4.frx" />
+    <EmbeddedResource Include="Arquivos\FrClientesPorEndereçoCidadeContato.frx" />
+    <EmbeddedResource Include="Arquivos\FrProdutosComCodigoDeBarras.frx" />
+    <EmbeddedResource Include="Arquivos\FrEtiqueta3Colunas32x17mm.frx" />
+    <EmbeddedResource Include="Arquivos\FrEtiquetaGondola100x30mm.frx" />
+    <EmbeddedResource Include="Arquivos\FrRecibo.frx" />
+    <EmbeddedResource Include="Arquivos\FrItensVendidosFaturamentoAgrupadosPorCliente.frx" />
+    <EmbeddedResource Include="Arquivos\FrComissaoDeVendedores.frx" />
+    <EmbeddedResource Include="Arquivos\FrRelatorioDeTempoDaUltimaCompraPelosClientes.frx" />
+    <EmbeddedResource Include="Arquivos\FrRelatorioOperacoesAutorizadas.frx" />
+    <EmbeddedResource Include="Arquivos\FrRelatorioCtePorPeriodo.frx" />
+    <EmbeddedResource Include="Arquivos\FrProdutosComNcmVencido.frx" />
+    <EmbeddedResource Include="Arquivos\FrNcmVencido.frx" />
+    <EmbeddedResource Include="Arquivos\FrPromissoriaCarne.frx" />
+    <EmbeddedResource Include="Arquivos\FrAnaliseLucroPorItem.frx" />
+    <EmbeddedResource Include="Arquivos\FrDocumentoPagar.frx" />
+    <EmbeddedResource Include="Arquivos\FrAnaliseLucroItemDetalhado.frx" />
+    <EmbeddedResource Include="Arquivos\FrVendasComItensPorUsuario.frx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Iesi.Collections">
+      <Version>4.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="NETStandard.Library">
+      <Version>2.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="NHibernate">
+      <Version>4.1.2.4000</Version>
+    </PackageReference>
+    <PackageReference Include="Zeus.Net.NFe.NFCe">
+      <Version>2022.10.19.1442</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FusionCore\FusionCore.csproj">
+      <Project>{97B55012-27D3-46DD-9D50-1D100A3BDA49}</Project>
+      <Name>FusionCore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

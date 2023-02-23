@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Pessoas"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Cliente" table="pessoa_cliente">
+    <id name="Id" column="pessoa_id">
+      <generator class="foreign">
+        <param name="property">Pessoa</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Pessoa" constrained="true" cascade="none" />
+
+    <property column="aplicaLimiteCredito" name="AplicaLimiteCredito" not-null="true" />
+
+    <property column="limiteCredito" name="LimiteCredito" not-null="true" />
+
+    <property column="observacao" name="Observacao" not-null="true" />
+
+    <property column="solicitaPedido" name="SolicitaPedidoNfe" not-null="true" />
+
+  </class>
+
+</hibernate-mapping>

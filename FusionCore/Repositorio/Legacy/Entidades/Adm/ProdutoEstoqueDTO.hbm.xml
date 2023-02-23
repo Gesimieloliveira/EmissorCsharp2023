@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Adm"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ProdutoEstoqueDTO" table="produto_estoque">
+
+    <id name="ProdutoId" type="Int32">
+      <column name="produto_id" />
+      <generator class="foreign">
+        <param name="property">ProdutoDTO</param>
+      </generator>
+    </id>
+
+    <one-to-one
+      name="ProdutoDTO" class="ProdutoDTO" lazy="false" outer-join="true" 
+      constrained="true" cascade="none" />
+
+    <property name="Estoque" column="estoque" not-null="true" />
+    <property name="EstoqueMinimo" column="estoqueMinimo" not-null="true" />
+    <property name="EstoqueMaximo" column="estoqueMaximo" not-null="true" />
+    <property name="EstoqueReservado" column="estoqueReservado" not-null="true" />
+    <property name="AlteradoEm" column="alteradoEm" not-null="true" />
+
+  </class>
+</hibernate-mapping>

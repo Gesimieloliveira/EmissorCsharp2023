@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ItemNfe" table="nfe_item">
+    <id name="Id" column="id" generator="identity" />
+
+    <many-to-one name="Nfe" cascade="none">
+      <column name="nfe_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="Cfop" cascade="none">
+      <column name="perfilCfop_id" not-null="true" />
+    </many-to-one>
+
+    <property name="MovimentaEstoque">
+      <column name="movimentaEstoque" not-null="true" />
+    </property>
+
+    <property name="PartilharIcms">
+      <column name="partilharIcms" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="NumeroItem">
+      <column name="numeroItem" not-null="true" />
+    </property>
+
+    <property name="NumeroPedido">
+      <column name="numeroPedido" not-null="true" />
+    </property>
+
+    <property name="NumeroItemPedido">
+      <column name="numeroItemPedido" not-null="true" />
+    </property>
+
+    <property name="ValorDespesasFixaRateio">
+      <column name="valorDespesasFixaRateio" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="ValorSeguroFixoRateio">
+      <column name="valorSeguroFixoRateio" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="ValorFreteFixoRateio">
+      <column name="valorFreteFixoRateio" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="ValorDescontoFixoRateio">
+      <column name="valorDescontoFixoRateio" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="Observacao">
+      <column name="observacao" not-null="true" length="500" />
+    </property>
+
+    <property name="CodigoBeneficioFiscal">
+      <column name="codigoBeneficioFiscal" not-null="true" />
+    </property>
+
+    <property name="AutoAjustarImposto">
+      <column name="autoAjustarImposto" not-null="true" />
+    </property>
+
+    <many-to-one name="Produto" cascade="none">
+      <column name="produto_id" not-null="true" sql-type="int" />
+    </many-to-one>
+
+    <property name="SiglaUnidade">
+      <column name="siglaUnidade" not-null="true" length="10" />
+    </property>
+
+    <property name="SiglaUnidadeTributavel">
+      <column name="siglaUnidadeTributavel" not-null="true" length="10" />
+    </property>
+
+    <property name="Quantidade" not-null="true">
+      <column name="quantidade" scale="4" precision="15" />
+    </property>
+
+    <property name="ValorUnitario" not-null="true">
+      <column name="valorUnitario" scale="10" precision="21" />
+    </property>
+
+    <property name="TotalBruto" not-null="true">
+      <column name="totalBruto" scale="2" precision="15" />
+    </property>
+
+    <property name="PorcentagemDescontoItem" not-null="true">
+      <column name="porcentagemDescontoItem" scale="10" precision="21" />
+    </property>
+
+    <property name="TotalDescontoItem" not-null="true">
+      <column name="totalDescontoItem" scale="2" precision="15" />
+    </property>
+
+    <property name="TotalItem" not-null="true">
+      <column name="totalItem" scale="2" precision="15" />
+    </property>
+
+    <property name="TotalFiscal" not-null="true">
+      <column name="totalFiscal" scale="2" precision="15" />
+    </property>
+
+    <property name="CodigoUtilizado">
+      <column name="codigoUtilizado" not-null="true" length="60" />
+    </property>
+
+    <property name="CodigoBarras" not-null="true">
+      <column name="codigoBarras" />
+    </property>
+
+    <property name="PrecoCusto" not-null="true">
+      <column name="precoCusto" />
+    </property>
+
+    <property name="PrecoVenda" not-null="true">
+      <column name="precoVenda" />
+    </property>
+
+    <property name="QuantidadeUnidadeTributavel" not-null="true">
+      <column name="quantidadeUnidadeTributavel" />
+    </property>
+
+    <property name="MovimentarEstoqueConfiguracao" not-null="true">
+      <column name="movimentarEstoqueConfiguracao" />
+    </property>
+
+    <property name="AutoAtivarCreditoItem" not-null="true">
+      <column name="autoAtivarCreditoItem" />
+    </property>
+
+	<property name="AutoCalcularTotaisItem" not-null="true">
+		<column name="autoCalcularTotaisItem" />
+	</property>
+
+	<property name="UsarIpiTagPropria" not-null="true">
+		<column name="usarIpiTagPropria" />
+	</property>
+
+    <one-to-one name="ImpostoIcms" cascade="all-delete-orphan" outer-join="true" />
+
+    <one-to-one name="Ipi" cascade="all-delete-orphan" outer-join="true" />
+
+    <one-to-one name="Pis" cascade="all-delete-orphan" outer-join="true" />
+
+    <one-to-one name="Cofins" cascade="all-delete-orphan" outer-join="true" />
+
+    <one-to-one name="IcmsInterstadual" outer-join="true" cascade="delete" />
+
+  </class>
+</hibernate-mapping>

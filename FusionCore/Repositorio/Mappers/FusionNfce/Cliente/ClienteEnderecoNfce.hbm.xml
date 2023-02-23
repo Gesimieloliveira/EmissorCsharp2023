@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping assembly="FusionCore"
+                    namespace="FusionCore.FusionNfce.Cliente"
+                    default-lazy="false"
+                    xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ClienteEnderecoNfce" table="cliente_endereco">
+    <id name="Id" column="id"/>
+
+    <many-to-one name="Cliente" not-null="true" cascade="none" column="cliente_id" />
+    
+    <property name="Logradouro" column="logradouro" not-null="true" />
+    
+    <property name="Numero" column="numero" not-null="true" />
+    
+    <property name="Bairro" column="bairro" not-null="true" />
+  
+    <property name="Cep" column="cep" not-null="true" />
+    
+    <property name="Complemento" column="complemento" not-null="true" />
+    
+    <many-to-one name="Cidade" 
+                 column="cidade_id" not-null="false" cascade="none"
+                 class="FusionCore.FusionNfce.Cidade.CidadeNfce" />
+  </class>
+  
+</hibernate-mapping>

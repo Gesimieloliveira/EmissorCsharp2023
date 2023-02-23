@@ -1,0 +1,86 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.CteEletronico.Emitir.Flyouts.FlyoutAddVeiculoParaTransporte"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+                 xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                 mc:Ignorable="d" d:DesignWidth="1000"
+                 Position="Top" IsOpen="{Binding IsOpen}" IsModal="True" MaxHeight="662" Theme="Adapt"
+                 Loaded="FlyoutAddVeiculoParaTransporte_OnLoaded">
+
+    <GroupBox Header="Adicionar Veículo para Transporte">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+
+                    <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                        <TextBlock>Cor</TextBlock>
+                        <TextBox
+                            x:Name="TextBoxCor"
+                            Text="{Binding Cor}" MaxLength="4" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,5,0">
+                        <TextBlock>Descrição da cor</TextBlock>
+                        <TextBox Text="{Binding DescricaoCor}" MaxLength="40" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,5,0">
+                        <TextBlock>Código Marca Modelo</TextBlock>
+                        <TextBox Text="{Binding CodigoMarcaModelo}" MaxLength="6" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,5,0">
+                        <TextBlock>Chassi</TextBlock>
+                        <TextBox MaxLength="17" Text="{Binding Chassi}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,5,0">
+                        <TextBlock>Valor Unitário do Veículo</TextBlock>
+                        <controles:DecimalTextBox Text="{Binding ValorUnitario, StringFormat=N2}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,0,5,0">
+                        <TextBlock>Frete Unitário</TextBlock>
+                        <controles:DecimalTextBox Text="{Binding FreteUnitario, StringFormat=N2}" />
+                    </StackPanel>
+
+                </Grid>
+            </StackPanel>
+
+            <!-- toolbar-bottom -->
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right">
+                <Button Width="50" Height="50"
+                        Style="{DynamicResource MetroCircleButtonStyle}"
+                        Click="OnClickBotaoSalvaVeiculoTransporte">
+                    <Rectangle Width="20" Height="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill">
+                                <VisualBrush.Visual>
+                                    <fa:ImageAwesome Icon="Save" />
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </DockPanel>
+            <!-- /toolbar-bottom -->
+        </DockPanel>
+
+    </GroupBox>
+</controls:Flyout>

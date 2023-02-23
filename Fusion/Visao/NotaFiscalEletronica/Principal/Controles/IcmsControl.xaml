@@ -1,0 +1,165 @@
+﻿<UserControl x:Class="Fusion.Visao.NotaFiscalEletronica.Principal.Controles.IcmsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lo="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Principal.Controles"
+             xmlns:fcs="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             xmlns:cvs="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             mc:Ignorable="d" d:DesignWidth="950"
+             d:DataContext="{d:DesignInstance lo:IcmsContexto, IsDesignTimeCreatable=False}"
+             Background="White"
+             Loaded="LoadedHandler">
+
+    <DockPanel>
+        <fcs:TituloDivisor
+            DockPanel.Dock="Top"
+            BorderBrush="{DynamicResource DangerBrush}"
+            Text="Configuração do ICMS" />
+
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Situação tributária ICMS" />
+            <ComboBox
+                ItemsSource="{Binding IcmsDisponiveis}"
+                SelectedItem="{Binding CstSelecionado}" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="15,5,15,0">
+            <GroupBox x:Name="GbCredito" Header="Icms Crédito - Simples Nacional">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Aliquota crédito: " VerticalAlignment="Center" />
+                        <fcs:DecimalTextBox Width="100" Text="{Binding AliqoutaCredito, StringFormat=N4}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                        <TextBlock Text="Valor do crédito: " VerticalAlignment="Center" />
+                        <fcs:DecimalTextBox 
+                            IsReadOnly="{Binding AutoAjusteImposto}"
+                            Width="100" Text="{Binding ValorCredito, StringFormat=N2}"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <DockPanel Margin="0,3,0,0">
+                <GroupBox x:Name="GbIcms" Header="Icms" Width="385">
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Width="90" Margin="0,0,2,0">
+                            <TextBlock Text="% Aliquota" />
+                            <fcs:DecimalTextBox Text="{Binding Aliquota, StringFormat=N4}" />
+                        </StackPanel>
+
+                        <StackPanel Width="90" Margin="0,0,2,0">
+                            <TextBlock Text="% Redução" />
+                            <fcs:DecimalTextBox
+                                x:Name="TbReducaoIcms"
+                                Text="{Binding Reducao, StringFormat=N4}" />
+                        </StackPanel>
+
+                        <StackPanel Width="90" Margin="0,0,2,0">
+                            <TextBlock Text="Base Cálculo" />
+                            <fcs:DecimalTextBox
+                                IsReadOnly="{Binding AutoAjusteImposto}"
+                                Text="{Binding BaseCalculo, StringFormat=N2}" />
+                        </StackPanel>
+
+                        <StackPanel Width="90">
+                            <TextBlock Text="Valor Icms" />
+                            <fcs:DecimalTextBox
+                                IsReadOnly="{Binding AutoAjusteImposto}"
+                                Text="{Binding ValorIcms, StringFormat=N2}" />
+                        </StackPanel>
+                    </WrapPanel>
+                </GroupBox>
+
+                <GroupBox x:Name="GbIcmsSt" Header="Substituição Tributária" Grid.Column="1" Margin="2.5,0,0,0">
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Width="85" Margin="0,0,2,0">
+                            <TextBlock Text="% Aliquota ST" />
+                            <fcs:DecimalTextBox Text="{Binding AliquotaSt, StringFormat=N4}" />
+                        </StackPanel>
+
+                        <StackPanel Width="85" Margin="0,0,2,0">
+                            <TextBlock Text="% MVA" />
+                            <fcs:DecimalTextBox Text="{Binding Mva, StringFormat=N4}" />
+                        </StackPanel>
+
+                        <StackPanel Width="85" Margin="0,0,2,0">
+                            <TextBlock Text="% Redução" />
+                            <fcs:DecimalTextBox 
+                                Text="{Binding ReducaoSt, StringFormat=N4, Converter={cvs:TextToDecimalOrNull}}" />
+                        </StackPanel>
+
+                        <StackPanel Width="85" Margin="0,0,2,0">
+                            <TextBlock Text="% Icms Interno" />
+                            <fcs:DecimalTextBox Text="{Binding AliquotaIcmsInternoSt, StringFormat=N4}" />
+                        </StackPanel>
+
+                        <StackPanel Width="85" Margin="0,0,2,0">
+                            <TextBlock Text="Base Cálculo" />
+                            <fcs:DecimalTextBox
+                                IsReadOnly="{Binding AutoAjusteImposto}"
+                                Text="{Binding BaseCalculoSt, StringFormat=N2, Converter={cvs:TextToDecimalOrNull}}" />
+                        </StackPanel>
+
+                        <StackPanel Width="85">
+                            <TextBlock Text="Valor Icms" />
+                            <fcs:DecimalTextBox
+                                IsReadOnly="{Binding AutoAjusteImposto}"
+                                Text="{Binding ValorIcmsSt, StringFormat=N2, Converter={cvs:TextToDecimalOrNull}}" />
+                        </StackPanel>
+                    </WrapPanel>
+                </GroupBox>
+            </DockPanel>
+
+            <DockPanel Margin="0,5,0,0">
+                <GroupBox Header="FCP" Width="385" x:Name="GbFcp">
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Width="90" Margin="0,0,2,0">
+                            <TextBlock Text="% FCP" />
+                            <fcs:DecimalTextBox 
+                                Text="{Binding AliquotaFcp, StringFormat=N4, Converter={cvs:TextToDecimalOrNull}}" />
+                        </StackPanel>
+
+                        <StackPanel Width="90" Margin="0,0,2,0">
+                            <TextBlock Text="Base Cálculo" />
+                            <fcs:DecimalTextBox
+                                IsReadOnly="{Binding AutoAjusteImposto}"
+                                Text="{Binding BcFcp, StringFormat=N2, Converter={cvs:TextToDecimalOrNull}}" />
+                        </StackPanel>
+
+                        <StackPanel Width="90">
+                            <TextBlock Text="Valor FCP" />
+                            <fcs:DecimalTextBox
+                                IsReadOnly="{Binding AutoAjusteImposto}"
+                                Text="{Binding ValorFcp, StringFormat=N2, Converter={cvs:TextToDecimalOrNull}}" />
+                        </StackPanel>
+                    </WrapPanel>
+                </GroupBox>
+
+                <GroupBox x:Name="GbFcpSt" Header="FCP Retido por Substituição Tributária" Margin="2.5,0,0,0">
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Width="90" Margin="0,0,2,0">
+                            <TextBlock Text="% FCP ST" />
+                            <fcs:DecimalTextBox Text="{Binding AliquotaFcpSt, StringFormat=N4}" />
+                        </StackPanel>
+
+                        <StackPanel Width="90" Margin="0,0,2,0">
+                            <TextBlock Text="Base Cálculo" />
+                            <fcs:DecimalTextBox
+                                IsReadOnly="{Binding AutoAjusteImposto}"
+                                Text="{Binding BcFcpSt, StringFormat=N2}" />
+                        </StackPanel>
+
+                        <StackPanel Width="90">
+                            <TextBlock Text="Valor FCP ST" />
+                            <fcs:DecimalTextBox
+                                IsReadOnly="{Binding AutoAjusteImposto}"
+                                Text="{Binding ValorFcpSt, StringFormat=N2}" />
+                        </StackPanel>
+                    </WrapPanel>
+                </GroupBox>
+            </DockPanel>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronicoOs.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteOsRodoviario" table="cte_os_rodoviario">
+    <id name="CteOsId" column="cteOs_id">
+      <generator class="foreign">
+        <param name="property">CteOs</param>
+      </generator>
+    </id>
+
+    <one-to-one name="CteOs" constrained="true" outer-join="true" cascade="none"/>
+    
+    <property name="Taf" column="taf" not-null="true" />
+    
+    <property name="NumeroDoRegimeEstadual" column="numeroDoRegimeEstadual" not-null="true" />
+  </class>
+</hibernate-mapping>

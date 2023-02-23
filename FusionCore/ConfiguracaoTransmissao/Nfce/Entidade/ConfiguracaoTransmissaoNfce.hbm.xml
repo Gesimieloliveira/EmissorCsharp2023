@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.ConfiguracaoTransmissao.Nfce.Entidade"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ConfiguracaoTransmissaoNfce" table="configuracao_transmissao_nfce">
+    <id name="Guid">
+      <column name="guid" not-null="true" />
+    </id>
+
+    <property name="Transmissao" column="transmissao" not-null="true"/>
+
+  </class>
+
+</hibernate-mapping>

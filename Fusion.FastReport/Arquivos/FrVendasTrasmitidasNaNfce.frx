@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="03/09/2018 16:55:20" ReportInfo.Modified="02/09/2020 19:57:56" ReportInfo.CreatorVersion="2019.3.20.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {
+    public string FormataNomeConsumidor(string nome) 
+    {
+      if (string.IsNullOrWhiteSpace(nome)) {
+        return &quot;CONSUMIDOR FINAL&quot;;
+      }
+      
+      return nome;
+    }
+
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      CDataInicial.Value = DateTime.Today;
+      CDataFinal.Value = DateTime.Today;
+    }
+  }
+}
+</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqq8kTaCagDxO6zlhwUlmn0ZkkJj7vmEtxC6ejYxyv8rmDcRDLYc4tP3Zj/ApLb4OTJkKrnr7GGak9/9m7NHkyjH1Zok/PCOA10TPJJXWkfec04mug4ycdjwnRYJ4gIQwxuVDWaHCwFuPZRTDoz3PiE9pwnVoegtB1NbRwGMCa9N+3XTG4oUSMta3nvLtZUfT09lc6R8vKYMVad+buClgJm0AAzJsSeZRWW9pzPrY7ZLrz3OBiYqQuZj0bP4uZDAiP">
+      <TableDataSource Name="TbVendaNfce" Alias="VendaNfce" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="SELECT&#13;&#10;	this_.id as Id,&#13;&#10;	nfceemiss2_.numeroDocumento as NumeroDocumento,&#13;&#10;	this_.criadoEm as DataOperacao,&#13;&#10;	nfcedesti1_.nome as NomePessoa,&#13;&#10;	this_.totalProdutosServicos as ValorBruto,&#13;&#10;	this_.totalDesconto as ValorDesconto,&#13;&#10;	this_.totalAcrescimo as ValorAcrescimo,&#13;&#10;	this_.totalNfce as ValorLiquido &#13;&#10;FROM nfce this_ &#13;&#10;inner join nfce_emissao nfceemiss2_ on this_.id=nfceemiss2_.nfce_id &#13;&#10;left outer join nfce_destinatario nfcedesti1_ on this_.id=nfcedesti1_.nfce_id&#13;&#10;WHERE this_.status = 2 and cast(nfceemiss2_.recebidoEm as date) between @pDataInicial and @pDataFinal">
+        <Column Name="Id" DataType="System.Int32"/>
+        <Column Name="NumeroDocumento" DataType="System.Int32"/>
+        <Column Name="DataOperacao" DataType="System.DateTime"/>
+        <Column Name="NomePessoa" DataType="System.String"/>
+        <Column Name="ValorBruto" DataType="System.Decimal"/>
+        <Column Name="ValorDesconto" DataType="System.Decimal"/>
+        <Column Name="ValorAcrescimo" DataType="System.Decimal"/>
+        <Column Name="ValorLiquido" DataType="System.Decimal"/>
+        <CommandParameter Name="pDataInicial" DataType="4" Expression="CDataInicial.Value" DefaultValue="1970-01-01"/>
+        <CommandParameter Name="pDataFinal" DataType="4" Expression="CDataFinal.Value" DefaultValue="1970-01-01"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Total Name="TotalLiquido" Expression="[VendaNfce.ValorLiquido]" Evaluator="Data1" PrintOn="ReportSummary1"/>
+    <Total Name="TotalAcrescimo" Expression="[VendaNfce.ValorAcrescimo]" Evaluator="Data1" PrintOn="ReportSummary1"/>
+    <Total Name="TotalDesconto" Expression="[VendaNfce.ValorDesconto]" Evaluator="Data1" PrintOn="ReportSummary1"/>
+    <Total Name="TotalBruto" Expression="[VendaNfce.ValorBruto]" Evaluator="Data1" PrintOn="ReportSummary1"/>
+  </Dictionary>
+  <DialogPage Name="Form1" Width="502" Height="210" AcceptButton="btnOk" CancelButton="btnCancel" Font="Tahoma, 8pt" Text="Filtro Relatório" LoadEvent="Form1_Load">
+    <ButtonControl Name="btnOk" Left="310" Top="126" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="0" Text="OK" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="397" Top="126" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="1" Text="Cancelar" DialogResult="Cancel"/>
+    <GroupBoxControl Name="GroupBox1" Left="8" Top="8" Width="464" Height="80" Font="Tahoma, 8pt" TabIndex="2" Text="Periodo da autorização dos documentos">
+      <DateTimePickerControl Name="CDataInicial" Left="8" Top="28" Width="184" Height="24" Font="Tahoma, 8pt" TabIndex="3" Text="09/02/2020" Format="Short" Value="02/09/2020 19:38:17"/>
+      <DateTimePickerControl Name="CDataFinal" Left="224" Top="28" Width="192" Height="24" Font="Tahoma, 8pt" TabIndex="3" Text="09/02/2020" Format="Short" Value="02/09/2020 19:38:17"/>
+    </GroupBoxControl>
+  </DialogPage>
+  <ReportPage Name="Page1" RawPaperSize="9" Guides="718.2" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="83.16">
+      <TextObject Name="Text9" Left="60.48" Top="0.45" Width="661.5" Height="29.02" Text="Relatório de vendas transmitidas na NFC-e" HorzAlign="Right" VertAlign="Center" Font="Arial, 14pt, style=Bold"/>
+      <TextObject Name="Text14" Left="232.47" Top="29.24" Width="485.73" Height="17.79" Text="Impresso em: [Date]" Format="Date" Format.Format="d" HorzAlign="Right" Font="Arial, 10pt"/>
+      <TextObject Name="Text24" Left="232.47" Top="47.25" Width="485.73" Height="17.79" Text="Periodo escolhido: [CDataInicial.Value] à [CDataFinal.Value]" HorzAlign="Right" Font="Arial, 10pt">
+        <Formats>
+          <DateFormat/>
+          <DateFormat/>
+        </Formats>
+      </TextObject>
+    </ReportTitleBand>
+    <ColumnHeaderBand Name="ColumnHeader1" Top="86.33" Width="718.2" Height="20.79">
+      <TextObject Name="Text2" Width="51.03" Height="20.79" Border.Lines="Top, Bottom" Border.Width="0.25" Text="Cod/ID" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text4" Left="51.03" Width="79.38" Height="20.79" Border.Lines="Top, Bottom" Border.Width="0.25" Text="D. Emissão" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text6" Left="198.45" Width="226.8" Height="20.79" Border.Lines="Top, Bottom" Border.Width="0.25" Text="Consumidor" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text8" Left="424.9" Width="62.37" Height="20.79" Border.Lines="Top, Bottom" Border.Width="0.25" Text="Bruto" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text11" Left="487.27" Width="77.49" Height="20.79" Border.Lines="Top, Bottom" Border.Width="0.25" Text="Desconto" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text13" Left="564.76" Width="71.82" Height="20.79" Border.Lines="Top, Bottom" Border.Width="0.25" Text="Acrescimo" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text16" Left="636.93" Width="79.38" Height="20.79" Border.Lines="Top, Bottom" Border.Width="0.25" Text="Líquido" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text23" Left="130.41" Width="68.04" Height="20.79" Border.Lines="Top, Bottom" Border.Width="0.25" Text="Número" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <ChildBand Name="Child1" Top="110.3" Width="718.2" Height="5.67"/>
+    </ColumnHeaderBand>
+    <DataBand Name="Data1" Top="119.14" Width="718.2" Height="24.57" CanShrink="true" DataSource="TbVendaNfce">
+      <TextObject Name="Text1" Width="51.03" Height="15.12" Text="[VendaNfce.Id]" Format="Custom" Format.Format="0000" HorzAlign="Center" Font="Arial, 9pt"/>
+      <TextObject Name="Text3" Left="51.03" Width="79.38" Height="15.12" Text="[VendaNfce.DataOperacao]" Format="Date" Format.Format="dd/MM/yy" HorzAlign="Center" Font="Arial, 9pt"/>
+      <TextObject Name="Text5" Left="198.45" Width="226.8" Height="15.12" Text="[FormataNomeConsumidor([VendaNfce.NomePessoa])]" Format="Date" Format.Format="dd/MM/yy" Font="Arial, 9pt"/>
+      <TextObject Name="Text7" Left="424.9" Width="62.37" Height="15.12" Text="[VendaNfce.ValorBruto]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text10" Left="487.27" Width="77.49" Height="15.12" Text="[VendaNfce.ValorDesconto]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text12" Left="564.76" Width="71.82" Height="15.12" Text="[VendaNfce.ValorAcrescimo]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text15" Left="636.93" Width="81.27" Height="15.12" Text="[VendaNfce.ValorLiquido]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text22" Left="130.41" Width="68.04" Height="15.12" Text="[VendaNfce.NumeroDocumento]" Format="Custom" Format.Format="0000" HorzAlign="Center" Font="Arial, 9pt"/>
+      <Sort>
+        <Sort Expression="[VendaNfce.NumeroDocumento]"/>
+      </Sort>
+    </DataBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="146.89" Width="718.2" Height="34.02">
+      <TextObject Name="Text17" Left="636.93" Top="6.78" Width="81.27" Height="15.12" Text="[TotalLiquido]" Format="Number" Format.UseLocale="true" HorzAlign="Right" Font="Arial, 9pt"/>
+      <TextObject Name="Text18" Left="291.06" Top="6.78" Width="100.17" Height="15.12" Text="Totalizadores" HorzAlign="Right" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text19" Left="565.11" Top="6.78" Width="71.82" Height="15.12" Text="[TotalAcrescimo]" Format="Number" Format.UseLocale="true" HorzAlign="Right" Font="Arial, 9pt"/>
+      <TextObject Name="Text20" Left="487.62" Top="6.78" Width="77.49" Height="15.12" Text="[TotalDesconto]" Format="Number" Format.UseLocale="true" HorzAlign="Right" Font="Arial, 9pt"/>
+      <TextObject Name="Text21" Left="425.25" Top="6.78" Width="62.37" Height="15.12" Text="[TotalBruto]" Format="Number" Format.UseLocale="true" HorzAlign="Right" Font="Arial, 9pt"/>
+    </ReportSummaryBand>
+  </ReportPage>
+</Report>

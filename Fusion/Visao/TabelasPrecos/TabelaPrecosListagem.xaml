@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="Fusion.Visao.TabelasPrecos.TabelaPrecosListagem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Fusion.Visao.TabelasPrecos"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+             mc:Ignorable="d" 
+             Background="White"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <StackPanel Margin="5">
+        <Border Background="{DynamicResource GrayBrush9}" Padding="5">
+            <StackPanel Background="{DynamicResource GrayBrush9}" Height="50">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel>
+                        <TextBlock>Descrição da tabela (contenha)</TextBlock>
+                        <TextBox MaxLength="120" Text="{Binding Descricao}"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
+                        <StackPanel Width="150">
+                            <Button
+                                Click="AplicaPesquisa_OnClick"
+                                x:Name="BotaoFiltro"
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Left"
+                                Width="140"
+                                Style="{DynamicResource FusionCleanButton}">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome Icon="Filter" Width="15" />
+                                    <TextBlock Text="Aplica busca" Margin="5,-2,0,-1" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <StackPanel HorizontalAlignment="Left" Margin="0,5,0,0">
+            <Button Click="CriaNovaTabela" Style="{DynamicResource FusionAccentedButton}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome 
+                            Height="13" Width="13" 
+                            Foreground="White" Icon="Table" Margin="0,0,5,0" />
+
+                        <TextBlock Text="Nova tabela de preços" />
+                    </StackPanel>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <DataGrid
+            Margin="0,10,0,0"
+            HorizontalScrollBarVisibility="Auto"
+            ItemsSource="{Binding Tabelas}"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            SelectedItem="{Binding TabelaSelecionada}">
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DoubleClickDataGridRow" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="Descrição da tabela" Width="*" Binding="{Binding Descricao}"
+                                    helpers:DataGridColumnHelper.Align="Left" />
+                <DataGridTextColumn Header="Tipo da tabela" Width="200" Binding="{Binding TipoAjustePreco}" />
+                <DataGridTextColumn helpers:DataGridColumnHelper.Align="Left" Header="Ajuste" Width="110"
+                                    Binding="{Binding PercentualAjuste, StringFormat=N2}" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+    </StackPanel>
+</UserControl>

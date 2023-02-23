@@ -1,0 +1,37 @@
+﻿<child:ChildWindow x:Class="Fusion.Visao.Vendas.FaturamentoCheckout.Dialogs.TrocarEmpresa.TrocarEmpresaView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:child="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
+                   xmlns:cbh="clr-namespace:Fusion.Controles.Utilitarios.ComboBox"
+                   xmlns:local="clr-namespace:Fusion.Visao.Vendas.FaturamentoCheckout.Dialogs.TrocarEmpresa"
+                   mc:Ignorable="d"
+                   d:DataContext="{d:DesignInstance local:TrocarEmpresaViewModel}"
+                   ChildWindowWidth="450"
+                   ChildWindowHeight="150"
+                   Loaded="OnLoadedHandler"
+                   Title="Alterar Empresa Emitente">
+
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Qual empresa deseja utilizar?" />
+            <ComboBox
+                x:Name="CbEmpresa"
+                cbh:ComboBoxDados.OrigemDados="Empresas"
+                SelectedItem="{Binding EmpresaSelecionada}"
+                SelectedValue="{Binding EmpresaSelecionada.Id}"
+                SelectedValuePath="Id" />
+
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0">
+            <Button
+                Width="150"
+                Style="{DynamicResource FusionAccentedButton}"
+                x:Name="BtnConfirmar"
+                Content="[F2] Trocar a Empresa"
+                Click="TrocarEmpresaClickHandler" />
+        </StackPanel>
+    </DockPanel>
+</child:ChildWindow>

@@ -1,0 +1,58 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.NotaFiscalEletronica.Contingencia.IniciarContingenciaFlyout"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:l="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Contingencia"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                 xmlns:flags="clr-namespace:FusionCore.FusionAdm.Fiscal.Flags;assembly=FusionCore"
+                 xmlns:f="clr-namespace:FusionCore.EnumBindingFilters;assembly=FusionCore"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 Position="Left" Header="Iniciar Contingência NF-e"
+                 mc:Ignorable="d" d:DataContext="{d:DesignInstance l:IniciarContigenciaViewModel}"
+                 Width="550" Height="Auto" 
+                 IsOpen="{Binding IsOpen}" IsModal="True" Theme="Light">
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Contingência será iniciada em" />
+                    <TextBox Text="{Binding IniciadoEm, StringFormat=dd/MM/yyyy HH:mm}" IsReadOnly="True" />
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Qual emissor que deseja iniciar a contingência?" />
+                    <ComboBox
+                        ItemsSource="{Binding EmissoresNfe}"
+                        SelectedItem="{Binding EmissorUtilizar}"
+                        SelectedValue="{Binding EmissorUtilizar.Id}"
+                        DisplayMemberPath="Descricao"
+                        SelectedValuePath="Id"
+                        IsEditable="False" />
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Qual servidor utilizar para contingência?" />
+                    <ComboBox
+                        ItemsSource="{Binding Converter={f:ApenasContingenciaConverter}, Source={markup:EnumBindingSource {x:Type flags:TipoEmissao}}}"
+                        SelectedItem="{Binding ServidorEmissao}"
+                        IsEditable="False" />
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Qual a justificativa para utilização da contingência?" />
+                    <TextBox Text="{Binding Justificativa}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,20,0,0">
+                    <Button 
+                        Content="Iniciar contingência"
+                        Style="{DynamicResource FusionAccentedButton}" 
+                        Click="IniciarContingenciaHandler" />
+                </StackPanel>
+
+            </StackPanel>
+        </GroupBox>
+    </DockPanel>
+</controls:Flyout>

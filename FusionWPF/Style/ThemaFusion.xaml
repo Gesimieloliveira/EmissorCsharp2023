@@ -1,0 +1,263 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                    xmlns:fc="clr-namespace:FusionWPF.Controles"
+                    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                    xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+                    xmlns:tools="clr-namespace:FusionLibrary.Wpf.Tools;assembly=FusionLibrary"
+                    xmlns:helpers="clr-namespace:FusionWPF.Helpers"
+                    xmlns:scw="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+                    xmlns:wl="clr-namespace:Fusion.WhiteLabel;assembly=Fusion.WhiteLabel">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!-- Mahapp themes -->
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/themes/datetimepicker.xaml" />
+        <ResourceDictionary Source="{x:Static wl:MarcaWhiteLabel.CorSoftware}" />
+
+        <!-- Custom themes -->
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/SharedColors.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/Controles/Controles.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/Themes/Themes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <system:Double x:Key="InputBoxHeight">28</system:Double>
+
+    <Style TargetType="TextBox" x:Key="FusionTextBox" BasedOn="{StaticResource MahApps.Styles.TextBox}">
+        <Setter Property="CharacterCasing" Value="Upper" />
+        <Setter Property="tools:FocusAdvancement.AdvancesByEnterKey" Value="True" />
+        <Setter Property="controls:TextBoxHelper.SelectAllOnFocus" Value="True" />
+        <Setter Property="MinHeight" Value="{DynamicResource InputBoxHeight}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="wpf:TextBoxTrim.Trim" Value="True" />
+
+        <Style.Triggers>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource RedOnlyForegroundBrush}" />
+            </Trigger>
+
+            <Trigger Property="AcceptsReturn" Value="True">
+                <Setter Property="VerticalContentAlignment" Value="Top" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="fc:DecimalTextBox" x:Key="FusionDecimalTextBox" BasedOn="{StaticResource DecimalTextBox}">
+        <Setter Property="CharacterCasing" Value="Normal" />
+        <Setter Property="MinHeight" Value="{DynamicResource InputBoxHeight}" />
+
+        <Style.Triggers>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource RedOnlyForegroundBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="FusionPickerTextBox" TargetType="{x:Type fc:SearchTextBox}" BasedOn="{StaticResource SearchTextBox}">
+        <Setter Property="MinHeight" Value="{DynamicResource InputBoxHeight}" />
+
+        <Style.Triggers>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource RedOnlyForegroundBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="fc:FatorConversao" x:Key="FusionFatorConversao" BasedOn="{StaticResource FatorConversao}">
+        <Setter Property="MinHeight" Value="{DynamicResource InputBoxHeight}" />
+    </Style>
+
+    <Style TargetType="controls:DateTimePicker" x:Key="FusionDateTimePicker"
+           BasedOn="{StaticResource MahApps.Styles.TimePickerBase}">
+
+        <Setter Property="MinHeight" Value="{DynamicResource InputBoxHeight}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="tools:FocusAdvancement.AdvancesByEnterKey" Value="True" />
+        <Setter Property="IsTodayHighlighted" Value="False"/>
+    </Style>
+
+    <Style TargetType="DatePicker" x:Key="FusionDatePicker" BasedOn="{StaticResource MahApps.Styles.DatePicker}">
+        <Setter Property="MinHeight" Value="{DynamicResource InputBoxHeight}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="tools:FocusAdvancement.AdvancesByEnterKey" Value="True" />
+        <Setter Property="helpers:DatePickerHelper.FocusOnCalendarClose" Value="True" />
+        <Setter Property="IsTodayHighlighted" Value="False"/>
+    </Style>
+
+    <Style TargetType="PasswordBox" x:Key="FusionPasswordBox" BasedOn="{StaticResource MahApps.Styles.PasswordBox}">
+        <Setter Property="tools:FocusAdvancement.AdvancesByEnterKey" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="MinHeight" Value="{DynamicResource InputBoxHeight}" />
+    </Style>
+
+    <Style TargetType="ComboBox" x:Key="FusionComboBox" BasedOn="{StaticResource MahApps.Styles.ComboBox.Virtualized}">
+        <Setter Property="tools:FocusAdvancement.AdvancesByEnterKey" Value="True" />
+        <Setter Property="IsEditable" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="MinHeight" Value="{DynamicResource InputBoxHeight}" />
+    </Style>
+
+    <Style TargetType="fc:ComboBoxEditavel" x:Key="FusionComboBoxEditavel" BasedOn="{StaticResource ComboBoxEditavel}">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="MinHeight" Value="{DynamicResource InputBoxHeight}" />
+    </Style>
+
+    <Style TargetType="ComboBoxItem" x:Key="StretchedComboBoxItem" BasedOn="{StaticResource MahApps.Styles.ComboBoxItem}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+
+    <Style TargetType="RadioButton" x:Key="FusionRadioButton" BasedOn="{StaticResource MahApps.Styles.RadioButton}">
+        <Setter Property="tools:FocusAdvancement.AdvancesByEnterKey" Value="True" />
+    </Style>
+
+    <Style TargetType="CheckBox" x:Key="FusionCheckBox" BasedOn="{StaticResource MahApps.Styles.CheckBox}">
+        <Setter Property="tools:FocusAdvancement.AdvancesByEnterKey" Value="True" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="FusionFlatButton" BasedOn="{StaticResource MahApps.Styles.Button.Flat}">
+        <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource IsEnableOffButtonBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource IsEnableOffButtonForeground}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button" x:Key="FusionAccentedButton" BasedOn="{StaticResource FusionFlatButton}">
+        <Setter Property="Background" Value="{DynamicResource AccentColorBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="FusionAccentedButton2" BasedOn="{StaticResource FusionAccentedButton}">
+        <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="FusionDangerButton" BasedOn="{StaticResource FusionFlatButton}">
+        <Setter Property="Background" Value="{DynamicResource DangerBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="FusionSuccessButton" BasedOn="{StaticResource FusionFlatButton}">
+        <Setter Property="Background" Value="{DynamicResource SuccessBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="FusionCleanButton" BasedOn="{StaticResource FusionFlatButton}">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource GrayBrush1}" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="FusionCleanBoldButton" BasedOn="{StaticResource FusionFlatButton}">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource GrayBrush1}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="FusionLargeCleanBoldButton" BasedOn="{StaticResource FusionFlatButton}">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource GrayBrush1}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="15" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="FusionWarningButton" BasedOn="{StaticResource FusionFlatButton}">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{DynamicResource WarningBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+    </Style>
+
+    <Style TargetType="GroupBox" x:Key="FusionGroupBox" BasedOn="{StaticResource MahApps.Styles.GroupBox}">
+        <Setter Property="controls:HeaderedControlHelper.HeaderBackground" Value="{DynamicResource MahApps.Brushes.Accent3}" />
+        <Setter Property="Margin" Value="1.5" />
+
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock
+                        Margin="5,0"
+                        Text="{Binding}"
+                        FontWeight="SemiBold"
+                        Foreground="White" FontSize="11"
+                        HorizontalAlignment="Stretch"
+                        FontStretch="UltraExpanded" />
+
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FusionExpander" TargetType="{x:Type Expander}" BasedOn="{StaticResource MahApps.Styles.Expander}">
+        <Setter Property="controls:HeaderedControlHelper.HeaderBackground" Value="{DynamicResource AccentColorBrush3}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Margin" Value="1.5" />
+    </Style>
+
+    <Style x:Key="ToggleSwitchWin10" TargetType="{x:Type controls:ToggleSwitch}"
+           BasedOn="{StaticResource MahApps.Styles.ToggleSwitch}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Margin" Value="0,0" />
+        <Setter Property="ContentPadding" Value="100,0,0,0" />
+        <Setter Property="ContentDirection" Value="LeftToRight" />
+        <Setter Property="tools:FocusAdvancement.AdvancesByEnterKey" Value="True" />
+    </Style>
+
+    <Style x:Key="FusionListBox" TargetType="{x:Type ListBox}" 
+           BasedOn="{StaticResource MahApps.Styles.ListBox.Virtualized}" />
+
+    <Style x:Key="FusionListBoxItem" TargetType="{x:Type ListBoxItem}" 
+           BasedOn="{StaticResource MahApps.Styles.ListBoxItem}">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style x:Key="WrapText"  TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="TileCard"  TargetType="controls:Tile">
+        <Setter Property="Background" Value="{DynamicResource InfoBrush}" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="Height" Value="120" />
+        <Setter Property="CountFontSize" Value="22" />
+        <Setter Property="TitleFontSize" Value="13" />
+        <Setter Property="HorizontalTitleAlignment" Value="Left" />
+        <Setter Property="VerticalTitleAlignment" Value="Top" />
+    </Style>
+
+    <!-- setters styles -->
+
+    <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource ToggleSwitchWin10}" />
+    <Style TargetType="TextBox" BasedOn="{StaticResource FusionTextBox}" />
+    <Style TargetType="xctk:MaskedTextBox" BasedOn="{StaticResource FusionTextBox}" />
+    <Style TargetType="PasswordBox" BasedOn="{StaticResource FusionPasswordBox}" />
+    <Style TargetType="GroupBox" BasedOn="{StaticResource FusionGroupBox}" />
+    <Style TargetType="ComboBox" BasedOn="{StaticResource FusionComboBox}" />
+    <Style TargetType="RadioButton" BasedOn="{StaticResource FusionRadioButton}" />
+    <Style TargetType="CheckBox" BasedOn="{StaticResource FusionCheckBox}" />
+    <Style TargetType="Button" BasedOn="{StaticResource FusionFlatButton}" />
+    <Style TargetType="ListBox" BasedOn="{StaticResource FusionListBox}" />
+    <Style TargetType="ListBoxItem" BasedOn="{StaticResource FusionListBoxItem}" />
+    <Style TargetType="Expander" BasedOn="{StaticResource FusionExpander}" />
+    <Style TargetType="DataGrid" BasedOn="{StaticResource FusionDataGrid}" />
+    <Style TargetType="controls:Flyout" BasedOn="{StaticResource FusionFlyout}" />
+    <Style TargetType="controls:MetroTabControl" BasedOn="{StaticResource FusionTabControl}" />
+    <Style TargetType="controls:MetroTabItem" BasedOn="{StaticResource FusionTabItem}" />
+    <Style TargetType="controls:MetroWindow" BasedOn="{StaticResource MetroWindowStyle}" />
+    <Style TargetType="scw:ChildWindow" BasedOn="{StaticResource ChildWindowStyle}" />
+
+    <!-- custom controls -->
+    <Style TargetType="DatePicker" BasedOn="{StaticResource FusionDatePicker}" />
+    <Style TargetType="controls:DateTimePicker" BasedOn="{StaticResource FusionDateTimePicker}" />
+    <Style TargetType="fc:DecimalTextBox" BasedOn="{StaticResource FusionDecimalTextBox}" />
+    <Style TargetType="fc:ComboBoxEditavel" BasedOn="{StaticResource FusionComboBoxEditavel}" />
+    <Style TargetType="fc:FatorConversao" BasedOn="{StaticResource FusionFatorConversao}" />
+    <Style TargetType="fc:SearchTextBox" BasedOn="{StaticResource FusionPickerTextBox}" />
+
+</ResourceDictionary>

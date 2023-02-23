@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore" namespace="FusionCore.Repositorio.Legacy.Entidades.Adm" xmlns="urn:nhibernate-mapping-2.2">
+  <class name="CsosnDTO" table="situacao_tributaria_csosn" lazy="false">
+    <id name="Id" column="id" />
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronicoOs.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteOsImpostoCst" table="cte_os_imposto_cst">
+    <id name="CteOsId" column="cteOs_id">
+      <generator class="foreign">
+        <param name="property">CteOs</param>
+      </generator>
+    </id>
+
+    <one-to-one name="CteOs" class="FusionCore.FusionAdm.CteEletronicoOs.Emissao.CteOs" constrained="true" cascade="none" />
+
+    <many-to-one name="TributacaoIcms" 
+                 class="FusionCore.Tributacoes.Estadual.TributacaoIcms" 
+                 not-null="true" cascade="none" fetch="join">
+      <column name="situacaoTributariaIcms_id"></column>
+    </many-to-one>
+    
+    <property name="BaseCalculo" column="baseCalculo" not-null="true" />
+    
+    <property name="Aliquota" column="aliquota" not-null="true" />
+    
+    <property name="Valor" column="valor" not-null="true" />
+    
+    <property name="PercentualReducao" column="percentualReducao" not-null="true" />
+
+    <property name="PercentualCredito" column="percentualCredito" not-null="true" />
+
+    <property name="ValorCredito" column="valorCredito" not-null="true" />
+   
+
+  </class>
+</hibernate-mapping>

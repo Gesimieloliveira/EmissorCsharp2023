@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Nfce"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceEmissaoHistoricoAdm" table="nfce_emissao_historico">
+    
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="Nfce" class="NfceAdm" column="nfce_id" cascade="all-delete-orphan" not-null="true" />
+
+    <property name="XmlEnvio" not-null="true">
+      <column name="xmlEnvio" sql-type="xml" not-null="false" length="2147483647"></column>
+    </property>
+
+    <property name="XmlRetorno" not-null="false">
+      <column name="xmlRetorno" sql-type="xml" not-null="false" length="2147483647"></column>
+    </property>
+
+    <property name="Finalizou" not-null="true" column="finalizou"></property>
+
+    <property name="CodigoAutorizacao" not-null="true" column="codigoAutorizacao"></property>
+    
+    <property name="Motivo" not-null="true" column="motivo"></property>
+    
+    <property name="ChaveTexto" not-null="true" column="chaveTexto"></property>
+    
+    <property name="CodigoIbgeUf" not-null="true" column="codigoIbgeUf"></property>
+    
+    <property name="AnoMes" not-null="true" column="anoMes"></property>
+    
+    <property name="CnpjEmitente" not-null="true" column="cnpjEmitente"></property>
+    
+    <property name="ModeloDocumento" not-null="true" column="modeloDocumento"></property>
+    
+    <property name="Serie" not-null="true" column="serie"></property>
+    
+    <property name="NumeroFiscal" not-null="true" column="numeroFiscal"></property>
+    
+    <property name="TipoEmissao" not-null="true" column="formaEmissao"></property>
+    
+    <property name="CodigoNumerico" not-null="true" column="codigoNumerico"></property>
+  
+    <property name="DigitoVerificador" not-null="true" column="digitoVerificador"></property>
+    
+    <property name="AmbienteSefaz" not-null="true" column="ambienteSefaz"></property>
+    
+    <property name="JustificativaContingencia" not-null="true" column="justificativaContingencia"></property>
+    
+    <property name="EntrouEmContingenciaEm" not-null="false" column="entrouEmContingenciaEm"></property>
+    
+    <property name="TentouEm" not-null="true" column="tentouEm"></property>
+    
+    <property name="Versao" not-null="true" column="versao"></property>
+
+    <property name="XmlLote" not-null="false" column="xmlLote" length="2147483647"></property>
+
+    <property name="FalhaReceberLote" not-null="true" column="falhaReceberLote"></property>
+  </class>
+</hibernate-mapping>

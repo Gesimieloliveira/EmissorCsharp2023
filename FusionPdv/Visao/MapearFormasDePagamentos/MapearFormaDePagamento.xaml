@@ -1,0 +1,63 @@
+﻿<controls:MetroWindow x:Class="FusionPdv.Visao.MapearFormasDePagamentos.MapearFormaDePagamento"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+                      Title="Fusion Pdv - Mapear Forma Pagamento"
+                      Height="400" Width="900"
+                      ResizeMode="NoResize"
+                      WindowStartupLocation="CenterScreen"
+                      KeyDown="MapearFormaDePagamento_OnKeyDown"
+                      Closing="MapearFormaDePagamento_OnClosing"
+                      Style="{DynamicResource MetroWindowStyle}">
+    <DockPanel LastChildFill="False">
+        <Grid DockPanel.Dock="Top" Margin="10,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="Formas de Pagamentos do ECF" Grid.Column="0" Margin="0,0,5,0">
+                <DataGrid Style="{StaticResource AzureDataGrid}"
+                          ItemsSource="{Binding FormaPagamentosEcf}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Indice" Binding="{Binding Indice}" />
+                        <DataGridTextColumn Header="Nome" Binding="{Binding Descricao}" Width="*" />
+                        <DataGridTextColumn Header="Permite Vinculado" Binding="{Binding PermiteVinculado, Converter={conversores:BooleanToSnConverter}}" Width="143" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+
+            <GroupBox Header="Formas de pagamentos do sistema" Grid.Column="1" Margin="5,0,0,0">
+                <DataGrid Style="{StaticResource AzureDataGrid}"
+                          ItemsSource="{Binding FormaPagamentoEcfDt}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          CellEditEnding="DataGridEcfDt_CellEditEnding">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Indice"
+                                            Binding="{Binding CodigoEcf, UpdateSourceTrigger=PropertyChanged}"
+                                            IsReadOnly="False" />
+
+                        <DataGridTextColumn Header="Nome" Binding="{Binding Nome}" Width="*"
+                                            IsReadOnly="True" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </Grid>
+        <DockPanel Dock="Bottom" Height="60" Background="{StaticResource AccentColorBrush4}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <Button Click="BtAdicionarFormaPagamento_OnClick" Name="BtAdicionarFormaPagamento" Width="210" Margin="0,0,10,0">
+                    Adicionar Forma de Pagamento(F2)
+                </Button>
+                
+                <Button Click="BtFechar_OnClick" Name="BtFechar" Width="200" Margin="0,0,10,0">Fechar(ESC)</Button>
+            </StackPanel>
+        </DockPanel>
+    </DockPanel>
+</controls:MetroWindow>

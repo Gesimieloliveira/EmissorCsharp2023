@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="07/02/2021 09:57:40" ReportInfo.CreatorVersion="2020.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      // Aqui vai o código no momento do formulário iniciar
+      DateTime hoje = DateTime.Today;
+      DtPeriodoInicial.Value = new DateTime(hoje.Year, hoje.Month, 1);
+      DtPeriodoFinal.Value = hoje;
+      
+    }
+    
+    private void PageHeader1_BeforePrint(object sender, EventArgs e)
+    {
+      // Força o inicio do Data Source Empresa
+      Report.GetDataSource(&quot;Empresa&quot;).Init();
+      Report.GetDataSource(&quot;Vendedores&quot;).Init();
+      
+    }
+
+    private void btnOk_Click(object sender, EventArgs e)
+    {  
+      int empresaId = 0;
+      string[] partesEmpresa = CbEmpresa.Text.Split(',');
+      if (string.IsNullOrEmpty(CbEmpresa.Text) || partesEmpresa.Length &lt;= 1) {
+        MessageBox.Show(&quot;Preciso que escolha uma empresa!&quot;);
+        Form1.Form.DialogResult = DialogResult.None;
+        return;
+      }
+      
+      if(string.IsNullOrEmpty(txtcomissao.Text))
+      {
+          MessageBox.Show(&quot;É necessario informar porcentagem de comissão!&quot;);
+          Form1.Form.DialogResult = DialogResult.None;
+          return;
+      }
+          
+      Report.SetParameterValue(&quot;EmpresaId&quot;, empresaId);
+      Report.SetParameterValue(&quot;PeriodoInicial&quot;, DtPeriodoInicial.Value);
+      Report.SetParameterValue(&quot;PeriodoFinal&quot;, DtPeriodoFinal.Value);
+    }
+    
+    private string CortarString(string input, int length)
+    {
+      if (input != null &amp;&amp; input.Length &gt; length) {
+        return input.Substring(0, length);
+      }
+      
+      return input;
+    }
+  
+    private double converteComissao(string txtcomissao)
+    {
+       double comissao = Convert.ToDouble(txtcomissao);
+       return comissao;
+    }
+  }
+}                                                             
+
+</ScriptText>
+  <Styles>
+    <Style Name="EvenStyle" Fill.Color="WhiteSmoke" Font="Arial, 10pt" ApplyBorder="false" ApplyTextFill="false" ApplyFont="false"/>
+  </Styles>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2geBvN02mjOZLuQGKRweVbyRdeyd+ssOhpZQMtpOQpoqvN68fmvtw3EyZ3z2La+VlNoch9K9fR7xsRMyPcWCdFKzFiAFDm0SQnQPDCEtX/STejQNYFVJS9AYbRD+yF/gl7Dtf1ucH/rHuVyopCWze4tn2LHiswI456LSnD7FsCTFZZvPcAXn8d59OB0c+RHC0M/xVu4hHQ6f8nBBxF/hOZySz9/I0+aAQBrLj1mTGAHny">
+      <TableDataSource Name="TbEmpresa" Alias="Empresa" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	(e.razaoSocial + ',' + cast(e.id as varchar)) as nome,&#13;&#10;	e.razaoSocial,&#13;&#10;	e.nomeFantasia,&#13;&#10;	e.logradouro,&#13;&#10;	e.cep,&#13;&#10;	e.bairro,&#13;&#10;	e.numero,&#13;&#10;	e.fone1,&#13;&#10;	e.fone2,&#13;&#10;	case when len(e.cnpj) = 14 then e.cnpj else e.cpf end as cpfnpj,&#13;&#10;	e.logo&#13;&#10;from empresa e">
+        <Column Name="bairro" DataType="System.String"/>
+        <Column Name="cep" DataType="System.String"/>
+        <Column Name="cpfnpj" DataType="System.String"/>
+        <Column Name="fone1" DataType="System.String"/>
+        <Column Name="fone2" DataType="System.String"/>
+        <Column Name="logo" DataType="System.Byte[]" BindableControl="Picture"/>
+        <Column Name="logradouro" DataType="System.String"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="nomeFantasia" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <Column Name="razaoSocial" DataType="System.String"/>
+      </TableDataSource>
+      <TableDataSource Name="Table1" Alias="VendedorFaturamento" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;		fv.id as codigo,&#13;&#10;		fv.finalizadoEm,&#13;&#10;		p.nome as Vendedor,&#13;&#10;		fv.totalProdutos as TotalProdutos,&#13;&#10;		fv.totalDesconto as TotalDesconto,&#13;&#10;		fv.total as TotalVenda&#13;&#10;&#13;&#10;&#13;&#10;from faturamento_venda fv&#13;&#10;inner join faturamento_vendedor fvd on fvd.faturamentoVenda_id = fv.id&#13;&#10;inner join pessoa p on p.id = fvd.vendedor_id&#13;&#10;where fv.estadoAtual = 1 and fvd.vendedor_id is not null and p.nome = @evendedor and cast(fv.finalizadoEm as date) between @datainicio and @datafinal">
+        <Column Name="Vendedor" DataType="System.String"/>
+        <Column Name="TotalVenda" DataType="System.Decimal"/>
+        <Column Name="TotalProdutos" DataType="System.Decimal"/>
+        <Column Name="TotalDesconto" DataType="System.Decimal"/>
+        <Column Name="codigo" DataType="System.Int32"/>
+        <Column Name="finalizadoEm" DataType="System.DateTime"/>
+        <CommandParameter Name="evendedor" DataType="22" Expression="[fvendedor]"/>
+        <CommandParameter Name="datainicio" DataType="4" Expression="DtPeriodoInicial.Value" DefaultValue="1999/01/01"/>
+        <CommandParameter Name="datafinal" DataType="4" Expression="DtPeriodoFinal.Value" DefaultValue="1999/01/01"/>
+      </TableDataSource>
+      <TableDataSource Name="Table2" Alias="Vendedores" DataType="System.Int32" Enabled="true" SelectCommand="select p.nome from pessoa p&#13;&#10;join pessoa_vendedor pv on pv.pessoa_id = p.id">
+        <Column Name="nome" DataType="System.String"/>
+      </TableDataSource>
+      <TableDataSource Name="Table" Alias="VendasNfce" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;		n.id as codigo,&#13;&#10;		n.emitidaEm as Data,&#13;&#10;		p.nome as Vendedor,&#13;&#10;		n.totalProdutosServicos as TotalProdutos,&#13;&#10;		n.totalAcrescimo as TotalAcrescimo,&#13;&#10;		n.totalDesconto as TotalDesconto,&#13;&#10;		n.totalNfce as TotalVenda&#13;&#10;&#13;&#10;&#13;&#10;from nfce n&#13;&#10;inner join pessoa p on p.id = n.vendedor_id&#13;&#10;where n.status = 2 and n.vendedor_id is not null and p.nome = @nome and cast(n.emitidaEm as date) between @datainicio and @datafinal">
+        <Column Name="Vendedor" DataType="System.String"/>
+        <Column Name="TotalProdutos" DataType="System.Decimal"/>
+        <Column Name="TotalAcrescimo" DataType="System.Decimal"/>
+        <Column Name="TotalDesconto" DataType="System.Decimal"/>
+        <Column Name="TotalVenda" DataType="System.Decimal"/>
+        <Column Name="codigo" DataType="System.Int32"/>
+        <Column Name="Data" DataType="System.DateTime"/>
+        <Column Name="Column" DataType="System.Int32" Calculated="true" Expression=""/>
+        <CommandParameter Name="@nome" DataType="22" Expression="[fvendedor]"/>
+        <CommandParameter Name="datainicio" DataType="4" Expression="DtPeriodoInicial.Value" DefaultValue="1999/01/01"/>
+        <CommandParameter Name="datafinal" DataType="4" Expression="DtPeriodoFinal.Value" DefaultValue="1999/01/01"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="EmpresaId" DataType="System.Int32"/>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+    <Parameter Name="fvendedor" DataType="System.String" Expression="[Vendedores.nome]"/>
+    <Parameter Name="inputcomissao" DataType="System.Double" Expression="converteComissao(txtcomissao.Text);"/>
+    <Parameter Name="dtinicio" DataType="System.DateTime" Expression="DtPeriodoInicial.Value"/>
+    <Parameter Name="dtfinal" DataType="System.DateTime" Expression="DtPeriodoFinal.Value"/>
+    <Total Name="TotalFinalVendasNFCe" Expression="[VendasNfce.TotalVenda]" Evaluator="Data1"/>
+    <Total Name="TotalVendasFaturamento" Expression="[VendedorFaturamento.TotalVenda]" Evaluator="Data2"/>
+  </Dictionary>
+  <DialogPage Name="Form1" Width="608" Height="352" AcceptButton="btnOk" CancelButton="btnCancel" Font="Tahoma, 8pt" LoadEvent="Form1_Load">
+    <GroupBoxControl Name="GroupBox3" Left="4" Top="8" Width="576" Height="60" Font="Tahoma, 8pt" TabIndex="5" Text="Escolha qual empresa fez as vendas">
+      <ComboBoxControl Name="CbEmpresa" Left="8" Top="20" Width="549" Height="24" Font="Tahoma, 8pt" TabIndex="4" Text="Escolha uma empresa" DataColumn="Empresa.nome" DropDownWidth="513" ItemHeight="16"/>
+    </GroupBoxControl>
+    <ButtonControl Name="btnOk" Left="424" Top="274" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="507" Top="274" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="1" Text="Cancel" DialogResult="Cancel"/>
+    <GroupBoxControl Name="GroupBox4" Left="4" Top="68" Width="576" Height="96" Font="Tahoma, 8pt" TabIndex="5" Text="Escolha Vendedor" ClickEvent="GroupBox4_Click">
+      <ComboBoxControl Name="CBVendedor" Left="8" Top="20" Width="549" Height="24" Font="Tahoma, 8pt" TabIndex="4" Text="Escolha um vendedor" ClickEvent="ComboBox1_Click" DataColumn="Vendedores.nome" DropDownWidth="513" ItemHeight="16"/>
+      <LabelControl Name="comissao" Left="8" Top="60" Width="137" Height="21" Font="Tahoma, 8pt" TabIndex="6" Text="Informar % Comissão" ClickEvent="Label1_Click"/>
+      <TextBoxControl Name="txtcomissao" Left="148" Top="56" Width="52" Height="24" Font="Tahoma, 8pt" TabIndex="7" ClickEvent="TextBox1_Click"/>
+    </GroupBoxControl>
+    <GroupBoxControl Name="GroupBox5" Left="4" Top="180" Width="576" Height="72" Font="Tahoma, 8pt" TabIndex="9" Text="Período das vendas">
+      <DateTimePickerControl Name="DtPeriodoInicial" Left="8" Top="28" Height="24" Width="200" Font="Tahoma, 8pt" TabIndex="8" Value="07/01/2021 13:44:29"/>
+      <DateTimePickerControl Name="DtPeriodoFinal" Left="232" Top="28" Height="24" Width="200" Font="Tahoma, 8pt" TabIndex="10" Value="07/01/2021 13:46:47"/>
+    </GroupBoxControl>
+  </DialogPage>
+  <ReportPage Name="Page1" RawPaperSize="9" LeftMargin="5" RightMargin="5" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PageHeader1" Width="756" Height="88.83" Border.Lines="All" Border.Width="0.25" BeforePrintEvent="PageHeader1_BeforePrint">
+      <PictureObject Name="Picture1" Left="1.89" Top="5.67" Width="110.62" Height="65.39" DataColumn="Empresa.logo"/>
+      <TextObject Name="Text35" Left="154.98" Top="5.67" Width="599.13" Height="17.01" Text="[Empresa.nomeFantasia]" Font="Microsoft Sans Serif, 10pt"/>
+      <TextObject Name="Text36" Left="154.98" Top="22.68" Width="599.13" Height="17.01" Text="CNPJ / CPF: [Empresa.cpfnpj]" Font="Microsoft Sans Serif, 10pt"/>
+      <TextObject Name="Text37" Left="154.98" Top="39.69" Width="599.13" Height="17.01" Text="Endereço: [Empresa.logradouro], [Empresa.numero], [Empresa.bairro], [Empresa.cep]" Font="Microsoft Sans Serif, 10pt"/>
+      <TextObject Name="Text38" Left="154.98" Top="56.7" Width="599.13" Height="17.01" Text="Fone 1: [Empresa.fone1] / Fone 2: [Empresa.fone2]" Font="Microsoft Sans Serif, 10pt"/>
+      <ChildBand Name="Child1" Top="91.33" Width="756" Height="32.13">
+        <TextObject Name="Text27" Left="1.89" Top="18.9" Width="752.22" Height="13.23" Text="Vendas feitas NFCe é Faturamento" HorzAlign="Center" Font="Microsoft Sans Serif, 9pt, style=Italic">
+          <Formats>
+            <DateFormat/>
+            <DateFormat/>
+          </Formats>
+        </TextObject>
+        <TextObject Name="Text22" Left="1.89" Top="1.89" Width="752.22" Height="17.01" Text="[DescricaoRelatorio]" HorzAlign="Center" Font="Microsoft Sans Serif, 11pt, style=Bold"/>
+      </ChildBand>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="187.05" Width="756" Height="20.79" Fill.Color="White" EvenStyle="EvenStyle" DataSource="Table">
+      <TextObject Name="Text44" Left="1.89" Top="1.89" Width="94.5" Height="18.9" Text="[VendasNfce.codigo]" Font="Arial, 8pt"/>
+      <TextObject Name="Text46" Left="96.39" Top="1.89" Width="77.49" Height="18.9" Text="[VendasNfce.Data]" Format="Date" Format.Format="d" HorzAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text47" Left="498.96" Top="1.89" Width="73.71" Height="18.9" Text="[VendasNfce.TotalVenda]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt, style=Bold" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text76" Left="173.88" Top="1.89" Width="124.74" Height="18.9" Text="[VendasNfce.TotalProdutos]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt, style=Bold" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text77" Left="298.62" Top="1.89" Width="94.5" Height="18.9" Text="[VendasNfce.TotalAcrescimo]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt, style=Bold" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text78" Left="393.12" Top="1.89" Width="105.84" Height="18.9" Text="[VendasNfce.TotalDesconto]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt, style=Bold" Trimming="EllipsisCharacter"/>
+      <DataHeaderBand Name="DataHeader1" Top="125.96" Width="756" Height="58.59">
+        <TextObject Name="Text39" Left="1.89" Top="22.68" Width="109.62" Height="17.01" Text="Vendas NFCe" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text40" Left="1.89" Top="39.69" Width="94.5" Height="18.9" Text="Código" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text41" Left="1.89" Top="3.78" Width="272.16" Height="18.9" Text="VENDEDOR - [VendasNfce.Vendedor]" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text42" Left="96.39" Top="39.69" Width="77.49" Height="18.9" Text="Data Venda" HorzAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text43" Left="498.96" Top="39.69" Width="73.71" Height="18.9" Text="Total Venda" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text73" Left="173.88" Top="39.69" Width="124.74" Height="18.9" Text="Total dos Produtos" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text74" Left="298.62" Top="39.69" Width="94.5" Height="18.9" Text="Total Acréscimo" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text75" Left="393.12" Top="39.69" Width="105.84" Height="18.9" Text="Total Desconto" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+      </DataHeaderBand>
+    </DataBand>
+    <DataBand Name="Data2" Top="256.31" Width="756" Height="22.68" EvenStyle="EvenStyle" DataSource="Table1">
+      <TextObject Name="Text55" Left="1.89" Top="3.78" Width="94.5" Height="18.9" Text="[VendedorFaturamento.codigo]" VertAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text57" Left="96.39" Top="3.78" Width="102.06" Height="18.9" Text="[VendedorFaturamento.finalizadoEm]" Format="Date" Format.Format="d" VertAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text58" Left="400.68" Top="3.78" Width="94.5" Height="18.9" Text="[VendedorFaturamento.TotalVenda]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt, style=Bold" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text83" Left="198.45" Top="3.78" Width="98.28" Height="18.9" Text="[VendedorFaturamento.TotalProdutos]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt, style=Bold" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text84" Left="296.73" Top="3.78" Width="103.95" Height="18.9" Text="[VendedorFaturamento.TotalDesconto]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 8pt, style=Bold" Trimming="EllipsisCharacter"/>
+      <DataHeaderBand Name="DataHeader2" Top="210.34" Width="756" Height="43.47" Border.Lines="Top">
+        <TextObject Name="Text50" Left="1.89" Top="24.57" Width="94.5" Height="18.9" Text="Código" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text52" Left="96.39" Top="24.57" Width="102.06" Height="18.9" Text="Data Venda" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text53" Left="400.68" Top="24.57" Width="94.5" Height="18.9" Text="Total Venda" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text59" Left="1.89" Top="1.89" Width="130.41" Height="18.9" Text="Vendas Faturamento" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text82" Left="198.45" Top="24.57" Width="98.28" Height="18.9" Text="Total Produtos" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        <TextObject Name="Text85" Left="296.73" Top="24.57" Width="103.95" Height="18.9" Text="Total Desconto" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+      </DataHeaderBand>
+      <DataFooterBand Name="DataFooter2" Top="281.49" Width="756" Height="28.35">
+        <ChildBand Name="Child2" Top="312.34" Width="756" Height="92.61" Border.Lines="All">
+          <TextObject Name="Text64" Left="1.89" Top="5.67" Width="291.06" Height="18.9" Text="Soma das vendas (NFCe/Faturamento)" Font="Arial, 9pt, style=Bold"/>
+          <TextObject Name="Text79" Left="168.21" Top="30.24" Width="77.49" Height="18.9" Text="[TotalFinalVendasNFCe]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text80" Left="1.89" Top="30.24" Width="166.32" Height="18.9" Text="Soma Total NFCe" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text86" Left="168.21" Top="56.7" Width="77.49" Height="18.9" Text="[TotalVendasFaturamento]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" HorzAlign="Right" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text87" Left="3.78" Top="56.7" Width="164.43" Height="18.9" Text="Soma Total Faturamento" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text88" Left="304.29" Top="5.67" Width="230.58" Height="18.9" Text="Comissão Aplicada - [txtcomissao.Text]%" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text89" Left="304.29" Top="30.24" Width="171.99" Height="18.9" Text="Comissão Venda NFCe" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text90" Left="476.28" Top="30.24" Width="94.5" Height="18.9" Text="[[TotalFinalVendasNFCe] * [inputcomissao] /100]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text91" Left="304.29" Top="56.7" Width="171.99" Height="18.9" Text="Comissão Vendas Faturamento" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text92" Left="476.28" Top="56.7" Width="94.5" Height="18.9" Text="[[TotalVendasFaturamento] * [inputcomissao] /100]" Format="Currency" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.CurrencySymbol="R$" Format.PositivePattern="2" Format.NegativePattern="9" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+        </ChildBand>
+      </DataFooterBand>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="407.45" Width="756" Height="13.23" CanShrink="true">
+      <TextObject Name="TextPage" Left="599.13" Width="154.98" Height="13.23" Text="Pagina: [Page#]/[TotalPages#]" HorzAlign="Right" Font="Microsoft Sans Serif, 8pt, style=Italic"/>
+      <TextObject Name="TextDate" Left="1.89" Width="347.76" Height="13.23" Text="Impresso em: [Date]" Font="Microsoft Sans Serif, 8pt, style=Italic"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

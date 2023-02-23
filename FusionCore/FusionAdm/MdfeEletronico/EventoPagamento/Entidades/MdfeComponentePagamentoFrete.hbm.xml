@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico.EventoPagamento.Entidades"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ComponentePagamentoFrete" table="mdfe_componente_pagamento_frete">
+    
+    <id name="Id" column="id" >
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="InformacaoPagamento" cascade="none">
+      <column name="mdfeInformacaoPagamento_id" not-null="true"></column>
+    </many-to-one>
+
+    <property name="TipoComponente" column="tipoComponente" not-null="true"></property>
+
+    <property name="Descricao" column="descricao" not-null="true" />
+
+    <property name="Valor" column="valor" not-null="true" />
+    
+  </class>
+</hibernate-mapping>

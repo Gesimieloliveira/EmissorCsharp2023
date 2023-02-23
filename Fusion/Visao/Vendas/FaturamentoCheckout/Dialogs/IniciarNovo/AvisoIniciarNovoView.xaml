@@ -1,0 +1,66 @@
+﻿<mah:ChildWindow x:Class="Fusion.Visao.Vendas.FaturamentoCheckout.Dialogs.IniciarNovo.AvisoIniciarNovoView"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:local="clr-namespace:Fusion.Visao.Vendas.FaturamentoCheckout.Dialogs.IniciarNovo"
+                 mc:Ignorable="d"
+                 d:DataContext="{d:DesignInstance local:AvisoIniciarNovoViewModel, IsDesignTimeCreatable=False}"
+                 ChildWindowHeight="400"
+                 ChildWindowWidth="550"
+                 Style="{DynamicResource ChildWindowStyle}"
+                 Loaded="OnLoaded"
+                 Title="Aviso Novo Faturamento"
+                 Background="{DynamicResource WhiteBrush}"
+                 TitleBarBackground="{DynamicResource WarningBrush}"
+                 GlowBrush="{DynamicResource WarningBrush}">
+
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Margin="0,25,0,0">
+            <StackPanel Margin="20,0">
+                <fa:ImageAwesome Icon="Warning"
+                                 Height="100"
+                                 Foreground="{DynamicResource WarningBrush}" />
+
+                <TextBlock Margin="0,10,0,0"
+                           FontSize="32"
+                           FontWeight="Bold"
+                           Foreground="{DynamicResource WarningBrush}"
+                           TextAlignment="Center"
+                           Text="ATENÇÃO!!!" />
+
+                <TextBlock Margin="0,10,0,0"
+                           FontSize="26"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center">
+                    Será iniciado um NOVO FATURAMENTO e o atual continuará aberto.
+                </TextBlock>
+            </StackPanel>
+        </DockPanel>
+
+        <StackPanel DockPanel.Dock="Bottom"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center"
+                    Margin="0,25">
+
+            <Button x:Name="BtnConfirmar"
+                    Style="{DynamicResource FusionWarningButton}"
+                    Margin="5,0"
+                    Width="150"
+                    Content="[ENTER] Continuar"
+                    Click="OnClickConfirmar"
+                    Focusable="False" />
+
+            <Button x:Name="BtnCancelar"
+                    Style="{DynamicResource FusionCleanButton}"
+                    Margin="5,0"
+                    Width="150"
+                    Content="[ESC] Desistir"
+                    Click="OnClickCancelar"
+                    Focusable="False" />
+        </StackPanel>
+    </DockPanel>
+</mah:ChildWindow>

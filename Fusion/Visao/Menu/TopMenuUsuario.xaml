@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="Fusion.Visao.Menu.TopMenuUsuario"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" d:DesignHeight="30" d:DesignWidth="150"
+             Loaded="TopMenuUsuario_OnLoaded">
+
+    <Menu Background="Transparent" BorderBrush="Transparent" BorderThickness="0">
+        <MenuItem Height="Auto" Background="Transparent">
+            <MenuItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding NomeUsuarioLogado}" Margin="0,0,7,0"
+                               Foreground="{StaticResource IdealForegroundColorBrush}" />
+                    <fa:ImageAwesome Icon="User" Width="12"
+                                     Foreground="{StaticResource IdealForegroundColorBrush}" />
+                </StackPanel>
+            </MenuItem.Header>
+
+            <MenuItem Height="Auto" Click="MenuBackup_OnClick">
+                <MenuItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="75"/>
+                        </Grid.ColumnDefinitions>
+
+                        <fa:ImageAwesome Grid.Column="0" Icon="Database" Width="14"/>
+                        <TextBlock Grid.Column="1" Text="Backup"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
+
+            <MenuItem Height="Auto" Click="MenuEditar_OnClick" x:Name="MenuItemUsuario">
+                <MenuItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="75"/>
+                        </Grid.ColumnDefinitions>
+
+                        <fa:ImageAwesome Grid.Column="0" Icon="Edit" Width="14"/>
+                        <TextBlock Grid.Column="1" Text="Usuário"/>
+                    </Grid>
+                </MenuItem.Header> 
+            </MenuItem>
+            
+            <MenuItem Height="Auto" Click="MenuSobre_OnClick">
+                <MenuItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="75"/>
+                        </Grid.ColumnDefinitions>
+
+                        <fa:ImageAwesome Grid.Column="0" Icon="InfoCircle" Width="14"/>
+                        <TextBlock Grid.Column="1" Text="Sobre"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
+
+            <MenuItem Height="Auto" Click="MenuLogout_OnClick">
+                <MenuItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="75"/>
+                        </Grid.ColumnDefinitions>
+
+                        <fa:ImageAwesome Grid.Column="0" Icon="PowerOff" Width="14"/>
+                        <TextBlock Grid.Column="1" Text="Logout"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
+        </MenuItem>
+    </Menu>
+</UserControl>

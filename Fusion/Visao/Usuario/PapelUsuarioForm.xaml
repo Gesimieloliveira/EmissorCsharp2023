@@ -1,0 +1,39 @@
+﻿<simpleChildWindow:ChildWindow x:Class="Fusion.Visao.Usuario.PapelUsuarioForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:simpleChildWindow="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+             mc:Ignorable="d"
+             MinWidth="300"
+             Title="Papel de usuários"
+             Style="{DynamicResource ChildWindowStyle}"
+             ChildWindowWidth="300"
+             FocusManager.FocusedElement="{Binding ElementName=CNome}">
+
+    <DockPanel LastChildFill="true">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <GroupBox>
+                    <StackPanel>
+                        <TextBlock Text="Descrição do papel de usuário" />
+                        <TextBox
+                            Text="{Binding Descricao, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            MaxLength="60"
+                            x:Name="CNome" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+            <Button Style="{DynamicResource FusionAccentedButton}" Command="{Binding CommandInserirUsuario}">
+                <TextBlock Text="Salvar alterações" />
+            </Button>
+        </StackPanel>
+    </DockPanel>
+</simpleChildWindow:ChildWindow>

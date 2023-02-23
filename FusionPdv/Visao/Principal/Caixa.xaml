@@ -1,0 +1,545 @@
+﻿<controls:MetroWindow x:Class="FusionPdv.Visao.Principal.Caixa"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:c="clr-namespace:FusionPdv.Conversores"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:caixa="clr-namespace:FusionLibrary.Helper.Wpf.Caixa;assembly=FusionLibrary"
+                      xmlns:tools="clr-namespace:FusionLibrary.Wpf.Tools;assembly=FusionLibrary"
+                      Title="Fusion Pdv - Caixa" MinWidth="968" MinHeight="720"
+                      WindowState="Maximized" mc:Ignorable="d"
+                      d:DesignWidth="968" d:DesignHeight="720"
+                      KeyDown="Window_KeyDown"
+                      ContentRendered="Caixa_OnContentRendered"
+                      Style="{DynamicResource MetroWindowStyle}"
+                      Language="pt-BR" Closing="Caixa_OnClosing">
+
+    <controls:MetroWindow.Resources>
+        <c:IntBinaryToParamConverter x:Key="IntBinaryToParamConverter" />
+    </controls:MetroWindow.Resources>
+
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Menu VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent">
+                <MenuItem Name="MiMenuFiscal"
+                          Header="Menu fiscal (F12)"
+                          Background="Transparent"
+                          BorderBrush="Transparent"
+                          Foreground="{StaticResource IdealForegroundColorBrush}"
+                          FontSize="11">
+
+                    <MenuItem Header="Administração TEF"
+                              Name="MiAdministracaoTef"
+                              Click="MiAdministracaoTef_OnClick"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Programar Formas de Pagamento"
+                              Name="MiFormaPagamento"
+                              Click="MiFormaPagamento_OnClick"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Programar Impostos"
+                              Name="ProgramarImposto"
+                              Click="MiProgramarImpostoIcms_OnClick"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Leitura X"
+                              Name="MiLeituraX"
+                              Click="MiLeituraX_OnClick"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Reducao Z"
+                              Name="MiReducaoZ"
+                              Click="MiReducaoZ_OnClick"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Ajustar Horario de verão"
+                              Name="MiHorarioDeVerao"
+                              Click="MiHorarioDeVerao_OnClick"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Leitura de Memória Fiscal"
+                              Name="MiMemoriaFiscal"
+                              Click="MiMemoriaFiscal_OnClick"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Espelho Mfd"
+                              Name="MiEspelhoMfd"
+                              Click="MiEspelhoMfd_OnClick"
+                              Visibility="Collapsed"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Arredondamento ou Truncamento"
+                              Name="MiArredondamentoTruncamento"
+                              Click="MiArredondamentoTruncamento_OnClick"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Sobre"
+                              Click="Sobre_OnClick"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}"></MenuItem>
+
+                </MenuItem>
+            </Menu>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Margin="0, 0, 4, 0">Servidor</TextBlock>
+                <fa:ImageAwesome Icon="{Binding StatusServidor}" Width="15" Height="15"
+                                 Foreground="{Binding CorStatus}" />
+
+            </StackPanel>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <!--Caiaxa Livre-->
+            <RowDefinition Height="0.8*" />
+            <!--Centro do caixa-->
+            <RowDefinition Height="8.2*" />
+            <!--rodapé-->
+            <RowDefinition Height="0.3*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Name="SpHeader"
+            Visibility="Collapsed" Grid.Column="0" Grid.Row="0" Background="{StaticResource GrayBrush10}">
+            <TextBlock Name="LbCaixa"
+                       Text="{Binding MenssagemCaixa}"
+                       FontSize="{StaticResource MahApps.Font.Size.Header}"
+                       FontFamily="{StaticResource MahApps.Fonts.Family.Header}"
+                       HorizontalAlignment="Center" />
+        </StackPanel>
+
+
+        <Grid
+            Name="GdCaixa" Grid.Column="0" Focusable="False"
+            Grid.Row="1" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- sidebar left -->
+            <DockPanel Grid.Column="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2.5*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="5.4*" />
+                    </Grid.RowDefinitions>
+
+                    <GroupBox Header="Útimo Item" Grid.Column="0" Grid.Row="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Column="0" Grid.Row="0">
+                                <TextBlock Text="Quantidade"
+                                           FontSize="20"
+                                           FontFamily="{StaticResource MahApps.Fonts.Family.Control}" />
+
+                                <TextBlock Text="{Binding Quantidade, StringFormat={}{0:0.000}}"
+                                           Margin="0,-15,0,0"
+                                           HorizontalAlignment="Right"
+                                           FontSize="23"
+                                           FontFamily="{StaticResource MahApps.Fonts.Family.Control}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="0" Grid.Row="1">
+                                <TextBlock Text="Preço unitário"
+                                           FontSize="20"
+                                           FontFamily="{StaticResource MahApps.Fonts.Family.Control}" />
+
+                                <TextBlock Text="{Binding PrecoUnitario, StringFormat=C}"
+                                           Margin="0,-15,0,0"
+                                           HorizontalAlignment="Right"
+                                           FontSize="23"
+                                           FontFamily="{StaticResource MahApps.Fonts.Family.Control}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="0" Grid.Row="2">
+                                <TextBlock Text="Total do item"
+                                           FontSize="20"
+                                           FontFamily="{StaticResource MahApps.Fonts.Family.Control}" />
+
+                                <TextBlock Text="{Binding TotalDoItem, StringFormat=C}"
+                                           HorizontalAlignment="Right"
+                                           Margin="0,-15,0,0"
+                                           FontSize="23"
+                                           FontFamily="{StaticResource MahApps.Fonts.Family.Control}" />
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+
+                    <StackPanel Grid.Column="0" Grid.Row="1" Margin="5,0,5,0">
+                        <TextBlock Text="Total do Cupom"
+                                   FontSize="21"
+                                   FontFamily="{StaticResource MahApps.Fonts.Family.Control}" />
+
+                        <TextBlock Text="{Binding TotalDoCupom, StringFormat=C}"
+                                   HorizontalAlignment="Right"
+                                   FontSize="26"
+                                   FontFamily="{StaticResource MahApps.Fonts.Family.Control}" />
+                    </StackPanel>
+
+                    <DockPanel Grid.Column="0" Grid.Row="2" LastChildFill="False" Margin="0,10,0,0">
+                        <Image Source="{Binding Logo}"
+                               DockPanel.Dock="Top"
+                               Height="100"
+                               Width="Auto"
+                               Margin="0,0,0,20" />
+
+                        <Grid DockPanel.Dock="Bottom" Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="80" />
+                                <RowDefinition Height="80" />
+                                <RowDefinition Height="80" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.Resources>
+                                <Style TargetType="controls:Tile">
+                                    <Setter Property="TitleFontSize" Value="14" />
+                                </Style>
+                            </Grid.Resources>
+
+                            <controls:Tile Grid.Column="0" Grid.Row="0"
+                                           VerticalContentAlignment="Top"
+                                           Count="F1"
+                                           Title="Consultar Preços"
+                                           Height="Auto"
+                                           Background="{DynamicResource AccentColorBrush3}"
+                                           Click="BtnConsultarPrecos_OnClick" />
+
+                            <controls:Tile Grid.Column="1" Grid.Row="0"
+                                           VerticalContentAlignment="Top"
+                                           Count="F2"
+                                           Title="Cancelar Item"
+                                           Height="Auto"
+                                           Background="{DynamicResource AccentColorBrush3}"
+                                           Click="BtCancelamentoItem_OnClick" />
+
+                            <controls:Tile Grid.Column="0" Grid.Row="1"
+                                           VerticalContentAlignment="Top"
+                                           Count="F3"
+                                           Title="Cancelar Cupom"
+                                           Height="Auto"
+                                           Background="{DynamicResource AccentColorBrush3}"
+                                           Click="BtCancelarCupom_OnClick" />
+
+                            <controls:Tile Grid.Column="1" Grid.Row="1"
+                                           VerticalContentAlignment="Top"
+                                           Count="F8"
+                                           Title="Quantidade"
+                                           Height="Auto"
+                                           Background="{DynamicResource AccentColorBrush3}"
+                                           Click="BtQuantidade_OnClick" />
+
+                            <controls:Tile Grid.Column="0" Grid.Row="2"
+                                           VerticalContentAlignment="Top"
+                                           Count="F10"
+                                           Title="Abrir Gaveta"
+                                           Height="Auto"
+                                           Background="{DynamicResource AccentColorBrush3}"
+                                           Click="BtAbrirGaveta_OnClick" />
+
+                            <controls:Tile Grid.Column="1" Grid.Row="2"
+                                           VerticalContentAlignment="Top"
+                                           Count=""
+                                           Title=""
+                                           Height="Auto"
+                                           Background="{DynamicResource AccentColorBrush3}"
+                                           />
+                        </Grid>
+                    </DockPanel>
+                </Grid>
+            </DockPanel>
+
+            <!-- Caixa -->
+            <DockPanel Grid.Column="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="78" />
+                        <RowDefinition Height="93" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <GroupBox Grid.Column="0" Grid.Row="0"
+                              PreviewMouseLeftButtonUp="TbDefinirCliente_OnMouseLeftButtonDown"
+                              Header="Cliente (F5)">
+
+                        <DockPanel>
+                            <TextBlock Text="{Binding NomeCliente}"
+                                       VerticalAlignment="Center"
+                                       FontSize="18"
+                                       FontFamily="{DynamicResource MahApps.Fonts.Family.Control}" />
+                        </DockPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Produto (F6)" Grid.Column="0" Grid.Row="1">
+                        <StackPanel>
+                            <TextBlock MouseLeftButtonDown="TbConsultarProduto_OnMouseLeftButtonDown"
+                                       Margin="0,-7,0,0"
+                                       FontSize="15"
+                                       Name="TbConsultarProduto"
+                                       Text="{Binding MensagemConsultarProduto}" />
+
+                            <DockPanel LastChildFill="True">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="80" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBox Grid.Column="0" Grid.Row="0"
+                                             KeyDown="TbCodigoBarras_OnKeyDown"
+                                             caixa:TextBoxCodigoBarras.CodigoBarras="True"
+                                             tools:FocusAdvancement.AdvancesByEnterKey="False"
+                                             Text="{Binding CodigoBarra, UpdateSourceTrigger=PropertyChanged}"
+                                             Name="TbCodigoBarras" FontSize="16" HorizontalContentAlignment="Center" />
+                                    
+                                    <TextBox  Grid.Column="1" Grid.Row="0"
+                                              Margin="5,0"
+                                                Text="{Binding ValorKiloItem, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                                IsEnabled="{Binding EditarValorItem}"
+                                              KeyDown="TbValorKiloItem_OnKeyDown"
+                                                TextChanged="TbValorKiloItem_OnKeyDown"
+                                                Name="TbValorKiloItem"
+                                                FontSize="16"
+                                                HorizontalContentAlignment="Center"
+                                                />
+
+                                    <TextBlock Grid.Column="2" Grid.Row="0"
+                                               FontWeight="Bold"
+                                               FontSize="16"
+                                               Margin="0,-2"
+                                               HorizontalAlignment="Right" VerticalAlignment="Center" Text="x" />
+
+                                    <TextBlock Text="{Binding QuantidadeAAdicionar, StringFormat={}{0:0.000}}" Grid.Column="3" Grid.Row="0"
+                                               FontWeight="Bold" FontSize="16" VerticalAlignment="Center"
+                                               HorizontalAlignment="Left" Margin="0,-2" />
+                                </Grid>
+                            </DockPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Cupom Fiscal" Grid.Column="0" Grid.Row="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="80" />
+                            </Grid.RowDefinitions>
+
+                            <ListBox Grid.Column="0" Grid.Row="0" Focusable="False"
+                                     HorizontalContentAlignment="Stretch"
+                                     ItemsSource="{Binding Path=ListaDeVendaEcfItem}"
+                                     Name="LbIensVenda">
+
+                                <ListBox.Resources>
+                                    <Style TargetType="ListBoxItem">
+                                        <Style.Resources>
+                                            <!-- SelectedItem with focus -->
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                                             Color="Transparent" />
+                                            <!-- SelectedItem without focus -->
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
+                                                             Color="Transparent" />
+                                            <!-- SelectedItem text foreground -->
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}"
+                                                             Color="Black" />
+                                        </Style.Resources>
+                                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                        <Setter Property="Focusable" Value="False" />
+                                    </Style>
+
+                                    <Style TargetType="ListBox">
+                                        <Setter Property="Focusable" Value="False" />
+                                    </Style>
+                                </ListBox.Resources>
+
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,0,0,1" Focusable="False">
+                                            <Grid Focusable="False">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="30" />
+                                                    <ColumnDefinition Width="120" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Grid.Column="0" Background="{DynamicResource GrayBrush10}">
+                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <fa:ImageAwesome Icon="Barcode" Width="14" />
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <TextBlock Grid.Column="1" Grid.Row="0"
+                                                           Text="{Binding NumeroItem}"
+                                                           FontSize="13" />
+
+                                                <TextBlock Grid.Column="2" Grid.Row="0"
+                                                           Text="{Binding CodigoBarra}"
+                                                           FontSize="13" />
+
+                                                <TextBlock Grid.Column="3" Grid.Row="0"
+                                                           Text="{Binding NomeProduto}"
+                                                           FontWeight="Bold"
+                                                           FontSize="15"
+                                                           TextDecorations="{Binding Path=Cancelado, Mode=OneWay, Converter={StaticResource IntBinaryToParamConverter}, ConverterParameter='Strikethrough'}" />
+                                            </Grid>
+
+                                            <DockPanel Background="{DynamicResource GrayBrush10}">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                                                            DockPanel.Dock="Right">
+                                                    <TextBlock Text="Total: " FontSize="14" />
+                                                    <TextBlock Text="{Binding Total, StringFormat=C}"
+                                                               FontWeight="Bold"
+                                                               FontSize="15" />
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right"
+                                                            HorizontalAlignment="Right"
+                                                            Margin="0,0,40,0">
+
+                                                    <TextBlock Text="Quantidade: " FontSize="13" />
+                                                    <TextBlock Margin="0,0,5,0"
+                                                               Text="{Binding Quantidade, StringFormat={}{0:0.000}}"
+                                                               FontSize="15" />
+
+                                                    <TextBlock Margin="0,0,5,0"
+                                                               Text="{Binding SiglaUnidadeProduto}"
+                                                               FontSize="15" />
+
+                                                    <TextBlock Text="*" Margin="0,0,5,0"
+                                                               FontWeight="Bold"
+                                                               FontSize="15" />
+
+                                                    <TextBlock Text="Preço: "
+                                                               FontSize="14"
+                                                               VerticalAlignment="Center" />
+
+                                                    <TextBlock Text="{Binding PrecoUnitario, StringFormat=C}"
+                                                               FontSize="15" />
+                                                </StackPanel>
+
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <Border Grid.Column="0" Grid.Row="1" Margin="-5,0,-5,0"
+                                    BorderBrush="{StaticResource AccentColorBrush2}"
+                                    BorderThickness="0,4,0,0"
+                                    VerticalAlignment="Stretch">
+                                <DockPanel Margin="5,0,5,0">
+                                    <DockPanel Dock="Top">
+                                        <TextBlock DockPanel.Dock="Left"
+                                                   FontFamily="{StaticResource MahApps.Fonts.Family.Header}"
+                                                   FontSize="30"
+                                                   Text="Subtotal" />
+
+                                        <TextBlock DockPanel.Dock="Right"
+                                                   Text="{Binding SubTotal, StringFormat=C}"
+                                                   FontSize="28"
+                                                   FontFamily="{StaticResource MahApps.Fonts.Family.Header}"
+                                                   HorizontalAlignment="Right" />
+
+                                    </DockPanel>
+
+                                    <StackPanel DockPanel.Dock="Top"
+                                                Background="{DynamicResource AccentColorBrush4}">
+                                        <Button Click="OnClickFinalizarCupom">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" Value="Transparent" />
+                                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                                    <Setter Property="BorderThickness" Value="0" />
+                                                </Style>
+                                            </Button.Style>
+                                            <StackPanel Orientation="Horizontal">
+                                                <fa:ImageAwesome Icon="Gavel" Width="16"
+                                                                 Foreground="{DynamicResource AccentColorBrush}" />
+
+                                                <TextBlock Text="Finalizar (F4)"
+                                                           Margin="5,0,0,0"
+                                                           FontSize="23"
+                                                           Foreground="{DynamicResource AccentColorBrush}" />
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </DockPanel>
+
+        </Grid>
+
+        <Grid Visibility="Visible" Name="GdProgressBar" Grid.Column="0" Grid.Row="1">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+                <controls:ProgressRing
+                    IsActive="True" />
+
+                <TextBlock
+                    FontWeight="Bold"
+                    FontSize="20"
+                    Foreground="{DynamicResource AccentColorBrush}">
+                    Aguarde...
+                </TextBlock>
+
+            </StackPanel>
+        </Grid>
+
+
+        <StackPanel Grid.Column="0" Grid.Row="2" Background="{StaticResource AccentColorBrush4}">
+            <TextBlock TextAlignment="Left" Margin="10,0,0,0" Text="{Binding InformacaoRodape}"
+                       Foreground="{StaticResource GrayBrush2}" />
+        </StackPanel>
+    </Grid>
+</controls:MetroWindow>

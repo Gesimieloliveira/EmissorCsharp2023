@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MDFeEmitente" table="mdfe_emitente">
+
+    <id column="mdfe_id" name="MDFeId">
+      <generator class="foreign">
+        <param name="property">MDFeEletronico</param>
+      </generator>
+    </id>
+
+    <one-to-one name="MDFeEletronico" class="MDFeEletronico" constrained="true"/>
+    
+    <many-to-one name="Empresa" class="FusionCore.Repositorio.Legacy.Entidades.Adm.EmpresaDTO" cascade="none" not-null="true">
+      <column name="empresa_id"></column>
+    </many-to-one>
+    
+  </class>
+</hibernate-mapping>

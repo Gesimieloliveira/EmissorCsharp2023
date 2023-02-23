@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="Fusion.Visao.EmissorFiscalEletronico.Aba.EmissorFiscal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:flags="clr-namespace:FusionCore.FusionAdm.Fiscal.Flags;assembly=FusionCore"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:net="clr-namespace:FusionCore.Core.Net;assembly=FusionCore"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             FocusManager.FocusedElement="{Binding ElementName=TbDescricao}"
+             mc:Ignorable="d" d:DesignWidth="700"
+             Background="{StaticResource WhiteBrush}"
+             Height="Auto" MaxHeight="700">
+
+    <DockPanel>
+        <StackPanel>
+            <GroupBox>
+                <StackPanel>
+                    <TextBlock Text="Descrição" />
+                    <TextBox
+                        Text="{Binding Descricao, ValidatesOnDataErrors=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}"
+                        MaxLength="255"
+                        x:Name="TbDescricao" />
+
+                    <TextBlock Text="Empresa" />
+                    <ComboBox
+                        ItemsSource="{Binding Path=Empresas}"
+                        DisplayMemberPath="RazaoSocial"
+                        SelectedItem="{Binding EmpresaSelecionada, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+
+                    <StackPanel controls:VisibilityHelper.IsVisible="{Binding AdicionarCertificadoDigital}">
+                        <TextBlock Text="Tipo Certificado Digital" />
+
+                        <ComboBox TabIndex="1"
+                                  ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags:TipoCertificadoDigital}}}"
+                                  SelectedValue="{Binding TipoCertificadoDigital}"
+                                  IsEditable="False" />
+
+
+                        <TextBlock Text="Selecione um certificado digital (Certificado Tipo A1, necessário senha)" />
+
+                        <DockPanel>
+
+                            <controles:SearchTextBox
+                                IsReadOnly="True"
+                                Text="{Binding ArquivoCertificado}"
+                                IsEnabled="{Binding IsA1}"
+                                ButtonClearEnabledWhenHasText="True"
+                                SearchCommand="{Binding CommandBuscaCertificado}"
+                                ClearCommand="{Binding CommandLimpaArquivoCertificado}" />
+
+                        </DockPanel>
+
+                        <TextBlock Text="Selecione um certificado digital (Certificado Tipo A3, senha opcional)" />
+
+                        <controles:SearchTextBox
+                            IsReadOnly="True"
+                            Text="{Binding SerialNumberCertificado}"
+                            IsEnabled="{Binding IsA3}"
+                            ButtonClearEnabledWhenHasText="True"
+                            SearchCommand="{Binding CommandBuscaCertificadoRepositorio}"
+                            ClearCommand="{Binding CommandLimpaSerialNumberCertificado}" />
+
+                        <TextBlock Text="Senha Certificado" />
+                        <PasswordBox
+                            wpf:PasswordHelper.Attach="True"
+                            IsEnabled="{Binding IsSenha}"
+                            controls:TextBoxHelper.ClearTextButton="True"
+                            wpf:PasswordHelper.Password="{Binding SenhaCertificado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                            MaxLength="255" />
+                    </StackPanel>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Protocolo Segurança" />
+                            <ComboBox
+                                IsEditable="False"
+                                ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type net:ProtocoloSeguranca}}}"
+                                SelectedItem="{Binding ProtocoloSeguranca}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </DockPanel>
+
+</UserControl>

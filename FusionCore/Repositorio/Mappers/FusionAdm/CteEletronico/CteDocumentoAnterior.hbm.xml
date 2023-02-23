@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteDocumentoAnterior" table="cte_documento_anterior">
+    <id name="Id" column="id" generator="identity" />
+
+    <many-to-one name="Cte" column="cte_id" not-null="true" class="Cte" cascade="none"></many-to-one>
+
+    <property name="DocumentoUnico" not-null="true">
+      <column name="documentoUnico"></column>
+    </property>
+
+    <property name="InscricaoEstadual" not-null="true">
+      <column name="inscricaoEstadual"></column>
+    </property>
+
+    <many-to-one name="EstadoUf" not-null="true" fetch="join">
+      <column name="estadoUf_id"></column>
+    </many-to-one>
+
+    <property name="NomeOuRazaoSocial" not-null="true">
+      <column name="nomeOuRazaoSocial"></column>
+    </property>
+
+    <bag name="Documentos" table="cte_documento_transp_anterior" cascade="all-delete-orphan" inverse="true">
+      <key column="cteDocumentoAnterior_Id" />
+      <one-to-many class="CteDocumentoTransporte" />
+    </bag>
+
+  </class>
+</hibernate-mapping>

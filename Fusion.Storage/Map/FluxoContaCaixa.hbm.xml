@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.ControleCaixa"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="FluxoContaCaixa" table="conta_caixa_fluxo" mutable="false">
+    <id name="Id" generator="assigned">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="Fluxo" generated="insert">
+      <column name="fluxo" not-null="true" />
+    </property>
+
+    <property name="DataCriacao">
+      <column name="dataCriacao" not-null="true" />
+    </property>
+
+    <property name="DataOperacao">
+      <column name="dataOperacao" not-null="true" />
+    </property>
+
+    <many-to-one name="Usuario" cascade="none" fetch="join">
+      <column name="usuario_id" not-null="true" />
+    </many-to-one>
+
+    <property name="TipoOperacao">
+      <column name="tipoOperacao" not-null="true" />
+    </property>
+
+    <property name="TotalOperacao">
+      <column name="totalOperacao" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="SaldoAtual">
+      <column name="saldoAtual" not-null="true" precision="20" scale="2" />
+    </property>
+
+    <property name="Historico">
+      <column name="historico" not-null="true" />
+    </property>
+
+    <property name="OrigemReferencia">
+      <column name="origem_id" not-null="true" />
+    </property>
+
+    <property name="OrigemEvento">
+      <column name="origemEvento" not-null="true" />
+    </property>
+
+  </class>
+</hibernate-mapping>

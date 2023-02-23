@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.FusionAdm.Compras"
+  default-lazy="false"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ItemCompra" table="nf_compra_item">
+    <id name="Id" column="id" generator="identity" />
+
+    <many-to-one name="Nota" not-null="true">
+      <column name="nfCompra_id" />
+    </many-to-one>
+
+    <many-to-one name="Produto" not-null="true">
+      <column name="produto_id" />
+    </many-to-one>
+
+    <many-to-one name="Cfop" not-null="true">
+      <column name="cfop_id" />
+    </many-to-one>
+
+    <many-to-one name="Ncm" not-null="true">
+      <column name="tabelaNcm_id" />
+    </many-to-one>
+
+    <property name="Cest">
+      <column name="cest" sql-type="varchar" not-null="true" length="7" />
+    </property>
+
+    <many-to-one name="Unidade" not-null="true">
+      <column name="produtoUnidade_id" />
+    </many-to-one>
+
+    <property name="Quantidade">
+      <column name="quantidade" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="ValorUnitario">
+      <column name="valorUnitario" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+
+    <property name="ValorDescontoTotal">
+      <column name="valorDescontoTotal" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="ValorTotal">
+      <column name="valorTotal" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="ValorFreteRateio">
+      <column name="valorFreteRateio" sql-type="decimal" not-null="true" precision="10" scale="2" />
+    </property>
+
+    <property name="ValorSeguroRateio">
+      <column name="valorSeguroRateio" sql-type="decimal" not-null="true" precision="10" scale="2" />
+    </property>
+
+    <property name="ValorDespesasRateio">
+      <column name="valorDespesasRateio" sql-type="decimal" not-null="true" precision="10" scale="2" />
+    </property>
+
+    <property name="ValorTotalCusto">
+      <column name="valorTotalCusto" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="CadastroEm">
+      <column name="cadastroEm" sql-type="datetime" not-null="true" />
+    </property>
+
+    <property name="MovimentaEstoque">
+      <column name="movimentaEstoque" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="FreteCompoeIcms">
+      <column name="freteCompoeIcms" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="SeguroCompoeIcms">
+      <column name="seguroCompoeIcms" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="DespesasCompoeIcms">
+      <column name="despesasCompoeIcms" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="IpiCompoeIcms">
+      <column name="ipiCompoeIcms" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="FatorConversao">
+      <column name="fatorConversao" sql-type="decimal" not-null="true" />
+    </property>
+
+    <property name="UnidadeConversao">
+      <column name="unidadeConversao" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="QuantidadeConversao">
+      <column name="quantidadeConversao" sql-type="decimal" not-null="true" />
+    </property>
+
+    <property name="ImportadoDeXml">
+      <column name="importadoDeXml" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="ImpostoManual">
+      <column name="impostoManual" sql-type="bit" not-null="true" />
+    </property>
+
+    <one-to-one name="Ipi" outer-join="true" fetch="join" cascade="all-delete-orphan" />
+    <one-to-one name="Pis" outer-join="true" fetch="join" cascade="all-delete-orphan" />
+    <one-to-one name="Cofins" outer-join="true" fetch="join" cascade="all-delete-orphan" />
+    <one-to-one name="Icms" outer-join="true" fetch="join" cascade="all-delete-orphan" />
+  </class>
+</hibernate-mapping>

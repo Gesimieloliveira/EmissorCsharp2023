@@ -1,0 +1,49 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.MdfeEletronico.Aba.Flyouts.FlyoutAddMunicipioCarregamento"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                 mc:Ignorable="d" d:DesignWidth="1000"
+                 Position="Top" IsOpen="{Binding IsOpen}" MaxHeight="662"
+                 Loaded="FlyoutAddMunicipioCarregamento_OnLoaded"
+                 Style="{DynamicResource FusionFlyout}">
+
+    <GroupBox Header="Município carregamento">
+        <DockPanel>
+            <StackPanel Margin="0,5,5,0" DockPanel.Dock="Top">
+                <TextBlock>Buscar município de carregamento</TextBlock>
+                <controles:SearchTextBox
+                    SearchCommand="{Binding CommandBuscarCidade}"
+                    IsReadOnly="True"
+                    Text="{Binding Cidade.Nome}" />
+
+                <TextBlock>Código IBGE</TextBlock>
+                <TextBox IsReadOnly="True"
+                         Text="{Binding Cidade.CodigoIbge}" />
+
+                <TextBlock>Sigla UF</TextBlock>
+                <TextBox IsReadOnly="True"
+                         Text="{Binding Cidade.SiglaUf}" />
+            </StackPanel>
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right">
+                <Button Width="50" Height="50"
+                        Style="{DynamicResource MetroCircleButtonStyle}"
+                        Click="OnClickBotaoAdicionaMunicipioCarregamento">
+                    <Rectangle Width="20" Height="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill">
+                                <VisualBrush.Visual>
+                                    <fa:ImageAwesome Icon="Save" />
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </DockPanel>
+        </DockPanel>
+    </GroupBox>
+</controls:Flyout>

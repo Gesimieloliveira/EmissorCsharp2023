@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Pdv"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="EstoqueEventoPdvDt" table="produto_estoque_evento">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+    <many-to-one name="ProdutoDt" column="produto_id" not-null="true" fetch="join" />
+
+    <property name="TipoEvento" not-null="true">
+      <column name="tipoEvento" sql-type="tinyint" />
+    </property>
+
+    <property name="OrigemEvento" not-null="true">
+      <column name="origemEvento" sql-type="tinyint" />
+    </property>
+
+    <property name="Movimento" column="movimento" not-null="true" />
+    <many-to-one name="UsuarioDt" column="usuario_id" not-null="true" fetch="join" />
+    <property name="CadastradoEm" column="cadastradoEm" not-null="true" />
+    <property name="IdentificadorRemoto" column="identificadorRemoto" not-null="false" />
+  </class>
+</hibernate-mapping>

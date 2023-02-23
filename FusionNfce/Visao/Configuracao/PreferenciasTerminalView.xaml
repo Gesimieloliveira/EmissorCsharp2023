@@ -1,0 +1,150 @@
+﻿<controles:FusionWindow x:Class="FusionNfce.Visao.Configuracao.PreferenciasTerminalView"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                        xmlns:th="clr-namespace:FusionNfce.Visao.Configuracao"
+                        xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+                        xmlns:nfce="clr-namespace:FusionCore.FusionNfce.Preferencias;assembly=FusionCore"
+                        xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                        mc:Ignorable="d"
+                        Title="Configuração de comportamento do Terminal"
+                        Width="570" 
+                        SizeToContent="Height"
+                        Loaded="LoadedHandler"
+                        d:DataContext="{d:DesignInstance th:PreferenciasTerminalContexto}"
+                        Closing="ClosingHandler">
+
+    <DockPanel>
+        <ScrollViewer
+            MaxHeight="650"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Disabled"
+            DockPanel.Dock="Top">
+
+            <DockPanel Margin="5">
+                <GroupBox DockPanel.Dock="Top" Header="Comportamento">
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="Solicitar quantidade e total antes de processar o produto?" />
+
+                            <mah:ToggleSwitch
+                                IsOn="{Binding SolicitaInformacaoItem}"
+                                OnContent="Sim" OffContent="Não" Margin="5,0" HorizontalAlignment="Right" />
+                        </DockPanel>
+
+                        <DockPanel x:Name="DadosCartao">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="Solicitar dados do Cartão POS?" />
+
+                            <mah:ToggleSwitch
+                                IsOn="{Binding SolicitaDadosCartaoPos}"
+                                OnContent="Sim" OffContent="Não" Margin="5,0" HorizontalAlignment="Right" />
+                        </DockPanel>
+
+                        <DockPanel>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="Não imprimir após finalizar o cupom?" />
+
+                            <mah:ToggleSwitch
+                                IsOn="{Binding NaoImprimir}"
+                                OnContent="Sim" OffContent="Não" Margin="5,0" HorizontalAlignment="Right" />
+                        </DockPanel>
+
+                        <DockPanel>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="Visualizar o cupom após finalizar?" />
+
+                            <mah:ToggleSwitch
+                                IsOn="{Binding VisualizaAntesDeImprimir}"
+                                OnContent="Sim" OffContent="Não" Margin="5,0" HorizontalAlignment="Right" />
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox DockPanel.Dock="Top" Header="Impressão">
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Qual impressora devo utilizar para imprimir?" />
+
+                            <controles:ComboBoxEditavel
+                                ItemsSource="{Binding ImpressorasExistentes}"
+                                SelectedItem="{Binding NomeImpressora}" />
+                        </StackPanel>
+
+                        <StackPanel DockPanel.Dock="Top" Margin="0,5,0,0" x:Name="LayoutImpressao">
+                            <TextBlock Text="Qual tipo de impressão?" />
+                            <ComboBox
+                                IsEditable="False"
+                                ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type nfce:LayoutImpressao}}}"
+                                SelectedItem="{Binding LayoutImpressao}" />
+                        </StackPanel>
+
+                        <StackPanel Margin="0,5,0,0">
+                            <TextBlock Text="Nome fantasia personalizado" />
+                            <TextBox Text="{Binding NomeFantasiaCustomizado}" />
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox DockPanel.Dock="Top" Header="Opção F6 - Consultar Produtos">
+                    <StackPanel>
+                        <StackPanel Margin="0,5,0,0">
+                            <TextBlock Text="Qual limite de registros para exibir na busca de produtos (F6)?" />
+                            <TextBox wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" MaxLength="7"
+                                     Text="{Binding LimiteBuscaGirdProduto}" />
+                        </StackPanel>
+
+                        <DockPanel>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="Manter salva a última busca de produtos no (F6)?" />
+
+                            <mah:ToggleSwitch
+                                IsOn="{Binding SalvarUltimaBuscaProduto}"
+                                OnContent="Sim" OffContent="Não" Margin="5,0" HorizontalAlignment="Right" />
+                        </DockPanel>
+
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox DockPanel.Dock="Top" Header="Tabela de preços">
+                    <StackPanel>
+                        <StackPanel Margin="0,0,0,0">
+                            <TextBlock Text="Tabela padrão para utilizar em novas vendas" />
+                            <ComboBox 
+                                ItemsSource="{Binding ListaTabelasDisponiveis}" 
+                                SelectedItem="{Binding TabelaPrecoPadraoSelecionada}" />
+                        </StackPanel>
+
+                        <DockPanel Margin="0,5,0,0">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="Solicitar confirmação da tabela antes de iniciar a venda?" />
+
+                            <mah:ToggleSwitch
+                                IsOn="{Binding ConfirmacaoTabelaPadraoAntesVenda}"
+                                OnContent="Sim" OffContent="Não" Margin="5,0" HorizontalAlignment="Right" />
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+            </DockPanel>
+        </ScrollViewer>
+
+        <StackPanel DockPanel.Dock="Top">
+            <StackPanel HorizontalAlignment="Center" Margin="5">
+                <Button
+                    Style="{DynamicResource FusionAccentedButton}"
+                    Content="Salvar preferências"
+                    Click="SalvarPreferenciasClickHandler" />
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+</controles:FusionWindow>

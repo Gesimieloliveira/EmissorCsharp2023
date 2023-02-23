@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Nfce"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceEmissaoAdm" table="nfce_emissao">
+    <id name="NfceId" column="nfce_id">
+      <generator class="foreign">
+        <param name="property">Nfce</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfce" class="NfceAdm" constrained="true" cascade="all-delete-orphan" />
+
+    <many-to-one name="EmissorFiscal" class="FusionCore.FusionAdm.Emissores.EmissorFiscal" cascade="none">
+      <column name="emissorFiscal_id" sql-type="tinyint" not-null="true" />
+    </many-to-one>
+
+    <property name="Versao">
+      <column name="versao" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="Serie">
+      <column name="serie" sql-type="smallint" not-null="true" />
+    </property>
+
+    <property name="NumeroDocumento">
+      <column name="numeroDocumento" sql-type="int" not-null="true" />
+    </property>
+
+    <property name="CodigoNumerico">
+      <column name="codigoNumerico" sql-type="int" not-null="true" />
+    </property>
+
+    <property name="Chave">
+      <column name="chave" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="TagId">
+      <column name="tagId" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="VersaoAplicativo">
+      <column name="versaoAplicativo" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="TipoEmissao">
+      <column name="tipoEmissao" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="TipoAmbiente">
+      <column name="tipoAmbiente" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="CodigoAutorizacao">
+      <column name="codigoAutorizacao" sql-type="smallint" not-null="true" />
+    </property>
+
+    <property name="Protocolo">
+      <column name="protocolo" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="DigestValue">
+      <column name="digestValue" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="ProcessoEmissao">
+      <column name="processoEmissao" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="VersaoAplicativoAutorizacao">
+      <column name="versaoAplicativoAutorizacao" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="RecebidoEm">
+      <column name="recebidoEm" sql-type="datetime" not-null="false" />
+    </property>
+
+    <property name="Autorizado">
+      <column name="autorizado" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="XmlAutorizado">
+      <column name="xmlAutorizado" sql-type="xml" not-null="false" length="2147483647" />
+    </property>
+
+    <property name="JustificativaContingencia">
+      <column name="justificativaContingencia" not-null="true" />
+    </property>
+
+    <property name="EntrouEmContingenciaEm" not-null="false">
+      <column name="entrouEmContingenciaEm" />
+    </property>
+  </class>
+</hibernate-mapping>

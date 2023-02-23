@@ -1,0 +1,193 @@
+﻿<UserControl x:Class="Fusion.Visao.NotaFiscalEletronica.Principal.Aba.AbaPerfilPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:models="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Principal.Aba.Models"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:flags="clr-namespace:FusionCore.FusionAdm.Fiscal.Flags;assembly=FusionCore"
+             xmlns:tools="clr-namespace:FusionLibrary.Wpf.Tools;assembly=FusionLibrary"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
+             d:DataContext="{d:DesignInstance models:AbaPerfilPickerModel}"
+             x:Name="Self"
+             Loaded="SelecionarPerfilNfe_OnLoaded">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center">Pesquisa rápida, Descrição, Razao Social, CNPJ</TextBlock>
+
+                <Button ToolTip="Novo Perfil Nf-e" Click="NovoPerfil_OnMouseUp" Grid.Column="0" Grid.Row="1"
+                        controls:VisibilityHelper.IsVisible="{Binding IsPermissaoCadastrarPerfil}"
+                        Style="{DynamicResource FusionAccentedButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Plus" Height="18" Width="18" Foreground="{DynamicResource WhiteBrush}" />
+                        <TextBlock Text="Cadastrar perfil" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+
+                <StackPanel Grid.Row="1" Grid.Column="1">
+                    <controles:SearchTextBox
+                        HorizontalAlignment="Center"
+                        Width="500"
+                        KeyDown="Pesquisa_OnKeyDown"
+                        Text="{Binding TextoPesquisado, UpdateSourceTrigger=PropertyChanged}"
+                        SearchCommand="{Binding CommandPesquisaRapida, Mode=OneWay}"
+                        tools:FocusAdvancement.AdvancesByEnterKey="False" />
+
+                </StackPanel>
+
+            </Grid>
+        </StackPanel>
+
+        <ListBox
+            Margin="0,10,0,0"
+            DockPanel.Dock="Top"
+            ItemsSource="{Binding Lista}"
+            SelectedItem="{Binding ItemSelecionado}">
+
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <EventSetter Event="MouseDoubleClick" Handler="DoubleClickListItem" />
+                </Style>
+            </ListBox.Resources>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="{DynamicResource AccentColorBrush4}" BorderThickness="2" Margin="2"
+                            Padding="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <fa:ImageAwesome Icon="FileTextOutline"
+                                                 Foreground="{DynamicResource AccentColorBrush}"
+                                                 controls:VisibilityHelper.IsVisible="True"
+                                                 Width="50" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="5,0" Background="Transparent">
+                                <StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Descricao}" TextWrapping="WrapWithOverflow"
+                                                   FontWeight="Bold"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource AccentColorBrush}" />
+
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}, CNPJ/CPF: {1}">
+                                                    <Binding Path="RazaoSocialEmpresa" />
+                                                    <Binding Path="DocumentoUnico" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}CFOP : {0}">
+                                                    <Binding Path="PerfilCfopCodigo" StringFormat="N" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}Destinatário: {0}">
+                                                    <Binding Path="NomeDestinatario" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding TemDestinatario}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" HorizontalAlignment="Center"
+                                                   Foreground="{DynamicResource GrayBrush2}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                    <Binding Path="TipoOperacao"
+                                                             Converter="{conversores:EnumDescriptionConverter}" />
+                                                    <Binding Path="FinalidadeEmissao"
+                                                             Converter="{conversores:EnumDescriptionConverter}" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+
+                                        <TextBlock Text="HOMOLOGAÇÃO" HorizontalAlignment="Center"
+                                                   Foreground="{DynamicResource DangerBrush}"
+                                                   FontSize="10">
+
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding AmbienteSefaz}"
+                                                                     Value="{x:Static flags:TipoAmbiente.Producao}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <Grid Grid.Column="2" Width="Auto" VerticalAlignment="Center">
+                                <Button Style="{DynamicResource FusionAccentedButton}" Padding="12" Tag="{Binding}"
+                                        Click="ClickItemPerfil">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="selecionar" VerticalAlignment="Center" />
+                                        <fa:ImageAwesome Icon="PlayCircle" Height="14"
+                                                         Foreground="{DynamicResource WhiteBrush}" Margin="6,0,0,0" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Hidden" />
+
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}"
+                                                Value="True">
+
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</UserControl>

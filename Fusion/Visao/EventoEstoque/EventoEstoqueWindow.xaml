@@ -1,0 +1,58 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.EventoEstoque.EventoEstoqueWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:system="clr-namespace:System;assembly=mscorlib"
+                      xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+                      Title="Eventos do estoque" Height="600" Width="1000"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      WindowStartupLocation="CenterScreen"
+                      Loaded="EventoEstoqueWindow_OnLoaded">
+
+    <controls:MetroWindow.Resources>
+        <system:Double x:Key="FontSizeLabelFiltro">22</system:Double>
+        <system:Double x:Key="FontSizeContentFiltro">22</system:Double>
+    </controls:MetroWindow.Resources>
+
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Top" 
+                    Orientation="Horizontal"
+                    Margin="0,0,0,20">
+            <TextBlock Text="Eventos do esotoque: " 
+                       FontSize="{DynamicResource FontSizeLabelFiltro}" />
+            <TextBlock Text="{Binding NomeProdutoFiltro}" 
+                       FontSize="{DynamicResource FontSizeContentFiltro}" />
+        </StackPanel>
+
+        <DataGrid DockPanel.Dock="Top"
+                  ItemsSource="{Binding Eventos}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Detalhe do evento"
+                                    Binding="{Binding OrigemEventoDetalhe}" 
+                                    Width="*"/>
+
+                <DataGridTextColumn Header="Tipo do evento"
+                                    helpers:DataGridColumnHelper.Align="Center"
+                                    Binding="{Binding TipoEventoTexto}" />
+
+                <DataGridTextColumn Header="Estoque"
+                                    helpers:DataGridColumnHelper.Align="Right"
+                                    Binding="{Binding EstoqueAtual, StringFormat=N2}" />
+
+                <DataGridTextColumn Header="Movimento"
+                                    helpers:DataGridColumnHelper.Align="Right"
+
+                                    Binding="{Binding Movimento, StringFormat=N2}" />
+                <DataGridTextColumn Header="Saldo"
+                                    helpers:DataGridColumnHelper.Align="Right"
+                                    Binding="{Binding EstoqueFuturo, StringFormat=N2}" />
+
+                <DataGridTextColumn Header="Cadastrado em"
+                                    helpers:DataGridColumnHelper.Align="Center"
+                                    Binding="{Binding CadastradoEm}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</controls:MetroWindow>

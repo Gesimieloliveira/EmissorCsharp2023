@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Emissores"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="EmissorFiscal" table="emissor_fiscal">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="Empresa" class="FusionCore.Repositorio.Legacy.Entidades.Adm.EmpresaDTO" outer-join="true" cascade="none">
+      <column name="empresa_id" not-null="true" sql-type="smallint" />
+    </many-to-one>
+
+    <many-to-one name="TerminalOffline" class="FusionCore.FusionAdm.TerminalOffline.TerminalOffline"
+                 outer-join="true" cascade="none">
+      <column name="terminalOffline_id" not-null="false" />
+    </many-to-one>
+
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="TipoCertificadoDigital">
+      <column name="tipoCertificadoDigital" not-null="true" />
+    </property>
+
+    <property name="ArquivoCertificado">
+      <column name="arquivoCertificado" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="SenhaCertificado">
+      <column name="senhaCertificado" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="SerialNumberCertificado">
+      <column name="serialNumberCertificado" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="AlteradoEm">
+      <column name="alteradoEm" not-null="true" />
+    </property>
+
+    <property name="FlagNfe">
+      <column name="flagNfe" not-null="true" />
+    </property>
+
+    <property name="FlagNfce">
+      <column name="flagNfce" not-null="true" />
+    </property>
+
+    <property name="FlagCte">
+      <column name="flagCte" not-null="true" />
+    </property>
+
+    <property name="FlagCteOs">
+      <column name="flagCteOs" not-null="true" />
+    </property>
+
+    <property name="FlagMdfe">
+      <column name="flagMdfe" not-null="true" />
+    </property>
+
+    <property name="FlagSat">
+      <column name="flagSat" not-null="true" />
+    </property>
+    
+    <property name="ProtocoloSeguranca">
+      <column name="protocoloSeguranca" not-null="true" />
+    </property>
+
+    <property name="IsFaturamento">
+        <column name="isFaturamento" not-null="true" />
+    </property>
+
+    <one-to-one name="EmissorFiscalNfe" cascade="all-delete-orphan" outer-join="true" />
+
+    <one-to-one name="EmissorFiscalNfce" cascade="all-delete-orphan" outer-join="true" />
+
+    <one-to-one name="EmissorFiscalCte" cascade="all-delete-orphan" outer-join="true" />
+    
+    <one-to-one name="EmissorFiscalCteOs" cascade="all-delete-orphan" outer-join="true" />
+    
+    <one-to-one name="EmissorFiscalMdfe" cascade="all-delete-orphan" outer-join="true" />
+
+    <one-to-one name="EmissorFiscalSat" cascade="all-delete-orphan" outer-join="true" />
+
+    <one-to-one name="AutorizadoBaixarXml" cascade="all-delete-orphan" outer-join="true" />
+  </class>
+</hibernate-mapping>

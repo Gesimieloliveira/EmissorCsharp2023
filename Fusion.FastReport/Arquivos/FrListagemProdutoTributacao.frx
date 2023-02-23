@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="03/09/2018 16:55:20" ReportInfo.Modified="07/24/2019 15:25:48" ReportInfo.CreatorVersion="2016.3.22.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqKCvV1eox1mENjGvfrbFtX9jJwaCsZhZzrZOJOIPNm68pMOUwC/RfP3VXnBwmK7kfRTZyvWxDmx+Gbm9NKj6GYmueuduy+PY4/YxYXYyU8MLlj3DoNo8IyUH2Oz7/fFeXLQ/nB+8ft4CXhec2rsZiNgIPdJrUzuHe3pDo6zuyCbAdi9uWyQP1Ofr1/8/sVaCGV0w8SV1xZXUW7o72tuLsjg==">
+      <TableDataSource Name="Table" Alias="DsProduto" DataType="System.Int32" Enabled="true" SelectCommand="select&#13;&#10;	p.id,&#13;&#10;	p.nome,&#13;&#10;	p.situacaoTributariaIpi_id as ipi,&#13;&#10;	p.situacaoTributariaPis_id as pis,&#13;&#10;	p.situacaoTributariaCofins_id as cofins,&#13;&#10;	regra.situacaoTributariaIcms_id as icms,&#13;&#10;	regra.situacaoTributariaCsosn_id as csosn,&#13;&#10;	cde.cfop_id as cfopIntermunicipal,&#13;&#10;	cfe.cfop_id as cfopInterestadual&#13;&#10;from produto p&#13;&#10;inner join regra_tributacao_saida regra on regra.id = p.regraTributacaoSaida_id&#13;&#10;inner join perfil_cfop cde on cde.id = regra.intermunicipalPerfilCfop_id &#13;&#10;inner join perfil_cfop cfe on cfe.id = regra.interestadualPerfilCfop_id &#13;&#10;where p.ativo = 1">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="ipi" DataType="System.String"/>
+        <Column Name="pis" DataType="System.String"/>
+        <Column Name="cofins" DataType="System.String"/>
+        <Column Name="icms" DataType="System.String"/>
+        <Column Name="csosn" DataType="System.String"/>
+        <Column Name="cfopIntermunicipal" DataType="System.Int16"/>
+        <Column Name="cfopInterestadual" DataType="System.Int16"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" Guides="718.2">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="43.47">
+      <TextObject Name="Text9" Left="286.83" Top="0.45" Width="430.92" Height="13.9" Text="Relatório de listagem de produtos com códigos tributários" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text14" Left="286.83" Top="17.9" Width="430.92" Height="15.9" Text="Relatório emitido em: [Date]" HorzAlign="Right"/>
+    </ReportTitleBand>
+    <ColumnHeaderBand Name="ColumnHeader1" Top="45.22" Width="718.2" Height="35.91" Border.Lines="Top, Bottom" Border.Width="0.25">
+      <TextObject Name="Text2" Top="1.89" Width="54.81" Height="30.24" Text="Cod/ID" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text4" Left="54.81" Top="1.89" Width="321.3" Height="30.24" Text="Nome" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text6" Left="376.11" Top="1.89" Width="35.91" Height="30.24" Text="CST" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text8" Left="412.02" Top="1.89" Width="58.59" Height="30.24" Text="CSOSN" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text11" Left="470.61" Top="1.89" Width="32.13" Height="30.24" Text="IPI" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text13" Left="502.74" Top="1.89" Width="32.13" Height="30.24" Text="PIS" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text16" Left="534.87" Top="1.89" Width="60.48" Height="30.24" Text="COFINS" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text17" Left="601.02" Top="1.89" Width="58.59" Height="30.24" Text="CFOP&#13;&#10;D.E." HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text19" Left="659.61" Top="1.89" Width="58.59" Height="30.24" Text="CFOP&#13;&#10;F.E." HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+    </ColumnHeaderBand>
+    <DataBand Name="Data1" Top="82.89" Width="718.2" Height="66.15" CanGrow="true" CanShrink="true" Guides="1.89" DataSource="Table">
+      <TextObject Name="Text1" Top="1.89" Width="54.81" Height="13.23" CanShrink="true" Text="[DsProduto.id]" Format="Custom" Format.Format="000000" HorzAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text3" Left="54.81" Top="1.89" Width="321.3" Height="13.23" CanShrink="true" Text="[DsProduto.nome]" Font="Arial, 8pt"/>
+      <TextObject Name="Text5" Left="376.11" Top="1.89" Width="35.91" Height="13.23" CanShrink="true" Text="[DsProduto.icms]" HorzAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text7" Left="412.02" Top="1.89" Width="58.59" Height="13.23" CanShrink="true" Text="[DsProduto.csosn]" HorzAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text10" Left="470.61" Top="1.89" Width="32.13" Height="13.23" CanShrink="true" Text="[DsProduto.ipi]" HorzAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text12" Left="502.74" Top="1.89" Width="32.13" Height="13.23" CanShrink="true" Text="[DsProduto.pis]" HorzAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text15" Left="534.87" Top="1.89" Width="60.48" Height="13.23" CanShrink="true" Text="[DsProduto.cofins]" HorzAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text18" Left="601.02" Top="1.89" Width="58.59" Height="13.23" CanShrink="true" Text="[DsProduto.cfopIntermunicipal]" HorzAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text20" Left="659.61" Top="1.89" Width="58.59" Height="13.23" CanShrink="true" Text="[DsProduto.cfopInterestadual]" HorzAlign="Center" Font="Arial, 8pt"/>
+    </DataBand>
+  </ReportPage>
+</Report>

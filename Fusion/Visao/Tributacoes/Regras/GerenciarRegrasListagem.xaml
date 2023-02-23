@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="Fusion.Visao.Tributacoes.Regras.GerenciarRegrasListagem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+             xmlns:local="clr-namespace:Fusion.Visao.Tributacoes.Regras"
+             xmlns:regras="clr-namespace:FusionCore.Tributacoes.Regras;assembly=FusionCore"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" d:DesignWidth="980"
+             d:DataContext="{d:DesignInstance local:GerenciarRegrasListagemContexto, d:IsDesignTimeCreatable=True}"
+             Loaded="LoadedHandler">
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="0,5,0,0" Orientation="Horizontal">
+            <Button
+                mah:VisibilityHelper.IsVisible="{Binding IsGerenciarRegraSaida}"
+                Margin="5,0,0,0" HorizontalAlignment="Left" Width="180"
+                Style="{DynamicResource FusionAccentedButton}"
+                Click="NovaRegraClickHandler">
+
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Plus" Width="15" Foreground="White" />
+                    <TextBlock Text="Cadastrar nova regra" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <DataGrid
+            Margin="0,10,0,0"
+            DockPanel.Dock="Top"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            d:DataContext="{d:DesignInstance local:GerenciarRegrasListagemContexto}"
+            ItemsSource="{Binding Regras}"
+            SelectedItem="{Binding RegraSelecionada}">
+
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DataGridRowDoubleClickHandler" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Resources>
+                <DataTemplate x:Key="CellEstadoFaturamento" DataType="{x:Type regras:RegraTributacaoSaidaSlim}">
+                    <Grid>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding AtivoDescricao}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextAlignment" Value="Center" />
+                                    <Setter Property="MinWidth" Value="90" />
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                    <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+                                    <Setter Property="Background" Value="{DynamicResource GrayBrush5}" />
+                                    <Setter Property="Padding" Value="3,1" />
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Ativo}" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource SuccessBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Ativo}" Value="False">
+                                            <Setter Property="Background" Value="{DynamicResource DangerBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn
+                    helpers:DataGridColumnHelper.Align="Center"
+                    Header="Situação" Width="Auto" CellTemplate="{StaticResource CellEstadoFaturamento}" />
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Center"
+                    Header="ID/Código" Width="120" Binding="{Binding Id, StringFormat=0000}" />
+                <DataGridTextColumn
+                    Header="Descrição" MinWidth="300" Binding="{Binding Descricao}" Width="*" />
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="CST" Binding="{Binding Cst}" Width="100" />
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="CSOSN" Binding="{Binding Csosn}" Width="100" />
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="CFOP. IM" Binding="{Binding CfopIntermunicipal}" Width="110" />
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="CFOP. IE" Binding="{Binding CfopInterestadual}" Width="110" />
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="CFOP. EX" Binding="{Binding CfopExterior}" Width="110" />
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="CFOP. NFC-E" Binding="{Binding CfopNfce}" Width="120" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+
+</UserControl>

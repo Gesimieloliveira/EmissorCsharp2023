@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:fcrs="clr-namespace:FusionWPF.Controles"
+                    xmlns:fa="http://schemas.fontawesome.io/icons/">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/controls.buttons.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FusionWPF;component/Style/SharedColors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style
+        x:Key="BotaoIcone"
+        TargetType="fcrs:BotaoIcone" 
+        BasedOn="{StaticResource MahApps.Styles.Button.Flat}">
+
+        <Setter Property="ClickMode" Value="Release" />
+        <Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+        <Setter Property="IsTabStop" Value="False"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="fcrs:BotaoIcone">
+                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                        <fa:ImageAwesome
+                            Width="14" Height="14" 
+                            Icon="{TemplateBinding Icon}"
+                            Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

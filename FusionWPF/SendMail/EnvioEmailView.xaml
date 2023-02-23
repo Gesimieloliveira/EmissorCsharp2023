@@ -1,0 +1,78 @@
+﻿<controls:MetroWindow x:Class="FusionWPF.SendMail.EnvioEmailView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:sm="clr-namespace:FusionWPF.SendMail"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:tools="clr-namespace:FusionLibrary.Wpf.Tools;assembly=FusionLibrary"
+                      mc:Ignorable="d" d:DataContext="{d:DesignInstance sm:EnvioEmailBehavior}"
+                      Width="538" Height="383" WindowStartupLocation="CenterScreen"
+                      Loaded="LoadedHandler"
+                      Title="Envio de E-mail"
+                      IsEnabled="{Binding WindowIsEnable}"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      x:Name="This">
+
+    <DockPanel Margin="5">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Assunto do e-mail" />
+            <TextBox Text="{Binding Assunto}" x:Name="TbAssunto" CharacterCasing="Normal" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Mensagem do corpo do e-mail" />
+            <TextBox AcceptsReturn="True"
+                     CharacterCasing="Normal"
+                     tools:FocusAdvancement.AdvancesByEnterKey="False"
+                     Height="70" VerticalContentAlignment="Top" 
+                     Text="{Binding CorpoMensagem}"/>
+        </StackPanel>
+        
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Digite o e-mail para o qual deseja enviar e aperte ENTER" />
+
+            <TextBox tools:FocusAdvancement.AdvancesByEnterKey="false"
+                     CharacterCasing="Normal"
+                     Text="{Binding EmailDigitado, UpdateSourceTrigger=PropertyChanged}"
+                     KeyDown="TbEmailKeyDownHandler"
+                     LostFocus="TbEmail_OnLostFocus"
+                     x:Name="TbEmail" />
+
+        </StackPanel>
+
+        <GroupBox DockPanel.Dock="Top" Header="Lista de emails adicionados para o envio" Height="130" Margin="0,5,0,0">
+            <ListBox ItemsSource="{Binding Emails}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="35" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding Valor}" />
+
+                            <Button Grid.Column="1" Style="{DynamicResource FusionDangerButton}" Margin="1" Padding="3"
+                                    Tag="{Binding}" Click="RemoveEmailHandler">
+                                <fa:ImageAwesome Icon="TrashOutline" Height="14"
+                                                 Foreground="{DynamicResource WhiteBrush}" />
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,5,0,0">
+            <Button Style="{DynamicResource FusionAccentedButton}" Click="ClickEnviarHandler">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="SendOutline" Width="14" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Enviar agora" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </DockPanel>
+
+</controls:MetroWindow>

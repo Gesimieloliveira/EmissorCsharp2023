@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal.SatFiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="FinalizaEmissaoSat" table="finaliza_emissao_sat">
+    <id name="NfceId" column="nfce_id">
+      <generator class="foreign">
+        <param name="property">Nfce</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfce" class="FusionCore.FusionNfce.Fiscal.Nfce" constrained="true" cascade="none" />
+
+    <many-to-one name="Empresa" class="FusionCore.FusionNfce.Empresa.EmpresaNfce" column="empresa_id" cascade="none" />
+    
+    <many-to-one name="EmissorFiscal" class="FusionCore.FusionNfce.EmissorFiscal.NfceEmissorFiscal" column="emissorFiscal_id" cascade="none" />
+
+    <property name="NumeroCaixa" not-null="true">
+      <column name="numeroCaixa" not-null="true" />
+    </property>
+
+    <property name="AmbienteSefaz" not-null="true">
+      <column name="ambienteSefaz" not-null="true" />
+    </property>
+
+    <property name="XmlRetorno" not-null="true">
+      <column name="xmlRetorno" sql-type="xml" length="2147483647" not-null="true" />
+    </property>
+
+    <property name="Chave">
+      <column name="chave" not-null="true" length="44" />
+    </property>
+
+    <property name="NumeroDocumento">
+      <column name="numeroDocumento" not-null="true" />
+    </property>
+
+    <property name="CodigoErro">
+      <column name="codigoErro" not-null="true" />
+    </property>
+
+    <property name="CodigoRetorno">
+      <column name="codigoRetorno" not-null="true" />
+    </property>
+
+    <property name="CodigoSefaz">
+      <column name="codigoSefaz" not-null="true" />
+    </property>
+
+    <property name="MensagemRetorno">
+      <column name="mensagemRetorno" not-null="true" />
+    </property>
+
+    <property name="MensagemSefaz">
+      <column name="mensagemSefaz" not-null="true" />
+    </property>
+
+    <property name="NumeroSessao">
+      <column name="numeroSessao" not-null="true" />
+    </property>
+
+    <property name="QrCode">
+      <column name="qrCode" not-null="true" />
+    </property>
+
+  </class>
+</hibernate-mapping>

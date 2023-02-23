@@ -1,0 +1,30 @@
+﻿<controles:FusionWindow x:Class="Fusion.Visao.GerenciadorManifestacoesDestinatarios.JustificativaOperacaoNaoRealizada"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fusion.Visao.GerenciadorManifestacoesDestinatarios"
+        xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" WindowState="Normal"
+        Style="{DynamicResource MetroWindowDialogStyle}"
+        Title="Justificativa" Height="250" Width="800">
+    <DockPanel Margin="5">
+        <StackPanel Margin="0,5,0,0" DockPanel.Dock="Top">
+            <TextBlock Text="Justificativa da Operação não Realizada" />
+            <TextBox 
+                Text="{Binding Justificativa}"
+                Height="150" AcceptsReturn="True"
+                MaxLength="255"/>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Center">
+            <Button
+                Width="180"
+                Style="{DynamicResource FusionAccentedButton}"
+                Content="Adicionar Justificativa" 
+                Click="AdicionarJustificativa_OnClick"
+                />
+        </StackPanel>
+    </DockPanel>
+</controles:FusionWindow>

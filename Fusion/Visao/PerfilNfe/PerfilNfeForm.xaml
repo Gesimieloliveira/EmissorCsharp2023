@@ -1,0 +1,52 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.PerfilNfe.PerfilNfeForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:aba="clr-namespace:Fusion.Visao.PerfilNfe.Aba"
+                      xmlns:l="clr-namespace:Fusion.Visao.PerfilNfe"
+                      mc:Ignorable="d" Width="650"
+                      Title="Formulário de Perfil NF-E"
+                      d:DataContext="{d:DesignInstance l:PerfilNfeFormModel, d:IsDesignTimeCreatable=True}"
+                      WindowStartupLocation="CenterScreen"
+                      SizeToContent="Height" MaxHeight="750"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      Loaded="LoadedHandler">
+
+    <DockPanel Margin="5">
+        <controls:MetroTabControl DockPanel.Dock="Top" MinHeight="460">
+            <controls:MetroTabItem Header="Geral" Focusable="True">
+                <aba:AbaGeral />
+            </controls:MetroTabItem>
+
+            <controls:MetroTabItem Header="Simples Nacional">
+                <aba:AbaSimplesNacional />
+            </controls:MetroTabItem>
+
+            <controls:MetroTabItem Header="Destinatário">
+                <aba:AbaPreDestinatario />
+            </controls:MetroTabItem>
+        </controls:MetroTabControl>
+
+        <Grid Margin="0,5">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <Button
+                    Name="BotaoSalvar"
+                    Style="{DynamicResource FusionAccentedButton}"
+                    Content="Salvar alterações"
+                    Click="OnClickSalvar" />
+
+                <Button
+                    Name="BotaoDeletar"
+                    Margin="25,0,0,0"
+                    Style="{DynamicResource FusionDangerButton}"
+                    Content="Deletar registro"
+                    Click="OnClickDeletar" />
+
+            </StackPanel>
+        </Grid>
+
+    </DockPanel>
+</controls:MetroWindow>

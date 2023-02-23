@@ -1,0 +1,127 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.Pessoa.SubFormularios.EnderecoForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+                      Title="Formulario de endereço"
+                      Height="Auto" Width="746"
+                      SizeToContent="Height"
+                      WindowStartupLocation="CenterScreen"
+                      ResizeMode="NoResize"
+                      Style="{DynamicResource MetroWindowStyle}"
+                      Loaded="LoadedHandler">
+    <Window.Resources>
+        <conversores:CepMaskConverter x:Key="CepMaskConverter" />
+    </Window.Resources>
+
+    <DockPanel LastChildFill="true">
+        <StackPanel DockPanel.Dock="Top">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="7">
+                <RadioButton Content="Principal" GroupName="Endereco" Margin="0,0,15,0"
+                             IsChecked="{Binding Principal, UpdateSourceTrigger=PropertyChanged}" />
+                <RadioButton Content="Entrega" GroupName="Endereco" Margin="0,0,15,0"
+                             IsChecked="{Binding Entrega, UpdateSourceTrigger=PropertyChanged}" />
+                <RadioButton Content="Outros" GroupName="Endereco" Margin="0,0,15,0"
+                             IsChecked="{Binding Outros, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <GroupBox Header="Localização">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0,0,5,0">
+                            <TextBlock Text="CEP" />
+                            <TextBox
+                            Text="{Binding Cep, Converter={StaticResource CepMaskConverter}, UpdateSourceTrigger=PropertyChanged}"
+                            MaxLength="10" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Logradouro" />
+                            <TextBox Text="{Binding Logradouro}" MaxLength="60" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="220" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                            <TextBlock Text="Número" />
+                            <TextBox Text="{Binding Numero}" MaxLength="60" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,5,0">
+                            <TextBlock Text="Bairro" />
+                            <TextBox Text="{Binding Bairro}" MaxLength="60" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,5,0">
+                            <TextBlock Text="UF" />
+                            <ComboBox ItemsSource="{Binding Estados}"
+                                  DisplayMemberPath="Sigla"
+                                  SelectedValuePath="Sigla"
+                                  SelectedItem="{Binding Uf}"
+                                  SelectionChanged="UfSelectionChangedHandler" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="3">
+                            <TextBlock Text="Cidade" />
+
+                            <ComboBox ItemsSource="{Binding Cidades}"
+                                  SelectedItem="{Binding Cidade, Mode=TwoWay}"
+                                  SelectedValuePath="Id"
+                                  SelectedValue="{Binding Cidade.Id}"
+                                  DisplayMemberPath="Nome" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4">
+                            <TextBlock>Complemento</TextBlock>
+                            <TextBox Text="{Binding Complemento}" MaxLength="60" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <StackPanel 
+            controls:VisibilityHelper.IsVisible="{Binding IsPessoaPodeAlterar}"
+            Margin="5"
+            DockPanel.Dock="Bottom"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <Button
+                Content="Confirmar"
+                Width="100"
+                Click="ConfirmarHandler"
+                Style="{DynamicResource FusionAccentedButton}" />
+
+            <Button
+                Content="Excluir"
+                Width="100"
+                Click="DeletarHandler"
+                Style="{DynamicResource FusionDangerButton}"
+                Margin="5,0,0,0" />
+
+            <Button
+                Content="Fechar"
+                Width="100"
+                Click="FecharHandler"
+                Style="{DynamicResource FusionCleanButton}"
+                Margin="5,0,0,0" />
+        </StackPanel>
+    </DockPanel>
+</controls:MetroWindow>

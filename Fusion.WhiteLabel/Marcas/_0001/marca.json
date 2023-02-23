@@ -1,0 +1,16 @@
+﻿{
+  "NomeSoftware": "Sistema EmissorCafé",
+  "TituloMenuGestor": "Sistema EmissorCafé - Gestor",
+  "ImgTituloX48": "titulo-x48.png",
+  "ImgLoginGestor": "adm-login.png",
+  "ImgMarcaGestor": "adm-marca.png",
+  "ImgLoginNfce": "pdv-login.png",
+  "ImgLoginPdv": "nfce-login.png",
+  "CorSoftware": "Cobalt",
+  "NomeAtalhoAdm": "EmissorCafé Gestor",
+  "NomeAtalhoNfce": "EmissorCafé NFCE",
+  "NomeAtalhoPdv": "EmissorCafé PDV",
+  "IconeAtalhoAdm": "icone.ico",
+  "IconeAtalhoNfce": "icone.ico",
+  "IconeAtalhoPdv": "icone.ico"
+}

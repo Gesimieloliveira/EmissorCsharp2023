@@ -1,0 +1,263 @@
+﻿<fcontrols:FusionWindow x:Class="Fusion.Visao.Pessoa.PessoaForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:tab="clr-namespace:Fusion.Visao.Pessoa.Aba"
+                      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+                      xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                      xmlns:pessoas="clr-namespace:FusionCore.FusionAdm.Pessoas;assembly=FusionCore"
+                      xmlns:flyouts="clr-namespace:Fusion.Visao.Pessoa.Flyouts"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:fcontrols="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                      mc:Ignorable="d"
+                      Title="Formulário de pessoa" Height="550" Width="968"
+                      WindowStartupLocation="CenterScreen"
+                      ResizeMode="NoResize"
+                      Style="{DynamicResource MetroWindowStyle}"
+                      FocusManager.FocusedElement="{Binding ElementName=TbNome}"
+                      Loaded="OnLoaded">
+
+    <controls:MetroWindow.Resources>
+        <conversores:TelefoneMaskConverter x:Key="TelefoneMaskConverter" />
+    </controls:MetroWindow.Resources>
+
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <flyouts:PessoaEmailFlyout DataContext="{Binding PessoaEmailModel}" />
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+
+    <AdornerDecorator>
+        <DockPanel LastChildFill="True" Margin="5">
+            <StackPanel controls:VisibilityHelper.IsCollapsed="{Binding IsNovo}" DockPanel.Dock="Top">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <controls:ToggleSwitch 
+                        OnContent="Ativo" OffContent="Inativo" IsOn="{Binding Ativo}" />
+                </StackPanel>
+            </StackPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="230" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Height="440">
+
+                    <GroupBox Header="Definição">
+                        <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Column="0" Grid.Row="0">
+                                    <TextBlock Text="Tipo" />
+
+                                    <ComboBox
+                                        Focusable="False"
+                                        ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type pessoas:PessoaTipo}}}"
+                                        SelectedValue="{Binding Tipo}"
+                                        IsEditable="False"
+                                        SelectionChanged="ChangeTipoHandler" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Grid.Row="0" Margin="5,0,0,0">
+                                    <TextBlock Text="Nome (nfe utiliza apenas os 60 primeiros caracteres)" />
+
+                                    <TextBox
+                                        Text="{Binding Nome, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                        MaxLength="80"
+                                        x:Name="TextBoxNome" />
+                                </StackPanel>
+
+                                <DockPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,15,0,0">
+                                    <controls:MetroTabControl DockPanel.Dock="Top" x:Name="TabControlTipo" 
+                                                controls:TabControlHelper.UnderlinePlacement="Bottom">
+                                        
+                                        <controls:MetroTabControl.Resources>
+                                            <Style TargetType="controls:MetroTabItem" BasedOn="{StaticResource {x:Type TabItem}}"
+                                                   x:Key="TabPessoaFisica">
+                                                <Setter Property="controls:VisibilityHelper.IsVisible" Value="False" />
+
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Tipo, Mode=OneWay}"
+                                                                 Value="{x:Static pessoas:PessoaTipo.Fisica}">
+                                                        <Setter Property="controls:VisibilityHelper.IsVisible"
+                                                                Value="True" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+
+                                            <Style TargetType="controls:MetroTabItem" BasedOn="{StaticResource {x:Type controls:MetroTabItem}}"
+                                                   x:Key="TabPessoaJuridica">
+                                                <Setter Property="controls:VisibilityHelper.IsVisible" Value="False" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Tipo, Mode=OneWay}"
+                                                                 Value="{x:Static pessoas:PessoaTipo.Juridica}">
+                                                        <Setter Property="controls:VisibilityHelper.IsVisible"
+                                                                Value="True" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+
+                                            <Style TargetType="controls:MetroTabItem" BasedOn="{StaticResource {x:Type controls:MetroTabItem}}"
+                                                   x:Key="TabPessoaEx">
+                                                <Setter Property="controls:VisibilityHelper.IsVisible" Value="False" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Tipo, Mode=OneWay}"
+                                                                 Value="{x:Static pessoas:PessoaTipo.Extrangeiro}">
+                                                        <Setter Property="controls:VisibilityHelper.IsVisible"
+                                                                Value="True" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </controls:MetroTabControl.Resources>
+
+                                        <controls:MetroTabItem Header="Pessoa Física" Style="{DynamicResource TabPessoaFisica}">
+                                            <tab:PessoaFisicaAba
+                                                controls:VisibilityHelper.IsVisible="{Binding IsVisible, RelativeSource={RelativeSource FindAncestor, AncestorType=TabItem}}" />
+                                        </controls:MetroTabItem>
+
+                                        <controls:MetroTabItem Header="Pessoa Juridica" Style="{DynamicResource TabPessoaJuridica}">
+                                            <tab:PessoaJuridicaAba
+                                                controls:VisibilityHelper.IsVisible="{Binding IsVisible, RelativeSource={RelativeSource FindAncestor, AncestorType=TabItem}}" />
+                                        </controls:MetroTabItem>
+
+                                        <controls:MetroTabItem Header="Extrangeiro" Style="{DynamicResource TabPessoaEx}">
+                                            <tab:PessoaExtrangeiroAba
+                                                controls:VisibilityHelper.IsVisible="{Binding IsVisible, RelativeSource={RelativeSource FindAncestor, AncestorType=TabItem}}" />
+                                        </controls:MetroTabItem>
+
+                                        <controls:MetroTabItem Header="Cliente"
+                                                               controls:VisibilityHelper.IsVisible="{Binding IsCliente}">
+                                            <tab:PessoaClienteAba
+                                                controls:VisibilityHelper.IsVisible="{Binding IsVisible, RelativeSource={RelativeSource FindAncestor, AncestorType=TabItem}}" />
+                                        </controls:MetroTabItem>
+
+                                        <controls:MetroTabItem Header="Transportadora"
+                                                               controls:VisibilityHelper.IsVisible="{Binding IsTransportadora}">
+                                            <tab:PessoaTransportadoraAba
+                                                controls:VisibilityHelper.IsVisible="{Binding IsVisible, RelativeSource={RelativeSource FindAncestor, AncestorType=TabItem}}" />
+                                        </controls:MetroTabItem>
+
+                                        <controls:MetroTabItem Header="Enderecos">
+                                            <tab:PessoaEnderecoAba
+                                                controls:VisibilityHelper.IsVisible="{Binding IsVisible, RelativeSource={RelativeSource FindAncestor, AncestorType=TabItem}}" />
+                                        </controls:MetroTabItem>
+
+                                        <controls:MetroTabItem Header="E-mails">
+                                            <tab:PessoaEmailAba
+                                                controls:VisibilityHelper.IsVisible="{Binding IsVisible, RelativeSource={RelativeSource FindAncestor, AncestorType=TabItem}}" />
+                                        </controls:MetroTabItem>
+                                    </controls:MetroTabControl>
+                                </DockPanel>
+                            </Grid>
+                        </DockPanel>
+                    </GroupBox>
+
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Height="440">
+                    <StackPanel>
+                        <GroupBox Header="Extensão">
+                            <StackPanel Orientation="Vertical">
+                                <CheckBox Content="Cliente"
+                                          IsChecked="{Binding IsCliente}"
+                                          Focusable="False"
+                                          IsEnabled="{Binding IsClienteEnable}" />
+
+                                <CheckBox Margin="0,5,0,0"
+                                          Content="Transportadora"
+                                          IsChecked="{Binding IsTransportadora}"
+                                          IsEnabled="{Binding IsTransportadoraEnable}"
+                                          Focusable="False" />
+
+                                <CheckBox Margin="0,5,0,0"
+                                          Content="Fornecedor"
+                                          IsChecked="{Binding IsFornecedor}"
+                                          Focusable="False"
+                                          IsEnabled="{Binding IsFornecedorEnable}" />
+
+                                <CheckBox Margin="0,5,0,0"
+                                          Content="Vendedor"
+                                          IsChecked="{Binding IsVendedor}"
+                                          Focusable="False"
+                                          IsEnabled="{Binding IsVendedorEnable}" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+
+                    <GroupBox Header="Telefones">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0,0,0,5" controls:VisibilityHelper.IsVisible="{Binding IsPessoaAlterar}">
+                                <Button Content="Adicionar" Width="100" Click="AdicionarTelefoneHandler"
+                                        Focusable="False" />
+                            </StackPanel>
+
+                            <ListBox BorderBrush="Transparent" DockPanel.Dock="Top"
+                                     Focusable="False"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ItemsSource="{Binding Telefones, Mode=OneWay}"
+                                     SelectedItem="{Binding TelefoneSelecionado}">
+
+
+                                <ListBox.Resources>
+                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                        <EventSetter Event="MouseDoubleClick" Handler="EditarTelefoneHandler" />
+                                    </Style>
+                                </ListBox.Resources>
+
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel HorizontalAlignment="Stretch">
+                                            <Border DockPanel.Dock="Left" Width="35">
+                                                <Button 
+                                                    Padding="0" Margin="4"
+                                                    Style="{DynamicResource FusionDangerButton}" 
+                                                    Click="ExcluirTelefoneClickHandler"
+                                                    Tag="{Binding}">
+
+                                                    <StackPanel HorizontalAlignment="Center">
+                                                        <fa:ImageAwesome Width="14" Icon="TrashOutline" Foreground="{DynamicResource WhiteBrush}" />
+                                                    </StackPanel>
+                                                </Button>
+
+                                            </Border>
+
+                                            <StackPanel HorizontalAlignment="Left" Focusable="False">
+                                                <TextBlock Text="{Binding Descricao}" />
+                                                <TextBlock
+                                                    Text="{Binding Numero, Converter={StaticResource TelefoneMaskConverter}}" />
+                                            </StackPanel>
+
+                                        </DockPanel>    
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DockPanel>
+                    </GroupBox>
+                </StackPanel>
+            </Grid>
+
+            <DockPanel Dock="Top" Background="{DynamicResource AccentColorBrush4}">
+                <Button
+                    Name="BotaoSalvar"
+                    VerticalAlignment="Center"
+                    Style="{DynamicResource FusionAccentedButton}" 
+                    Click="OnClickSalvar"
+                    controls:VisibilityHelper.IsVisible="{Binding IsPessoaAlterar}"
+                    Content="Salvar alterações" 
+                    Width="150" />
+
+            </DockPanel>
+        </DockPanel>
+    </AdornerDecorator>
+</fcontrols:FusionWindow>

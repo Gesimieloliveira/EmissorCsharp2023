@@ -1,0 +1,286 @@
+﻿<UserControl x:Class="Fusion.Visao.CteEletronicoOs.Emitir.Aba.AbaServicoSeguroRodoviario"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:lista="clr-namespace:Fusion.Visao.CteEletronicoOs.Emitir.Aba.ListasServicoSeguroRodoviario"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             xmlns:vm="clr-namespace:Fusion.Visao.CteEletronicoOs.Emitir.Aba.Model"
+             xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+             mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="600"
+             d:DataContext="{d:DesignInstance vm:AbaServicoSeguroRodoOsModel}"
+             Background="{StaticResource WhiteBrush}">
+    
+    <UserControl.Resources>
+        <system:Double x:Key="WidthButtonTile">120</system:Double>
+        <system:Double x:Key="HeightButtonTile">60</system:Double>
+        <system:Int32 x:Key="FontSizeTile">14</system:Int32>
+        <system:Double x:Key="GridContentHeight">250</system:Double>
+
+        <Style TargetType="ComboBox" BasedOn="{StaticResource FusionComboBox}">
+            <Setter Property="IsEditable" Value="False" />
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel LastChildFill="False">
+        <!-- grid-content -->
+        <DockPanel Dock="Top" Height="{StaticResource GridContentHeight}">
+            <StackPanel DockPanel.Dock="Left" Width="150">
+                <StackPanel.Resources>
+                    <Style TargetType="controls:Tile" BasedOn="{StaticResource {x:Type controls:Tile}}">
+                        <Setter Property="Height" Value="{DynamicResource HeightButtonTile}" />
+                        <Setter Property="Width" Value="{DynamicResource WidthButtonTile}" />
+                        <Setter Property="FontSize" Value="{DynamicResource FontSizeTile}" />
+                        <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                    </Style>
+                </StackPanel.Resources>
+
+                <controls:Tile Title="Adicionar Seguro" Command="{Binding CommandAdicionarSeguro}" />
+                <controls:Tile Title="Adicionar Percurso" Command="{Binding CommandAdicionarPercurso}" />
+                <controls:Tile Title="Comp. Valor Prestação" Command="{Binding CommandComponenteValorPrestacao}" />
+                <controls:Tile Title="Documento Referenciado" Command="{Binding CommandDocumentoReferenciado}" />
+            </StackPanel>
+
+            <DockPanel DockPanel.Dock="Left" Margin="0,0,0,10">
+                <ScrollViewer Margin="0,0,0,3">
+                    <StackPanel>
+                        <Expander Header="Seguros" IsExpanded="False">
+                            <lista:ListaSeguro />
+                        </Expander>
+
+                        <Expander Header="Percurso" IsExpanded="False">
+                            <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding Percursos}" SelectedItem="{Binding PercursoSelecionado}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="40">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Button Style="{DynamicResource FusionDangerButton}" ClickMode="Release" Click="ClickRemovePercurso">
+                                                        <fa:ImageAwesome Width="14" Height="14" Icon="TrashOutline"
+                                                                         Foreground="{DynamicResource WhiteBrush}" />
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTextColumn Header="UF - Percurso" Binding="{Binding Estado}" Width="*" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Expander>
+
+                        <Expander Header="Componente Valor Prestação" IsExpanded="False">
+                            <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding Componentes}" SelectedItem="{Binding ComponenteSelecionado}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="40">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Button Style="{DynamicResource FusionDangerButton}" ClickMode="Release" Click="DeletaComponenteSelecionado">
+                                                        <fa:ImageAwesome Width="14" Height="14" Icon="TrashOutline"
+                                                                         Foreground="{DynamicResource WhiteBrush}" />
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTextColumn Header="Nome do componente" Width="Auto"
+                                                        Binding="{Binding Componente.Nome}" />
+
+                                    <DataGridTextColumn Header="Valor do componente" Width="Auto"
+                                                        helpers:DataGridColumnHelper.Align="Right"
+                                                        Binding="{Binding Componente.Valor, StringFormat=N2}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Expander>
+
+                        <Expander Header="Documentos Referenciados" IsExpanded="False">
+                            <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding DocumentosReferenciados}" SelectedItem="{Binding DocumentoReferenciadoSelecionado}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="40">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Button Style="{DynamicResource FusionDangerButton}" ClickMode="Release" Click="DeletaDocumentoReferenciadoSelecionado">
+                                                        <fa:ImageAwesome Width="14" Height="14" Icon="TrashOutline"
+                                                                         Foreground="{DynamicResource WhiteBrush}" />
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTextColumn Header="Número" Width="*"
+                                                        Binding="{Binding DocumentoReferenciado.Numero}" />
+
+                                    <DataGridTextColumn Header="Série" Width="100"
+                                                        Binding="{Binding DocumentoReferenciado.Serie, StringFormat=D3}" />
+
+                                    <DataGridTextColumn Header="SubSérie" Width="100"
+                                                        Binding="{Binding DocumentoReferenciado.SubSerie, StringFormat=D3}"></DataGridTextColumn>
+
+                                    <DataGridTextColumn Header="Emitida Em" Width="150"
+                                                        helpers:DataGridColumnHelper.Align="Center"
+                                                        Binding="{Binding DocumentoReferenciado.EmitidaEm, StringFormat=d}"></DataGridTextColumn>
+
+                                    <DataGridTextColumn Header="Valor" Width="150"
+                                                        helpers:DataGridColumnHelper.Align="Right"
+                                                        Binding="{Binding DocumentoReferenciado.Valor, StringFormat=C}"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Expander>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </DockPanel>
+
+
+        <StackPanel DockPanel.Dock="Bottom" MinHeight="42">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                    <Button Height="40" Focusable="False" Command="{Binding CommandPassoAnterior}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Height="20" Icon="ArrowLeft" />
+                            <TextBlock Text="Passo Anterior" Margin="10,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                    <Button Height="40" Style="{DynamicResource FusionSuccessButton}" Command="{Binding CommandEmitir}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Height="20" Icon="SendOutline" Foreground="White" />
+                            <TextBlock Text="Finalizar" Margin="5,0,0,0" Foreground="White" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <GroupBox Header="Informações do Modal Rodoviário OS e Informações do CT-e" DockPanel.Dock="Bottom" Height="90">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Margin="-5,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Column="0" Grid.Row="0" Margin="5,0,5,0">
+                        <TextBlock>Termo de Autorização de Fretamento – TAF</TextBlock>
+                        <TextBox Text="{Binding Taf, UpdateSourceTrigger=LostFocus}" MaxLength="12" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,0,5,0">
+                        <TextBlock>Número do Registro Estadual</TextBlock>
+                        <TextBox Text="{Binding NumeroRegistroEstadual, UpdateSourceTrigger=LostFocus}" MaxLength="25" />
+                    </StackPanel>
+                </Grid>
+
+                <Grid Margin="-5,0,0,0" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Column="0" Grid.Row="0" Margin="5,0,5,0">
+                        <TextBlock>Descrição do Serviço prestado</TextBlock>
+                        <TextBox Text="{Binding DescricaoServicoPrestado, UpdateSourceTrigger=LostFocus}"
+                                 MaxLength="30" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,0,5,0">
+                        <TextBlock>Quantidade de Passageiros/Volumes</TextBlock>
+                        <controles:DecimalTextBox
+                            Text="{Binding QuantidadePassageirosOuVolumes, StringFormat=N4, UpdateSourceTrigger=LostFocus}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Veículo" DockPanel.Dock="Bottom" Height="Auto">
+            <StackPanel>
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Content="Vincular veículo" Style="{DynamicResource FusionAccentedButton}"
+                                Command="{Binding CommandAdicionarVeiculo}" />
+
+                        <Button Margin="5,0,0,0" Content="Desvincular veículo"
+                                Style="{DynamicResource FusionWarningButton}" Command="{Binding CommandLimparVeiculo}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Margin="0,0,5,0">
+                        <TextBlock>Placa</TextBlock>
+                        <TextBox IsReadOnly="True" Text="{Binding Veiculo.Placa}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                        <TextBlock>RENAVAM</TextBlock>
+                        <TextBox IsReadOnly="True" Text="{Binding Veiculo.Renavam}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock>UF</TextBlock>
+                        <TextBox IsReadOnly="True" Text="{Binding Veiculo.SiglaUf}" />
+                    </StackPanel>
+
+                </Grid>
+
+                <Border Margin="0,10,0,0" BorderThickness="0,.5,0,0" BorderBrush="{DynamicResource AccentColorBrush}">
+                    <StackPanel>
+                        <TextBlock
+                            Text="Proprietário do veículo"
+                            Foreground="{DynamicResource AccentColorBrush2}"
+                            FontSize="13" FontWeight="Bold" TextAlignment="Center" />
+
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="7*" />
+                                    <ColumnDefinition Width="3*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Margin="0,0,5,0">
+                                    <TextBlock>Razão Social/Nome</TextBlock>
+                                    <TextBox IsReadOnly="True" Text="{Binding VeiculoNomeProprietario}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock>Documento Único</TextBlock>
+                                    <TextBox IsReadOnly="True" Text="{Binding VeiculoDocumentoUnicoProprietario}" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </GroupBox>
+    </DockPanel>
+</UserControl>

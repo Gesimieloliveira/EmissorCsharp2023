@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal.SatFiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="HistoricoEnvioSat" table="historico_envio_sat">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="Nfce" column="nfce_id" class="FusionCore.FusionNfce.Fiscal.Nfce" cascade="none" not-null="true" />
+    <many-to-one name="Empresa" column="empresa_id" class="FusionCore.FusionNfce.Empresa.EmpresaNfce" cascade="none" not-null="true"/>
+
+    <property name="NumeroCaixa">
+      <column name="numeroCaixa" not-null="true" />
+    </property>
+
+    <property name="AmbienteSefaz">
+      <column name="ambienteSefaz" not-null="true" />
+    </property>
+
+    <property name="XmlEnvio">
+      <column name="xmlEnvio" sql-type="xml" length="2147483647" not-null="true" />
+    </property>
+
+    <property name="Finalizou">
+      <column name="finalizou" not-null="true" />
+    </property>
+
+    <property name="CodigoErro" not-null="true">
+      <column name="codigoErro" not-null="true"/>
+    </property>
+
+    <property name="CodigoRetorno" not-null="true">
+      <column name="codigoRetorno" not-null="true"/>
+    </property>
+
+    <property name="CodigoSefaz" not-null="true">
+      <column name="codigoSefaz" not-null="true"/>
+    </property>
+
+    <property name="MensagemRetorno" not-null="true">
+      <column name="mensagemRetorno" not-null="true"/>
+    </property>
+
+    <property name="MensagemSefaz" not-null="true">
+      <column name="mensagemSefaz" not-null="true"/>
+    </property>
+
+    <property name="NumeroSessao" not-null="true">
+      <column name="numeroSessao" not-null="true"/>
+    </property>
+    
+  </class>
+</hibernate-mapping>

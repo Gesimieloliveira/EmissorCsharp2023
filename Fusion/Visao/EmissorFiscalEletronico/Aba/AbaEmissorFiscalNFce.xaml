@@ -1,0 +1,147 @@
+﻿<UserControl x:Class="Fusion.Visao.EmissorFiscalEletronico.Aba.AbaEmissorFiscalNFce"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+             xmlns:flags="clr-namespace:FusionCore.FusionAdm.Fiscal.Flags;assembly=FusionCore"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             mc:Ignorable="d"
+             d:DesignWidth="700"
+             Height="Auto"
+             Background="{StaticResource WhiteBrush}">
+
+    <DockPanel LastChildFill="true">
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="390" />
+                </Grid.ColumnDefinitions>
+
+                <GroupBox Header="Serie/Numeração atual">
+                    <AdornerDecorator>
+                        <StackPanel>
+                            <TextBlock Text="Serie" />
+                            <TextBox
+                                Text="{Binding SerieNfce, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                MaxLength="3" wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" />
+
+                            <TextBlock Text="Número Atual" />
+                            <TextBox
+                                Text="{Binding NumeroAtualNfce, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                MaxLength="9"
+                                wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" />
+                        </StackPanel>
+                    </AdornerDecorator>
+                </GroupBox>
+
+                <GroupBox Grid.Column="1" Header="Contingência TipoEmissao">
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Left" Text="Utilizar númeração diferenciada para contigência"
+                                       VerticalAlignment="Center" />
+
+                            <controls:ToggleSwitch
+                                DockPanel.Dock="Right"
+                                ContentPadding="35,0,0,0"
+                                IsOn="{Binding UsaNumeracaoDiferenteContigencia, UpdateSourceTrigger=PropertyChanged}"
+                                OnContent="Sim" OffContent="Não" />
+                        </DockPanel>
+
+                        <StackPanel Margin="0,10,0,0" IsEnabled="{Binding UsaNumeracaoDiferenteContigencia}">
+                            <TextBlock Text="Serie de Contingência" />
+                            <TextBox
+                                Text="{Binding SerieContingenciaNfce, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                MaxLength="3" wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" />
+
+                            <TextBlock Text="Número Atual de Contingência" />
+                            <TextBox
+                                Text="{Binding NumeroAtualContingenciaNfce, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                MaxLength="9"
+                                wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" />
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+
+            <GroupBox Header="Configurações Sefaz">
+                <AdornerDecorator>
+                    <StackPanel>
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="200"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel>
+                                    <TextBlock 
+                                        TextAlignment="Center"
+                                        FontWeight="Bold"
+                                        Foreground="{StaticResource DangerBrush}"
+                                        Padding="2"
+                                        controls:VisibilityHelper.IsVisible="{Binding MensagemEdicaoAmbiente}"
+                                        TextWrapping="Wrap">
+                                        <Run Text="Confira a Série, Número Atual, Série Contingência, ID Token é CSC!!!"></Run>
+                                        <LineBreak />
+                                        <Run Text="Essas informações mudam com a alteração do Ambiente!!"></Run>
+                                    </TextBlock>
+                                    <TextBlock Text="Ambiente" />
+                                    <ComboBox
+                                        IsEditable="False"
+                                        IsEnabled="{Binding EditarAmbiente}"
+                                        SelectedValue="{Binding AmbienteNfce, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                        SelectedValuePath="Tag">
+                                        <ComboBoxItem Tag="{x:Static flags:TipoAmbiente.Producao}" Content="Produção" />
+                                        <ComboBoxItem Tag="{x:Static flags:TipoAmbiente.Homologacao}" Content="Homologação" />
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <StackPanel 
+                                    controls:VisibilityHelper.IsCollapsed="{Binding Editar, Converter={conversores:InverseBooleanConverter}}"
+                                    Margin="5 0, 0,0"
+                                    Grid.Column="1" VerticalAlignment="Bottom">
+                                    <Button 
+                                        Click="HabilitarEdicaoAmbiente_OnClick"
+                                        Style="{DynamicResource FusionSuccessButton}" Width="200" HorizontalAlignment="Center">Habilitar Edição Ambiente</Button>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <TextBlock>ID Token</TextBlock>
+                        <TextBox
+                            Text="{Binding IdToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, TargetNullValue=''}"
+                            wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" MaxLength="6" />
+
+                        <TextBlock>CSC (Código de Segurança do Contribuiente)</TextBlock>
+                        <TextBox
+                            Text="{Binding Csc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                            MaxLength="36" CharacterCasing="Normal" />
+
+                        <Grid DockPanel.Dock="Top" Margin="0,5,0,0" Background="{DynamicResource GrayBrush8}"
+                              IsEnabled="{Binding NaoEditar}">
+                            <DockPanel DockPanel.Dock="Top" Margin="5,0">
+                                <TextBlock Text="Esse NFC-e é um Integrador Fiscal (Estado do Ceará) ?" FontSize="14" VerticalAlignment="Center" />
+                                <controls:ToggleSwitch 
+                                    OnContent="Sim" OffContent="Não" IsOn="{Binding IsIntegradorCeara}" HorizontalAlignment="Right"
+                                                       ContentDirection="LeftToRight" />
+                            </DockPanel>
+                        </Grid>
+                        <Grid DockPanel.Dock="Top" Margin="0,5,0,0" Background="{DynamicResource GrayBrush8}"
+                              IsEnabled="{Binding NaoEditar}">
+                            <DockPanel DockPanel.Dock="Top" Margin="5,0">
+                                <TextBlock Text="Esse NFC-e é um Faturamento ?" FontSize="14" VerticalAlignment="Center" />
+                                <controls:ToggleSwitch 
+                                    OnContent="Sim" OffContent="Não" IsOn="{Binding IsFaturamento}" HorizontalAlignment="Right"
+                                    ContentDirection="LeftToRight" />
+                            </DockPanel>
+                        </Grid>
+                    </StackPanel>
+                </AdornerDecorator>
+            </GroupBox>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

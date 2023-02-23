@@ -1,0 +1,91 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.MdfeEletronico.Emissao.AutorizacaoMdfeView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:local="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Emissao"
+                      xmlns:c="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+                      mc:Ignorable="d" Height="200" Width="600"
+                      Title="Emissão de Nota Fiscal Eletronica"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      WindowStartupLocation="CenterScreen"
+                      ShowCloseButton="{Binding EmProcessamento, Converter={c:InverseBooleanConverter}}"
+                      d:DataContext="{d:DesignInstance local:AutorizacaoNfeModel}"
+                      ShowSystemMenuOnRightClick="False"
+                      ShowIconOnTitleBar="False">
+
+    <DockPanel Margin="10,0" LastChildFill="True">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="46" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="80" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel VerticalAlignment="Center">
+                <fa:ImageAwesome Width="40">
+                    <fa:ImageAwesome.Style>
+                        <Style TargetType="fa:ImageAwesome">
+                            <Setter Property="Foreground" Value="{DynamicResource GrayBrush2}" />
+                            <Setter Property="Icon" Value="InfoCircle" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TipoNotificacao}"
+                                             Value="{x:Static local:TipoNotificacao.Sucesso}">
+                                    <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush2}" />
+                                    <Setter Property="Icon" Value="CheckCircle" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TipoNotificacao}"
+                                             Value="{x:Static local:TipoNotificacao.Erro}">
+                                    <Setter Property="Foreground" Value="{DynamicResource ValidationSummaryColor2}" />
+                                    <Setter Property="Icon" Value="TimesCircle" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </fa:ImageAwesome.Style>
+                </fa:ImageAwesome>
+            </StackPanel>
+
+            <TextBlock Grid.Row="0" Grid.Column="1" FontSize="13"
+                       Foreground="{DynamicResource GrayBrush3}"
+                       Text="{Binding Path=TextoNotificacao}"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Center" />
+
+            <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
+                <controls:ProgressRing controls:VisibilityHelper.IsVisible="{Binding EmProcessamento}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Margin="0,0,0,8">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding EmProcessamento}" Value="True">
+                                <Setter Property="controls:VisibilityHelper.IsCollapsed" Value="True" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding HabilitaCorrecaoDuplicidade}" Value="False">
+                                <Setter Property="controls:VisibilityHelper.IsCollapsed" Value="True" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Autorizar a NF-e com próximo número?" VerticalAlignment="Center" />
+                        <Button Margin="5,0,0,0" Style="{DynamicResource FusionAccentedButton}"
+                                Click="OnClickAutorizaComProximoNumero"
+                                Content="Sim" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</controls:MetroWindow>

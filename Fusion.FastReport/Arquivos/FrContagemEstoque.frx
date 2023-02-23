@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="07/24/2019 11:03:19" ReportInfo.CreatorVersion="2016.3.22.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+  }
+}</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqKCvV1eox1mENjGvfrbFtX9jJwaCsZhZzrZOJOIPNm68pMOUwC/RfP3VXnBwmK7kfRTZyvWxDmx+Gbm9NKj6GYmueuduy+PY4/YxYXYyU8MLlj3DoNo8IyUH2Oz7/fFeXLQ/nB+8ft4CXhec2rsZiNgIPdJrUzuHe3pDo6zuyCbAdi9uWyQP1Ofr1/8/sVaCGv6SBExzNNom0eKBErg8XpQ==">
+      <TableDataSource Name="Table" Alias="Estoque" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	prod.id,&#13;&#10;	prod.nome,&#13;&#10;	prod.referencia,&#13;&#10;	pest.estoque as estoque,&#13;&#10;	pest.estoqueReservado as estoqueReservado,&#13;&#10;	pest.estoque + pest.estoqueReservado as estoqueTotal&#13;&#10;from produto_estoque pest&#13;&#10;inner join produto prod on pest.produto_id = prod.id&#13;&#10;where prod.ativo = 1">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="referencia" DataType="System.String"/>
+        <Column Name="estoque" DataType="System.Decimal"/>
+        <Column Name="estoqueReservado" DataType="System.Decimal"/>
+        <Column Name="estoqueTotal" DataType="System.Decimal"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Relation Name="produto_grupo_Table11" ParentDataSource="null" ChildDataSource="null" ParentColumns="id" ChildColumns="grupoId" Enabled="true"/>
+  </Dictionary>
+  <ReportPage Name="Page1" RawPaperSize="9">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="66.15" Border.Lines="Bottom">
+      <TextObject Name="Text22" Left="168.21" Top="3.78" Width="549.99" Height="18.9" Text="Relatório de produtos ativos para contagem de estoque" HorzAlign="Right" Font="Arial, 12pt, style=Bold"/>
+      <TextObject Name="Text23" Left="168.21" Top="24.57" Width="549.99" Height="18.9" Text="Apenas produtos ativos" HorzAlign="Right" Font="Arial, 11pt"/>
+      <TextObject Name="Text24" Left="168.21" Top="43.47" Width="549.99" Height="17.01" Text="Impresso em: [Date]" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+    </ReportTitleBand>
+    <DataBand Name="Data1" Top="104.61" Width="718.2" Height="37.8" Border.Lines="Top, Bottom" Border.Width="0.25" CanGrow="true" CanShrink="true" CanBreak="true" DataSource="Table">
+      <TextObject Name="Text1" Left="1.89" Top="1.89" Width="49.14" Height="13.23" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[Estoque.id]" Format="Custom" Format.Format="0000" HorzAlign="Center" VertAlign="Center" Font="Arial, 7pt"/>
+      <TextObject Name="Text3" Left="51.03" Top="1.89" Width="272.16" Height="13.23" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[Estoque.nome]" VertAlign="Center" Font="Arial, 7pt"/>
+      <TextObject Name="Text5" Left="323.19" Top="1.89" Width="111.51" Height="13.23" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[Estoque.referencia]" VertAlign="Center" Font="Arial, 7pt"/>
+      <TextObject Name="Text7" Left="434.7" Top="1.89" Width="69.93" Height="13.23" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[Estoque.estoque]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text9" Left="504.63" Top="1.89" Width="69.93" Height="13.23" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[Estoque.estoqueReservado]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text11" Left="574.56" Top="1.89" Width="73.71" Height="13.23" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[Estoque.estoqueTotal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter"/>
+      <DataHeaderBand Name="DataHeader1" Top="68.37" Width="718.2" Height="34.02">
+        <TextObject Name="Text2" Left="1.89" Width="49.14" Height="22.68" Text="Cod/ID" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text4" Left="51.03" Width="272.16" Height="22.68" Text="Nome do produto" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text6" Left="323.19" Width="111.51" Height="22.68" Text="Referência" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text8" Left="434.7" Width="69.93" Height="22.68" Text="Estoque" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text10" Left="504.63" Width="69.93" Height="22.68" Text="Reserva" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text12" Left="574.56" Width="73.71" Height="22.68" Text="Atual" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text13" Left="648.27" Width="69.93" Height="22.68" Text="Contagem" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      </DataHeaderBand>
+      <Sort>
+        <Sort Expression="[Estoque.nome]"/>
+      </Sort>
+    </DataBand>
+  </ReportPage>
+</Report>

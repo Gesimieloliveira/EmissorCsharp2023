@@ -1,0 +1,70 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.DocumentoAPagar.Lancamentos.Flyouts.FlyoutAdicionaValor"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:local="clr-namespace:Fusion.Visao.DocumentoAPagar.Lancamentos.Flyouts"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+                 xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                 mc:Ignorable="d"
+                 Header="Novo pagamento"
+                 Position="Right"
+                 Theme="Adapt"
+                 d:DataContext="{d:DesignInstance local:FlyoutAdicionaValorModel}"
+                 IsOpen="{Binding IsOpen}"
+                 IsModal="True"
+                 Width="450">
+
+    <DockPanel Margin="5">
+        <DockPanel DockPanel.Dock="Top">
+            <TextBlock FontSize="16" FontWeight="SemiBold" Text="Código/ID do documento:" />
+
+            <TextBlock
+                TextAlignment="Right"
+                FontSize="16" FontWeight="SemiBold"
+                Text="{Binding Id, StringFormat=D8}" />
+
+        </DockPanel>
+
+        <DockPanel DockPanel.Dock="Top">
+            <TextBlock FontSize="16" FontWeight="SemiBold" Text="Valor restante para quitação:" />
+
+            <TextBlock
+                TextAlignment="Right"
+                FontSize="16" FontWeight="SemiBold"
+                Text="{Binding ValorRestante, StringFormat=N2}" />
+
+        </DockPanel>
+
+        <Separator DockPanel.Dock="Top" Margin="0,10,0,20" />
+
+        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Center">
+            <TextBlock Text="Qual valor quer pagar?" />
+            <controles:DecimalTextBox
+                TabIndex="0"
+                Text="{Binding ValorPagamento, StringFormat=N2, TargetNullValue=''}"
+                wpf:TextBoxAcceptHelper.AcceptDecimalFormat="True" />
+        </StackPanel>
+
+        <StackPanel Margin="0,5,0,0" DockPanel.Dock="Top" VerticalAlignment="Center">
+            <TextBlock Text="Histórico para lançamento (opicional)" />
+            <TextBox TabIndex="1" Text="{Binding Historico}" />
+        </StackPanel>
+
+        <DockPanel DockPanel.Dock="Top" Margin="0,5,0,0">
+            <TextBlock Text="Marcar documento como pago?" VerticalAlignment="Center" />
+            <controls:ToggleSwitch TabIndex="2" IsOn="{Binding MarcarComoQuitado}" OnContent="Sim" OffContent="Não"
+                                   Margin="0" />
+        </DockPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+            <Button
+                TabIndex="99"
+                Width="175"
+                Style="{DynamicResource FusionAccentedButton}"
+                Content="Adicionar pagamento"
+                Click="OnClickAdicionarPagamento" />
+        </StackPanel>
+    </DockPanel>
+</controls:Flyout>

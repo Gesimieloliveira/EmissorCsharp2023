@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.GerenciarManifestacoesEletronicas"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+    <class name="ItemDistribuicaoDFe" table="mde_distribuicao_item">
+        <id name="Id" column="id">
+            <generator class="identity" />
+        </id>
+
+        <many-to-one name="Distribuicao" cascade="none" update="false">
+            <column name="mdeDistribuicao_id" not-null="true" />
+        </many-to-one>
+
+        <property name="XmlDescompactado" column="xmlDescompactado" not-null="true" length="2147483647" update="false" />
+        <property name="Nsu" column="nsu" not-null="true" update="false" />
+        <property name="NomeSchema" column="nomeSchema" not-null="true" update="false" />
+        <property name="TipoDfe" column="tipoDfe" not-null="true" update="false" />
+        <property name="TipoEvento" column="tipoEvento" not-null="false" update="false" />
+        <property name="Processado" column="processado" not-null="true" />
+    </class>
+</hibernate-mapping>

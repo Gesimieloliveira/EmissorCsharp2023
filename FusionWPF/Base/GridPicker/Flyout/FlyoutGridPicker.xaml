@@ -1,0 +1,32 @@
+﻿<controls:Flyout x:Class="FusionWPF.Base.GridPicker.Flyout.FlyoutGridPicker"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 mc:Ignorable="d" d:DesignWidth="968"
+                 Position="Top" IsOpen="{Binding IsOpen}" IsModal="True"
+                 Theme="Adapt" Name="Self">
+    <DockPanel>
+        <GroupBox Header="Filtros" DockPanel.Dock="Top">
+            <StackPanel Margin="0,5,5,0" x:Name="ConteinerFlyout" />
+        </GroupBox>
+        <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right">
+            <Button Width="50" Height="50"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                    Click="EfetuaPesquisa_OnClick">
+                <Rectangle Width="20" Height="20"
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <fa:ImageAwesome Icon="Filter" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </DockPanel>
+    </DockPanel>
+</controls:Flyout>

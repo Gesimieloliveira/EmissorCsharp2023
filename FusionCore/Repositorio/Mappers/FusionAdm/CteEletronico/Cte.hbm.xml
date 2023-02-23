@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Cte" table="cte">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="PerfilCte" not-null="true" cascade="none">
+      <column name="perfilCte_id"></column>
+    </many-to-one>
+
+    <many-to-one name="PerfilCfop" not-null="true" cascade="none">
+      <column name="perfilCfop_id"></column>
+    </many-to-one>
+
+    <property name="TipoCte" not-null="true">
+      <column name="tipo"></column>
+    </property>
+
+    <property name="TipoEmissao" not-null="true">
+      <column name="tipoEmissao"></column>
+    </property>
+
+    <property name="Modal" not-null="true">
+      <column name="modal"></column>
+    </property>
+
+    <property name="TipoServico" not-null="true">
+      <column name="tipoServico"></column>
+    </property>
+
+    <property name="ValorServico" not-null="true">
+      <column name="valorServico"></column>
+    </property>
+
+    <property name="ValorReceber" not-null="true">
+      <column name="valorReceber"></column>
+    </property>
+
+    <property name="ValorAverbacao" not-null="false">
+      <column name="valorAverbacao"></column>
+    </property>
+
+    <many-to-one name="EstadoInicioOperacao" not-null="true" outer-join="true">
+      <column name="estadoInicioOperacao_id"></column>
+    </many-to-one>
+
+    <many-to-one name="CidadeInicioOperacao" not-null="true" outer-join="true">
+      <column name="cidadeInicioOperacao_id"></column>
+    </many-to-one>
+
+    <many-to-one name="EstadoFinalOperacao" not-null="true" outer-join="true">
+      <column name="estadoFinalOperacao_id"></column>
+    </many-to-one>
+
+    <many-to-one name="CidadeFinalOperacao" not-null="true" outer-join="true">
+      <column name="cidadeFinalOperacao_id"></column>
+    </many-to-one>
+
+    <property name="TipoPeriodoData" not-null="true">
+      <column name="tipoPeriodoData"></column>
+    </property>
+
+    <property name="TipoPeriodoHora" not-null="true">
+      <column name="tipoPeriodoHora"></column>
+    </property>
+
+    <property name="TipoTomador" not-null="true">
+      <column name="tipoTomador"></column>
+    </property>
+
+    <property name="Globalizado" not-null="true">
+      <column name="globalizado" sql-type="bit" />
+    </property>
+
+    <property name="DataInicio" not-null="false">
+      <column name="dataInicio" sql-type="date"></column>
+    </property>
+
+    <property name="DataFinal" not-null="false">
+      <column name="dataFinal" sql-type="date"></column>
+    </property>
+
+    <property name="HoraInicio" not-null="false" type="TimeAsTimeSpan">
+      <column name="horaInicio" sql-type="time"></column>
+    </property>
+
+    <property name="HoraFinal" not-null="false" type="TimeAsTimeSpan">
+      <column name="horaFinal" sql-type="time"></column>
+    </property>
+
+    <property name="Observacao" not-null="true">
+      <column name="observacaoGeral"></column>
+    </property>
+
+    <property name="NaturezaOperacao" not-null="true">
+      <column name="naturezaOperacao"></column>
+    </property>
+
+    <property name="ValorTotalCarga" not-null="true">
+      <column name="valorTotalCarga"></column>
+    </property>
+
+    <property name="ValorTributoApoximado" not-null="true">
+      <column name="valorTributoApoximado"></column>
+    </property>
+
+    <property name="NomeProdutoPredominante" not-null="true">
+      <column name="produtoPredominanteNome"></column>
+    </property>
+
+    <property name="CaracteristicaProdutoPredominante" not-null="true">
+      <column name="outrasCaracteristicasCarga"></column>
+    </property>
+
+    <property name="CalcularTotalCargaAutomatico" not-null="true">
+      <column name="calcularTotalCargaAutomatico"></column>
+    </property>
+
+    <property name="EmissaoEm" not-null="true">
+      <column name="emissaoEm" />
+    </property>
+    
+    <property name="Inutilizado" not-null="true">
+      <column name="inutilizado" />
+    </property>
+    
+    <property name="MotivoInutilizacao" not-null="true">
+      <column name="motivoInutilizacao" />
+    </property>
+    
+    <property name="CodigoIbpt" not-null="false">
+      <column name="tabelaIbpt_codigo" />
+    </property>
+
+    <property name="ChaveCTeComplementado" not-null="true">
+      <column name="chaveCTeComplementado" />
+    </property>
+
+    <property name="ChaveCteAnulacao" not-null="true">
+      <column name="chaveCteAnulacao" />
+    </property>
+
+    <property name="DeclaracaoEmitidaEm" not-null="true">
+      <column name="declaracaoEmitidaEm" />
+    </property>
+
+    <property name="SerieEmissao" not-null="true">
+      <column name="serieEmissao" />
+    </property>
+
+    <property name="NumeroFiscalEmissao" not-null="true" >
+      <column name="numeroFiscalEmissao" />
+    </property>
+
+    <property name="CodigoNumericoEmissao" not-null="true" >
+      <column name="codigoNumericoEmissao" />
+    </property>
+
+    <one-to-one name="CteEmissao"
+                class="CteEmissao"
+                cascade="none"
+                fetch="join" />
+
+    <one-to-one name="CteDestinatario"
+                class="CteDestinatario"
+                cascade="none"
+                fetch="join" />
+
+    <one-to-one name="CteRemetente"
+                class="CteRemetente"
+                cascade="none"
+                fetch="join" />
+
+    <one-to-one name="CteExpedidor"
+                class="CteExpedidor"
+                cascade="none"
+                outer-join="true" />
+
+    <one-to-one name="CteRecebedor"
+                class="CteRecebedor"
+                cascade="none"
+                outer-join="true" />
+
+    <one-to-one name="CteTomador"
+                class="CteTomador"
+                cascade="none"
+                fetch="join" />
+
+    <one-to-one name="CteRodoviario"
+                class="CteRodoviario"
+                cascade="none"
+                fetch="join" />
+
+    <one-to-one name="CteEmitente"
+                class="CteEmitente"
+                cascade="none"
+                fetch="join" />
+
+    <one-to-one name="Cancelamento"
+                class="CteCancelamento"
+                cascade="none"
+                outer-join="true" />
+
+    <one-to-one name="CteImpostoCst"
+                class="CteImpostoCst"
+                cascade="none"
+                outer-join="true" />
+
+    <one-to-one name="CteImpostoDifal"
+                class="CteImpostoDifal"
+                cascade="none"
+                outer-join="true" />
+
+    <one-to-one name="CteConfigImposto"
+                class="CteConfigImposto"
+                cascade="none"
+                outer-join="true" />
+
+    <one-to-one name="CteSubstituicao"
+                class="CteSubstituicao"
+                cascade="none"
+                outer-join="true" />
+
+    <bag name="CteDocumentoImpressos" table="cte_documento_nota_fiscal" cascade="none" inverse="true">
+      <key column="cte_id" />
+      <one-to-many class="CteDocumentoImpresso" />
+    </bag>
+
+    <bag name="CteDocumentoNfes" table="cte_documento_nfe" cascade="none" inverse="true">
+      <key column="cte_id" />
+      <one-to-many class="CteDocumentoNfe" />
+    </bag>
+
+    <bag name="CteDocumentoOutros" table="cte_documento_outros" cascade="none" inverse="true">
+      <key column="cte_id" />
+      <one-to-many class="CteDocumentoOutro" />
+    </bag>
+
+    <bag name="CteInfoQuantidadeCargas" table="cte_carga" cascade="none" inverse="true">
+      <key column="cte_id" />
+      <one-to-many class="CteInfoQuantidadeCarga" />
+    </bag>
+
+    <bag name="CteVeiculoTransportados" table="cte_veiculos_transportados" cascade="none" inverse="true">
+      <key column="cte_id" />
+      <one-to-many class="CteVeiculoTransportado" />
+    </bag>
+
+    <bag name="CteDocumentoAnteriores" table="cte_documento_anteior" cascade="none" inverse="true">
+      <key column="cte_id" />
+      <one-to-many class="CteDocumentoAnterior" />
+    </bag>    
+    
+    <bag name="CteComponenteValorPrestacaos" table="cte_componente_valor_prestacao" cascade="none" inverse="true">
+      <key column="cte_id" />
+      <one-to-many class="CteComponenteValorPrestacao" />
+    </bag>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" StartReportEvent="_StartReport" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="08/09/2022 10:32:07" ReportInfo.CreatorVersion="2021.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript 
+  {
+    private bool _closeCancel = false;
+    
+    private void _StartReport(object sender, EventArgs e)
+    {
+      CbEmpresa.FillData();
+    }
+    
+    public string FormataDataUltimoMovimento(DateTime d) 
+    {
+      if (d.Equals(DateTime.MinValue)) {
+        return string.Empty;
+      }
+      
+      return d.ToString(&quot;dd/MM/yyyy HH:mm&quot;);
+    }
+
+    private void btnOk_Click(object sender, EventArgs e)
+    {      
+      if (CbEmpresa.SelectedIndex &lt; 0) {
+        _closeCancel = true;
+        MessageBox.Show(&quot;Preciso que escolha uma empresa&quot;, &quot;empresa&quot;);
+        return;
+      }
+      
+      FiltrarDataSourceEmpresa();
+      ConfigurarParametros();
+    }
+    
+    private void FiltrarDataSourceEmpresa() 
+    {
+      DataSourceBase eds = Report.GetDataSource(&quot;Empresa&quot;);
+      eds.Init();
+      
+      while (eds.HasMoreRows)
+      {                                     
+        string razao = ((String)Report.GetColumnValue(&quot;Empresa.razaoSocial&quot;));
+        
+        if (CbEmpresa.SelectedItem.Equals(razao)) {
+          break;
+        }
+
+        eds.Next();
+      }
+    }
+    
+    private void ConfigurarParametros() 
+    {
+      Report.SetParameterValue(&quot;DataIventario&quot;, CDataIventario.SelectionStart);
+    }
+    
+    private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+    {
+      try {
+        e.Cancel = _closeCancel;
+      } finally {
+        _closeCancel = false;
+      }
+    }
+    
+    private bool FiltroQuantidade(decimal estoque) 
+    {      
+      if (!CbEstoqueZerado.Checked &amp;&amp; estoque &lt;= 0) {
+        return false;
+      }
+            
+      return true;
+    }
+  }
+}</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2geBvN02mjOZLuQGKRweVbyRdeyd+ssOhpZQMtpOQpoqvN68fmvtw3EyZ3z2La+VlNoch9K9fR7xsRMyPcWCdFKzFiAFDm0SQnQPDCEtX/STejQNYFVJS9AYbRD+yF/gl7Dtf1ucH/rHuVyopCWze4tn2LHiswI456LSnD7FsCTFZZvPcAXn8d59OB0c+RHC0M/xVu4hHQ6f8nBBxF/hOZyTfrNijw8TQwLP6mHxCXKgc">
+      <TableDataSource Name="Table" Alias="EstoqueData" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	pr.id,&#13;&#10;	pr.nome,&#13;&#10;	pr.tabelaNcm_id,&#13;&#10;	pr.precoVenda,&#13;&#10;	pr.precoCusto,&#13;&#10;	pr.precoCompra,&#13;&#10;	pee.estoqueFuturo as estoque&#13;&#10;from produto pr&#13;&#10;left join produto_estoque_evento pee on pee.id = (select top 1 spee.id from produto_estoque_evento spee where cast(spee.cadastradoEm as date) &lt;= @pDataIventario and spee.produto_id = pr.id order by spee.cadastradoEm desc, spee.id desc)&#13;&#10;where pr.cadastradoEm &lt;= @pDataIventario&#13;&#10;order by pr.nome">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="estoque" DataType="System.Decimal"/>
+        <Column Name="precoVenda" DataType="System.Decimal"/>
+        <Column Name="precoCusto" DataType="System.Decimal"/>
+        <Column Name="precoCompra" DataType="System.Decimal"/>
+        <Column Name="Column" Alias="precoVendaTotal" DataType="System.Decimal" Calculated="true" Expression="[EstoqueData.precoVenda] * [EstoqueData.estoque]"/>
+        <Column Name="Column1" Alias="precoCompraTotal" DataType="System.Decimal" Calculated="true" Expression="decimal.Round([EstoqueData.precoCompra] * [EstoqueData.estoque], 4)"/>
+        <Column Name="tabelaNcm_id" DataType="System.String"/>
+        <CommandParameter Name="pDataIventario" DataType="31" Expression="[DataIventario]" DefaultValue="1970-01-01"/>
+      </TableDataSource>
+      <TableDataSource Name="empresa" Alias="Empresa" DataType="System.Int32" Enabled="true" TableName="empresa" SelectCommand="select &#13;&#10;	emp.razaoSocial,&#13;&#10;	emp.cnpj,&#13;&#10;	emp.inscricaoEstadual,&#13;&#10;	cid.nome as nomeCidade,&#13;&#10;	cid.siglaUf&#13;&#10;from empresa emp&#13;&#10;left join cidade cid on emp.cidade_id = cid.id">
+        <Column Name="razaoSocial" DataType="System.String"/>
+        <Column Name="cnpj" DataType="System.String"/>
+        <Column Name="inscricaoEstadual" DataType="System.String"/>
+        <Column Name="siglaUf" DataType="System.String"/>
+        <Column Name="nomeCidade" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Relation Name="produto_grupo_Table11" ParentDataSource="null" ChildDataSource="null" ParentColumns="id" ChildColumns="grupoId" Enabled="true"/>
+    <Parameter Name="DataIventario" DataType="System.DateTime"/>
+    <Total Name="TotalCompra" Expression="[EstoqueData.precoCompraTotal]" Evaluator="Data1" PrintOn="DataFooter1"/>
+    <Total Name="QtdeItens" TotalType="Count" Evaluator="Data1" PrintOn="DataFooter1"/>
+  </Dictionary>
+  <ReportPage Name="Page1" RawPaperSize="9" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="71.82">
+      <TextObject Name="Text22" Left="432.81" Top="5.67" Width="285.39" Height="18.9" Text="Relatório de iventário patrimonial" HorzAlign="Right" Font="Arial, 12pt, style=Bold"/>
+      <TextObject Name="Text23" Left="432.81" Top="26.46" Width="285.39" Height="18.9" Text="Data do iventário: [DataIventario]" Format="Date" Format.Format="d" HorzAlign="Right" Font="Arial, 12pt"/>
+      <TextObject Name="Text11" Top="5.67" Width="430.92" Height="18.9" Text="[Empresa.razaoSocial]" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text12" Top="26.46" Width="430.92" Height="18.9" Text="CNPJ: [Empresa.cnpj] / IE: [Empresa.inscricaoEstadual]" Font="Arial, 10pt"/>
+      <TextObject Name="Text13" Top="47.25" Width="430.92" Height="17.01" Text="[Empresa.nomeCidade] / [Empresa.siglaUf]" Font="Arial, 10pt"/>
+      <TextObject Name="Text26" Left="432.81" Top="47.25" Width="285.39" Height="17.01" Text="Pagina: [Page#] / [TotalPages#]" HorzAlign="Right" Font="Arial, 9pt, style=Italic"/>
+    </ReportTitleBand>
+    <DataBand Name="Data1" Top="102.5" Width="718.2" Height="15.12" Border.Lines="Bottom" Border.Style="Dot" Border.Width="0.25" CanGrow="true" CanShrink="true" CanBreak="true" DataSource="Table" Filter="FiltroQuantidade([EstoqueData.estoque])">
+      <TextObject Name="Text1" Left="151.2" Width="330.75" Height="15.12" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[EstoqueData.nome]" VertAlign="Center" Font="Arial, 9pt"/>
+      <TextObject Name="Text3" Left="481.95" Width="75.6" Height="15.12" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[EstoqueData.estoque]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text7" Left="557.55" Width="85.05" Height="15.12" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[EstoqueData.precoCompra]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="4" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 9pt" Trimming="EllipsisCharacter"/>
+      <TextObject Name="Text9" Left="642.6" Width="75.6" Height="15.12" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[EstoqueData.precoCompraTotal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt"/>
+      <TextObject Name="Text5" Width="66.15" Height="15.12" Text="[EstoqueData.id]" Format="Custom" Format.Format="00000" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt"/>
+      <TextObject Name="Text28" Left="66.15" Width="85.05" Height="15.12" Text="[EstoqueData.tabelaNcm_id]" Format="Custom" Format.Format="00000" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt"/>
+      <DataHeaderBand Name="DataHeader1" Top="75.82" Width="718.2" Height="22.68" Border.Lines="Top, Bottom" CanBreak="true">
+        <TextObject Name="Text2" Left="151.2" Width="330.75" Height="22.68" Text="Nome do produto" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+        <TextObject Name="Text4" Left="481.95" Width="75.6" Height="22.68" Text="Estoque" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+        <TextObject Name="Text8" Left="557.55" Width="85.05" Height="22.68" Text="P.Compra" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+        <TextObject Name="Text10" Left="642.6" Width="75.6" Height="22.68" Text="Total" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+        <TextObject Name="Text25" Width="66.15" Height="22.68" Text="Cod.&#13;&#10;" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+        <TextObject Name="Text27" Left="66.15" Width="85.05" Height="22.68" Text="Ncm&#13;&#10;" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      </DataHeaderBand>
+      <DataFooterBand Name="DataFooter1" Top="121.62" Width="718.2" Height="17.01">
+        <TextObject Name="Text14" Left="642.6" Width="75.6" Height="17.01" Text="[TotalCompra]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 9pt, style=Bold"/>
+        <TextObject Name="Text15" Width="149.31" Height="17.01" Text="Itens: [QtdeItens]" Font="Arial, 9pt, style=Bold"/>
+      </DataFooterBand>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="142.63" Width="718.2" Height="24.57">
+      <TextObject Name="Text6" Top="1.89" Width="718.2" Height="18.9" Text="[Page#] / [TotalPages#]" HorzAlign="Center" Font="Arial, 10pt, style=Italic"/>
+    </PageFooterBand>
+  </ReportPage>
+  <DialogPage Name="Form1" AcceptButton="btnOk" CancelButton="btnCancel" AutoScaleDimensions="96, 96" FormClosedEvent="" FormClosingEvent="Form1_FormClosing" ClientSize="652, 357">
+    <ButtonControl Name="btnOk" Left="484" Top="318" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="567" Top="318" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="1" Text="Cancel" DialogResult="Cancel"/>
+    <GroupBoxControl Name="GroupBox1" Left="4" Top="4" Width="636" Height="72" Font="Tahoma, 8pt" TabIndex="2" Text="Empresa para titulo do relatorio">
+      <ComboBoxControl Name="CbEmpresa" Left="4" Top="24" Width="629" Font="Tahoma, 8pt" TabIndex="3" AutoFill="false" DataColumn="Empresa.razaoSocial" DropDownWidth="629" ItemHeight="16"/>
+    </GroupBoxControl>
+    <GroupBoxControl Name="GroupBox2" Left="4" Top="80" Width="212" Height="224" Font="Tahoma, 8pt" TabIndex="3" Text="Data do iventário">
+      <MonthCalendarControl Name="CDataIventario" Left="8" Top="20" Height="172" Font="Tahoma, 8pt" TabIndex="4" Text="MonthCalendar" MaxSelectionCount="1" ShowToday="false" ShowTodayCircle="false"/>
+    </GroupBoxControl>
+    <CheckBoxControl Name="CbEstoqueZerado" Left="236" Top="100" Width="316" Height="26" Font="Tahoma, 12pt" TabIndex="4" Text="Listar quantidades negativas ou zeradas" ClickEvent="CbEstoqueZerado_Click" Checked="true" CheckState="Checked"/>
+  </DialogPage>
+</Report>

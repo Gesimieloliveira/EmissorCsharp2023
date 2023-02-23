@@ -1,0 +1,74 @@
+﻿<controls:Flyout x:Class="Fusion.Visao.NotaFiscalEletronica.Principal.Flyouts.FlyoutReferenciaNfe"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:fa="http://schemas.fontawesome.io/icons/"
+                 xmlns:models="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Principal.Flyouts.Models"
+                 xmlns:wtools="clr-namespace:FusionLibrary.Wpf.Tools;assembly=FusionLibrary"
+                 mc:Ignorable="d" d:DesignWidth="400"
+                 d:DataContext="{d:DesignInstance models:FlyoutReferenciaNfeModel}"
+                 Position="Left" IsOpen="{Binding IsOpen}" IsModal="True" MaxHeight="662" Theme="Adapt"
+                 Width="430" IsOpenChanged="OnIsOpenChangedFlyout"
+                 Header="Referências NF-e">
+
+    <DockPanel Margin="10,5">
+        <GroupBox DockPanel.Dock="Top"
+                  Header="Gerenciamento das referencias">
+            <StackPanel>
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="40" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox MaxLength="44"
+                                 Grid.Column="0"
+                                 x:Name="TextBoxChaveReferenciada"
+                                 controls:TextBoxHelper.Watermark="Digite a chave para referenciar e aperte enter"
+                                 Text="{Binding ChaveReferenciar, UpdateSourceTrigger=PropertyChanged}"
+                                 PreviewKeyDown="OnKeyDownChaveReferenciar"
+                                 controls:TextBoxHelper.SelectAllOnFocus="True"
+                                 wtools:FocusAdvancement.AdvancesByEnterKey="False" />
+                        
+                        <Button Grid.Column="1" Style="{DynamicResource FusionSuccessButton}" ClickMode="Release" Click="ClickReferenciarChaveHandler">
+                            <fa:ImageAwesome Icon="Plus" Height="14" Width="14" Foreground="{DynamicResource WhiteBrush}" />
+                        </Button>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Margin="0,15,0,0">
+                    <TextBlock Text="Chaves referenciadas" HorizontalAlignment="Center" FontWeight="Bold"
+                               Margin="0,0,0,5" />
+
+                    <ListBox ItemsSource="{Binding Referencias, Mode=OneWay}"
+                             SelectedItem="{Binding ItemSelecionado}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="50" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="Chave" FontSize="8" />
+                                        <TextBlock Text="{Binding ChaveReferenciada}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                MouseUp="OnClickRemoveReferencia">
+                                        <fa:ImageAwesome Icon="TrashOutline" Width="16"
+                                                         Foreground="{DynamicResource AccentColorBrush}" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+    </DockPanel>
+</controls:Flyout>

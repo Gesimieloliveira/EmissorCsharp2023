@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.Tributacoes"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ImpostoIpi" table="nfe_item_ipi">
+    <id access="field" name="_itemId" column="nfeItem_id">
+      <generator class="foreign">
+        <param name="property">Item</param>
+      </generator>
+    </id>
+
+    <one-to-one access="field.camelcase-underscore" name="Item" constrained="true" cascade="none" />
+
+    <many-to-one name="TributacaoIpi">
+      <column name="situacaoTributariaIpi_id" sql-type="varchar" length="2" not-null="true" />
+    </many-to-one>
+
+    <property name="ClasseEnquadramento">
+      <column name="classeEnquadramento" sql-type="varchar" length="5" not-null="true" />
+    </property>
+
+    <property name="CnpjProdutor">
+      <column name="cnpjProdutorMercadoria" sql-type="varchar" length="14" not-null="true" />
+    </property>
+
+    <property name="Selo">
+      <column name="codigoSelo" sql-type="varchar" length="60" not-null="true" />
+    </property>
+
+    <property name="QuantidadeSelo">
+      <column name="quantidadeSelo" sql-type="varchar" length="12" not-null="true" />
+    </property>
+
+    <property name="CodigoEnquadramentoLegal">
+      <column name="codigoEnquadramento" sql-type="varchar" length="3" not-null="true" />
+    </property>
+
+    <property name="ValorBcIpi">
+      <column name="valorBaseCalculoIpi" sql-type="decimal" precision="15" scale="2" not-null="true" />
+    </property>
+
+    <property name="AliquotaIpi">
+      <column name="aliquotaIpi" sql-type="decimal" precision="7" scale="4" not-null="true" />
+    </property>
+
+    <property name="ValorIpi">
+      <column name="valorIpi" sql-type="decimal" precision="15" scale="2" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteVeiculoTransportado" table="cte_veiculo_transportado">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="Cte" cascade="none">
+      <column name="cte_id" not-null="true" />
+    </many-to-one>
+
+    <property name="Cor" not-null="true">
+      <column name="codigoCor"/>
+    </property>
+
+    <property name="DescricaoCor" not-null="true">
+      <column name="descricaoCor"/>
+    </property>
+
+    <property name="CodigoMarcaModelo" not-null="true">
+      <column name="codigoMarcaModelo"/>
+    </property>
+
+    <property name="Chassi" not-null="true">
+      <column name="chassi"/>
+    </property>
+
+    <property name="ValorUnitario" not-null="true">
+      <column name="valorUnitario"/>
+    </property>
+
+    <property name="FreteUnitario" not-null="true">
+      <column name="freteUnitario"/>
+    </property>
+
+
+  </class>
+</hibernate-mapping>

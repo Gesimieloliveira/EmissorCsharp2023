@@ -1,0 +1,554 @@
+﻿<UserControl x:Class="Fusion.Visao.CteEletronico.Emitir.Aba.AbaCabecalhoCte"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:flags1="clr-namespace:FusionCore.FusionAdm.CteEletronico.Flags;assembly=FusionCore"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+             xmlns:emissao="clr-namespace:FusionCore.FusionAdm.CteEletronico.Emissao;assembly=FusionCore"
+             mc:Ignorable="d" d:DesignWidth="1024"
+             Background="White">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="41" />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Column="0" Grid.Row="0" VerticalScrollBarVisibility="Auto">
+            <DockPanel>
+                <Grid DockPanel.Dock="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3">
+                        <TextBlock
+                            Text="Se desejar posso importar os dados de uma NF-e para você, só me informar o XML"
+                            VerticalAlignment="Center"
+                            Margin="0,0,10,0" />
+
+                        <Button Command="{Binding CommandImportarXml}" Style="{DynamicResource FusionAccentedButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Height="13" Icon="Upload" Foreground="{DynamicResource WhiteBrush}" />
+                                <TextBlock Text="Informar XML" Margin="5,0,0,0" FontSize="11" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <GroupBox Grid.Row="1" Grid.Column="0" Header="Configuração da Emissao">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Tipo Emissão" />
+                                    <ComboBox IsEditable="False"
+                                              ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags1:TipoEmissao}}}"
+                                              SelectedItem="{Binding TipoEmissao}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                    <TextBlock Text="Tipo Cte" />
+                                    <ComboBox IsEditable="False"
+                                              ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags1:TipoCte}}}"
+                                              SelectedItem="{Binding TipoCte}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                                    <TextBlock>Modal</TextBlock>
+                                    <ComboBox IsEditable="False"
+                                              ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags1:Modal}}}"
+                                              SelectedItem="{Binding Modal}"
+                                              IsEnabled="False" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="3" Margin="5,0,0,0">
+                                    <TextBlock Text="Tipo Serviço" />
+                                    <ComboBox IsEditable="False"
+                                              ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags1:TipoServico}}}"
+                                              SelectedItem="{Binding TipoServico}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="4" Margin="5,0,0,0">
+                                    <TextBlock Text="Globalizado" />
+                                    <controls:ToggleSwitch
+                                        IsOn="{Binding Globalizado}"
+                                        OffContent="Não" OnContent="Sim"
+                                        ContentDirection="RightToLeft"
+                                        HorizontalContentAlignment="Right" />
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock>Valor do serviço</TextBlock>
+                                    <controles:DecimalTextBox Text="{Binding ValorServico, StringFormat=N2}"
+                                                              controls:TextBoxHelper.SelectAllOnFocus="True" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                    <TextBlock>Valor a receber</TextBlock>
+                                    <controles:DecimalTextBox Text="{Binding ValorAReceber, StringFormat=N2}"
+                                                              controls:TextBoxHelper.SelectAllOnFocus="True" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Margin="5,0,0,0" IsEnabled="{Binding IsNormal}">
+                                    <TextBlock>Valor averbação carga</TextBlock>
+                                    <controles:DecimalTextBox
+                                        Text="{Binding ValorAverbacao, StringFormat=N2, TargetNullValue=''}" />
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Cfop" />
+                                    <controles:SearchTextBox
+                                        Text="{Binding PerfilCfop.Codigo}"
+                                        SearchCommand="{Binding CommandBuscarCfop}"
+                                        IsReadOnly="True" />
+
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                    <TextBlock Text="Natureza da operação" />
+                                    <TextBox Text="{Binding NaturezaOperacao}" MaxLength="60" />
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel>
+                                    <TextBlock Text="Data da emissão" />
+                                    <controls:DateTimePicker
+                                        controls:TextBoxHelper.Watermark="Data emissão"
+                                        SelectedDateTime="{Binding EmitidaEm, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                    <TextBlock Text="NBS (Informe para utilizar imposto aproximado na observação)" />
+                                    <controles:SearchTextBox
+                                        IsReadOnly="True"
+                                        Text="{Binding Nbs, Mode=OneWay}"
+                                        ButtonClearEnabledWhenHasText="True"
+                                        SearchEvent="PickerIbptClickHandler"
+                                        ClearEvent="ClearIbptClickHandler" />
+
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="1" Grid.Column="1" Header="Informações Adicionais">
+                        <TextBox TextWrapping="Wrap"
+                                 MaxLength="1000"
+                                 VerticalAlignment="Stretch"
+                                 VerticalContentAlignment="Top"
+                                 AcceptsReturn="True"
+                                 Text="{Binding InformacaoAdicional}" />
+                    </GroupBox>
+                </Grid>
+
+                <StackPanel DockPanel.Dock="Top" Margin="2">
+                    <GroupBox Margin="0,5,0,0" DockPanel.Dock="Top" Header="Identificacao única do documento fiscal"
+                              Focusable="False">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <StackPanel Width="180" IsEnabled="False">
+                                <TextBlock Text="Número da série do documento" />
+                                <TextBox Text="{Binding SerieDocumento, StringFormat=D3}" />
+                            </StackPanel>
+
+                            <StackPanel Width="180" Margin="5,0,0,0" IsEnabled="False">
+                                <TextBlock Text="Número do documento" />
+                                <TextBox Text="{Binding NumeroDocumento, StringFormat=D9}" />
+                            </StackPanel>
+
+                            <StackPanel VerticalAlignment="Bottom" Margin="10,0,0,0">
+                                <Button IsEnabled="{Binding IsEnabledAlocarNovoNumero}" Click="AlocarNumeracao_OnClick">
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:ImageAwesome Icon="Random" Height="14" />
+                                        <TextBlock Text="Alocar proximo número do emissor" Margin="5,0,0,0" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+
+                <GroupBox Header="Informações CT-E Complementar" DockPanel.Dock="Top"
+                          controls:VisibilityHelper.IsVisible="{Binding IsCteComplementar}">
+                    <StackPanel>
+                        <TextBlock Text="Chave do CT-e Complementar" />
+                        <TextBox MaxLength="44" Text="{Binding ChaveCteComplementar}" />
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Informações CT-E Anulação" DockPanel.Dock="Top"
+                          controls:VisibilityHelper.IsVisible="{Binding IsCteAnulacao}">
+                    <DockPanel>
+                        <StackPanel Width="250">
+                            <TextBlock Text="Data de emissão da declaração do tomador" />
+                            <controls:DateTimePicker
+                                controls:TextBoxHelper.Watermark="Declaração emitida em"
+                                SelectedDateTime="{Binding DeclaracaoEmitidaEm, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                        </StackPanel>
+
+                        <StackPanel Margin="5,0,0,0">
+                            <TextBlock>Chave de acesso do CT-e original a ser anulado e substituído</TextBlock>
+                            <TextBox MaxLength="44" Text="{Binding ChaveCteAnulacao}" />
+                        </StackPanel>
+                    </DockPanel>
+                </GroupBox>
+
+                <GroupBox
+                    DockPanel.Dock="Top" Header="Informações do CT-e Substituição"
+                    controls:VisibilityHelper.IsVisible="{Binding IsCteSubstituicao}">
+
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+                                <TextBlock>Chave de acesso do CT-e a ser substituído (original)</TextBlock>
+                                <TextBox
+                                    MaxLength="44"
+                                    wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True"
+                                    Text="{Binding ChaveSubstituido}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                <TextBlock>Chave de acesso do CT-e de Anulação</TextBlock>
+                                <TextBox
+                                    MaxLength="44"
+                                    wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True"
+                                    Text="{Binding ChaveAnulacao}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Margin="0,10,0,0">
+                            <Border
+                                BorderBrush="{DynamicResource GrayBrush2}"
+                                BorderThickness="0,1,0,0" Margin="0,5" Padding="0,5">
+
+                                <TextBlock
+                                    FontSize="14"
+                                    Text="Quando o Tomador é Contribuinte do ICMS, mas não é emitente de documento fiscal eletrônico" />
+                            </Border>
+
+                            <StackPanel Margin="0,5">
+                                <TextBlock Text="Chave da NF-e emitida pelo Tomador" />
+                                <TextBox
+                                    MaxLength="44"
+                                    wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True"
+                                    Text="{Binding ChaveNfePeloTomador}" />
+                            </StackPanel>
+
+                            <StackPanel Margin="0,5">
+                                <TextBlock Text="Chave de acesso do CT-e emitida pelo Tomador" />
+                                <TextBox
+                                    MaxLength="44"
+                                    wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True"
+                                    Text="{Binding ChaveCtePeloTomador}" />
+                            </StackPanel>
+
+                            <DockPanel DockPanel.Dock="Top" Margin="0,5">
+                                <StackPanel Width="250" Margin="1,0">
+                                    <TextBlock>Modelo documento</TextBlock>
+                                    <ComboBox
+                                        Focusable="False"
+                                        ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type emissao:CteModeloDocumento}}}"
+                                        SelectedValue="{Binding ModeloDocumento}"
+                                        IsEditable="False" />
+                                </StackPanel>
+
+                                <StackPanel Margin="1,0" Width="140">
+                                    <TextBlock>CPF / CNPJ</TextBlock>
+                                    <TextBox
+                                        MaxLength="18"
+                                        Text="{Binding CpfCnpj, Converter={conversores:CpfCnpjMaskConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+
+                                <StackPanel Margin="1,0" Width="80">
+                                    <TextBlock>Série</TextBlock>
+                                    <TextBox
+                                        MaxLength="3"
+                                        Text="{Binding SubstitutoSerie}" />
+                                </StackPanel>
+
+                                <StackPanel Margin="1,0" Width="80">
+                                    <TextBlock>Subsérie</TextBlock>
+                                    <TextBox
+                                        MaxLength="3"
+                                        Text="{Binding SubstitutoSubSerie}" />
+                                </StackPanel>
+
+                                <StackPanel Margin="1,0" Width="125">
+                                    <TextBlock>Número doc.</TextBlock>
+                                    <TextBox
+                                        MaxLength="6"
+                                        Text="{Binding SubstitutoNumeroDocumentoFiscal}" />
+                                </StackPanel>
+
+                                <StackPanel Margin="1,0" Width="140">
+                                    <TextBlock>Valor</TextBlock>
+                                    <controles:DecimalTextBox Text="{Binding SubstitutoValor, StringFormat=N2}" />
+                                </StackPanel>
+
+                                <StackPanel Margin="1,0">
+                                    <TextBlock>Emitido Em</TextBlock>
+                                    <controls:DateTimePicker
+                                        controls:TextBoxHelper.Watermark="Emitida em"
+                                        SelectedDateTime="{Binding SubstitutoEmitidaEm, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                </StackPanel>
+                            </DockPanel>
+
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox DockPanel.Dock="Top" Header="Local de início da prestação">
+                        <StackPanel Margin="0,0,5,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Estado (UF)" />
+                                    <ComboBox ItemsSource="{Binding InicioEstados}"
+                                              IsEditable="True"
+                                              SelectedItem="{Binding InicioEstado, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                                              SelectedValuePath="Sigla"
+                                              SelectedValue="{Binding InicioEstado.Sigla}"
+                                              DisplayMemberPath="Sigla" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                    <TextBlock Text="Cidade" />
+                                    <ComboBox ItemsSource="{Binding InicioCidades}"
+                                              IsEditable="True"
+                                              SelectedItem="{Binding InicioCidade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                              SelectedValuePath="Id"
+                                              SelectedValue="{Binding InicioCidade.Id}"
+                                              DisplayMemberPath="Nome" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Grid.Column="1" DockPanel.Dock="Top" Header="Local final da prestação">
+                        <StackPanel Margin="0,0,5,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Estado (UF)" />
+                                    <ComboBox ItemsSource="{Binding FinalEstados}"
+                                              SelectedItem="{Binding FinalEstado, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                              SelectedValuePath="Sigla"
+                                              SelectedValue="{Binding FinalEstado.Sigla}"
+                                              DisplayMemberPath="Sigla"
+                                              IsEditable="True" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                    <TextBlock Text="Cidade" />
+                                    <ComboBox ItemsSource="{Binding FinalCidades}"
+                                              SelectedItem="{Binding FinalCidade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                              SelectedValuePath="Id"
+                                              SelectedValue="{Binding FinalCidade.Id}"
+                                              DisplayMemberPath="Nome"
+                                              IsEditable="True" />
+                                </StackPanel>
+
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+
+                <GroupBox DockPanel.Dock="Top" Header="Período para entrega">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Margin="0,0,5,0">Tipo período data</TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="0">Tipo período hora</TextBlock>
+
+                            <ComboBox IsEditable="False" Margin="0,0,5,0"
+                                      Grid.Column="0"
+                                      Grid.Row="1"
+                                      ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags1:TipoPeriodoData}}}"
+                                      SelectedItem="{Binding TipoPeriodoData}"
+                                      IsEnabled="{Binding IsNovo}" />
+
+                            <ComboBox IsEditable="False"
+                                      Grid.Column="1"
+                                      Grid.Row="1"
+                                      ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags1:TipoPeriodoHora}}}"
+                                      SelectedItem="{Binding TipoPeriodoHora}" />
+
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0"
+                                            controls:VisibilityHelper.IsVisible="{Binding StatusDataProgramada}">
+                                    <TextBlock Text="{Binding DataProgramadaTexto}" />
+                                    <DatePicker controls:TextBoxHelper.Watermark="{Binding DataProgramadaTexto}"
+                                                SelectedDate="{Binding DataInicioEm}">
+                                        <DatePicker.Resources>
+                                            <Style TargetType="DatePickerTextBox">
+                                                <Setter Property="IsReadOnly" Value="True" />
+                                            </Style>
+                                        </DatePicker.Resources>
+                                    </DatePicker>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="2,0,5,0"
+                                            controls:VisibilityHelper.IsVisible="{Binding StatusDataFinal}">
+                                    <TextBlock Text="{Binding DataProgramadaFinalTexto}" />
+                                    <DatePicker controls:TextBoxHelper.Watermark="{Binding DataProgramadaFinalTexto}"
+                                                SelectedDate="{Binding DataFinalEm}">
+                                        <DatePicker.Resources>
+                                            <Style TargetType="DatePickerTextBox">
+                                                <Setter Property="IsReadOnly" Value="True" />
+                                            </Style>
+                                        </DatePicker.Resources>
+                                    </DatePicker>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0"
+                                            controls:VisibilityHelper.IsVisible="{Binding StatusHoraProgramada}">
+                                    <TextBlock Text="{Binding HoraProgramadaTexto}" />
+                                    <controls:TimePicker
+                                        PickerVisibility="All"
+                                        SelectedDateTime="{Binding HoraProgramada}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="2,0,0,0"
+                                            controls:VisibilityHelper.IsVisible="{Binding StatusHoraFinal}">
+                                    <TextBlock Text="{Binding HoraProgramadaFinalTexto}" />
+                                    <controls:TimePicker
+                                        PickerVisibility="All"
+                                        SelectedDateTime="{Binding HoraFinal}" />
+                                </StackPanel>
+                            </Grid>
+
+                        </Grid>
+
+
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox DockPanel.Dock="Top" Header="Rodoviário">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0,0,5,0">
+                            <TextBlock>RNTRC</TextBlock>
+                            <TextBox IsReadOnly="True" Text="{Binding Rntrc}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.ColumnSpan="3">
+                            <TextBlock>EMITENTE</TextBlock>
+                            <TextBox IsReadOnly="True" Text="{Binding Emitente}" />
+                        </StackPanel>
+
+                    </Grid>
+                </GroupBox>
+            </DockPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                <Button Height="40" Click="OnClickProximoPasso">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Próximo Passo" Margin="0,0,10,0" />
+                        <fa:ImageAwesome Height="20" Icon="ArrowRight" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

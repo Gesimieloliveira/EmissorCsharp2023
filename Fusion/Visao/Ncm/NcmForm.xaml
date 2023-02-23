@@ -1,0 +1,85 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.Ncm.NcmForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:componentes="clr-namespace:FusionLibrary.Wpf.Componentes;assembly=FusionLibrary"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+                      mc:Ignorable="d"
+                      Width="637" SizeToContent="Height"
+                      ResizeMode="NoResize"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowStyle}"
+                      Title="FORMULÁRIO DE NCM"
+                      Loaded="OnLoaded"
+                      FocusManager.FocusedElement="{Binding ElementName=Ccodigo}">
+
+
+    <controls:MetroWindow.Resources>
+        <conversores:CestMaskConverter x:Key="CestMaskConverter"/>
+    </controls:MetroWindow.Resources>
+    
+    
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <GroupBox Header="Dados do ncm">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="105" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.Column="0">
+                            <TextBlock Text="Código NCM" />
+                            <TextBox Margin="0,0,5,0" Text="{Binding Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="8" x:Name="Ccodigo" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1">
+                            <TextBlock Text="Descrição do NCM" />
+                            <TextBox
+                                MaxLines="3"
+                                VerticalContentAlignment="Top"
+                                TextWrapping="WrapWithOverflow"
+                                CharacterCasing="Normal"
+                                Text="{Binding Descricao, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="TbDescricao" MaxLength="255" />
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="0" Grid.Row="1">
+                            <TextBlock Text="Código CEST" />
+                            <TextBox Text="{Binding Cest, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CestMaskConverter}}"  Margin="0,0,5,0"/>
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+        <Border DockPanel.Dock="Bottom" Margin="0,5">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button
+                    Name="BotaoSalvar"
+                    Content="Salvar alterações"
+                    Style="{DynamicResource FusionAccentedButton}" 
+                    Click="OnClickSalvar"/>
+
+                <Button 
+                    Name="BotaoDeletar"
+                    Margin="5,0,0,0"
+                    Content="Deletar registro"
+                    Style="{DynamicResource FusionDangerButton}"
+                    Click="OnClickDeletar" />
+            </StackPanel>
+        </Border>
+    </DockPanel>
+
+</controls:MetroWindow>

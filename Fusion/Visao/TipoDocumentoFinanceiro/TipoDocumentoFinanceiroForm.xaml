@@ -1,0 +1,87 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.TipoDocumentoFinanceiro.TipoDocumentoFinanceiroForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:vm="clr-namespace:Fusion.Visao.TipoDocumentoFinanceiro"
+                      xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                      xmlns:formaPagamento="clr-namespace:FusionCore.FusionAdm.Financeiro;assembly=FusionCore"
+                      mc:Ignorable="d" d:DataContext="{d:DesignInstance vm:TipoDocumentoFinanceiroFormModel, d:IsDesignTimeCreatable=True}"
+                      Width="637" SizeToContent="Height"
+                      WindowStartupLocation="CenterScreen"
+                      Title="Cadastro de tipo documento"
+                      FocusManager.FocusedElement="{Binding ElementName=TbDescricao}"
+                      Style="{DynamicResource MetroWindowDialogStyle}">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <GroupBox Header="Cadastro do Documento">
+                <StackPanel>
+                    <controls:ToggleSwitch
+                        ContentDirection="LeftToRight"
+                        HorizontalAlignment="Right"
+                        OnContent="Ativo"
+                        OffContent="Inativo"
+                        controls:VisibilityHelper.IsVisible="{Binding CheckAtivoIsVisible}"
+                        IsOn="{Binding EstaAtivo}" />
+
+                    <StackPanel>
+                        <TextBlock Text="Descrição" />
+                        <TextBox
+                            x:Name="TbDescricao"
+                            Text="{Binding Descricao, ValidatesOnDataErrors= True,NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}"
+                            MaxLength="60" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,5,0,0">
+                        <TextBlock Text="Tipo do Pagamento na NF-E" />
+                        <ComboBox Margin="0,5,0,0"
+                                  Focusable="False"
+                                  ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type formaPagamento:FFormaPagamento}}}"
+                                  SelectedValue="{Binding FormaPagamento}"
+                                  IsEditable="False"
+                        />
+                    </StackPanel>
+
+                    <GroupBox Header="Financeiro" Margin="0,5,0,0">
+                        <StackPanel>
+                            <DockPanel>
+                                <TextBlock 
+                                    DockPanel.Dock="Left" FontSize="12"
+                                    Text="Este documento gera financeiro?" 
+                                    VerticalAlignment="Center"/>
+
+                                <controls:ToggleSwitch
+                                    DockPanel.Dock="Right" 
+                                    OnContent="Sim" OffContent="Não"
+                                    ContentDirection="LeftToRight" 
+                                    HorizontalAlignment="Right"
+                                    IsOn="{Binding RegistraFinanceiro}"/>
+
+                            </DockPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+
+        <DockPanel DockPanel.Dock="Top" Margin="0,10">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button 
+                    Style="{DynamicResource FusionAccentedButton}" 
+                    Width="150" 
+                    Content="Salvar alterações" 
+                    Click="OnClickSalvar" />
+                
+                <Button 
+                    Style="{DynamicResource FusionDangerButton}" Width="150" 
+                    Content="Deletar" 
+                    Margin="24,0,0,0" 
+                    Click="OnClickDeletar" 
+                    controls:VisibilityHelper.IsVisible="{Binding BotaoDeleteIsVisible}" />
+            </StackPanel>
+        </DockPanel>
+    </DockPanel>
+</controls:MetroWindow>

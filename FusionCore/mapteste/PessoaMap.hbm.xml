@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.mapteste"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class abstract="true" name="IPessoa" table="pessoanh" polymorphism="implicit">
+    <id name="Id" column="id" generator="identity" />
+    <discriminator column="tipo" type="String" length="1" not-null="true" />
+    <property name="Nome" column="nome" not-null="true" />
+    <property name="Cpf" column="cpf" not-null="true" />
+    <property name="Cnpj" column="cnpj" not-null="true" />
+
+    <joined-subclass name="Cliente" table="pessoanh_cliente" extends="IPessoa">
+      <key column="pessoa_id" />
+      <property name="Campo" column="campo" />
+    </joined-subclass>
+
+    <joined-subclass name="Fornecedor" table="pessoanh_fornecedor" extends="IPessoa">
+      <key column="pessoa_id" />
+      <property name="Campo1" column="campo" />
+    </joined-subclass>
+
+  </class>
+
+</hibernate-mapping>

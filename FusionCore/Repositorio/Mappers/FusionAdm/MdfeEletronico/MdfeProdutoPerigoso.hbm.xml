@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MDFeProdutoPerigoso" table="mdfe_produto_perigoso">
+    <id name="Id" column="id" generator="identity"/>
+
+    <many-to-one name="Descarregamento" cascade="none">
+      <column name="mdfeDescarregamento_id" not-null="true" />
+    </many-to-one>
+
+    <property name="NumeroOnu">
+      <column name="numeroOnu" not-null="true" />
+    </property>
+
+    <property name="NomeEmbarque">
+      <column name="nomeEmbarque" not-null="true" />
+    </property>
+
+    <property name="ClasseRisco">
+      <column name="classeRisco" not-null="true" />
+    </property>
+
+    <property name="GrupoEmbalagem">
+      <column name="grupoEmbalagem" not-null="true" />
+    </property>
+
+    <property name="QuantidadeTotalPorProduto">
+      <column name="qtdTotalPorProduto" not-null="true" />
+    </property>
+
+    <property name="QuantidadeTipoVolume">
+      <column name="qtdTipoVolume" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

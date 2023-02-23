@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronicoOs.Perfil"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PerfilCteOsSeguro" table="perfil_cte_os_seguro">
+    <id name="PerfilCteOsId" column="perfilCteOs_Id">
+      <generator class="foreign">
+        <param name="property">Perfil</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Perfil" constrained="true" outer-join="true"/>
+
+    <property name="ResponsavelSeguro" column="responsavelSeguro" not-null="true"></property>
+
+    <property name="NomeSeguradora" column="nomeSeguradora" not-null="true"></property>
+
+    <property name="NumeroApolice" column="numeroApolice" not-null="true"></property>
+
+  </class>
+</hibernate-mapping>

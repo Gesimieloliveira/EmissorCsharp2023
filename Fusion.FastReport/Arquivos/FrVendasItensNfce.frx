@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="03/09/2018 16:55:20" ReportInfo.Modified="07/23/2018 14:50:25" ReportInfo.CreatorVersion="2016.3.22.0">
+  <Dictionary>
+    <BusinessObjectDataSource Name="dsVenda" ReferenceName="dsVenda" DataType="System.Collections.Generic.List`1[[Fusion.FastReport.DataSources.DsItensVendidos, Fusion.FastReport, Version=6.4.0.9, Culture=neutral, PublicKeyToken=null]]" Enabled="true">
+      <Column Name="ProdutoId" DataType="System.Int32"/>
+      <Column Name="NomeProduto" DataType="System.String"/>
+      <Column Name="UnidadeVenda" DataType="System.String"/>
+      <Column Name="QuantidadeVenda" DataType="System.Decimal"/>
+    </BusinessObjectDataSource>
+    <Parameter Name="PeriodoFiltro" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="66.15">
+      <TextObject Name="Text9" Left="377.55" Top="0.45" Width="340.2" Height="13.9" Text="Relatório de itens vendidos na NFC-E ou SAT" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text14" Left="377.55" Top="17.9" Width="340.2" Height="15.9" Text="Relatório emitido em: [Date]" HorzAlign="Right"/>
+      <TextObject Name="Text8" Left="378" Top="37.8" Width="340.2" Height="18.9" Text="Periodo: [PeriodoFiltro]" HorzAlign="Right"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="68.48" Width="718.2" Height="24.57">
+      <TextObject Name="Text2" Width="75.6" Height="18.9" Text="Código/ID" HorzAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text4" Left="75.6" Width="510.3" Height="18.9" Text="Nome do produto" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text7" Left="632.8" Width="85.05" Height="18.9" Text="Quantidade" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="95.37" Width="718.2" Height="18.9" DataSource="dsVenda">
+      <TextObject Name="Text1" Width="75.6" Height="18.9" Text="[dsVenda.ProdutoId]" Format="Custom" Format.Format="000000" HorzAlign="Center"/>
+      <TextObject Name="Text3" Left="75.6" Width="510.3" Height="18.9" CanBreak="false" Text="[dsVenda.NomeProduto]" WordWrap="false"/>
+      <TextObject Name="Text5" Left="585.9" Width="47.25" Height="18.9" Text="[dsVenda.UnidadeVenda]"/>
+      <TextObject Name="Text6" Left="632.8" Width="85.05" Height="18.9" Text="[dsVenda.QuantidadeVenda]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" WordWrap="false" Trimming="EllipsisCharacter"/>
+    </DataBand>
+  </ReportPage>
+</Report>

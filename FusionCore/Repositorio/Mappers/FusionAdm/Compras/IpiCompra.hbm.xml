@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.FusionAdm.Compras"
+  default-lazy="false"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="IpiCompra" table="nf_compra_item_ipi">
+    <id name="Id" column="nfCompraItem_id">
+      <generator class="foreign">
+        <param name="property">Item</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Item" constrained="true" cascade="none" fetch="join" />
+
+    <many-to-one name="Ipi" cascade="none">
+      <column name="situacaoTributariaIpi_id" not-null="true" />
+    </many-to-one>
+
+    <property name="Aliquota">
+      <column name="aliquota" not-null="true" />
+    </property>
+
+    <property name="BaseCalculo">
+      <column name="baseCalculo" not-null="true" />
+    </property>
+
+    <property name="ValorIpi">
+      <column name="valorIpi" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Pessoas"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PessoaEndereco" table="pessoa_endereco">
+    <id name="Id" column="id" unsaved-value="0" generator="identity" />
+
+    <many-to-one name="Residente" lazy="no-proxy">
+      <column name="pessoa_id" not-null="true" sql-type="int" />
+    </many-to-one>
+
+    <property access="field.camelcase-underscore" name="Logradouro" column="logradouro" length="60" not-null="true" />
+
+    <property access="field.camelcase-underscore" name="Numero" column="numero" length="60" not-null="true" />
+
+    <property access="field.camelcase-underscore" name="Bairro" column="bairro" length="60" not-null="true" />
+
+    <property access="field.camelcase-underscore" name="Cep" column="cep" length="8" not-null="true" />
+
+    <many-to-one access="field.camelcase-underscore" name="Cidade" column="cidade_id" cascade="none" not-null="true" />
+
+    <property name="Complemento" column="complemento" not-null="true" length="60" />
+
+    <property name="Principal" column="principal" not-null="true" />
+
+    <property name="Entrega" column="entrega" not-null="true" />
+
+    <property name="Outros" column="outros" not-null="true" />
+
+  </class>
+</hibernate-mapping>

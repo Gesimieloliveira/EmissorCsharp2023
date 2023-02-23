@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="07/13/2021 16:49:15" ReportInfo.CreatorVersion="2020.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      CbUsuario.SelectedItem = null;
+      bool? possuiPeriodo = Report.GetParameterValue(&quot;PIniciarComPeriodo&quot;) as bool?;
+                
+      if (possuiPeriodo == true) {
+        DatePickerInicial.Value = ((DateTime)Report.GetParameterValue(&quot;PDataInicial&quot;));
+        DatePickerFinal.Value = ((DateTime)Report.GetParameterValue(&quot;PDataFinal&quot;));
+        return;
+      } 
+        
+      DateTime today = DateTime.Today;
+        
+      DatePickerInicial.Value = today;
+      DatePickerFinal.Value = today.AddSeconds(86399);
+    }
+        
+    private void btnOk_Click(object sender, EventArgs e)
+    {
+      if (DatePickerInicial.Value &gt; DatePickerFinal.Value) {
+        MessageBox.Show(&quot;Data inicial não pode ser maior que a data final&quot;);
+        return;
+      }
+      
+      Report.SetParameterValue(&quot;PDataInicial&quot;, DatePickerInicial.Value);
+      Report.SetParameterValue(&quot;PDataFinal&quot;, DatePickerFinal.Value);
+      
+      Form1.Form.DialogResult = DialogResult.OK;
+    }
+    
+    public string StatusParaString(int estado) 
+    {
+      switch (estado) {
+        case 0: return &quot;Aberto&quot;;
+        case 1: return &quot;Fechado&quot;;
+        default: return &quot;&quot;;
+      }
+    }
+    
+    public string PagamentoParaString(int tipo) 
+    {
+      switch (tipo) {
+        case 0:return &quot;DINHEIRO&quot;;
+        case 1:return &quot;CREDITO LOJA&quot;;
+        case 2:return &quot;CARTÃO CRÉDITO&quot;;
+        case 3:return &quot;CARTÃO DÉBITO&quot;;
+        default: return &quot;&quot;;
+      }
+    }
+    
+    public string LocalParaString(int input) 
+    {
+      switch (input) {
+        case 0:return &quot;Gestão&quot;;
+        case 1:return &quot;Terminal Offline&quot;;
+        default: return &quot;&quot;;
+      }
+    }
+    
+    public bool FiltrarUsuario(string login) 
+    {
+      if (string.IsNullOrEmpty(CbUsuario.Text)) {
+        return true;
+      }
+      
+      return CbUsuario.Text.Equals(login);
+    }
+  }
+}</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2geBvN02mjOZLuQGKRweVbyRdeyd+ssOhpZQMtpOQpoqvN68fmvtw3EyZ3z2La+VlNoch9K9fR7xsRMyPcWCdFKzFiAFDm0SQnQPDCEtX/STejQNYFVJS9AYbRD+yF/gl7Dtf1ucH/rHuVyopCWze4tn2LHiswI456LSnD7FsCTFZZvPcAXn8d59OB0c+RHC0M/xVu4hHQ6f8nBBxF/hOZyTSoKfOLT0dgmYPK3dSodvC">
+      <TableDataSource Name="tbCaixaIndividual" Alias="CxIndividual" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select &#13;&#10;	ci.id,&#13;&#10;	ci.usuario_id,&#13;&#10;	ci.estado,&#13;&#10;	ci.localEvento,&#13;&#10;	ci.dataAbertura,&#13;&#10;	ci.saldoInicial,&#13;&#10;	ci.dataFechamento,&#13;&#10;	ci.saldoCalculado,&#13;&#10;	ci.saldoInformado,&#13;&#10;	(ci.saldoCalculado - ci.saldoInformado) as diferenca&#13;&#10;from caixa_individual ci&#13;&#10;where ci.dataFechamento between @pInicial and @pFinal&#13;&#10;order by ci.dataAbertura asc">
+        <Column Name="id" DataType="System.Guid"/>
+        <Column Name="usuario_id" DataType="System.Int32"/>
+        <Column Name="estado" DataType="System.Byte"/>
+        <Column Name="dataAbertura" DataType="System.DateTime"/>
+        <Column Name="saldoInicial" DataType="System.Decimal"/>
+        <Column Name="dataFechamento" DataType="System.DateTime"/>
+        <Column Name="saldoCalculado" DataType="System.Decimal"/>
+        <Column Name="saldoInformado" DataType="System.Decimal"/>
+        <Column Name="localEvento" DataType="System.Byte"/>
+        <Column Name="diferenca" DataType="System.Decimal"/>
+        <CommandParameter Name="pInicial" DataType="4" Expression="[PDataInicial]" DefaultValue="1970-01-01"/>
+        <CommandParameter Name="pFinal" DataType="4" Expression="[PDataFinal]" DefaultValue="1970-01-01"/>
+      </TableDataSource>
+      <TableDataSource Name="tbUsuario" Alias="Usuario" DataType="System.Int32" PropName="Table" Enabled="true" SelectCommand="select * from usuario">
+        <Column Name="id" DataType="System.Int32"/>
+        <Column Name="login" DataType="System.String"/>
+        <Column Name="senha" DataType="System.String"/>
+        <Column Name="tema" DataType="System.String"/>
+        <Column Name="alteradoEm" DataType="System.DateTime"/>
+        <Column Name="cadastradoEm" DataType="System.DateTime"/>
+        <Column Name="apenasFaturamento" DataType="System.Boolean" BindableControl="CheckBox"/>
+      </TableDataSource>
+      <TableDataSource Name="Table" Alias="ResumoFluxo" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	cif.tipoPagamento,&#13;&#10;	coalesce(sum(case when cif.tipoOperacao = 1 then cif.valorOperacao end), 0) as totalSaida,&#13;&#10;	coalesce(sum(case when cif.tipoOperacao = 0 then cif.valorOperacao end), 0) as totalEntrada&#13;&#10;from caixa_individual_fluxo cif&#13;&#10;where cif.caixaIndividual_id = @caixaId&#13;&#10;group by cif.tipoPagamento">
+        <Column Name="tipoPagamento" DataType="System.Int16"/>
+        <Column Name="totalSaida" DataType="System.Decimal"/>
+        <Column Name="totalEntrada" DataType="System.Decimal"/>
+        <Column Name="total" DataType="System.Decimal" PropName="Column" Calculated="true" Expression="[ResumoFluxo.totalEntrada]+[ResumoFluxo.totalSaida]"/>
+        <CommandParameter Name="caixaId" DataType="14" Expression="[CxIndividual.id]" DefaultValue="00000000-0000-0000-0000-000000000000"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Relation Name="tbCaixaIndividual_tbCalculoTotal" ParentDataSource="tbCaixaIndividual" ChildDataSource="null" ParentColumns="id" ChildColumns="caixaCalculo_id" Enabled="true"/>
+    <Relation Name="dsUsuario" ParentDataSource="tbUsuario" ChildDataSource="tbCaixaIndividual" ParentColumns="id" ChildColumns="usuario_id" Enabled="true"/>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+    <Parameter Name="PDataInicial" DataType="System.DateTime"/>
+    <Parameter Name="PDataFinal" DataType="System.DateTime"/>
+    <Parameter Name="PIniciarComPeriodo" DataType="System.Boolean"/>
+    <Total Name="SomaDiferenca" Expression="[CxIndividual.diferenca]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="SomaDinheiro" Expression="[ResumoFluxo.total]" Evaluator="Data2" PrintOn="GroupFooter1" EvaluateCondition="[ResumoFluxo.tipoPagamento]==0"/>
+  </Dictionary>
+  <DialogPage Name="Form1" Width="576" Height="340" AcceptButton="btnOk" CancelButton="btnCancel" Font="Tahoma, 8pt" LoadEvent="Form1_Load">
+    <ButtonControl Name="btnOk" Left="392" Top="262" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="0" Text="OK" ClickEvent="btnOk_Click"/>
+    <ButtonControl Name="btnCancel" Left="475" Top="262" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="1" Text="Cancelar" DialogResult="Cancel"/>
+    <GroupBoxControl Name="GroupBox1" Left="8" Top="8" Width="540" Height="92" Font="Tahoma, 8pt" TabIndex="2" Text="Período dos caixas">
+      <DateTimePickerControl Name="DatePickerInicial" Left="8" Top="52" Width="208" Height="24" Font="Tahoma, 8pt" TabIndex="3" Text="01/07/2019 21:53:18" CustomFormat="dd/MM/yyyy HH:mm:ss" Format="Custom" Value="07/01/2019 21:53:18"/>
+      <DateTimePickerControl Name="DatePickerFinal" Left="232" Top="52" Width="208" Height="24" Font="Tahoma, 8pt" TabIndex="3" Text="01/07/2019 21:53:33" CustomFormat="dd/MM/yyyy HH:mm:ss" Format="Custom" Value="07/01/2019 21:53:33"/>
+      <LabelControl Name="Label1" Left="8" Top="28" Width="71" Height="21" Font="Tahoma, 8pt" TabIndex="3" Text="Data inicial"/>
+      <LabelControl Name="Label2" Left="232" Top="28" Width="63" Height="21" Font="Tahoma, 8pt" TabIndex="3" Text="Data final"/>
+    </GroupBoxControl>
+    <GroupBoxControl Name="GroupBox2" Left="8" Top="112" Width="540" Height="72" Font="Tahoma, 8pt" TabIndex="3" Text="Operador do caixa" ClickEvent="GroupBox2_Click">
+      <ComboBoxControl Name="CbUsuario" Left="8" Top="28" Width="513" Height="24" Font="Tahoma, 8pt" TabIndex="4" AutoFilter="false" DataColumn="CxIndividual.Usuario.login" DropDownWidth="521" ItemHeight="16"/>
+    </GroupBoxControl>
+  </DialogPage>
+  <ReportPage Name="Page1" PaperWidth="80" PaperHeight="200" LeftMargin="3" TopMargin="0" RightMargin="3" BottomMargin="0" Guides="0,279.72" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="279.72" Height="69.93">
+      <TextObject Name="Text1" Top="18.9" Width="279.72" Height="22.68" Text="Listagem de caixas fechados" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text2" Top="41.58" Width="279.72" Height="11.34" Text="Data Impressão: [Date]" Format="Custom" Format.Format="dd/MM/yyyy HH:mm:ss" HorzAlign="Right" Font="Arial, 7pt"/>
+      <TextObject Name="Text3" Top="52.92" Width="279.72" Height="11.34" Text="Periodo Fechamento: [PDataInicial] à [PDataFinal]" HorzAlign="Right" Font="Arial, 7pt">
+        <Formats>
+          <CustomFormat Format="dd/MM/yyyy HH:mm:ss"/>
+          <CustomFormat Format="dd/MM/yyyy HH:mm:ss"/>
+        </Formats>
+      </TextObject>
+    </ReportTitleBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="71.6" Width="279.72" Height="20.79" Condition="[CxIndividual.Usuario.login]">
+      <TextObject Name="Text5" Width="279.72" Height="20.79" Text="Operador: [CxIndividual.Usuario.login]" HorzAlign="Center" VertAlign="Center" Font="Arial, 8pt, style=Bold"/>
+      <DataBand Name="Data1" Top="94.05" Width="279.72" Height="37.8" Border.Lines="Left, Right, Top" Border.Width="0.25" DataSource="tbCaixaIndividual" Filter="FiltrarUsuario([CxIndividual.Usuario.login])">
+        <TextObject Name="Text14" Left="215.46" Top="26.46" Width="64.26" Height="11.34" Text="Diferença Saldo" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+        <TextObject Name="Text15" Left="147.42" Top="26.46" Width="68.04" Height="11.34" Text="Saldo Conferido" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+        <TextObject Name="Text16" Left="81.27" Top="26.46" Width="66.15" Height="11.34" Text="Saldo Calculado" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+        <TextObject Name="Text28" Top="11.34" Width="279.72" Height="11.34" Text="Local: [LocalParaString([CxIndividual.localEvento])]" Font="Arial, 7pt">
+          <Formats>
+            <CustomFormat Format="dd/MM/yy HH:mm"/>
+            <CustomFormat Format="dd/MM/yy HH:mm"/>
+          </Formats>
+        </TextObject>
+        <TextObject Name="Text4" Width="279.72" Height="11.34" Text="Aberto às: [CxIndividual.dataAbertura] Fechado às: [CxIndividual.dataFechamento]" Font="Arial, 7pt">
+          <Formats>
+            <CustomFormat Format="dd/MM/yy HH:mm"/>
+            <CustomFormat Format="dd/MM/yy HH:mm"/>
+          </Formats>
+        </TextObject>
+        <ChildBand Name="Child1" Top="133.52" Width="279.72" Height="18.9" Border.Lines="Left, Right" Border.Width="0.25">
+          <TextObject Name="Text11" Left="81.27" Width="66.15" Height="11.34" Text="[CxIndividual.saldoCalculado]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+          <TextObject Name="Text12" Left="147.42" Width="68.04" Height="11.34" Text="[CxIndividual.saldoInformado]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+          <TextObject Name="Text13" Left="215.46" Width="64.26" Height="11.34" Text="[CxIndividual.diferenca]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+        </ChildBand>
+        <DataBand Name="Data2" Top="167.09" Width="279.72" Height="11.34" Border.Lines="Left, Right" Border.Width="0.25" CanShrink="true" DataSource="Table" PrintIfDetailEmpty="true">
+          <TextObject Name="Text6" Width="115.29" Height="11.34" Text="[PagamentoParaString([ResumoFluxo.tipoPagamento])]" Font="Arial, 7pt"/>
+          <TextObject Name="Text7" Left="226.8" Width="52.92" Height="11.34" Text="[ResumoFluxo.total]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+          <TextObject Name="Text18" Left="173.88" Width="52.92" Height="11.34" Text="[ResumoFluxo.totalSaida]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+          <TextObject Name="Text20" Left="120.96" Width="52.92" Height="11.34" Text="[ResumoFluxo.totalEntrada]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+          <DataHeaderBand Name="DataHeader1" Top="154.09" Width="279.72" Height="11.34" Border.Lines="Left, Right, Top" Border.LeftLine.Width="0.25" Border.TopLine.Style="Dash" Border.TopLine.Width="0.25" Border.RightLine.Width="0.25" Border.BottomLine.Width="0.25">
+            <TextObject Name="Text8" Width="115.29" Height="11.34" Text="Forma de Pagamento" VertAlign="Center" Font="Arial, 7pt, style=Bold"/>
+            <TextObject Name="Text9" Left="226.8" Width="52.92" Height="11.34" Text="Total" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 7pt, style=Bold"/>
+            <TextObject Name="Text19" Left="173.88" Width="52.92" Height="11.34" Text="Saidas" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 7pt, style=Bold"/>
+            <TextObject Name="Text21" Left="120.96" Width="52.92" Height="11.34" Text="Entradas" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 7pt, style=Bold"/>
+          </DataHeaderBand>
+          <DataFooterBand Name="DataFooter1" Top="180.1" Width="279.72" Height="7.56" Border.Lines="Top" Border.Width="0.25"/>
+        </DataBand>
+        <Sort>
+          <Sort Expression="[CxIndividual.dataAbertura]"/>
+        </Sort>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="189.33" Width="279.72" Height="35.91" Border.Lines="All" Border.Width="0.25">
+        <TextObject Name="Text22" Left="130.41" Top="24.57" Width="77.49" Height="11.34" Text="Total Diferença:" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+        <TextObject Name="Text23" Left="130.41" Top="13.23" Width="77.49" Height="11.34" Text="Total em Dinheiro:" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+        <TextObject Name="Text24" Left="207.9" Top="24.57" Width="71.82" Height="11.34" Text="[SomaDiferenca]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+        <TextObject Name="Text25" Left="207.9" Top="13.23" Width="71.82" Height="11.34" Text="[SomaDinheiro]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 7pt"/>
+        <TextObject Name="Text27" Width="279.72" Height="13.23" Text="Resumo operador: [CxIndividual.Usuario.login]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" Font="Arial, 7pt"/>
+        <ChildBand Name="Child2" Top="226.9" Width="279.72" Height="11.34"/>
+      </GroupFooterBand>
+    </GroupHeaderBand>
+    <ColumnFooterBand Name="ColumnFooter1" Top="239.91" Width="279.72" Height="18.9"/>
+  </ReportPage>
+</Report>

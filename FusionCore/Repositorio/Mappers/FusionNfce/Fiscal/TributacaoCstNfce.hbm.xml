@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal.Tributacoes"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="TributacaoCstNfce" table="tributacao_cst">
+    <id name="Id" column="id"/>
+
+    <property name="Descricao" column="descricao" not-null="true"/>
+    <property name="RegimeTributario" column="regimeTributario" not-null="true"/>
+  </class>
+</hibernate-mapping>

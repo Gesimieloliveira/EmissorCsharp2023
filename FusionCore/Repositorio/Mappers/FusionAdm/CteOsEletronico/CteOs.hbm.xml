@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronicoOs.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteOs" table="cte_os">
+    <id name="Id" column="id" generator="identity" />
+
+    <many-to-one name="Perfil" cascade="none" class="FusionCore.FusionAdm.CteEletronicoOs.Perfil.PerfilCteOs">
+      <column name="perfil_cte_os_id" not-null="true"></column>
+    </many-to-one>
+
+    <property name="NaturezaOperacao" column="naturezaOperacao" not-null="true" />
+
+    <property name="Tipo" column="tipo" not-null="true" />
+
+    <property name="Servico" column="servico" not-null="true" />
+
+    <property name="Modal" column="modal" not-null="true" />
+
+    <component name="PrecoServico">
+      <property name="Valor" column="valorServico" not-null="true" />
+      <property name="AReceber" column="valorAReceber" not-null="true" />
+    </component>
+
+    <many-to-one name="PerfilCfop" not-null="true" cascade="none"
+                 class="FusionCore.Repositorio.Legacy.Entidades.Adm.PerfilCfopDTO">
+      <column name="perfilCfop_id"></column>
+    </many-to-one>
+
+    <property name="Observacao" column="observacao" not-null="true" />
+
+    <property name="EmissaoEm" column="emissaoEm" not-null="true" />
+
+    <property name="SerieEmissao" column="serieEmissao" not-null="true" />
+
+    <property name="NumeroEmissao" column="numeroEmissao" not-null="true" />
+
+    <property name="Status" column="status" not-null="true" />
+
+    <property name="TipoEmissao" column="tipoEmissao" not-null="true" />
+
+    <property name="TipoFretamento" column="tipoFretamento" not-null="true" />
+
+    <property name="ViagemEm" column="viagemEm" not-null="false" />
+
+
+    <many-to-one name="Tomador" not-null="true" cascade="none" class="FusionCore.FusionAdm.Pessoas.PessoaEntidade">
+      <column name="tomador_id"></column>
+    </many-to-one>
+
+    <many-to-one name="Emitente" not-null="true" cascade="none"
+                 class="FusionCore.Repositorio.Legacy.Entidades.Adm.EmpresaDTO">
+      <column name="emitente_id"></column>
+    </many-to-one>
+
+    <component name="LocalInicialPrestacao" class="FusionCore.FusionAdm.CteEletronicoOs.LocalInicialPrestacao">
+      <many-to-one name="EstadoUF" cascade="none" class="FusionCore.Repositorio.Legacy.Entidades.Adm.EstadoDTO">
+        <column name="localInicioEstadoUf_id" not-null="false"></column>
+      </many-to-one>
+
+      <many-to-one name="Cidade" cascade="none" class="FusionCore.Repositorio.Legacy.Entidades.Adm.CidadeDTO">
+        <column name="localInicioCidade_id" not-null="false"></column>
+      </many-to-one>
+    </component>
+
+    <component name="LocalFinalPrestacao" class="FusionCore.FusionAdm.CteEletronicoOs.LocalFinalPrestacao">
+      <many-to-one name="EstadoUF" cascade="none" class="FusionCore.Repositorio.Legacy.Entidades.Adm.EstadoDTO">
+        <column name="localFinalEstadoUf_id" not-null="false"></column>
+      </many-to-one>
+
+      <many-to-one name="Cidade" cascade="none" class="FusionCore.Repositorio.Legacy.Entidades.Adm.CidadeDTO">
+        <column name="localFinalCidade_id" not-null="false"></column>
+      </many-to-one>
+    </component>
+
+    <many-to-one name="Veiculo" not-null="true" cascade="none" class="FusionCore.FusionAdm.Automoveis.Veiculo">
+      <column name="veiculo_id"></column>
+    </many-to-one>
+
+    <bag name="Seguros" table="cte_os_seguro" cascade="none" inverse="true">
+      <key column="cteOs_id"></key>
+      <one-to-many class="CteOsSeguro" />
+    </bag>
+
+    <bag name="Percursos" table="cte_os_percurso" cascade="none" inverse="true">
+      <key column="cteOs_id"></key>
+      <one-to-many class="CteOsPercurso" />
+    </bag>
+
+    <bag name="Componentes" table="cte_os_componente" cascade="none" inverse="true">
+      <key column="cteOs_id"></key>
+      <one-to-many class="CteOsComponenteValorPrestacao" />
+    </bag>
+
+    <bag name="DocumentoReferenciado" table="cte_os_documento_referenciado" cascade="none" inverse="true">
+      <key column="cteOs_id"></key>
+      <one-to-many class="FusionCore.FusionAdm.CteEletronicoOs.Emissao.CteOsDocumentoReferenciado" />
+    </bag>
+
+    <one-to-one name="Rodoviario"
+                cascade="save-update"
+                outer-join="true" />
+
+    <one-to-one name="Normal"
+                cascade="save-update"
+                outer-join="true" />
+
+    <one-to-one name="Emissao"
+                cascade="save-update"
+                outer-join="true" />
+
+    <one-to-one name="TributacaoIcms"
+                cascade="save-update"
+                outer-join="true" />
+
+    <one-to-one name="TributacaoFederal"
+                cascade="save-update"
+                outer-join="true" />
+
+    <one-to-one name="TributacaoDifal"
+                cascade="save-update"
+                outer-join="true" />
+
+    <one-to-one name="ConfigImposto"
+                cascade="save-update"
+                outer-join="true" />
+
+    <one-to-one name="Cancelado"
+                class="FusionCore.FusionAdm.CteEletronicoOs.Cancelamento.CteOsCancelado"
+                cascade="none"
+                outer-join="true" />
+
+  </class>
+</hibernate-mapping>

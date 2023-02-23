@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteInfoQuantidadeCarga" table="cte_carga">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="Cte" cascade="none">
+      <column name="cte_id" not-null="true" />
+    </many-to-one>
+
+    <property name="UnidadeMedida" not-null="true">
+      <column name="unidadeMedida" />
+    </property>
+
+    <property name="TipoUnidadeMedidaDescricao" not-null="true">
+      <column name="tipoMedidaDescricao" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="Quantidade" not-null="true">
+      <column name="quantidade" />
+    </property>
+  </class>
+</hibernate-mapping>

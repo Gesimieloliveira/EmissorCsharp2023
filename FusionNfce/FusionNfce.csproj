@@ -1,0 +1,869 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5AB252DA-C8C0-4EEE-B65F-41B1093EC935}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FusionNfce</RootNamespace>
+    <AssemblyName>FusionNFCe</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>FusionNfce.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>nfce.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.4.3.2\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe.Classes, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\DFe.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe.Utils, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\DFe.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe.Wsdl, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\DFe.Wsdl.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.11.4.0\lib\netstandard2.0\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.4\lib\net461\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Ini.Net, Version=1.0.5531.18665, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ini.net.1.1.0\lib\net20\Ini.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.2.2.0\lib\net46\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.SimpleChildWindow, Version=2.0.0.0, Culture=neutral, PublicKeyToken=ca3e0454e54ef52a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.SimpleChildWindow.2.0.0-alpha0043\lib\net46\MahApps.Metro.SimpleChildWindow.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Classes, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\NFe.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Servicos, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\NFe.Servicos.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Utils, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\NFe.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Wsdl, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\NFe.Wsdl.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.4.1.2.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenAC.Net.Core, Version=1.5.0.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenAC.Net.Core.1.5.0.1\lib\net452\OpenAC.Net.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenAC.Net.DFe.Core, Version=1.5.0.0, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenAC.Net.DFe.Core.1.5.0.1\lib\net452\OpenAC.Net.DFe.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenAC.Net.Sat, Version=1.5.0.1, Culture=neutral, PublicKeyToken=d3bb9130f8b775a6, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenAC.Net.Sat.1.5.0.1\lib\net452\OpenAC.Net.Sat.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.5.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.SQLite, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.113.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.113.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.4.5.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.4.5.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.5.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Http, Version=4.9.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ServiceModel.Http.4.9.0\lib\net461\System.ServiceModel.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Primitives, Version=4.9.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ServiceModel.Primitives.4.9.0\lib\net461\System.ServiceModel.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Input.Manipulations" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Tef.Dominio, Version=0.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\agil4.tef.0.0.0.14-beta\lib\net452\Tef.Dominio.dll</HintPath>
+    </Reference>
+    <Reference Include="Tef.Infra, Version=0.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\agil4.tef.0.0.0.14-beta\lib\net452\Tef.Infra.dll</HintPath>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WpfControls">
+      <HintPath>..\3rd\WPF-AutoComplete\WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.7.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.7.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.7.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.7.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.7.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.7.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="AutorizacaoSatFiscal\AssociarAssinaturaSat.cs" />
+    <Compile Include="AutorizacaoSatFiscal\AtivarSat.cs" />
+    <Compile Include="AutorizacaoSatFiscal\AutorizacaoSatFiscal\AutorizarSat.cs" />
+    <Compile Include="AutorizacaoSatFiscal\Configuracao\Configuracao\ConfiguracaoDllSat.cs" />
+    <Compile Include="AutorizacaoSatFiscal\Configuracao\Configuracao\ConfiguracaoDllSatCriador.cs" />
+    <Compile Include="AutorizacaoSatFiscal\Configuracao\Configuracao\ModeloSatFusion.cs" />
+    <Compile Include="AutorizacaoSatFiscal\Criadores\CriaAcbrSat.cs" />
+    <Compile Include="AutorizacaoSatFiscal\Ext\Extencoes\ExtINfceImpostoIcms.cs" />
+    <Compile Include="AutorizacaoSatFiscal\Ext\Extencoes\ExtNfceSatImpostoCofins.cs" />
+    <Compile Include="AutorizacaoSatFiscal\Ext\Extencoes\ExtNfceSatImpostoPis.cs" />
+    <Compile Include="AutorizacaoSatFiscal\Ext\ExtSatRepostaCodigoDeErro.cs" />
+    <Compile Include="AutorizacaoSatFiscal\Ext\ExtSatRespostaCodigoDeRetorno.cs" />
+    <Compile Include="AutorizacaoSatFiscal\Helper\DanfeSatHelper.cs" />
+    <Compile Include="Core\ControlaServicoSincronizador.cs" />
+    <Compile Include="Core\FabricaTef.cs" />
+    <Compile Include="Core\TrocarCertificadoDigital.cs" />
+    <Compile Include="DI\Providers\ControleCaixaProvider.cs" />
+    <Compile Include="Impressao\ServicoImpressaoNfce.cs" />
+    <Compile Include="Parcelamento\ParcelamentoFactory.cs" />
+    <Compile Include="Parcelamento\RepositorioParcelamento.cs" />
+    <Compile Include="Servicos\QuantidadeDeNFCeComErros.cs" />
+    <Compile Include="Servicos\RestricaoClienteObrigatorio.cs" />
+    <Compile Include="Servicos\VerificaSeTemErros.cs" />
+    <Compile Include="Visao\Autorizacao\Emissao\AutorizacaoNfceModel.cs" />
+    <Compile Include="Visao\Autorizacao\Emissao\AutorizacaoNfceView.xaml.cs">
+      <DependentUpon>AutorizacaoNfceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Autorizacao\Emissao\TipoNotificacao.cs" />
+    <Compile Include="Visao\Autorizacao\Opcoes\NfceOpcoes.xaml.cs">
+      <DependentUpon>NfceOpcoes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Autorizacao\Opcoes\NfceOpcoesModel.cs" />
+    <Compile Include="Visao\Autorizacao\SatFiscal\AutorizacaoSatModel.cs" />
+    <Compile Include="Visao\Autorizacao\SatFiscal\AutorizacaoSatView.xaml.cs">
+      <DependentUpon>AutorizacaoSatView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Autorizacao\SatFiscal\TipoNotificacao.cs" />
+    <Compile Include="Visao\Avisos\Aviso.cs" />
+    <Compile Include="Visao\Avisos\AvisosForm.xaml.cs">
+      <DependentUpon>AvisosForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Avisos\AvisosFormModel.cs" />
+    <Compile Include="Visao\Backup\BackupForm.xaml.cs">
+      <DependentUpon>BackupForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Backup\BackupFormModel.cs" />
+    <Compile Include="Visao\BarraDeProgresso\ProgressBarAgil4.xaml.cs">
+      <DependentUpon>ProgressBarAgil4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Cancelamento\CanceladorSefaz.cs" />
+    <Compile Include="Visao\Cancelamento\CancelamentoNfceView.xaml.cs">
+      <DependentUpon>CancelamentoNfceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Cancelamento\CancelamentoNfceModel.cs" />
+    <Compile Include="Visao\Configuracao\PreferenciasTerminalContexto.cs" />
+    <Compile Include="Visao\Configuracao\PreferenciasTerminalView.xaml.cs">
+      <DependentUpon>PreferenciasTerminalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ConfiguraCertificado\CertificadoDigitalForm.xaml.cs">
+      <DependentUpon>CertificadoDigitalForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ConfiguraCertificado\CertificadoDigitalFormModel.cs" />
+    <Compile Include="Visao\ConsultaProduto\ConsultaProdutosContexto.cs" />
+    <Compile Include="Visao\ConsultaProduto\ConsultaProdutosView.xaml.cs">
+      <DependentUpon>ConsultaProdutosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ConsultaProduto\UltimaBuscaEfetuadaDoDia.cs" />
+    <Compile Include="Visao\ConsultaVendedores\ConsultaVendedorForm.xaml.cs">
+      <DependentUpon>ConsultaVendedorForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ConsultaVendedores\ConsultaVendedorFormModel.cs" />
+    <Compile Include="Visao\PedidoVendaLista\ImprimirPedidoVenda.cs" />
+    <Compile Include="Visao\PedidoVendaLista\PedidoVendaListaForm.xaml.cs">
+      <DependentUpon>PedidoVendaListaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\PedidoVendaLista\PedidoVendaListaFormModel.cs" />
+    <Compile Include="Visao\Principal\AvancaNumeracao\AvancaNumeracaoFiscal.xaml.cs">
+      <DependentUpon>AvancaNumeracaoFiscal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\AvancaNumeracao\AvancaNumeracaoFiscalModel.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\AlteraTotais\AdicionaDescontoOuAcrescimoForm.xaml.cs">
+      <DependentUpon>AdicionaDescontoOuAcrescimoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\FinalizarVenda\AlteraTotais\AdicionaDescontoOuAcrescimoFormModel.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\CartoesPos\CartaoPosForm.xaml.cs">
+      <DependentUpon>CartaoPosForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\FinalizarVenda\CartoesPos\CartaoPosFormModel.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\FormasPagamento\CartaoCredito.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\FormasPagamento\CartaoDebito.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\FormasPagamento\CartaoTef.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\FormasPagamento\Outros.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\FormasPagamento\Pix.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\Outros\DescricaoOutrosForm.xaml.cs">
+      <DependentUpon>DescricaoOutrosForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\FinalizarVenda\Outros\DescricaoOutrosFormModel.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\Tef\Pos\EfetuaPagamentoPosForm.xaml.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\Tef\Pos\EfetuaPagamentoPosFormModel.cs" />
+    <Compile Include="Visao\Principal\MaisOpcoesForm.xaml.cs">
+      <DependentUpon>MaisOpcoesForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\MaisOpcoesFormModel.cs" />
+    <Compile Include="Visao\Principal\SolicitaInformacoes\SolicitaInforamcoesItemView.xaml.cs">
+      <DependentUpon>SolicitaInforamcoesItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\SolicitaInformacoes\SolicitaInforamcoesItemContexto.cs" />
+    <Compile Include="Visao\Principal\SolicitaTotal\SolicitaTotalContexto.cs" />
+    <Compile Include="Visao\Principal\Tef\ConfiguraTefFormModel.cs" />
+    <Compile Include="Visao\Principal\Tef\ConfiguraTefForm.xaml.cs">
+      <DependentUpon>ConfiguraTefForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Vendas\NfceOpcoesViewModel.cs" />
+    <Compile Include="Visao\Vendas\NfceOpcoesWindow.xaml.cs">
+      <DependentUpon>NfceOpcoesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Cfops\PickerCfopModel.cs" />
+    <Compile Include="Visao\Clientes\ClientesForm.xaml.cs">
+      <DependentUpon>ClientesForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Clientes\ClientesFormModel.cs" />
+    <Compile Include="Visao\Clientes\Model\ClienteEvent.cs" />
+    <Compile Include="Visao\Conexao\ConexaoForm.xaml.cs">
+      <DependentUpon>ConexaoForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Conexao\ConexaoFormModel.cs" />
+    <Compile Include="Visao\ConfiguracaoTerminal\ConfiguracaoTerminalForm.xaml.cs">
+      <DependentUpon>ConfiguracaoTerminalForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\ConfiguracaoTerminal\ConfiguracaoTerminalFormModel.cs" />
+    <Compile Include="Visao\Configuracao\Impressao\ConfiguracaoImpressaoDiretaForm.xaml.cs">
+      <DependentUpon>ConfiguracaoImpressaoDiretaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Configuracao\Impressao\ConfiguracaoImpressaoDiretaFormModel.cs" />
+    <Compile Include="Visao\Configuracao\Impressao\ConfiguracaoImpressora.cs" />
+    <Compile Include="Visao\Configuracao\Impressao\ModeloMiniImpressora.cs" />
+    <Compile Include="Visao\Configuracao\Impressao\SalvarImpressaoDireta.cs" />
+    <Compile Include="Visao\Contigencia\ContigenciaForm.xaml.cs">
+      <DependentUpon>ContigenciaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Contigencia\ContigenciaFormModel.cs" />
+    <Compile Include="Visao\Login\LoginForm.xaml.cs">
+      <DependentUpon>LoginForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Login\LoginFormModel.cs" />
+    <Compile Include="Visao\Principal\AlteraItem\AlteraItemForm.xaml.cs">
+      <DependentUpon>AlteraItemForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\AlteraItem\AlteraItemFormModel.cs" />
+    <Compile Include="Visao\Principal\CodigoAtivacaoSAT\OpcaoCodigoAtivacao.cs" />
+    <Compile Include="Visao\Principal\CodigoAtivacaoSAT\TrocaCodigoAtivacaoSATForm.xaml.cs">
+      <DependentUpon>TrocaCodigoAtivacaoSATForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\CodigoAtivacaoSAT\TrocaCodigoAtivacaoSATFormModel.cs" />
+    <Compile Include="Visao\Principal\ConfiguracoesSAT\ConfiguracoesSATForm.xaml.cs">
+      <DependentUpon>ConfiguracoesSATForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\ConfiguracoesSAT\ConfiguracoesSATFormModel.cs" />
+    <Compile Include="Visao\Principal\ConsultaProdutoRapida\ConsultaProdutoRapidaFormModel.cs" />
+    <Compile Include="Visao\Principal\ConsultaProdutoRapida\ConsultaProdutoRapidaForm.xaml.cs">
+      <DependentUpon>ConsultaProdutoRapidaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\Contratos\IComandoCaixa.cs" />
+    <Compile Include="Visao\Principal\Contratos\IComandoVenda.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\AddClienteVendaForm.xaml.cs">
+      <DependentUpon>AddClienteVendaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\FinalizarVenda\AddClienteVendaFormModel.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\AjusteSaldo.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\FinalizarVendaForm.xaml.cs">
+      <DependentUpon>FinalizarVendaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\FinalizarVenda\FinalizarVendaFormModel.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\Flyout\FlyoutObservacao.xaml.cs">
+      <DependentUpon>FlyoutObservacao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\FinalizarVenda\Flyout\FlyoutObservacaoModel.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\FormasPagamento\CartaoPos.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\FormasPagamento\Contratos\IFormaPagamento.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\FormasPagamento\Crediario.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\FormasPagamento\Dinheiro.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\FormasPagamento\FormaPagamento.cs" />
+    <Compile Include="Visao\Principal\FinalizarVenda\FormasPagamento\Model\Informacao.cs" />
+    <Compile Include="Visao\Principal\Implementacoes\Caixa\ComandoCaixaAdicionaQuantidade.cs" />
+    <Compile Include="Visao\Principal\Implementacoes\Caixa\ComandoCaixaAlterarItem.cs" />
+    <Compile Include="Visao\Principal\Implementacoes\Caixa\ComandoCaixaCancelarItem.cs" />
+    <Compile Include="Visao\Principal\Implementacoes\Caixa\ComandoCaixaNormal.cs" />
+    <Compile Include="Visao\Principal\Implementacoes\ComandoAbrirVenda.cs" />
+    <Compile Include="Visao\Principal\Implementacoes\ComandoVazio.cs" />
+    <Compile Include="Visao\Principal\Model\ItemEvent.cs" />
+    <Compile Include="Visao\Principal\Implementacoes\ComandoVenderItem.cs" />
+    <Compile Include="Visao\Principal\Model\NfceEvent.cs" />
+    <Compile Include="Visao\Principal\RecuperarVenda\RecuperarVendaForm.xaml.cs">
+      <DependentUpon>RecuperarVendaForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\RecuperarVenda\RecuperarVendaFormModel.cs" />
+    <Compile Include="Visao\Principal\SolicitaTotal\SolicitaTotalForm.xaml.cs">
+      <DependentUpon>SolicitaTotalForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\StatusVenda.cs" />
+    <Compile Include="Visao\Principal\StatusVendaExt.cs" />
+    <Compile Include="Visao\Principal\VendaCaixa.xaml.cs">
+      <DependentUpon>VendaCaixa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Principal\VendaModel.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Visao\Splash\SplashNfce.xaml.cs">
+      <DependentUpon>SplashNfce.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\Splash\SplashNfceModel.cs" />
+    <Page Include="Visao\Autorizacao\Emissao\AutorizacaoNfceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Autorizacao\Opcoes\NfceOpcoes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Autorizacao\SatFiscal\AutorizacaoSatView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Avisos\AvisosForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Backup\BackupForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\BarraDeProgresso\ProgressBarAgil4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Cancelamento\CancelamentoNfceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Configuracao\PreferenciasTerminalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ConfiguraCertificado\CertificadoDigitalForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ConsultaProduto\ConsultaProdutosView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ConsultaVendedores\ConsultaVendedorForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\PedidoVendaLista\PedidoVendaListaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\AvancaNumeracao\AvancaNumeracaoFiscal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\FinalizarVenda\AlteraTotais\AdicionaDescontoOuAcrescimoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\FinalizarVenda\CartoesPos\CartaoPosForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\FinalizarVenda\Outros\DescricaoOutrosForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\FinalizarVenda\Tef\Pos\EfetuaPagamentoPosForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Principal\MaisOpcoesForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\SolicitaInformacoes\SolicitaInforamcoesItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\Tef\ConfiguraTefForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Vendas\NfceOpcoesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Clientes\ClientesForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Conexao\ConexaoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\ConfiguracaoTerminal\ConfiguracaoTerminalForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Configuracao\Impressao\ConfiguracaoImpressaoDiretaForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Contigencia\ContigenciaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Login\LoginForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\AlteraItem\AlteraItemForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\CodigoAtivacaoSAT\TrocaCodigoAtivacaoSATForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\ConfiguracoesSAT\ConfiguracoesSATForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\ConsultaProdutoRapida\ConsultaProdutoRapidaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\FinalizarVenda\AddClienteVendaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\FinalizarVenda\FinalizarVendaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\FinalizarVenda\Flyout\FlyoutObservacao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\RecuperarVenda\RecuperarVendaForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\SolicitaTotal\SolicitaTotalForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Visao\Principal\VendaCaixa.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Visao\Splash\SplashNfce.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="SATdll\Dimep\satdimep.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fusion.FastReport\Fusion.FastReport.csproj">
+      <Project>{8564613C-FD06-4598-B9F7-9E83522C2EB8}</Project>
+      <Name>Fusion.FastReport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fusion.Storage\Fusion.Storage.csproj">
+      <Project>{2AA34B8F-10F4-4715-8F13-3AE46DCA61C3}</Project>
+      <Name>Fusion.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fusion.WhiteLabel\Fusion.WhiteLabel.csproj">
+      <Project>{979d28b2-fdd0-4348-99b6-83fa6f4b163f}</Project>
+      <Name>Fusion.WhiteLabel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FusionCore\FusionCore.csproj">
+      <Project>{97B55012-27D3-46DD-9D50-1D100A3BDA49}</Project>
+      <Name>FusionCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FusionNfce.Storage\FusionNfce.Storage.csproj">
+      <Project>{BC3C9946-F5C8-46B2-8427-0FCC9A693886}</Project>
+      <Name>FusionNfce.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FusionWPF\FusionWPF.csproj">
+      <Project>{18f7020d-bc95-4230-8eef-90609f6fe0e7}</Project>
+      <Name>FusionWPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Library\FusionLibrary.csproj">
+      <Project>{964065f5-98c9-41e8-8db2-0cad6d227a1a}</Project>
+      <Name>FusionLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="nfce.ico" />
+    <Content Include="SATdll\ControlId\libsatid.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Daruma\dllsat.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Daruma\libeay32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Daruma\openssl.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Daruma\ssleay32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Elgin\borlndmm.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Elgin\cc32150.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Elgin\cc32150mt.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Elgin\dllsat.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Elgin\dllsat64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Elgin\iconv.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Elgin\libgcc_s_dw2-1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Elgin\libstdc++-6.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Elgin\libxml2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Elgin\zlib.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Elgin\zlib1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Nitere\dllsat.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Urano\SAT.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="SATdll\Bematech\bemasat.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="SATdll\Bematech\BemaSAT32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Dimep\dllsat.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Dimep\zlib.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Emulador\SAT.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Gertec\GERSAT.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="SATdll\Kryptus\FimAFim.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="SATdll\Kryptus\SAT.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Sweda\iconv.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Sweda\libxml2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Sweda\msvcp100.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Sweda\msvcr100.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Sweda\SATDLL.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Sweda\zlib1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SATdll\Tanca\SAT.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="SATdll\Tanca\TANCA_SAT.INF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\MfeParaNfce\" />
+    <Folder Include="Entidade\DTO\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.WinFX.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>sc stop FusionApi
+exit 0</PreBuildEvent>
+  </PropertyGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" />
+  <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

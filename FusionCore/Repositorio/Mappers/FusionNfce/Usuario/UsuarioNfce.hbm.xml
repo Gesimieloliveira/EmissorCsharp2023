@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Usuario"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="UsuarioNfce" table="usuario">
+    <id name="Id" column="id" />
+    
+    <property name="Login">
+      <column name="login" sql-type="varchar" not-null="true" unique="true" />
+    </property>
+    
+    <property name="Senha">
+      <column name="senha" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="Tema">
+      <column name="tema" sql-type="varchar" not-null="true" />
+    </property>
+
+    <bag access="field" name="_papeis" table="usuario_papel" cascade="none" inverse="true">
+      <key column="usuario_id" />
+      <many-to-many class="FusionCore.FusionNfce.Usuario.Papeis.PapelNfce" column="papel_id" />
+    </bag>
+  </class>
+</hibernate-mapping>

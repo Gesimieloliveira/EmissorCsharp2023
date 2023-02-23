@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Financeiro"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="EventoCancelamento" table="documento_receber_cancelamento">
+    <id access="field" name="documentoId" column="documentoReceber_id">
+      <generator class="foreign">
+        <param name="property">Documento</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Documento" cascade="none" fetch="join" />
+
+    <many-to-one name="Usuario" fetch="join">
+      <column name="usuarioCancelamento_id" not-null="true" />
+    </many-to-one>
+
+    <property name="DataCancelamento">
+      <column name="dataCancelamento" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

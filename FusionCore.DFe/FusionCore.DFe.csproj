@@ -1,0 +1,858 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{99B2F8CB-2C0E-41ED-8946-E0BAA0748DB3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FusionCore.DFe</RootNamespace>
+    <AssemblyName>FusionCore.DFe</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CTe.Classes, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.CTe.2022.10.19.1442\lib\net462\CTe.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="CTe.Servicos, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.CTe.2022.10.19.1442\lib\net462\CTe.Servicos.dll</HintPath>
+    </Reference>
+    <Reference Include="CTe.Utils, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.CTe.2022.10.19.1442\lib\net462\CTe.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="CTe.Wsdl, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.CTe.2022.10.19.1442\lib\net462\CTe.Wsdl.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe.Classes, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\DFe.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe.Utils, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\DFe.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe.Wsdl, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\DFe.Wsdl.dll</HintPath>
+    </Reference>
+    <Reference Include="MDFe.Classes, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.MDFe.2022.10.19.1442\lib\net462\MDFe.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="MDFe.Servicos, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.MDFe.2022.10.19.1442\lib\net462\MDFe.Servicos.dll</HintPath>
+    </Reference>
+    <Reference Include="MDFe.Utils, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.MDFe.2022.10.19.1442\lib\net462\MDFe.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="MDFe.Wsdl, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.MDFe.2022.10.19.1442\lib\net462\MDFe.Wsdl.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Classes, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\NFe.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Servicos, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\NFe.Servicos.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Utils, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\NFe.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Wsdl, Version=2022.10.19.1442, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.2022.10.19.1442\lib\net462\NFe.Wsdl.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegrasNegocios\AutorizacaoCte.cs" />
+    <Compile Include="RegrasNegocios\Chave\GerarChaveFiscal.cs" />
+    <Compile Include="RegrasNegocios\Contratos\EnviaSefaz.cs" />
+    <Compile Include="RegrasNegocios\InutilizacaoCte.cs" />
+    <Compile Include="RegrasNegocios\ResolveQrCode.cs" />
+    <Compile Include="RegrasNegocios\RetornoRecepcaoCte.cs" />
+    <Compile Include="WsdlCte\Homologacao\ConsultaProtocolo\CteConsulta.cs" />
+    <Compile Include="WsdlCte\Homologacao\Evento\CteRecepcaoEvento.cs" />
+    <Compile Include="WsdlCte\Homologacao\Helper\UrlHelper.cs" />
+    <Compile Include="WsdlCte\Homologacao\Inutilizacao\CteInutilizacao.cs" />
+    <Compile Include="WsdlCte\Homologacao\Recepcao\CteRecepcao.cs" />
+    <Compile Include="WsdlCte\Homologacao\RetornoRecepcao\CteRetRecepcao.cs" />
+    <Compile Include="WsdlCte\UrlServicoSefaz.cs" />
+    <Compile Include="XmlCte\FusionAssinaturaDigital.cs" />
+    <Compile Include="XmlCte\FusionCte.cs" />
+    <Compile Include="XmlCte\FusionDacteCTe.cs" />
+    <Compile Include="XmlCte\FusionDadosComplementaresCTe.cs" />
+    <Compile Include="XmlCte\FusionDestinatarioCTe.cs" />
+    <Compile Include="XmlCte\FusionDocumentoAnterior.cs" />
+    <Compile Include="XmlCte\FusionEmitenteCTe.cs" />
+    <Compile Include="XmlCte\FusionEnderecoCTe.cs" />
+    <Compile Include="XmlCte\FusionEnderecoTomadorCTe.cs" />
+    <Compile Include="XmlCte\FusionEntregaCTe.cs" />
+    <Compile Include="XmlCte\FusionEstadoUFCTe.cs" />
+    <Compile Include="XmlCte\FusionExpedidorCTe.cs" />
+    <Compile Include="XmlCte\FusionFormaPagamentoCTe.cs" />
+    <Compile Include="XmlCte\FusionIcmsBasicoCTe.cs" />
+    <Compile Include="XmlCte\FusionIdDocAnt.cs" />
+    <Compile Include="XmlCte\FusionIdDocAntEle.cs" />
+    <Compile Include="XmlCte\FusionIdentificacaoCTe.cs" />
+    <Compile Include="XmlCte\FusionImpostoCTe.cs" />
+    <Compile Include="XmlCte\FusionIndicadorAlteracaoTomador.cs" />
+    <Compile Include="XmlCte\FusionIndicadorIcmsTomador.cs" />
+    <Compile Include="XmlCte\FusionIndicadorPapelTomadorCTe.cs" />
+    <Compile Include="XmlCte\FusionIndicadorRecebedorCTe.cs" />
+    <Compile Include="XmlCte\FusionInfCteAnu.cs" />
+    <Compile Include="XmlCte\FusionInfCteSub.cs" />
+    <Compile Include="XmlCte\FusionInformacaoCargaCTe.cs" />
+    <Compile Include="XmlCte\FusionInformacaoCTeComplementar.cs" />
+    <Compile Include="XmlCte\FusionInformacaoCTeNormalCTe.cs" />
+    <Compile Include="XmlCte\FusionInformacaoDocumentoCTe.cs" />
+    <Compile Include="XmlCte\FusionInformacaoModalCTe.cs" />
+    <Compile Include="XmlCte\FusionInformacaoResponsabilidadeCTe.cs" />
+    <Compile Include="XmlCte\FusionInformacoesCte.cs" />
+    <Compile Include="XmlCte\FusionInformacoesQuantidadeDaCargaCTe.cs" />
+    <Compile Include="XmlCte\FusionModalCTe.cs" />
+    <Compile Include="XmlCte\FusionModeloNotaFiscalCTe.cs" />
+    <Compile Include="XmlCte\FusionRecebedorCTe.cs" />
+    <Compile Include="XmlCte\FusionRefNF.cs" />
+    <Compile Include="XmlCte\FusionRemetenteCTe.cs" />
+    <Compile Include="XmlCte\FusionResponsavelSeguroCTe.cs" />
+    <Compile Include="XmlCte\FusionTipoAmbienteCTe.cs" />
+    <Compile Include="XmlCte\FusionTipoCTe.cs" />
+    <Compile Include="XmlCte\FusionTipoDocumentoFiscalCTe.cs" />
+    <Compile Include="XmlCte\FusionTipoDocumentoOriginarioCTe.cs" />
+    <Compile Include="XmlCte\FusionTipoDocumentoTransAnt.cs" />
+    <Compile Include="XmlCte\FusionTipoEmissaoCTe.cs" />
+    <Compile Include="XmlCte\FusionTipoPeriodoDataCTe.cs" />
+    <Compile Include="XmlCte\FusionTipoPeriodoHoraCTe.cs" />
+    <Compile Include="XmlCte\FusionTipoProcessoEmissaoCTe.cs" />
+    <Compile Include="XmlCte\FusionTipoServicoCTe.cs" />
+    <Compile Include="XmlCte\FusionTipoTomadorCTe.cs" />
+    <Compile Include="XmlCte\FusionTomadorOutrosCTe.cs" />
+    <Compile Include="XmlCte\FusionTomaICMS.cs" />
+    <Compile Include="XmlCte\FusionUnidadeMedidaCTe.cs" />
+    <Compile Include="XmlCte\FusionValoresPrestacaoServicoCTe.cs" />
+    <Compile Include="XmlCte\FusionVeiculoTransportadoCTe.cs" />
+    <Compile Include="XmlCte\IAssinavel.cs" />
+    <Compile Include="XmlCte\InfCTeSupl.cs" />
+    <Compile Include="XmlCte\XmlCte.ConsultaProtocolo\FusionConsultaProtocoloCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.ConsultaProtocolo\FusionRetornoConsultaProtocoloCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.ConsultaStatusServico\FusionConsultaStatusServicoCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.ConsultaStatusServico\FusionRetornoConsultaStatusServicoCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.ConsultaStatus\FusionConsultaStatusCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.ConsultaStatus\FusionRetornoConsultaStatusCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.Inutilizacao\FusionInutilizacaoCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.Inutilizacao\FustionRetornoInutilizacaoCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.LoteEnvio\FusionEnvioCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.Processada\FusionCTeProcessamento.cs" />
+    <Compile Include="XmlCte\XmlCte.RegistroEventos\FusionRegistroEventoCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.RegistroEventos\FusionRetornoEventoCancelamentoCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.RegistroEventos\FusionRetornoRegistroEventoCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.RetornoRecepcao\FusionCteProcessadoCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.RetornoRecepcao\FusionResultadoEnvioLoteCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.RetornoRecepcao\FusionRetornoRecepcaoCTe.cs" />
+    <Compile Include="XmlCte\XmlCte.Retorno\FusionRetornoEnvioCTe.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Assets\Schemas.Cte\cancCTeTiposBasico_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cancCTeTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consCad_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consReciCTeTiposBasico_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consReciCTeTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consReciCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consReciCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consSitCTeTiposBasico_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consSitCTeTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consSitCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consSitCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consStatServCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consStatServCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consStatServTiposBasico_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\consStatServTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteModalAereo_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteModalAereo_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteModalAquaviario_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteModalAquaviario_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteModalDutoviario_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteModalDutoviario_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteModalFerroviario_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteModalFerroviario_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteModalRodoviarioOS_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteModalRodoviario_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteModalRodoviario_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteMultiModal_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteMultiModal_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteOS_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteTiposBasico_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cteTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cte_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\cte_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\distDFeInt_v1.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\enviCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\enviCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\evCancCECTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\evCancCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\evCancCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\evCCeCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\evCCeCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\evCECTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\eventoCTeTiposBasico_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\eventoCTeTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\eventoCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\eventoCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\evEPECCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\evEPECCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\evGTV_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\evPrestDesacordo_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\evRegMultimodal_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\evRegMultimodal_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\inutCTeTiposBasico_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\inutCTeTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\inutCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\inutCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\leiauteConsultaCadastro_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\procCTeOS_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\procCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\procCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\procEventoCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\procEventoCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\procInutCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\procInutCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retConsCad_v1.01.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retConsReciCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retConsReciCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retConsSitCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retConsSitCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retConsStatServCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retConsStatServCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retCTeOS_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retDistDFeInt_v1.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retEnviCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retEnviCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retEventoCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retEventoCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retInutCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\retInutCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\tiposBasico_v1.03.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\tiposDistDFe_v1.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\tiposGeralCTe_v2.00-OPENSSL.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\tiposGeralCTe_v2.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\tiposGeralCTe_v3.00-OPENSSL.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\tiposGeralCTe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Cte\xmldsig-core-schema_v1.01.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consMDFeNaoEncTiposBasico_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consMDFeNaoEncTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consMDFeNaoEnc_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consMDFeNaoEnc_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consReciMDFeTiposBasico_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consReciMDFeTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consReciMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consReciMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consSitMDFeTiposBasico_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consSitMDFeTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consSitMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consSitMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consStatServMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consStatServMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consStatServTiposBasico_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\consStatServTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\distDFeInt_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\distMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\distMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\enviMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\enviMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\evCancMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\evCancMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\evEncMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\evEncMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\eventoMDFeTiposBasico_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\eventoMDFeTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\eventoMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\eventoMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\evIncCondutorMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\evIncCondutorMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\evInclusaoDFeMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\evPagtoOperMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\leiauteDistMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\leiauteDistMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeConsultaDFeTiposBasico_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeConsultaDFeTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeConsultaDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeConsultaDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeModalAereo_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeModalAereo_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeModalAquaviario_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeModalAquaviario_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeModalFerroviario_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeModalFerroviario_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeModalRodoviario_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeModalRodoviario_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeTiposBasico_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfeTiposBasico_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\mdfe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\procEventoMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\procEventoMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\procMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\procMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retConsMDFeNaoEnc_v1.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retConsMDFeNaoEnc_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retConsReciMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retConsReciMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retConsSitMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retConsSitMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retConsStatServMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retConsStatServMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retDistDFeInt_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retDistMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retDistMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retEnviMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retEnviMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retEventoMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retEventoMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retMDFeConsultaDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retMDFeConsultaDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\retMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\tiposDistDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\tiposGeralMDFe_v1.00-OPENSSL.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\tiposGeralMDFe_v1.00.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\tiposGeralMDFe_v3.00-OPENSSL.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\tiposGeralMDFe_v3.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\Schemas.Mdfe\xmldsig-core-schema_v1.01.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

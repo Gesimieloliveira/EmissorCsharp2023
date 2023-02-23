@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+
+  <class name="MDFeValePedagio" table="mdfe_vale_pedagio" >
+
+    <id column="id" name="Id" generator="identity"/>
+
+    <many-to-one class="MDFeRodoviario" name="Rodoviario" not-null="true" column="mdfeRodoviario_id"/>
+
+    <property column="cnpjFornecedora" name="CnpjEmpresaFornecedora" not-null="true"/>
+    
+    <property column="cnpjResponsavel" name="CnpjResponsavelPagamento" not-null="true"/>
+    
+    <property column="numeroComprovanteCompra" name="NumeroComprovante" not-null="true"/>
+
+    <property column="cpfResponsavel" name="CpfResponsavel" not-null="true"/>
+
+    <property column="valor" name="Valor" not-null="true"/>
+    
+  </class>
+  
+</hibernate-mapping>

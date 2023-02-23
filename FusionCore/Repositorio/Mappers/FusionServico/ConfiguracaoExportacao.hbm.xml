@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionServico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ConfiguracaoExportacao" table="configuracao_exportacao" schema="fusionServico">
+    <id name="Id">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="ExportacaoAtiva">
+      <column name="exportacaoAtiva" not-null="true" />
+    </property>
+
+    <property name="DiretorioExportacao">
+      <column name="diretorioExportacao" not-null="true" length="255" />
+    </property>
+  </class>
+</hibernate-mapping>

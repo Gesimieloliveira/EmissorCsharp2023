@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="Fusion.Visao.EmissorFiscalEletronico.Aba.AbaEmissorFiscalCTe"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:flags="clr-namespace:FusionCore.FusionAdm.Fiscal.Flags;assembly=FusionCore"
+             xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             mc:Ignorable="d" 
+             Background="{StaticResource WhiteBrush}"
+             d:DesignWidth="700" Height="260.248">
+    <DockPanel LastChildFill="true">
+        <StackPanel>
+            <GroupBox>
+                <AdornerDecorator>
+                    <StackPanel>
+                        <TextBlock 
+                                TextAlignment="Center"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource DangerBrush}"
+                                Padding="2"
+                                mah:VisibilityHelper.IsVisible="{Binding MensagemEdicaoAmbiente}"
+                                TextWrapping="Wrap">
+                                <Run Text="Confira a Série, Número Atual!!!"></Run>
+                                <LineBreak />
+                                <Run Text="Essas informações mudam com a alteração do Ambiente!!"></Run>
+                        </TextBlock>
+                        <TextBlock Text="Ambiente" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox
+                                    IsEnabled="{Binding EditarAmbiente}"
+                                    SelectedValue="{Binding AmbienteCte, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                    SelectedValuePath="Tag" IsEditable="False">
+                                <ComboBoxItem Tag="{x:Static flags:TipoAmbiente.Producao}" Content="Produção" />
+                                <ComboBoxItem Tag="{x:Static flags:TipoAmbiente.Homologacao}" Content="Homologação" />
+                            </ComboBox>
+
+                            <StackPanel 
+                                    mah:VisibilityHelper.IsCollapsed="{Binding Editar, Converter={conversores:InverseBooleanConverter}}"
+                                    Margin="5,0,0,0"
+                                    Grid.Column="1" VerticalAlignment="Center">
+                                <Button 
+                                        Click="HabilitarEdicaoAmbiente_OnClick"
+                                        Style="{DynamicResource FusionSuccessButton}" Width="200" HorizontalAlignment="Left">Habilitar Edição Ambiente?</Button>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock Text="Serie" />
+                        <TextBox
+                                Text="{Binding SerieCte, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True"
+                                MaxLength="3" />
+
+                        <TextBlock Text="Número Atual" />
+                        <TextBox
+                                Text="{Binding NumeroAtualCte, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                MaxLength="9"
+                                wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" />
+                    </StackPanel>
+                </AdornerDecorator>
+            </GroupBox>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

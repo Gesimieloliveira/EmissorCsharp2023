@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore" 
+                   namespace="FusionCore.GerenciarManifestacoesEletronicas" 
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfeResumida" table="mde_resumo">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="Empresa" cascade="none">
+      <column name="empresa_id" not-null="true"></column>
+    </many-to-one>
+
+    <many-to-one name="EmissorFiscal" class="FusionCore.FusionAdm.Emissores.EmissorFiscal">
+      <column name="emissorFiscal_id" not-null="true" ></column>
+    </many-to-one>
+
+    <property name="AmbienteSefaz" column="ambienteSefaz" not-null="true" />
+    <property name="Chave" column="chave" not-null="true" />
+    <property name="Serie" column="serie" not-null="true" />
+    <property name="NumeroFiscal" column="numeroFiscal" not-null="true" />
+    <property name="DocumentoUnicoEmitente" column="documentoUnicoEmitente" not-null="true" />
+    <property name="InscricaoEstadualEmitente" column="inscricaoEstadualEmitente" not-null="true" />
+    <property name="EmitidaEm" column="emitidaEm" not-null="true" />
+    <property name="TipoOperacao" column="tipoOperacao" not-null="true" />
+    <property name="Valor" column="valor" not-null="true" />
+    <property name="AutorizacaoEm" column="autorizacaoEm" not-null="true" />
+    <property name="NumeroProtocolo" column="numeroProtocolo" not-null="true" />
+    <property name="RazaoSocialEmitente" column="razaoSocialEmitente" not-null="true" />
+    <property name="StatusNfe" column="statusNfe" not-null="true" />
+    <property name="StatusManifestacao" column="statusManifestacao" not-null="true" />
+    <property name="Xml" column="xml" not-null="true" length="2147483647" />
+    <property name="IsImportada" column="isImportada" not-null="true" />
+    <one-to-one name="DownloadXml" cascade="all-delete-orphan" outer-join="true" />
+    <one-to-one name="Cancelamento" cascade="all-delete-orphan" outer-join="true" />
+
+    <bag name="CartaCorrecaoLista" table="mde_carta_correcao" cascade="all-delete-orphan" inverse="true">
+      <key column="mdeResumo_id" />
+      <one-to-many class="CartaCorrecaoDFe" />
+    </bag>
+
+    <bag name="EventoManifestacaoLista" table="mde_evento_manifestacao" cascade="all-delete-orphan" inverse="true">
+      <key column="mdeResumo_id"/>
+      <one-to-many class="EventoManifestacao" />
+    </bag>
+
+
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.Transparencia"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Ibpt" table="tabela_tributo_ibpt">
+
+    <composite-id>
+      <key-property name="Codigo" length="10">
+        <column name="codigo" sql-type="varchar" />
+      </key-property>
+
+      <key-property name="Tipo">
+        <column name="tipo" sql-type="tinyint" />
+      </key-property>
+
+      <key-property name="ExcecaoFiscal" length="2">
+        <column name="excecaoFiscal" sql-type="varchar" />
+      </key-property>
+    </composite-id>
+
+    <property name="Descricao" length="600" not-null="true">
+      <column name="descricao" />
+    </property>
+
+    <property name="Nacional" length="4" column="nacionalFederal" />
+    <property name="Importado" length="4" column="importadoFederal" />
+    <property name="Estadual" length="4" column="estadual" />
+    <property name="ChaveIbpt" length="6" column="chaveIbpt" />
+  </class>
+</hibernate-mapping>

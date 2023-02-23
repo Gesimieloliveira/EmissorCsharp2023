@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Tributacoes.Federal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="TributacaoIpi" table="situacao_tributaria_ipi">
+    <id name="Codigo">
+      <column name="id" not-null="true" sql-type="varchar" length="2" />
+    </id>
+
+    <property name="Descricao">
+      <column name="descricao" length="255" not-null="true" />
+    </property>
+
+    <property name="TipoOperacao">
+      <column name="tipoOperacao" not-null="true" sql-type="tinyint" />
+    </property>
+  </class>
+</hibernate-mapping>

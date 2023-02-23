@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Preferencias"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+	<class name="PreferenciaSistema" table="preferencia_sistema">
+		<id name="Id" generator="assigned">
+			<column name="id" not-null="true" />
+		</id>
+
+		<property name="IdMaquina">
+			<column name="idMaquina" not-null="true" unique="true" unique-key="uk_chave"/>
+		</property>
+		
+		<property name="Chave" >
+			<column name="chave" not-null="true" unique="true" unique-key="uk_chave"/>
+		</property>
+
+		<property name="Valor">
+			<column name="valor" not-null="true"/>
+		</property>
+	</class>
+</hibernate-mapping>

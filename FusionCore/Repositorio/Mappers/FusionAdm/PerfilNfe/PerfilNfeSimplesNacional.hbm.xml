@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF.Perfil"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PerfilNfeSimplesNacional" table="perfil_nfe_simples_nacional">
+    <id name="Id" column="perfilNfe_id">
+      <generator class="foreign">
+        <param name="property">Parent</param>
+      </generator>
+    </id>
+
+    <one-to-one access="field.camelcase-underscore" name="Parent" cascade="none" constrained="true" />
+
+    <many-to-one name="Csosn" cascade="none">
+      <column name="codigoCsosn" length="3" not-null="false" sql-type="varchar" />
+    </many-to-one>
+
+    <property name="AliquotaCredito" type="decimal">
+      <column name="aliquotaCredito" precision="5" scale="2" not-null="true" sql-type="decimal" />
+    </property>
+
+  </class>
+</hibernate-mapping>

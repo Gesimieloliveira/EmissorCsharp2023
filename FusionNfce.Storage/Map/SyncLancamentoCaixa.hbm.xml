@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.NfceSincronizador.ControleCaixa"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="SyncLancamentoCaixa" table="sync_caixa_lancamento">
+    <id access="field" name="_id" column="caixaLancamento_id">
+      <generator class="foreign">
+        <param name="property">Lancamento</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Lancamento" constrained="true" cascade="none" fetch="join" />
+  </class>
+
+</hibernate-mapping>

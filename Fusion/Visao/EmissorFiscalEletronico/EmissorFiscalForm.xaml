@@ -1,0 +1,99 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.EmissorFiscalEletronico.EmissorFiscalForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:aba="clr-namespace:Fusion.Visao.EmissorFiscalEletronico.Aba"
+                      mc:Ignorable="d"
+                      Title="Emissor Fiscal" Width="860" Height="620"
+                      WindowStartupLocation="CenterScreen"
+                      ResizeMode="NoResize"
+                      Loaded="LoadedHandler"
+                      Style="{DynamicResource MetroWindowStyle}">
+
+    <Grid>
+        <DockPanel Background="{DynamicResource WhiteBrush}" ZIndex="0" LastChildFill="False">
+            <GroupBox Header="Tipo documento eletrônico" DockPanel.Dock="Top">
+                <StackPanel Orientation="Horizontal" IsEnabled="{Binding PermiteAlterarTipo}">
+                    <RadioButton Content="NF-e" GroupName="Documento" Margin="0,0,15,0"
+                                 IsChecked="{Binding FlagNfe, UpdateSourceTrigger=PropertyChanged}" />
+                    <RadioButton Content="NFC-e" GroupName="Documento" Margin="0,0,15,0"
+                                 IsChecked="{Binding FlagNfce, UpdateSourceTrigger=PropertyChanged}" />
+                    <RadioButton Content="CT-e" GroupName="Documento" Margin="0,0,15,0"
+                                 IsChecked="{Binding FlagCte, UpdateSourceTrigger=PropertyChanged}" />
+                    <RadioButton Content="CT-e OS" GroupName="Documento" Margin="0,0,15,0"
+                                 IsChecked="{Binding FlagCteOs, UpdateSourceTrigger=PropertyChanged}" />
+                    <RadioButton Content="MDF-e" GroupName="Documento" Margin="0,0,15,0"
+                                 IsChecked="{Binding FlagMdfe, UpdateSourceTrigger=PropertyChanged}" />
+                    <RadioButton Content="SAT" GroupName="Documento"
+                                 IsChecked="{Binding FlagSat, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </GroupBox>
+
+            <controls:MetroTabControl DockPanel.Dock="Top">
+
+                <controls:MetroTabItem Header="Emissor Fiscal" Focusable="True">
+                    <AdornerDecorator>
+                        <aba:EmissorFiscal />
+                    </AdornerDecorator>
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem Header="Emissor Fiscal NF-e" controls:VisibilityHelper.IsVisible="{Binding FlagNfe}">
+                    <AdornerDecorator>
+                        <aba:AbaEmissorFiscalNfe controls:VisibilityHelper.IsVisible="{Binding FlagNfe}" />
+                    </AdornerDecorator>
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem Header="Emissor Fiscal NFC-e" controls:VisibilityHelper.IsVisible="{Binding FlagNfce}">
+                    <AdornerDecorator>
+                        <aba:AbaEmissorFiscalNFce controls:VisibilityHelper.IsVisible="{Binding FlagNfce}" />
+                    </AdornerDecorator>
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem Header="Emissor Fiscal CT-e" controls:VisibilityHelper.IsVisible="{Binding FlagCte}">
+                    <AdornerDecorator>
+                        <aba:AbaEmissorFiscalCTe controls:VisibilityHelper.IsVisible="{Binding FlagCte}" />
+                    </AdornerDecorator>
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem Header="Emissor Fiscal CT-e OS" controls:VisibilityHelper.IsVisible="{Binding FlagCteOs}">
+                    <AdornerDecorator>
+                        <aba:AbaEmissorFiscalCTeOS controls:VisibilityHelper.IsVisible="{Binding FlagCteOs}" />
+                    </AdornerDecorator>
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem Header="Emissor Fiscal MDF-e" controls:VisibilityHelper.IsVisible="{Binding FlagMdfe}">
+                    <AdornerDecorator>
+                        <aba:AbaEmissorFiscalMDFe controls:VisibilityHelper.IsVisible="{Binding FlagMdfe}" />
+                    </AdornerDecorator>
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem Header="Autoriza Baixar XML" controls:VisibilityHelper.IsVisible="{Binding IsAutorizaBaixarXml}">
+                    <AdornerDecorator>
+                        <aba:AbaAutorizarBaixarXml controls:VisibilityHelper.IsVisible="{Binding IsAutorizaBaixarXml}" />
+                    </AdornerDecorator>
+                </controls:MetroTabItem>
+
+                <controls:MetroTabItem Header="Emissor Fiscal SAT" controls:VisibilityHelper.IsVisible="{Binding FlagSat}">
+                    <AdornerDecorator>
+                        <aba:AbaEmissorFiscalSAT controls:VisibilityHelper.IsVisible="{Binding FlagSat}" />
+                    </AdornerDecorator>
+                </controls:MetroTabItem>
+            </controls:MetroTabControl>
+
+            <DockPanel DockPanel.Dock="Bottom" Height="50" Background="{DynamicResource AccentColorBrush4}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Name="BotaoSalvar"
+                        Click="OnClickSalvar" Style="{DynamicResource FusionAccentedButton}"
+                        Content="Salvar alterações" />
+                    
+                    <Button Name="BotaoDeletar"
+                        Margin="15,0,0,0" Click="OnClickDeletar" Style="{DynamicResource FusionDangerButton}"
+                            Content="Deletar registro" />
+                </StackPanel>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+
+</controls:MetroWindow>

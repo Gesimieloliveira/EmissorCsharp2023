@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="08/17/2020 17:41:19" ReportInfo.CreatorVersion="2019.3.20.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {
+    private class VoTotal 
+    {
+      public string Cfop {get;set;}
+      public string Situacao {get;set;}
+      public decimal TotalServico {get;set;}
+    }
+    
+    private List&lt;VoTotal&gt; _totais = new List&lt;VoTotal&gt;();
+    
+    private void Data1_AfterData(object sender, EventArgs e)
+    {
+      string cfop = ((String)Report.GetColumnValue(&quot;Cte.cfop&quot;));
+      int cancelado = ((Int32)Report.GetColumnValue(&quot;Cte.cancelado&quot;));
+      decimal valorServico = ((Decimal)Report.GetColumnValue(&quot;Cte.valorServico&quot;));
+      
+      string situacao = cancelado == 0 ? &quot;Autorizado&quot; : &quot;Cancelado&quot;;
+      
+      VoTotal total = null;
+      
+      foreach (VoTotal v in _totais) {
+        if (v.Cfop == cfop &amp;&amp; v.Situacao == situacao) {
+          total = v;
+          break;
+        }
+      }
+      
+      if (total == null) {
+        total = new VoTotal();
+        
+        total.Cfop = cfop;
+        total.Situacao = situacao;
+        
+        _totais.Add(total);
+      }
+      
+      total.TotalServico += valorServico;
+    }
+    
+    private void TableTotais_ManualBuild(object sender, EventArgs e)
+    {      
+      foreach(VoTotal vo in _totais) {
+        TableTotais.PrintRow(0);
+        
+        Cell1.Text = vo.Cfop;
+        Cell2.Text = vo.Situacao;
+        Cell3.Text = vo.TotalServico.ToString();
+        
+        TableTotais.PrintColumns();
+      }
+    }
+    
+    private void Form1_Load(object sender, EventArgs e)
+    {
+      DateTime today = DateTime.Today;
+      
+      CDataInicial.Value = new DateTime(today.Year, today.Month, 1);
+      CDataFinal.Value = today;
+    }
+    
+    private int GetEmpresaSelecionadaId() 
+    {
+      string[] partes = CbEmpresas.Text.Split(',');
+      return int.Parse(partes[partes.Length - 1]);
+    }
+  }
+}</ScriptText>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqAFHGp6KQj27H4qUwAIR20v6HR9/hpbyvqL14yv05wJMl2T7/97+RHrR722NCTENA/VKFjdIJ1mx+5jQFY11SLs5M33oLnzolcbMUB6Lh54ePj5IJl0BXdK5XLppwCszU2P2Vsd/8iTb2a2nroj99TqgSylgHwJAtipf+rPHqzOsPWz5Ozw32klVUa+aMexEcwjXlnyrFCfQqCO3RlzFJIrZPvTbl9w5vkmp0Mv12iKNtghKpn28REW4UBf6ZwpbYwykDDFLPHFzT5ZEKAwwuow==">
+      <TableDataSource Name="Table" Alias="Cte" DataType="System.Int32" Enabled="true" SelectCommand="SELECT &#13;&#10;	cte_emissao.chave, &#13;&#10;	cte_emissao.serie, &#13;&#10;	cte_emissao.numero, &#13;&#10;	cte.valorServico, &#13;&#10;	cfop.cfop_id as cfop,&#13;&#10;	cte_cancelamento.statusResposta, &#13;&#10;	cte.emissaoEm as dataEmissao, &#13;&#10;	cte_emissao.recebidoEm as dataAutorizacao, &#13;&#10;	case when cte_cancelamento.statusResposta in (135,136,134) then 1 else 0 end cancelado&#13;&#10;FROM cte cte &#13;&#10;INNER JOIN dbo.cte_emissao cte_emissao ON (cte_emissao.cte_id = cte.id)&#13;&#10;INNER JOIN cte_emitente cte_emitente ON (cte_emitente.cte_id = cte.id)&#13;&#10;INNER JOIN empresa empresa ON (empresa.id = cte_emitente.empresa_id)&#13;&#10;LEFT JOIN perfil_cfop cfop on cfop.id = cte.perfilCfop_id&#13;&#10;LEFT OUTER JOIN dbo.cte_cancelamento cte_cancelamento ON (cte_cancelamento.cte_id = cte.id)&#13;&#10;WHERE &#13;&#10;	cast(cte_emissao.recebidoEm as date) between @pDataInicial and @pDataFinal &#13;&#10;	and cte_emitente.empresa_id = @pEmpresaId">
+        <Column Name="chave" DataType="System.String"/>
+        <Column Name="serie" DataType="System.Int16"/>
+        <Column Name="numero" DataType="System.Int32"/>
+        <Column Name="valorServico" DataType="System.Decimal"/>
+        <Column Name="cfop" DataType="System.String"/>
+        <Column Name="statusResposta" DataType="System.Int16"/>
+        <Column Name="dataEmissao" DataType="System.DateTime"/>
+        <Column Name="dataAutorizacao" DataType="System.DateTimeOffset"/>
+        <Column Name="cancelado" DataType="System.Int32"/>
+        <CommandParameter Name="pDataInicial" DataType="4" Expression="CDataInicial.Value" DefaultValue="1970-01-01"/>
+        <CommandParameter Name="pDataFinal" DataType="4" Expression="CDataFinal.Value" DefaultValue="1970-01-01"/>
+        <CommandParameter Name="pEmpresaId" DataType="8" Expression="GetEmpresaSelecionadaId()" DefaultValue="0"/>
+      </TableDataSource>
+      <TableDataSource Name="Table1" Alias="Emitentes" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	distinct&#13;&#10;	emp.id,&#13;&#10;	emp.razaoSocial,&#13;&#10;	emp.razaoSocial + ',' + cast(emp.id as varchar) as identificador&#13;&#10;from cte_emitente cteem&#13;&#10;inner join empresa emp on cteem.empresa_id = emp.id">
+        <Column Name="id" DataType="System.Int16"/>
+        <Column Name="razaoSocial" DataType="System.String"/>
+        <Column Name="identificador" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+    <Total Name="SomaTotalServicoAutorizado" Expression="[Cte.valorServico]" Evaluator="Data1" EvaluateCondition="[Cte.cancelado]==0"/>
+    <Total Name="SomaTotalServicoCancelado" Expression="[Cte.valorServico]" Evaluator="Data1" EvaluateCondition="[Cte.cancelado]==1"/>
+  </Dictionary>
+  <DialogPage Name="Form1" Width="652" Height="288" AcceptButton="btnOk" CancelButton="btnCancel" Font="Tahoma, 8pt" LoadEvent="Form1_Load">
+    <ButtonControl Name="btnOk" Left="468" Top="210" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="0" Text="OK" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="551" Top="210" Anchor="Bottom, Right" Font="Tahoma, 8pt" TabIndex="1" Text="Cancelar" DialogResult="Cancel"/>
+    <GroupBoxControl Name="GroupBox1" Left="8" Top="8" Width="616" Height="88" Font="Tahoma, 8pt" TabIndex="2" Text="Periodo da autorização" ClickEvent="GroupBox1_Click">
+      <DateTimePickerControl Name="CDataInicial" Left="8" Top="28" Height="24" Font="Tahoma, 8pt" TabIndex="3" Text="10/02/2020" Format="Short" Value="02/10/2020 14:17:27"/>
+      <DateTimePickerControl Name="CDataFinal" Left="264" Top="28" Height="24" Font="Tahoma, 8pt" TabIndex="3" Text="10/02/2020" Format="Short" Value="02/10/2020 14:16:53"/>
+    </GroupBoxControl>
+    <GroupBoxControl Name="GroupBox2" Left="8" Top="104" Width="616" Height="84" Font="Tahoma, 8pt" TabIndex="3" Text="Empresa emissora (emitente)">
+      <ComboBoxControl Name="CbEmpresas" Left="8" Top="28" Width="597" Font="Tahoma, 8pt" TabIndex="4" DataColumn="Emitentes.identificador" DropDownStyle="DropDownList" DropDownWidth="597" ItemHeight="16"/>
+    </GroupBoxControl>
+  </DialogPage>
+  <ReportPage Name="Page1" RawPaperSize="9" Guides="718.2" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="73.71">
+      <TextObject Name="Text22" Left="143.64" Top="3.78" Width="574.56" Height="18.9" Text="[DescricaoRelatorio]" HorzAlign="Right" Font="Arial, 12pt, style=Bold"/>
+      <TextObject Name="Text24" Left="143.64" Top="22.68" Width="574.56" Height="17.01" Text="Impresso em: [Date]" HorzAlign="Right" Font="Arial, 10pt, style=Italic"/>
+      <TextObject Name="Text43" Left="143.64" Top="39.69" Width="574.56" Height="17.01" Text="Periodo autorização: [CDataInicial.Value] à [CDataFinal.Value]" HorzAlign="Right" Font="Arial, 10pt, style=Italic">
+        <Formats>
+          <DateFormat/>
+          <DateFormat/>
+        </Formats>
+      </TextObject>
+    </ReportTitleBand>
+    <ColumnHeaderBand Name="ColumnHeader1" Top="77.71" Width="718.2" Height="35.91" Border.Lines="Top, Bottom" Border.Width="0.25">
+      <TextObject Name="Text2" Top="1.89" Width="75.6" Height="32.13" Text="Data&#13;&#10;Emissão" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text25" Left="128.52" Top="1.89" Width="39.69" Height="32.13" Text="Série" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text27" Left="168.21" Top="1.89" Width="73.71" Height="32.13" Text="Número" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text28" Left="241.92" Top="1.89" Width="315.63" Height="32.13" Text="Chave do CT-e" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text32" Left="557.55" Top="1.89" Width="85.05" Height="32.13" Text="Situação" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text34" Left="642.6" Top="1.89" Width="75.6" Height="32.13" Text="Valor do&#13;&#10;Serviço" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text36" Left="75.6" Top="1.89" Width="52.92" Height="32.13" Text="CFOP" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+    </ColumnHeaderBand>
+    <DataBand Name="Data1" Top="117.62" Width="718.2" Height="28.45" CanGrow="true" CanShrink="true" AfterDataEvent="Data1_AfterData" DataSource="Table">
+      <TextObject Name="Text1" Width="75.6" Height="13.23" CanGrow="true" CanShrink="true" Text="[Cte.dataEmissao]" Format="Date" Format.Format="d" Font="Arial, 8pt"/>
+      <TextObject Name="Text29" Left="128.52" Width="39.69" Height="13.23" CanGrow="true" CanShrink="true" Text="[Cte.serie]" Format="Custom" Format.Format="000" HorzAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text30" Left="168.21" Width="73.71" Height="13.23" CanGrow="true" CanShrink="true" Text="[Cte.numero]" Format="Custom" Format.Format="00000000" HorzAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text31" Left="241.92" Width="315.63" Height="13.23" CanGrow="true" CanShrink="true" Text="[Cte.chave]" Format="Date" Format.Format="d" Font="Arial, 8pt"/>
+      <TextObject Name="Text33" Left="557.55" Width="85.05" Height="13.23" CanGrow="true" CanShrink="true" Text="[IIf([Cte.cancelado]==1,&quot;Cancelado&quot;,&quot;Autorizado&quot;)]" Format="Date" Format.Format="d" HorzAlign="Center" Font="Arial, 8pt"/>
+      <TextObject Name="Text38" Left="642.6" Width="75.6" Height="13.23" CanGrow="true" CanShrink="true" Text="[Cte.valorServico]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 8pt"/>
+      <TextObject Name="Text37" Left="75.6" Width="52.92" Height="13.23" CanGrow="true" CanShrink="true" Text="[Cte.cfop]" Format="Date" Format.Format="d" HorzAlign="Center" Font="Arial, 8pt"/>
+      <DataFooterBand Name="DataFooter1" Top="150.07" Width="718.2" Height="56.7" FirstRowStartsNewPage="true">
+        <TextObject Name="Text39" Top="24.57" Width="215.46" Height="17.01" Text="Total dos serviços cancelados:" Font="Arial, 10pt"/>
+        <TextObject Name="Text40" Left="215.46" Top="24.57" Width="124.74" Height="17.01" Text="[SomaTotalServicoCancelado]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 10pt"/>
+        <TextObject Name="Text3" Top="11.34" Width="215.46" Height="17.01" Text="Total dos serviços autorizados:" Font="Arial, 10pt"/>
+        <TextObject Name="Text41" Left="215.46" Top="11.34" Width="124.74" Height="17.01" Text="[SomaTotalServicoAutorizado]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 10pt"/>
+      </DataFooterBand>
+      <Sort>
+        <Sort Expression="[Cte.serie]"/>
+        <Sort Expression="[Cte.numero]"/>
+      </Sort>
+    </DataBand>
+    <DataBand Name="Data2" Top="210.77" Width="718.2" Height="28.35" Border.Lines="Top, Bottom" Border.Width="0.25">
+      <TextObject Name="Text42" Top="1.89" Width="718.2" Height="24.57" Text="Totalização por CFOP" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <ChildBand Name="Child3" Top="243.12" Width="718.2" Height="28.35" CanGrow="true" CanShrink="true">
+        <TableObject Name="TableTotais" Top="1.89" Width="718.2" Height="18.9" ManualBuildEvent="TableTotais_ManualBuild">
+          <TableColumn Name="Column1" Width="61.11"/>
+          <TableColumn Name="Column2" Width="350.28"/>
+          <TableColumn Name="Column3" Width="306.81"/>
+          <TableRow Name="Row1">
+            <TableCell Name="Cell1" Text="CFOP" VertAlign="Center" Font="Arial, 10pt"/>
+            <TableCell Name="Cell2" Text="Situação" VertAlign="Center" Font="Arial, 10pt"/>
+            <TableCell Name="Cell3" Text="Total Serviço" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" VertAlign="Center" Font="Arial, 10pt"/>
+          </TableRow>
+        </TableObject>
+      </ChildBand>
+    </DataBand>
+  </ReportPage>
+</Report>

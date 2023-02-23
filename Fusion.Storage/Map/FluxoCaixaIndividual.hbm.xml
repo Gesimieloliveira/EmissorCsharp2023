@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.ControleCaixa.Individual"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Fluxo" table="caixa_individual_fluxo" mutable="false">
+    <id name="Id" generator="assigned">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="Ordem" generated="insert">
+      <column name="ordem" not-null="true" />
+    </property>
+
+    <many-to-one name="Caixa" cascade="none">
+      <column name="caixaIndividual_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one
+      name="Usuario" cascade="none"
+      class="FusionCore.Repositorio.Legacy.Entidades.Adm.UsuarioDTO">
+
+      <column name="usuario_id" not-null="true" />
+    </many-to-one>
+
+    <property name="DataCriacao">
+      <column name="dataCriacao" not-null="true" />
+    </property>
+
+    <property name="DataOperacao">
+      <column name="dataOperacao" not-null="true" />
+    </property>
+
+    <property name="ValorOperacao">
+      <column name="valorOperacao" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="TipoOperacao">
+      <column name="tipoOperacao" not-null="true" />
+    </property>
+
+    <property name="TipoPagamento">
+      <column name="tipoPagamento" not-null="true" />
+    </property>
+
+    <property name="OrigemEvento">
+      <column name="origemEvento" not-null="true" />
+    </property>
+
+    <property name="EhUmEstorno">
+      <column name="ehUmEstorno" not-null="true" />
+    </property>
+
+    <property name="Historico">
+      <column name="historico" not-null="true" length="255" />
+    </property>
+  </class>
+
+</hibernate-mapping>

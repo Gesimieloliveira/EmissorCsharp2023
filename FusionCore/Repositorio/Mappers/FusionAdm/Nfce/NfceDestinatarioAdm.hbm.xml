@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Nfce"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceDestinatarioAdm" table="nfce_destinatario">
+    <id name="NfceId" column="nfce_id">
+      <generator class="foreign">
+        <param name="property">Nfce</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfce" class="NfceAdm" constrained="true" cascade="all-delete-orphan" />
+
+    <many-to-one name="Cliente" class="FusionCore.FusionAdm.Pessoas.Cliente" cascade="none">
+      <column name="pessoa_id" sql-type="int" />
+    </many-to-one>
+
+    <property name="Nome">
+      <column name="nome" not-null="true"></column>
+    </property>
+
+    <property name="DocumentoUnico">
+      <column name="documentoUnico" not-null="true"></column>
+    </property>
+
+    <property name="Email">
+      <column name="email" not-null="true"></column>
+    </property>
+
+    <property name="Logradouro" column="logradouro" not-null="true" />
+
+    <property name="Numero" column="numero" not-null="true" />
+
+    <property name="Bairro" column="bairro" not-null="true" />
+
+    <property name="Cep" column="cep" not-null="true" />
+
+    <property name="Complemento" column="complemento" not-null="true" />
+
+    <property name="InscricaoEstadual">
+      <column name="inscricaoEstadual" not-null="true" />
+    </property>
+
+    <many-to-one name="Cidade" not-null="false" cascade="none" class="FusionCore.Repositorio.Legacy.Entidades.Adm.CidadeDTO"
+                 column="cidade_id"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Nfce"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceItemAdm" table="nfce_item">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+    
+    <many-to-one name="Nfce" class="NfceAdm" cascade="all-delete-orphan">
+      <column name="nfce_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="Cfop" class="FusionCore.Repositorio.Legacy.Entidades.Adm.CfopDTO" cascade="none">
+      <column name="cfop_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="Produto" class="FusionCore.Repositorio.Legacy.Entidades.Adm.ProdutoDTO" cascade="none">
+      <column name="produto_id" sql-type="int" not-null="true" />
+    </many-to-one>
+    
+    <property name="NumeroItem">
+      <column name="numeroItem" sql-type="smallint" not-null="true" />
+    </property>
+    
+    <property name="Gtin">
+      <column name="gtin" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="CodigoNcm">
+      <column name="codigoNcm" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="CodigoCest">
+      <column name="codigoCest" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="Nome">
+      <column name="nome" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="SiglaUnidade">
+      <column name="siglaUnidade" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="SiglaUnidadeTributavel">
+      <column name="siglaUnidadeTributavel" not-null="true" />
+    </property>
+    
+    <property name="Quantidade">
+      <column name="quantidade" sql-type="decimal" not-null="true" precision="15" scale="4" />
+    </property>
+    
+    <property name="ValorUnitario">
+      <column name="valorUnitario" sql-type="decimal" not-null="true" precision="17" scale="6" />
+    </property>
+    
+    <property name="ValorTotal">
+      <column name="valorTotal" sql-type="decimal" not-null="true" precision="15" scale="2" />
+    </property>
+    
+    <property name="Cancelado">
+      <column name="cancelado" not-null="true" />
+    </property>
+
+    <property name="Desconto">
+      <column name="desconto" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="DescontoAlteraItem">
+      <column name="descontoAlteraItem" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <property name="ValorTributoEstadual">
+      <column name="valorTributoEstadual" not-null="true" />
+    </property>
+
+    <property name="ValorTributoFederal">
+      <column name="valorTributoFederal" not-null="true" />
+    </property>
+
+    <property name="ValorTributoAproximado">
+      <column name="valorTributoAproximado" not-null="true" />
+    </property>
+
+	<property name="Observacao">
+	  <column name="observacao" not-null="false" />
+	</property>
+
+    <property name="Acrescimo">
+      <column name="acrescimo" not-null="true" precision="15" scale="2" />
+    </property>
+
+    <one-to-one name="ImpostoIcms"
+                class="FusionCore.FusionNfce.Fiscal.Tributacoes.NfceImpostoCsosnAdm"
+                cascade="all-delete-orphan"
+                outer-join="true" />
+
+    <one-to-one name="ImpostoCofins"
+                class="FusionCore.FusionNfce.Fiscal.Tributacoes.NfceImpostoCofinsAdm"
+                cascade="all-delete-orphan"
+                outer-join="true" />
+
+    <one-to-one name="ImpostoPis"
+                class="FusionCore.FusionNfce.Fiscal.Tributacoes.NfceImpostoPisAdm"
+                cascade="all-delete-orphan"
+                outer-join="true" />
+
+
+    <property name="PrecoCusto" not-null="true">
+      <column name="precoCusto"></column>
+    </property>
+
+    <property name="PrecoVenda" not-null="true">
+      <column name="precoVenda"></column>
+    </property>
+    
+  </class>
+</hibernate-mapping>

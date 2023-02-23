@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Tef"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ConfigTef" table="configTef">
+    <id name="Id" column="id" unsaved-value="0" />
+
+    <property name="IsAtivo" column="isAtivo" not-null="true" />
+    
+    <property name="ArquivoRequisicao" column="arquivoRequisicao" not-null="true" />
+    
+    <property name="ArquivoResposta" column="arquivoResposta" not-null="true" />
+    
+    <property name="ArquivoSts" column="arquivoSts" not-null="true" />
+
+    <property name="ArquivoTemporario" column="arquivoTemporario" not-null="true" />
+
+    <property name="RegistroCertificado" column="registroCertificado" not-null="true" />
+
+    <property name="Operadora" column="operadora" not-null="true" />
+    
+  </class>
+  
+</hibernate-mapping>

@@ -1,0 +1,309 @@
+﻿<UserControl x:Class="Fusion.Visao.CteEletronico.Emitir.Aba.AbaTributacaoCte"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Fusion.Visao.CteEletronico.Emitir.Aba"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" d:DesignWidth="1024"
+             Background="White">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+
+                <StackPanel VerticalAlignment="Center" Margin="0,0,5,0">
+                    <TextBlock FontWeight="Bold" HorizontalAlignment="Left">Cálculos Tributarios Automático:</TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                    <controls:ToggleSwitch
+                        IsOn="{Binding IsCalcularTributosAutomatico}"
+                        DockPanel.Dock="Right"
+                        ContentDirection="LeftToRight"
+                        HorizontalContentAlignment="Right"
+                        HorizontalAlignment="Left"
+                        OnContent="Sim"
+                        OffContent="Não"
+                    />
+                </StackPanel>
+            </Grid>
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+
+                <StackPanel VerticalAlignment="Center" Margin="0,0,5,0">
+                    <TextBlock FontWeight="Bold" HorizontalAlignment="Left">Partilha ICMS:</TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                    <controls:ToggleSwitch
+                        IsOn="{Binding IsPartilhaIcms}"
+                        DockPanel.Dock="Right"
+                        ContentDirection="LeftToRight"
+                        HorizontalContentAlignment="Right"
+                        HorizontalAlignment="Left"
+                        OnContent="Sim"
+                        OffContent="Não"
+                    />
+                </StackPanel>
+            </Grid>
+
+            <Grid controls:VisibilityHelper.IsVisible="{Binding IsPermiteCredito}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+
+                <StackPanel VerticalAlignment="Center" Margin="0,0,5,0">
+                    <TextBlock FontWeight="Bold" HorizontalAlignment="Left">Crédito ICMS Automático:</TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                    <controls:ToggleSwitch
+                        controls:VisibilityHelper.IsVisible="{Binding IsToogleCreditoVisivel}"
+                        IsOn="{Binding IsCreditoAutomatico}"
+                        DockPanel.Dock="Right"
+                        ContentDirection="LeftToRight"
+                        HorizontalContentAlignment="Right"
+                        HorizontalAlignment="Left"
+                        OnContent="Sim"
+                        OffContent="Não"
+                    />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        
+        <GroupBox Header="CST" DockPanel.Dock="Top">
+            <StackPanel>
+                <ComboBox ItemsSource="{Binding Path=TributacaoLista}"
+                          DisplayMemberPath="DescricaoCompleta"
+                          SelectedItem="{Binding TributacaoIcmsSelecionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                          SelectedValuePath="Codigo"
+                          IsEditable="False"
+                          SelectedValue="{Binding TributacaoIcmsSelecionado.Codigo}" />
+            </StackPanel>
+        </GroupBox>
+
+
+        <GroupBox Header="Crédito" controls:VisibilityHelper.IsVisible="{Binding IsPermiteCredito}" DockPanel.Dock="Top">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0">
+                        <TextBlock 
+                            TextWrapping="Wrap"
+                            FontWeight="Bold">
+                            Preencher somente quando o transportador substituído, for optante pelo crédito outorgado previsto no Convênio 106/96 e corresponde ao percentual de 20% do valor do ICMS ST retido.
+                        </TextBlock>
+                    </StackPanel>
+
+
+                    <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,0,5,0" Width="100" HorizontalAlignment="Right" controls:VisibilityHelper.IsVisible="{Binding IsPercentualCreditoAtivado}">
+                        <TextBlock>Percentual Crédito</TextBlock>
+                        <controles:DecimalTextBox Text="{Binding PercentualCredito, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                    </StackPanel>
+
+                    <StackPanel 
+                        Grid.Row="1"
+                        Grid.Column="1" Width="100" HorizontalAlignment="Left">
+                        <TextBlock>Valor</TextBlock>
+                        <controles:DecimalTextBox IsEnabled="{Binding IsCreditoValorAtivado}" Text="{Binding ValorCredito, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                    </StackPanel>
+
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="ICMS" controls:VisibilityHelper.IsVisible="{Binding IsIcms}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0,0,5,0">
+                            <TextBlock>Base de Cálculo</TextBlock>
+                            <controles:DecimalTextBox Text="{Binding BaseCalculoIcms, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1">
+                            <TextBlock>Percentual ICMS</TextBlock>
+                            <controles:DecimalTextBox Text="{Binding PercentualIcms, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" controls:VisibilityHelper.IsVisible="{Binding IsIcmsReducao}">
+                            <TextBlock>Percentual Redução ICMS</TextBlock>
+                            <controles:DecimalTextBox Text="{Binding PercentualReducaoIcms, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1">
+                            <TextBlock>Valor ICMS</TextBlock>
+                            <controles:DecimalTextBox IsEnabled="{Binding IsValorIcmsAtivado}" Text="{Binding ValorIcms, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                        </StackPanel>
+
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Grid.Column="1" Header="ICMS ST" controls:VisibilityHelper.IsVisible="{Binding IsIcmsSt}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0,0,5,0">
+                            <TextBlock>Base de Cálculo ST</TextBlock>
+                            <controles:DecimalTextBox Text="{Binding BaseCalculoIcmsSt, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                        </StackPanel>
+
+                            <StackPanel Grid.Row="0" Grid.Column="1">
+                                <TextBlock>Percentual ICMS ST</TextBlock>
+                                <controles:DecimalTextBox Text="{Binding PercentualIcmsSt, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Grid.Column="1">
+                            <TextBlock>Valor ICMS ST</TextBlock>
+                            <controles:DecimalTextBox 
+                                IsEnabled="{Binding IsValorIcmsAtivado}"
+                                Text="{Binding ValorIcmsSt, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                        </StackPanel>
+
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+
+        </Grid>
+
+
+        <StackPanel DockPanel.Dock="Top">
+            <StackPanel>
+                <GroupBox Header="Partilha ICMS" controls:VisibilityHelper.IsVisible="{Binding IsPartilhaIcms}">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Column="0" Grid.Row="0" Margin="0,0,5,0">
+                                <TextBlock>Base de Cálculo</TextBlock>
+                                <controles:DecimalTextBox Text="{Binding PartilhaBaseCalculo, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,0,5,0" controls:VisibilityHelper.IsVisible="{Binding IsPercentualPartilhaAtivado}">
+                                <TextBlock>Percentual de partilha para a UF de término</TextBlock>
+                                <controles:DecimalTextBox Text="{Binding PercentualPartilhaUfTermino, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,0,5,0">
+                                <TextBlock>Percentual FCP (Fundo de combate a pobreza)</TextBlock>
+                                <controles:DecimalTextBox Text="{Binding PercentualFcp, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,0,5,0">
+                                <TextBlock>Valor ICMS FCP (Fundo de combate a pobreza)</TextBlock>
+                                <controles:DecimalTextBox Text="{Binding ValorIcmsFcp, UpdateSourceTrigger=LostFocus, StringFormat=N2}" IsEnabled="{Binding IsValorPartilhaAtivado}"></controles:DecimalTextBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="0" Grid.Row="2" Margin="0,0,5,0">
+                                <TextBlock>Percentual Interestadual</TextBlock>
+                                <controles:DecimalTextBox Text="{Binding PercentualInterestadual, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Column="1" Grid.Row="2" Margin="0,0,5,0">
+                                <TextBlock>Percentual Interno UF de término</TextBlock>
+                                <controles:DecimalTextBox Text="{Binding PercentualInternoUfTermino, UpdateSourceTrigger=LostFocus, StringFormat=N2}"></controles:DecimalTextBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="0" Grid.Row="3" Margin="0,0,5,0">
+                                <TextBlock>Valor ICMS de partilha para a UF de início</TextBlock>
+                                <controles:DecimalTextBox Text="{Binding ValorIcmsPartilhaUfInicio, UpdateSourceTrigger=LostFocus, StringFormat=N2}" IsEnabled="{Binding IsValorPartilhaAtivado}"></controles:DecimalTextBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Grid.Row="3" Margin="0,0,5,0">
+                                <TextBlock>Valor ICMS de partilha para a UF de término</TextBlock>
+                                <controles:DecimalTextBox Text="{Binding ValorIcmsPartilhaUfTermino, UpdateSourceTrigger=LostFocus, StringFormat=N2}" IsEnabled="{Binding IsValorPartilhaAtivado}"></controles:DecimalTextBox>
+                            </StackPanel>
+
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+            
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,0,0,2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                    <Button Height="40" Focusable="False" Command="{Binding CommandAnterior}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Height="20" Icon="ArrowLeft" />
+                            <TextBlock Text="Passo Anterior" Margin="10,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                    <Button Height="40" Command="{Binding CommandProximo}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Próximo Passo" Margin="0,0,10,0" />
+                            <fa:ImageAwesome Height="20" Icon="ArrowRight" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+    </DockPanel>
+    </ScrollViewer>
+</UserControl>

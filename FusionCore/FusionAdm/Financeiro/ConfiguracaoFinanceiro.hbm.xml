@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Financeiro"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ConfiguracaoFinanceiro" table="configuracao_financeiro">
+    <id name="Id" generator="assigned" unsaved-value="0"/>
+
+    <property name="ImprimirComprovanteCrediario" not-null="true">
+      <column name="imprimirComprovanteCrediario" />
+    </property>
+
+    <property name="AlteradoEm" not-null="true">
+      <column name="alteradoEm" />
+    </property>
+
+    <property name="TaxaDeJurosMensal" not-null="true">
+      <column name="taxaDeJurosMensal" precision="6" scale="2" />
+    </property>
+    
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,134 @@
+﻿<controls:MetroWindow
+    x:Class="FusionNfce.Visao.Conexao.ConexaoForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:h="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+    xmlns:fa="http://schemas.fontawesome.io/icons/"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:conexao="clr-namespace:FusionNfce.Visao.Conexao"
+    Title="Configuração de Conexão"
+    SizeToContent="WidthAndHeight"
+    Style="{DynamicResource MetroWindowDialogStyle}"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d"
+    KeyDown="ConexaoForm_OnKeyDown"
+    d:DataContext="{d:DesignInstance conexao:ConexaoFormModel}"
+    FocusManager.FocusedElement="{Binding ElementName=CServidor}">
+
+    <DockPanel>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" DockPanel.Dock="Top">
+            <fa:ImageAwesome Icon="Gears" Foreground="{DynamicResource AccentColorBrush3}" Width="50" Height="50" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <GroupBox Header="Conexão NFC-E" Width="300">
+                <StackPanel>
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Left" Width="130">
+                            <TextBlock Text="Servidor (local)" />
+                            <TextBox
+                                Text="{Binding ServidorNfce}"
+                                IsEnabled="False"
+                                MaxLength="15"
+                                CharacterCasing="Normal"
+                                x:Name="CServidor" />
+                        </StackPanel>
+
+                        <StackPanel DockPanel.Dock="Left" Margin="5,0,0,0">
+                            <TextBlock Text="Instância (local)" />
+                            <TextBox Text="{Binding InstanciaNfce}" />
+                        </StackPanel>
+                    </DockPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Usuário" />
+                        <TextBox
+                            Text="{Binding UsuarioNfce}"
+                            MaxLength="75" CharacterCasing="Normal" />
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Senha" />
+                        <TextBox 
+                            CharacterCasing="Normal"
+                            Text="{Binding SenhaNfce}" />
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Banco de Dados" />
+                        <TextBox
+                            Text="{Binding BancoDadosNfce}"
+                            CharacterCasing="Normal" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Conexão Servidor" Width="300" controls:HeaderedControlHelper.HeaderBackground="{DynamicResource WarningBrush}">
+                <StackPanel>
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Left" Width="130">
+                            <TextBlock Text="IP/Nome do servidor" />
+                            <TextBox
+                                Text="{Binding ServidorAdm}"
+                                MaxLength="15"
+                                CharacterCasing="Normal" />
+                        </StackPanel>
+
+                        <StackPanel DockPanel.Dock="Left" Margin="5,0,0,0" Width="100">
+                            <TextBlock Text="Instância" />
+                            <TextBox Text="{Binding InstanciaAdm}" />
+                        </StackPanel>
+
+                        <StackPanel DockPanel.Dock="Left" Margin="5,0,0,0">
+                            <TextBlock Text="Porta" />
+                            <TextBox Text="{Binding PortaAdm, TargetNullValue=''}" />
+                        </StackPanel>
+                    </DockPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Usuário" />
+                        <TextBox
+                            Text="{Binding UsuarioAdm}"
+                            MaxLength="75" CharacterCasing="Normal" />
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Senha" />
+                        <TextBox 
+                            CharacterCasing="Normal"
+                            Text="{Binding SenhaAdm}" />
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Banco de Dados" />
+                        <TextBox
+                            Text="{Binding BancoDadosAdm}"
+                            CharacterCasing="Normal" />
+                    </StackPanel>
+
+
+                    <StackPanel Margin="0,20,0,0">
+                        <Button
+                            Style="{DynamicResource FusionCleanButton}"
+                            Content="Testar Conexão Servidor"
+                            Click="OnClickTestarConexaoServidor" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <DockPanel Background="{DynamicResource AccentColorBrush4}" Height="60" DockPanel.Dock="Top">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button
+                    MinWidth="200"
+                    Style="{DynamicResource FusionAccentedButton}"
+                    Content="Salvar configurações"
+                    Width="90"
+                    Click="OnClickSalvar"
+                    IsEnabled="{Binding BotaoSalvar}" />
+            </StackPanel>
+        </DockPanel>
+    </DockPanel>
+</controls:MetroWindow>

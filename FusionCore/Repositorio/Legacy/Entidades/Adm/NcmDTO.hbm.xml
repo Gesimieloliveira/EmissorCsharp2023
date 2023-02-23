@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore" namespace="FusionCore.Repositorio.Legacy.Entidades.Adm" default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NcmDTO" table="tabela_ncm">
+    <id name="Id">
+      <column name="id" length="8" />
+    </id>
+
+    <property name="Descricao" length="600" not-null="true">
+      <column name="descricao" />
+    </property>
+
+    <property name="Cest" length="7" not-null="true">
+      <column name="cest"/>
+    </property>
+
+	<property name="InicioVigencia" not-null="false">
+	  <column name="inicioVigencia"/>
+	</property>
+
+	<property name="FimVigencia" not-null="false">
+	  <column name="fimVigencia"/>
+	</property>
+
+	  <property name="Vencido" not-null="false">
+		  <column name="vencido"/>
+	  </property>
+  </class>
+</hibernate-mapping>

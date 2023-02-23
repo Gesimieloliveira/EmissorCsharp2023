@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Inutilizacao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteInutilizacao" table="cte_inutilizacao_numeracao">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+    
+    <property name="CodigoUfSolicitante">
+      <column name="codigoUfSolicitante" not-null="true" />
+    </property>
+    
+    <property name="Ano">
+      <column name="ano" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="CnpjEmitente">
+      <column name="cnpjEmitente" sql-type="varchar" not-null="true" length="14" />
+    </property>
+    
+    <property name="ModeloDocumento">
+      <column name="modeloDocumento" sql-type="tinyint" not-null="true" />
+    </property>
+    
+    <property name="Serie">
+      <column name="serie" sql-type="smallint" not-null="true" />
+    </property>
+    
+    <property name="NumeroInicial">
+      <column name="numeroInicial" sql-type="int" not-null="true" />
+    </property>
+      
+    <property name="NumeroFinal">
+      <column name="numeroFinal" sql-type="int" not-null="true" />
+    </property>
+      
+    <property name="Justificativa">
+      <column name="justificativa" sql-type="varchar" not-null="true" length="255" />
+    </property>
+    
+    <property name="Protocolo">
+      <column name="protocolo" sql-type="varchar" not-null="true" length="50" />
+    </property>
+  
+    <property name="XmlEnvio" not-null="true">
+      <column name="xmlEnvio" sql-type="xml" length="2147483647"></column>
+    </property>
+  
+    <property name="XmlRetorno" not-null="true">
+      <column name="xmlRetorno" sql-type="xml" length="2147483647"></column>
+    </property>
+    
+    <property name="InutilizacaoEm" not-null="true">
+      <column name="inutilizacaoEm"></column>
+    </property>
+    
+  </class>
+</hibernate-mapping>

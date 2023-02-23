@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.Vendas.Faturamentos"
+  default-lazy="false" default-cascade="none"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+	<class name="FaturamentoPreferencia" table="faturamento_preferencia">
+		<id name="Id" generator="identity">
+			<column name="id" not-null="true" />
+		</id>
+
+		<property name="IdentificadorMaquina">
+			<column name="identificadorMaquina" length="40" not-null="true" />
+		</property>
+
+		<property name="Impressora">
+			<column name="impressora" not-null="true" />
+		</property>
+
+		<property name="LayoutImpressao">
+			<column name="layoutImpressao" not-null="true" />
+		</property>
+
+		<property name="ImprimirFinalizacao">
+			<column name="imprimirFinalizacao" not-null="true" />
+		</property>
+
+		<property name="ImprimirCupom">
+			<column name="imprimirCupom" not-null="true" />
+		</property>
+
+		<property name="PreVisualizar">
+			<column name="preVisualizar" not-null="true" />
+		</property>
+
+		<property name="VisualizarCupom">
+			<column name="visualizarCupom" not-null="true" />
+		</property>
+
+		<property name="DesabilitarTelaOpcoes">
+			<column name="desabilitarTelaOpcoes" not-null="true" />
+		</property>
+
+		<property name="ImprimeDuasVias">
+			<column name="imprimeDuasVias" not-null="true" />
+		</property>
+
+		<property name="LayoutImpressaoPromissoria">
+			<column name="layoutImpressaoPromissoria" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

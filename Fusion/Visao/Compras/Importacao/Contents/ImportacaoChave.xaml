@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Fusion.Visao.Compras.Importacao.Contents.ImportacaoChave"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Fusion.Visao.Compras.Importacao"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance local:ImportacaoCompraViewModel}"
+             KeyDown="KeyDownHandler"
+             d:DesignWidth="700">
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Emissor fiscal para consultar a chave da nf-e" />
+            <controles:ComboBoxEditavel
+                ItemsSource="{Binding Emissores}"
+                SelectedItem="{Binding EmissorManifesto}" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,15,0,0">
+            <StackPanel>
+                <TextBlock 
+                    FontSize="13"
+                    TextAlignment="Center"
+                    Text="Ao confirmar a operação você manifestará a ciência da operação para essa NF-E (caso ela exista)." />
+
+                <TextBlock 
+                    FontSize="13"
+                    TextAlignment="Center"
+                    Text="O tempo para a sefaz liberar o xml pode variar. Irei esperar 5 segundos após o manifesto e tentarei baixar o XML." />
+
+                <TextBlock 
+                    FontSize="13"
+                    TextAlignment="Center"
+                    Text="Caso não consiga baixar o XML só tentar novamente após alguns minutos" />
+            </StackPanel>
+
+            <Button 
+                Margin="0,10,0,0"
+                Style="{DynamicResource FusionAccentedButton}" 
+                Command="{Binding ConfirmarImportacaoChaveCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Width="14" Icon="ThumbsOutlineUp" Foreground="{DynamicResource WhiteBrush}" />
+                    <TextBlock Text="Manifestar ciência e importar xml pela chave [F2]" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

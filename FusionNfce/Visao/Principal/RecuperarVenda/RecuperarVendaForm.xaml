@@ -1,0 +1,109 @@
+﻿<controls:MetroWindow x:Class="FusionNfce.Visao.Principal.RecuperarVenda.RecuperarVendaForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:recuperarVenda="clr-namespace:FusionNfce.Visao.Principal.RecuperarVenda"
+                      xmlns:componentes="clr-namespace:FusionLibrary.Wpf.Componentes;assembly=FusionLibrary"
+                      mc:Ignorable="d"
+                      WindowStartupLocation="CenterScreen"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      d:DataContext="{d:DesignInstance recuperarVenda:RecuperarVendaFormModel}"
+                      Loaded="LoadedHandler"
+                      KeyDown="RecuperarVendaForm_OnKeyDown"
+                      Title="Recuperar Venda" Height="600" Width="800">
+    <Grid Margin="5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.5*" />
+                <RowDefinition Height="7.5*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+
+            <DockPanel Margin="0,0,0,5" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0">
+                <StackPanel DockPanel.Dock="Left" HorizontalAlignment="Center">
+                    <TextBlock HorizontalAlignment="Center" Text="Pesquisa rápida por #ID, Número ou Chave" />
+
+                    <componentes:TextBoxPesquisa StartFocus="True"
+                                                 Texto="{Binding BuscaRapidaTexto, UpdateSourceTrigger=PropertyChanged}"
+                                                 OnSearch="TextBoxPesquisa_OnOnSearch"
+                                                 OnKeyDown="TextBoxPesquisa_OnOnKeyDown" />
+                </StackPanel>
+            </DockPanel>
+
+
+            <ListBox Grid.Column="0" Grid.Row="1"
+                     KeyDown="LbListaDeProdutos_OnKeyDown"
+                     Name="LbListaDeProdutos"
+                     ItemsSource="{Binding Itens}"
+                     SelectedItem="{Binding ItemSelecionado}" MouseDoubleClick="Control_OnMouseDoubleClick">
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="240" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="80" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                
+                                <TextBlock>
+                                    <Run Text="Emissão: "></Run>
+                                    <Run Text="{Binding TipoEmissaoString, Mode=OneWay}"></Run>
+                                </TextBlock>
+
+                                <TextBlock Grid.Column="1" Grid.Row="0">
+                                    <Run Text="Status: "></Run>
+                                    <Run Text="{Binding Status}"></Run>
+                                </TextBlock>
+
+                                <TextBlock Grid.Column="0" Grid.Row="1">
+                                    <Run Text="Emitida em:" />
+                                    <Run Text="{Binding EmitidaEm, StringFormat=dd/MM/yyyy HH:mm}" />
+                                </TextBlock>
+
+                                <TextBlock Grid.Column="1" Grid.Row="1">
+                                    <Run Text="Número:" />
+                                    <Run Text="{Binding NumeroDocumento}" />
+                                </TextBlock>
+
+                                <TextBlock Grid.Column="2" Grid.Row="1">
+                                    <Run Text="Total:" />
+                                    <Run Text="{Binding Total, StringFormat=N2}" />
+                                </TextBlock>
+
+                                <TextBlock Grid.Column="3" Grid.Row="1">
+                                    <Run Text="#ID:" />
+                                    <Run Text="{Binding Id}" />
+                                </TextBlock>
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <DockPanel Grid.Column="0" Grid.Row="2" Height="60" Background="{StaticResource AccentColorBrush4}">
+                <StackPanel HorizontalAlignment="Center"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+
+                    <Button Name="BtConfirmar" Width="200" Click="BtConfirmar_Click" Margin="0,0,30,0"
+                            Style="{DynamicResource FusionAccentedButton}"
+                            Content="Confirmar (F2)" />
+                    <Button Name="BtCancelar" Width="200" Click="BtCancelar_OnClick" Margin="30,0,0,0"
+                            Style="{DynamicResource FusionCleanButton}"
+                            Content="Fechar (ESC)" />
+                </StackPanel>
+            </DockPanel>
+
+        </Grid>
+
+    </Grid>
+</controls:MetroWindow>

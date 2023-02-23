@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronicoOs.Perfil"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PerfilCteOs" table="perfil_cte_os">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+    
+    <property name="Descricao">
+      <column name="descricao" not-null="true" />
+    </property>
+
+    <many-to-one name="EmissorFiscal" cascade="none">
+      <column name="emissorFiscal_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="PerfilCfop" cascade="none">
+      <column name="perfilCfop_id" not-null="false"/>
+    </many-to-one>
+
+    <many-to-one name="Veiculo" cascade="none">
+      <column name="veiculo_id" not-null="false" />
+    </many-to-one>
+    
+    <many-to-one name="Ibpt" class="FusionCore.FusionAdm.Fiscal.Transparencia.Ibpt" cascade="none">
+        <column name="ibpt_codigo" sql-type="varchar" />
+        <column name="ibpt_tipo" sql-type="tinyint" />
+        <column name="ibpt_excecaoFiscal" sql-type="varchar" />
+    </many-to-one>
+
+    <property name="NaturezaOperacao">
+      <column name="naturezaOperacao" not-null="true" />
+    </property>
+
+    <property name="TipoCte">
+      <column name="tipoCte" not-null="true" />
+    </property>
+
+    <property name="TipoServico">
+      <column name="tipoServico" not-null="true" />
+    </property>
+
+    <property name="Observacao">
+      <column name="observacao" not-null="true" />
+    </property>
+    
+    <one-to-one name="Seguro" cascade="all-delete-orphan" outer-join="true"/>
+      
+    <many-to-one name="Tomador" cascade="none">
+      <column name="pessoa_id" not-null="false"></column>
+    </many-to-one>
+      
+    <component name="LocalInicialPrestacao" class="FusionCore.FusionAdm.CteEletronicoOs.LocalInicialPrestacao">
+      <many-to-one name="EstadoUF" cascade="none" class="FusionCore.Repositorio.Legacy.Entidades.Adm.EstadoDTO">
+        <column name="localInicioEstadoUf_id" not-null="false"></column>
+      </many-to-one>
+    
+      <many-to-one name="Cidade" cascade="none" class="FusionCore.Repositorio.Legacy.Entidades.Adm.CidadeDTO">
+        <column name="localInicioCidade_id" not-null="false"></column>
+      </many-to-one>
+    </component>
+        
+    <component name="LocalFinalPrestacao" class="FusionCore.FusionAdm.CteEletronicoOs.LocalFinalPrestacao">
+      <many-to-one name="EstadoUF" cascade="none" class="FusionCore.Repositorio.Legacy.Entidades.Adm.EstadoDTO">
+        <column name="localFinalEstadoUf_id" not-null="false"></column>
+      </many-to-one>
+    
+      <many-to-one name="Cidade" cascade="none" class="FusionCore.Repositorio.Legacy.Entidades.Adm.CidadeDTO">
+        <column name="localFinalCidade_id" not-null="false"></column>
+      </many-to-one>
+    </component>
+    
+    <property name="Taf" not-null="true" column="taf" />
+    
+    <property name="NumeroRegistroEstadual" not-null="true" column="numeroRegistroEstadual" />
+    
+    <property name="DescricaoServico" not-null="true" column="descricaoServico" />
+    
+    <property name="QuantidadePassageiroVolume" not-null="true" column="quantidadePassageiroVolume" />
+
+  </class>
+</hibernate-mapping>

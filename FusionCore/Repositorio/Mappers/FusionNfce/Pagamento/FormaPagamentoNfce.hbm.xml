@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Pagamento"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="FormaPagamentoNfce" table="nfce_forma_pagamento">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+    
+    <many-to-one name="Nfce">
+      <column name="nfce_id" sql-type="int" not-null="true" />
+    </many-to-one>
+    
+    <property name="Nome">
+      <column name="nome" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="ValorPagamento">
+      <column name="valorPagamento" sql-type="decimal" not-null="true" />
+    </property>
+    
+    <property name="IdFormaPagamento">
+      <column name="idFormaPagamento" sql-type="varchar" not-null="true" />
+    </property>
+    
+    <property name="IsMfe" not-null="true">
+      <column name="isMfe" />
+    </property>
+    
+    <property name="XmlEnvEnviarPagamento" not-null="false">
+      <column name="xmlEnvEnviarPagamento" sql-type="xml" length="2147483647" />
+    </property>
+    
+    <property name="XmlRetEnviarPagamento" not-null="false">
+      <column name="xmlRetEnviarPagamento" sql-type="xml" length="2147483647" />
+    </property>
+    
+    <property name="XmlEnvVerificarStatus" not-null="false">
+      <column name="xmlEnvVerificarStatus" sql-type="xml" length="2147483647" />
+    </property>
+    
+    <property name="XmlRetVerificarStatus" not-null="false">
+      <column name="xmlRetVerificarStatus" sql-type="xml" length="2147483647" />
+    </property>
+    
+    <property name="XmlEnvRespostaFiscal" not-null="false">
+      <column name="xmlEnvRespostaFiscal" sql-type="xml" length="2147483647" />
+    </property>
+    
+    <property name="XmlRetRespostaFiscal" not-null="false">
+      <column name="xmlRetRespostaFiscal" sql-type="xml" length="2147483647" />
+    </property>
+    
+    <property name="SemInternet" not-null="true">
+      <column name="semInternet" />
+    </property>
+
+    <property name="SerialPos" not-null="true">
+      <column name="serialPos" />
+    </property>
+    
+    <property name="EstabelecimentoCodigo" column="estabelecimentoCodigo" not-null="true" />
+    
+    <property name="Adquirente" column="adquirente" not-null="true" />
+
+    <property name="Bandeira" column="bandeira" not-null="true" />
+
+    <property name="Nsu" column="nsu" not-null="true" />
+
+    <property name="NumeroAprovacao" column="numeroAprovacao" not-null="true" />
+    
+    <property name="IsExigeDadosManual" column="isExigeDadosManual" not-null="true" />
+
+    <property name="TipoAmbiente" not-null="true">
+      <column name="tipoAmbiente" />
+    </property>
+
+    <property name="IsEnviarPagamentoSucesso" not-null="true">
+      <column name="isEnviarPagamentoSucesso" />
+    </property>
+
+    <property name="IsVerificarStatusValidadorSucesso" not-null="true">
+      <column name="isVerificarStatusValidadorSucesso" />
+    </property>
+
+    <property name="IsRespostaFiscalSucesso" not-null="true">
+      <column name="isRespostaFiscalSucesso" />
+    </property>
+    
+    <property name="AjusteTipo" not-null="true">
+      <column name="ajusteTipo" />
+    </property>
+    
+    <property name="IsAjuste" not-null="true">
+      <column name="isAjuste" />
+    </property>
+    
+    <property name="CnpjCredenciadora" not-null="true">
+      <column name="cnpjCredenciadora" />
+    </property>
+
+    <property name="IsTef" not-null="true">
+      <column name="isTef" />
+    </property>
+
+    <property name="TipoTransacao" not-null="true">
+      <column name="tipoTransacao" />
+    </property>
+
+    <property name="CodigoControle" not-null="true">
+      <column name="codigoControle" />
+    </property>
+
+    <property name="OperadoraTef" not-null="true">
+      <column name="operadoraTef" />
+    </property>
+
+    <property name="DataEHoraTransacao" not-null="false">
+      <column name="dataEHoraTransacao" />
+    </property>
+
+    <property name="IsGerouRegistroCaixa" not-null="true">
+      <column name="isGerouRegistroCaixa" />
+    </property>
+
+    <property name="Credenciadora" column="credenciadora" not-null="false" />
+
+    <property name="TipoCartaoPos" column="tipoCartaoPos" not-null="false" />
+
+    <property name="DescricaoOutros" column="descricaoOutros" not-null="false" />
+
+  </class>
+</hibernate-mapping>

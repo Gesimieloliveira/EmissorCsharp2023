@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="03/09/2018 16:55:20" ReportInfo.Modified="07/23/2018 14:49:47" ReportInfo.CreatorVersion="2016.3.22.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {
+    public string PreparaNomePessoa(string input) 
+    {
+      return string.IsNullOrWhiteSpace(input) ? &quot;CONSUMIDOR FINAL&quot; : input;
+    }
+    
+    private void Table1_ManualBuild(object sender, EventArgs e)
+    {
+      // get the parent data source by its name
+      DataSourceBase parentData = Report.GetDataSource(&quot;dsMovimentacao&quot;);
+      // get the data source by its name
+      DataSourceBase rowData = Report.GetDataSource(&quot;dsItens&quot;);
+      // init the data source. Pass parentData to allow master-detail relation
+      rowData.Init(parentData);
+      
+      // print the first table row - it is a header
+      Table1.PrintRow(0);
+      // each PrintRow call must be followed by either PrintColumn or PrintColumns call
+      // to print cells on the row
+      Table1.PrintColumns();
+      
+      // now enumerate the data source and print the table body
+      while (rowData.HasMoreRows)
+      {
+        // print the table body  
+        Table1.PrintRow(1);
+        Table1.PrintColumns();
+        
+        // go next data source row
+        rowData.Next();
+      }
+      
+      // print the last table row - it is a footer
+      // Table1.PrintRow(2);
+      // Table1.PrintColumns();
+    }
+  }
+}
+</ScriptText>
+  <Dictionary>
+    <BusinessObjectDataSource Name="dsMovimentacao" ReferenceName="dsMovimentacao" DataType="System.Linq.Enumerable+&lt;ConcatIterator&gt;d__59`1[[Fusion.FastReport.DataSources.DsMovimento, Fusion.FastReport, Version=6.4.0.9, Culture=neutral, PublicKeyToken=null]], System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Enabled="true">
+      <Column Name="Id" DataType="System.Int32"/>
+      <Column Name="DataOperacao" DataType="System.DateTime"/>
+      <Column Name="TipoOperacao" DataType="Fusion.FastReport.DataSources.DsTipoOperacao, Fusion.FastReport, Version=6.4.0.9, Culture=neutral, PublicKeyToken=null"/>
+      <Column Name="NomePessoa" DataType="System.String"/>
+      <Column Name="ValorBruto" DataType="System.Decimal"/>
+      <Column Name="ValorDesconto" DataType="System.Decimal"/>
+      <Column Name="ValorAcrescimo" DataType="System.Decimal"/>
+      <Column Name="ValorLiquido" DataType="System.Decimal"/>
+      <Column Name="NumeroDocumento" DataType="System.Int32"/>
+    </BusinessObjectDataSource>
+    <BusinessObjectDataSource Name="dsItens" ReferenceName="dsItens" DataType="System.Linq.Enumerable+&lt;ConcatIterator&gt;d__59`1[[Fusion.FastReport.DataSources.DsMovimentoItem, Fusion.FastReport, Version=6.4.0.9, Culture=neutral, PublicKeyToken=null]], System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Enabled="true">
+      <Column Name="Id" DataType="System.Int32"/>
+      <Column Name="MovimentacaoId" DataType="System.Int32"/>
+      <Column Name="TipoOperacao" DataType="Fusion.FastReport.DataSources.DsTipoOperacao, Fusion.FastReport, Version=6.4.0.9, Culture=neutral, PublicKeyToken=null"/>
+      <Column Name="ProdutoId" DataType="System.Int32"/>
+      <Column Name="ProdutoDescricao" DataType="System.String"/>
+      <Column Name="SiglaUnidade" DataType="System.String"/>
+      <Column Name="Quantidade" DataType="System.Decimal"/>
+      <Column Name="ValorUnitario" DataType="System.Decimal"/>
+      <Column Name="DescontoTotal" DataType="System.Decimal"/>
+      <Column Name="ValorTotal" DataType="System.Decimal"/>
+      <Column Name="AcrescimoTotal" DataType="System.Decimal"/>
+    </BusinessObjectDataSource>
+    <Relation Name="dsMovimentacao_dsItens" ParentDataSource="dsMovimentacao" ChildDataSource="dsItens" ParentColumns="Id&#13;&#10;TipoOperacao" ChildColumns="MovimentacaoId&#13;&#10;TipoOperacao" Enabled="true"/>
+    <Total Name="TotalBrutoGrupo" Expression="[dsMovimentacao.ValorBruto]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="TotalLiquidoGrupo" Expression="[dsMovimentacao.ValorLiquido]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="TotalDescontoGrupo" Expression="[dsMovimentacao.ValorDesconto]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="TotalAcrescimoGrupo" Expression="[dsMovimentacao.ValorAcrescimo]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="TotalBrutoFinal" Expression="[dsMovimentacao.ValorBruto]" Evaluator="Data1" PrintOn="ReportSummary1"/>
+    <Total Name="TotalLiquidoFinal" Expression="[dsMovimentacao.ValorLiquido]" Evaluator="Data1" PrintOn="ReportSummary1"/>
+    <Total Name="TotalDescontoFinal" Expression="[dsMovimentacao.ValorDesconto]" Evaluator="Data1" PrintOn="ReportSummary1"/>
+    <Total Name="TotalAcrescimoFinal" Expression="[dsMovimentacao.ValorAcrescimo]" Evaluator="Data1" PrintOn="ReportSummary1"/>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="69.93">
+      <TextObject Name="Text9" Left="377.55" Top="0.45" Width="340.2" Height="13.9" Text="Relatório de movimentações por periodo" HorzAlign="Right" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text14" Left="377.55" Top="17.9" Width="340.2" Height="15.9" Text="Relatório emitido em: [Date]" HorzAlign="Right"/>
+    </ReportTitleBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="72.26" Width="718.2" Height="30.24" Condition="[dsMovimentacao.TipoOperacao]">
+      <TextObject Name="Text1" Left="1.89" Top="1.89" Width="714.42" Height="18.9" Border.Lines="Bottom" Border.Style="Double" Text="Movimentações de: [dsMovimentacao.TipoOperacao]" Font="Arial, 12pt, style=Bold"/>
+      <DataBand Name="Data1" Top="104.82" Width="718.2" Height="75.6" DataSource="dsMovimentacao">
+        <TableObject Name="Table1" Left="13.56" Top="41.57" Width="691.74" Height="28.98" GrowToBottom="true" ManualBuildEvent="Table1_ManualBuild">
+          <TableColumn Name="Column1" Width="47.25"/>
+          <TableColumn Name="Column2" Width="241.92"/>
+          <TableColumn Name="Column3" Width="39.69"/>
+          <TableColumn Name="Column4" Width="60.48"/>
+          <TableColumn Name="Column5" Width="73.71"/>
+          <TableColumn Name="Column6" Width="75.6"/>
+          <TableColumn Name="Column7" Width="75.6"/>
+          <TableColumn Name="Column8" Width="77.49"/>
+          <TableRow Name="Row1" Height="14.49">
+            <TableCell Name="Cell1" Border.Lines="All" Border.Color="Gray" Fill.Color="WhiteSmoke" Text="Cod." HorzAlign="Center" Font="Arial, 9pt"/>
+            <TableCell Name="Cell2" Border.Lines="All" Border.Color="Gray" Fill.Color="WhiteSmoke" Text="Nome do produto" Font="Arial, 9pt"/>
+            <TableCell Name="Cell3" Border.Lines="All" Border.Color="Gray" Fill.Color="WhiteSmoke" Text="Sigla&#13;&#10;" HorzAlign="Center" Font="Arial, 9pt"/>
+            <TableCell Name="Cell4" Border.Lines="All" Border.Color="Gray" Fill.Color="WhiteSmoke" Text="Qtd." HorzAlign="Right" Font="Arial, 9pt"/>
+            <TableCell Name="Cell5" Border.Lines="All" Border.Color="Gray" Fill.Color="WhiteSmoke" Text="Unitário" HorzAlign="Right" Font="Arial, 9pt"/>
+            <TableCell Name="Cell26" Border.Lines="All" Border.Color="Gray" Fill.Color="WhiteSmoke" Text="Desconto" HorzAlign="Center" Font="Arial, 9pt"/>
+            <TableCell Name="Cell27" Border.Lines="All" Border.Color="Gray" Fill.Color="WhiteSmoke" Text="Acrescimo" HorzAlign="Right" Font="Arial, 9pt"/>
+            <TableCell Name="Cell28" Border.Lines="All" Border.Color="Gray" Fill.Color="WhiteSmoke" Text="Total" Format="Custom" Format.Format="G" HorzAlign="Right" Font="Arial, 9pt"/>
+          </TableRow>
+          <TableRow Name="Row2" Height="14.49">
+            <TableCell Name="Cell6" Border.Lines="All" Border.Color="Gray" Text="[dsItens.ProdutoId]" HorzAlign="Center" Font="Arial, 9pt"/>
+            <TableCell Name="Cell7" Border.Lines="All" Border.Color="Gray" Text="[dsItens.ProdutoDescricao]" Font="Arial, 9pt"/>
+            <TableCell Name="Cell8" Border.Lines="All" Border.Color="Gray" Text="[dsItens.SiglaUnidade]" HorzAlign="Center" Font="Arial, 9pt"/>
+            <TableCell Name="Cell9" Border.Lines="All" Border.Color="Gray" Text="[dsItens.Quantidade]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 9pt"/>
+            <TableCell Name="Cell10" Border.Lines="All" Border.Color="Gray" Text="[dsItens.ValorUnitario]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 9pt"/>
+            <TableCell Name="Cell29" Border.Lines="All" Border.Color="Gray" Text="[dsItens.DescontoTotal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 9pt"/>
+            <TableCell Name="Cell30" Border.Lines="All" Border.Color="Gray" Text="[dsItens.AcrescimoTotal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 9pt"/>
+            <TableCell Name="Cell31" Border.Lines="All" Border.Color="Gray" Text="[dsItens.ValorTotal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right" Font="Arial, 9pt"/>
+          </TableRow>
+        </TableObject>
+        <TextObject Name="Text2" Left="13.01" Top="19.13" Width="451.71" Height="17.01" CanBreak="false" Text="[PreparaNomePessoa([dsMovimentacao.NomePessoa])]"/>
+        <TextObject Name="Text3" Left="3.56" Top="2.67" Width="712.53" Height="13.23" Text="Detalhes da venda - [dsMovimentacao.TipoOperacao]" Font="Arial, 8pt, style=Italic"/>
+        <TextObject Name="Text4" Left="587.79" Top="19.24" Width="117.18" Height="16.01" Text="Data: [dsMovimentacao.DataOperacao]" Format="Date" Format.Format="d" HorzAlign="Right"/>
+        <TextObject Name="Text5" Left="466.94" Top="19.79" Width="117.18" Height="16.01" Text="Cod/ID: [dsMovimentacao.Id]" Format="Custom" Format.Format="0000"/>
+        <ChildBand Name="Child1" Top="182.75" Width="718.2" Height="30.24" Border.Lines="Bottom" Border.Color="DarkGray" Border.Style="Dash">
+          <TextObject Name="Text6" Left="151.54" Top="5.67" Width="137.97" Height="15.12" Border.Lines="Bottom" Border.Color="Transparent" Text="Bruto: [dsMovimentacao.ValorBruto]" Format="Currency" Format.UseLocale="true" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt, style=Bold" Trimming="EllipsisCharacter"/>
+          <TextObject Name="Text7" Left="291.4" Top="5.67" Width="147.42" Height="15.12" Border.Lines="Bottom" Border.Color="Transparent" Text="Desconto: [dsMovimentacao.ValorDesconto]" Format="Currency" Format.UseLocale="true" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt, style=Bold" Trimming="EllipsisCharacter"/>
+          <TextObject Name="Text8" Left="442.6" Top="5.67" Width="132.3" Height="15.12" Border.Lines="Bottom" Border.Color="Transparent" Text="Acrescimo: [dsMovimentacao.ValorAcrescimo]" Format="Currency" Format.UseLocale="true" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt, style=Bold" Trimming="EllipsisCharacter"/>
+          <TextObject Name="Text10" Left="576.79" Top="5.67" Width="128.52" Height="15.12" Border.Lines="Bottom" Border.Color="Transparent" Text="Total: [dsMovimentacao.ValorLiquido]" Format="Currency" Format.UseLocale="true" HorzAlign="Right" WordWrap="false" Font="Arial, 9pt, style=Bold" Trimming="EllipsisCharacter"/>
+        </ChildBand>
+        <Sort>
+          <Sort Expression="[dsMovimentacao.DataOperacao]"/>
+        </Sort>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="215.31" Width="718.2" Height="79.38">
+        <TableObject Name="Table2" Left="120.09" Top="28.56" Width="478.03" Height="37.8">
+          <TableColumn Name="Column9" Width="103.92"/>
+          <TableColumn Name="Column10" Width="122.82"/>
+          <TableColumn Name="Column11" Width="117.14"/>
+          <TableColumn Name="Column12" Width="134.15"/>
+          <TableRow Name="Row3">
+            <TableCell Name="Cell32" Border.Lines="All" Border.Color="Gray" Fill.Color="DimGray" Text="Total Bruto" HorzAlign="Right" Font="Arial, 10pt, style=Bold" TextFill.Color="White"/>
+            <TableCell Name="Cell33" Border.Lines="All" Border.Color="Gray" Fill.Color="DimGray" Text="Total Desconto" HorzAlign="Right" Font="Arial, 10pt, style=Bold" TextFill.Color="White"/>
+            <TableCell Name="Cell34" Border.Lines="All" Border.Color="Gray" Fill.Color="DimGray" Text="Total Acrescimo" HorzAlign="Right" Font="Arial, 10pt, style=Bold" TextFill.Color="White"/>
+            <TableCell Name="Cell35" Border.Lines="All" Border.Color="Gray" Fill.Color="DimGray" Text="Total Liquido" HorzAlign="Right" Font="Arial, 10pt, style=Bold" TextFill.Color="White"/>
+          </TableRow>
+          <TableRow Name="Row4">
+            <TableCell Name="Cell37" Border.Lines="All" Border.Color="Gray" Text="[TotalBrutoGrupo]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right"/>
+            <TableCell Name="Cell38" Border.Lines="All" Border.Color="Gray" Text="[TotalDescontoGrupo]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right"/>
+            <TableCell Name="Cell39" Border.Lines="All" Border.Color="Gray" Text="[TotalAcrescimoGrupo]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right"/>
+            <TableCell Name="Cell40" Border.Lines="All" Border.Color="Gray" Text="[TotalLiquidoGrupo]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right"/>
+          </TableRow>
+        </TableObject>
+        <TextObject Name="Text11" Left="1.89" Top="4.67" Width="712.53" Height="18.9" Text="Totalização das movimentações ([dsMovimentacao.TipoOperacao])" HorzAlign="Center" Font="Arial, 12pt, style=Bold"/>
+      </GroupFooterBand>
+    </GroupHeaderBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="297.02" Width="718.2" Height="83.16">
+      <TextObject Name="Text15" Left="1.89" Top="7.45" Width="712.53" Height="18.9" Text="Totalização das movimentações (GERAL)" HorzAlign="Center" Font="Arial, 12pt, style=Bold"/>
+      <TableObject Name="Table3" Left="120.09" Top="33.23" Width="478.03" Height="37.8">
+        <TableColumn Name="Column13" Width="103.92"/>
+        <TableColumn Name="Column14" Width="122.82"/>
+        <TableColumn Name="Column15" Width="117.14"/>
+        <TableColumn Name="Column16" Width="134.15"/>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell41" Border.Lines="All" Border.Color="Gray" Fill.Color="Black" Text="Total Bruto" HorzAlign="Right" Font="Arial, 10pt, style=Bold" TextFill.Color="White"/>
+          <TableCell Name="Cell42" Border.Lines="All" Border.Color="Gray" Fill.Color="Black" Text="Total Desconto" HorzAlign="Right" Font="Arial, 10pt, style=Bold" TextFill.Color="White"/>
+          <TableCell Name="Cell43" Border.Lines="All" Border.Color="Gray" Fill.Color="Black" Text="Total Acrescimo" HorzAlign="Right" Font="Arial, 10pt, style=Bold" TextFill.Color="White"/>
+          <TableCell Name="Cell44" Border.Lines="All" Border.Color="Gray" Fill.Color="Black" Text="Total Liquido" HorzAlign="Right" Font="Arial, 10pt, style=Bold" TextFill.Color="White"/>
+        </TableRow>
+        <TableRow Name="Row6">
+          <TableCell Name="Cell45" Border.Lines="All" Border.Color="Gray" Text="[TotalBrutoFinal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right"/>
+          <TableCell Name="Cell46" Border.Lines="All" Border.Color="Gray" Text="[TotalDescontoFinal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right"/>
+          <TableCell Name="Cell47" Border.Lines="All" Border.Color="Gray" Text="[TotalAcrescimoFinal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right"/>
+          <TableCell Name="Cell48" Border.Lines="All" Border.Color="Gray" Text="[TotalLiquidoFinal]" Format="Number" Format.UseLocale="false" Format.DecimalDigits="2" Format.DecimalSeparator="," Format.GroupSeparator="." Format.NegativePattern="1" HorzAlign="Right"/>
+        </TableRow>
+      </TableObject>
+      <LineObject Name="Line1" Left="1.89" Top="2.56" Width="712.53" Border.Width="2"/>
+    </ReportSummaryBand>
+  </ReportPage>
+</Report>

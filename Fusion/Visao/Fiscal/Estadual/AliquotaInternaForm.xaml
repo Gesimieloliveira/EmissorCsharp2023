@@ -1,0 +1,59 @@
+﻿<controles:FusionWindow x:Class="Fusion.Visao.Fiscal.Estadual.AliquotaInternaForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fusion.Visao.Fiscal.Estadual"
+        xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+        mc:Ignorable="d"
+        Title="Gerenciar Aliquotas Internas" Width="500"
+        Style="{DynamicResource MetroWindowStyle}"
+        ResizeMode="NoResize"    
+        IsMinButtonEnabled="False"
+        SizeToContent="Height">
+    <StackPanel Margin="5">
+        <DataGrid
+            Height="400"
+            ItemsSource="{Binding AliquotasInternas}"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            SelectedItem="{Binding AliquotaInternaSelecionada}"
+            >
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DuploCliqueDataGridRow" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+
+
+                <DataGridTemplateColumn Width="SizeToCells">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Style="{DynamicResource FusionAccentedButton}" ClickMode="Release"
+                                        Click="NoCliqueEditarAliquotaInterna" Padding="7,4">
+                                    <fa:ImageAwesome Icon="Edit" Foreground="{DynamicResource WhiteBrush}" Height="12" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Estado (UF)" Binding="{Binding EstadoUf.Nome}"
+                                    Width="250" />
+
+                <DataGridTextColumn Header="Alíquota" Binding="{Binding Aliquota, StringFormat=N2}"
+                                    helpers:DataGridColumnHelper.Align="Right"
+                                    Width="*" />
+
+                <DataGridTextColumn Header="Alíquota FCP" Binding="{Binding AliquotaFcp, StringFormat=N2}"
+                                    helpers:DataGridColumnHelper.Align="Right"
+                                    Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+</controles:FusionWindow>

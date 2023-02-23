@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.Configuracoes"
+  default-lazy="false"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ConfiguracaoEstoque" table="configuracao_estoque">
+    <id name="Id" unsaved-value="0">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="AlteradoEm">
+      <column name="alteradoEm" not-null="true" />
+    </property>
+
+    <property name="BloqueiaEstoqueNegativo">
+      <column name="bloqueiaEstoqueNegativo" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

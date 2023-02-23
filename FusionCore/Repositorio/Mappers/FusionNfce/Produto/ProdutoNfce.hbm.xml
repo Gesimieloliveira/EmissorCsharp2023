@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Produto"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ProdutoNfce" table="produto">
+    <id name="Id" column="id" />
+
+    <many-to-one name="UnidadeMedida">
+      <column name="produtoUnidade_id" sql-type="int" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="UnidadeMedidaTributavel">
+      <column name="produtoUnidadeTributavel_id" not-null="false" />
+    </many-to-one>
+
+    <property name="Nome">
+      <column name="nome" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="Estoque">
+      <column name="estoque" sql-type="decimal" not-null="true" />
+    </property>
+
+    <property name="PrecoVenda">
+      <column name="precoVenda" sql-type="decimal" not-null="true" />
+    </property>
+
+    <property name="Ncm">
+      <column name="ncm" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="AliquotaIcms">
+      <column name="aliquotaIcms" sql-type="decimal" not-null="true" />
+    </property>
+
+    <property name="ReducaoIcms">
+      <column name="reducaoIcms" not-null="true" />
+    </property>
+
+    <property name="Ativo">
+      <column name="ativo" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="PrecoCompra">
+      <column name="precoCompra" sql-type="decimal" not-null="true" />
+    </property>
+
+    <property name="Cest">
+      <column name="cest" sql-type="varchar" not-null="true" />
+    </property>
+
+    <property name="OrigemMercadoria">
+      <column name="OrigemMercadoria" not-null="true" />
+    </property>
+
+    <property name="CodigoAnp">
+      <column name="codigoAnp" not-null="true" />
+    </property>
+
+    <property name="Referencia">
+      <column name="referencia" not-null="true" />
+    </property>
+
+    <many-to-one name="RegraSaida">
+      <column name="regraTributacaoSaida_id" not-null="true" sql-type="smallint" />
+    </many-to-one>
+
+    <many-to-one name="Pis" cascade="none">
+      <column name="situacaoTributariaPis_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="Cofins" cascade="none">
+      <column name="situacaoTributariaCofins_id" not-null="true" />
+    </many-to-one>
+    
+    <property name="CodigoBalanca">
+      <column name="codigoBalanca" not-null="true" />
+    </property>
+
+	<property name="UsarObservacaoNoItemFiscal">
+		<column name="usarObservacaoNoItemFiscal" not-null="true" />  
+	</property>
+	  
+	<property name= "Observacao">
+	  <column name="observacao" not-null="false" />
+	</property>	
+
+    <property name="QuantidadeUnidadeTributavel" not-null="true">
+      <column name="quantidadeUnidadeTributavel" />
+    </property>
+
+    <property name="PercentualGlpPetroleo" column="percentualGlpPetroleo" not-null="true" />
+
+    <property name="PercentualGasNacional" column="percentualGasNacional" not-null="true" />
+
+    <property name="PercentualGasImportador" column="percentualGasImportador" not-null="true" />
+
+    <property name="ValorDePartida" column="valorDePartida" not-null="true" />
+
+    <property name="AliquotaPis" column="aliquotaPis" not-null="true" />
+
+    <property name="AliquotaCofins" column="aliquotaCofins" not-null="true" />
+
+    <bag table="produto_alias" name="ProdutosAlias" lazy="true" inverse="true" cascade="none">
+      <key column="produto_id" not-null="true" />
+      <one-to-many class="FusionCore.FusionNfce.Produto.ProdutoAliasNfce" />
+    </bag>
+  </class>
+</hibernate-mapping>

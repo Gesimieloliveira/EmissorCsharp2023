@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Vendas.Autorizadores.Nfce"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CupomFiscalFinalizado" table="cupom_fiscal_finalizado">
+	<id name="CupomFiscalId" access="backfield" column="cupomFiscal_id">
+	  <generator class="foreign">
+		  <param name="property">CupomFiscal</param>
+	  </generator>
+	</id>
+	  
+	<one-to-one access="backfield" name="CupomFiscal" class="CupomFiscal" constrained="true" cascade="none" />
+
+    <property access="backfield" name="CriadoEm" column="criadoEm" not-null="true" />
+
+    <property access="backfield" name="Chave" column="chave" not-null="true" />
+
+    <property access="backfield" name="Protocolo" column="protocolo" not-null="true" />
+
+    <property access="backfield" name="AutorizadaEm" column="autorizadaEm" not-null="true" />
+
+	<property access="backfield" name="XmlAutorizado" not-null="true">
+	  <column name="xmlAutorizado" sql-type="xml" length="2147483647"></column>
+	</property>
+
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,86 @@
+﻿<controls:MetroWindow x:Class="FusionPdv.Visao.Tef.ConfiguraTefForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:tef="clr-namespace:FusionPdv.Visao.Tef"
+        xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                      xmlns:flags="clr-namespace:FusionCore.FusionPdv.Flags;assembly=FusionCore"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance tef:ConfiguraTefFormModel}"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource MetroWindowStyle}"
+        Title="Configuração do TEF" 
+        Height="300" 
+        Width="600"
+        KeyDown="ConfiguraTefForm_OnKeyDown">
+
+    <AdornerDecorator>
+        <Grid>
+
+        <Grid.Resources>
+            <Style TargetType="TextBox">
+                <Setter Property="FontSize" Value="16"></Setter>
+                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                <Setter Property="Margin" Value="2"></Setter>
+            </Style>
+            
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="10"></Setter>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+       
+        
+        <ComboBox 
+            Margin="0,5,0,5"
+            ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags:OperadorasTef}}}"
+            SelectedItem="{Binding OperadoraTef, UpdateSourceTrigger=PropertyChanged}"
+            IsEditable="False"
+            Grid.ColumnSpan="2" Width="200"></ComboBox>
+
+        <TextBlock Grid.Row="1" Grid.Column="0">Arquivo Req</TextBlock>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ArqReq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"></TextBox>
+
+        <TextBlock Grid.Row="2" Grid.Column="0">Arquivo Resp</TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ArqResp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"></TextBox>
+
+        <TextBlock Grid.Row="3" Grid.Column="0">Arquivo Sts</TextBlock>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ArqSts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"></TextBox>
+
+        <TextBlock Grid.Row="4" Grid.Column="0">Arquivo Temp</TextBlock>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ArqTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"></TextBox>
+
+        <TextBlock Grid.Row="5" Grid.Column="0">Arquivo GpExeName</TextBlock>
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding GpExeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"></TextBox>
+
+        <StackPanel VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Button Grid.Column="0" Width="200" Click="Salvar_OnClick" IsEnabled="{Binding BotaoSalvar}">Confirmar (F2)</Button>
+                <Button Grid.Column="1" Width="200" Click="Fechar_OnClick">Sair (ESC)</Button>
+            </Grid>
+        </StackPanel>
+
+    </Grid>
+        </AdornerDecorator>
+</controls:MetroWindow>

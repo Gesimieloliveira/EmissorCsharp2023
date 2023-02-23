@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" StartReportEvent="_StartReport" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="10/19/2021 15:51:12" ReportInfo.CreatorVersion="2020.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{        
+  public class ReportScript
+  {        
+    private void _StartReport(object sender, EventArgs e)
+    {
+    }
+    
+    private void PgHeader_BeforePrint(object sender, EventArgs e)
+    {
+      Report.GetDataSource(&quot;Empresa&quot;).Init();
+    }
+    
+    private string CutString(string valor, int length) 
+    {
+      if (valor != null &amp;&amp; valor.Length &gt; length) {
+        return valor.Substring(0, length);
+      }
+      
+      return valor;
+    }
+    
+    private void Form1_Load(object sender, EventArgs e)
+    {      
+      DateTime mesAnterior = DateTime.Today.AddMonths(-1); 
+      int ultimoDiaMes = DateTime.DaysInMonth(mesAnterior.Year, mesAnterior.Month);
+      
+      CDataInicial.Value = new DateTime(mesAnterior.Year, mesAnterior.Month, 1);
+      CDataFinal.Value = new DateTime(mesAnterior.Year, mesAnterior.Month, ultimoDiaMes);
+    }
+
+    private void btnOk_Click(object sender, EventArgs e)
+    {
+      if (!string.IsNullOrEmpty(CbEmpresa.Text)) {
+        string[] partes = CbEmpresa.Text.Split(',');
+        string empresaId = partes[partes.Length - 1];
+      
+        Report.SetParameterValue(&quot;EmpresaId&quot;, int.Parse(empresaId));
+      }
+      
+      int clienteId = 0;
+      bool res = int.TryParse(TbClienteId.Text, out clienteId);
+      
+      Report.SetParameterValue(&quot;clienteId&quot;, clienteId);
+      Report.SetParameterValue(&quot;DataInicio&quot;, CDataInicial.Value);
+      Report.SetParameterValue(&quot;DataFim&quot;, CDataFinal.Value);
+    }
+
+    private void TbClienteId_KeyPress(object sender, KeyPressEventArgs e)
+    {
+      if (char.IsLetter(e.KeyChar)) {
+        e.Handled = true;
+      }
+    }
+  }
+}</ScriptText>
+  <Styles>
+    <Style Name="EvenRows" Fill.Color="WhiteSmoke" Font="Arial, 10pt" ApplyBorder="false" ApplyTextFill="false" ApplyFont="false"/>
+  </Styles>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2gYK6Hkm0rGycimQmi6PzTQCcYscRYXnbID4BSu7tAz6n4QWML7U1/pJQ0M7PqO0sPLvRp8pTy/q/HTB3WmN9EbDo8aWN0PSz3Hhu5gNcXtzxhxrbvNEsiapRU2SWvQW30igTvbbyJHG7d77jaCDwfuudQk4n9Gi8hajnSMwDYHIGo/Q8U22fuooKkNSC1zDHUE2GE9sT/9huRvmKUILwU5VH8yHtdoD0DrCF9ggk1lUfKF9gl+YwNQeu0QMPWJrmqQ==">
+      <TableDataSource Name="TbEmpresa" Alias="Empresa" DataType="System.Int32" PropName="Table1" Enabled="true" SelectCommand="select &#13;&#10;	(e.razaoSocial + ',' + cast(e.id as varchar)) as nome,&#13;&#10;	e.razaoSocial,&#13;&#10;	e.nomeFantasia,&#13;&#10;	e.logradouro,&#13;&#10;	e.cep,&#13;&#10;	e.bairro,&#13;&#10;	e.numero,&#13;&#10;	e.fone1,&#13;&#10;	e.fone2,&#13;&#10;	case when len(e.cnpj) = 14 then e.cnpj else e.cpf end as cpfnpj,&#13;&#10;	e.logo&#13;&#10;from empresa e">
+        <Column Name="bairro" DataType="System.String"/>
+        <Column Name="cep" DataType="System.String"/>
+        <Column Name="cpfnpj" DataType="System.String"/>
+        <Column Name="fone1" DataType="System.String"/>
+        <Column Name="fone2" DataType="System.String"/>
+        <Column Name="logo" DataType="System.Byte[]" BindableControl="Picture"/>
+        <Column Name="logradouro" DataType="System.String"/>
+        <Column Name="nome" DataType="System.String"/>
+        <Column Name="nomeFantasia" DataType="System.String"/>
+        <Column Name="numero" DataType="System.String"/>
+        <Column Name="razaoSocial" DataType="System.String"/>
+      </TableDataSource>
+      <TableDataSource Name="Table" Alias="Itens" DataType="System.Int32" Enabled="true" SelectCommand="select &#13;&#10;	(vp.nome + '-' + cast(vp.id as varchar)) as agrupador,&#13;&#10;	vp.id as clienteId,&#13;&#10;	vp.nome as nomeCliente,&#13;&#10;	vi.modelo,&#13;&#10;	vi.numeroDocumento,&#13;&#10;	vi.serieDocumento,&#13;&#10;	vi.dataVenda,&#13;&#10;	vi.estadoVenda,&#13;&#10;	vi.estadoVendaTexto,&#13;&#10;	vi.produto_id as produtoId,&#13;&#10;	vpro.nome as nomeProduto,&#13;&#10;	vi.itemQuantidade,&#13;&#10;	vi.itemPrecoUnitario,&#13;&#10;	vi.itemDesconto,&#13;&#10;	vi.itemTotal&#13;&#10;from view_vendas_com_itens vi&#13;&#10;inner join pessoa vp on vp.id = vi.cliente_id&#13;&#10;inner join produto vpro on vpro.id = vi.produto_id&#13;&#10;where &#13;&#10;	(@clienteId = 0 or cliente_id = @clienteId)&#13;&#10;	and vi.estadoVenda = 1&#13;&#10;	and vi.empresa_id = @empresaId &#13;&#10;	and vi.dataVenda between @di and @df">
+        <Column Name="modelo" DataType="System.String"/>
+        <Column Name="numeroDocumento" DataType="System.Int32"/>
+        <Column Name="dataVenda" DataType="System.DateTime"/>
+        <Column Name="estadoVenda" DataType="System.Int32"/>
+        <Column Name="estadoVendaTexto" DataType="System.String"/>
+        <Column Name="agrupador" DataType="System.String"/>
+        <Column Name="clienteId" DataType="System.Int32"/>
+        <Column Name="nomeCliente" DataType="System.String"/>
+        <Column Name="produtoId" DataType="System.Int32"/>
+        <Column Name="nomeProduto" DataType="System.String"/>
+        <Column Name="itemQuantidade" DataType="System.Decimal"/>
+        <Column Name="itemPrecoUnitario" DataType="System.Decimal"/>
+        <Column Name="itemDesconto" DataType="System.Decimal"/>
+        <Column Name="itemTotal" DataType="System.Decimal"/>
+        <Column Name="serieDocumento" DataType="System.Int16"/>
+        <CommandParameter Name="empresaId" DataType="8" Expression="[EmpresaId]" DefaultValue="0"/>
+        <CommandParameter Name="clienteId" DataType="8" Expression="[ClienteId]" DefaultValue="0"/>
+        <CommandParameter Name="di" DataType="31" Expression="[DataInicio]" DefaultValue="1900-01-01"/>
+        <CommandParameter Name="df" DataType="31" Expression="[DataFim]" DefaultValue="1900-01-01"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+    <Parameter Name="EmpresaId" DataType="System.Int32"/>
+    <Parameter Name="DataInicio" DataType="System.DateTime"/>
+    <Parameter Name="DataFim" DataType="System.DateTime"/>
+    <Parameter Name="ClienteId" DataType="System.Int32"/>
+    <Total Name="SomaQuantidade" Expression="[Itens.itemQuantidade]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="SomaTotal" Expression="[Itens.itemTotal]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="SomaDesconto" Expression="[Itens.itemDesconto]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+  </Dictionary>
+  <DialogPage Name="Form1" Width="544" Height="260" AcceptButton="btnOk" CancelButton="btnCancel" Font="Tahoma, 8pt" LoadEvent="Form1_Load">
+    <ButtonControl Name="btnOk" Left="360" Top="182" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="99" Text="OK" ClickEvent="btnOk_Click" AutoFill="false" DialogResult="OK"/>
+    <ButtonControl Name="btnCancel" Left="443" Top="182" Anchor="Bottom, Right" Width="75" Height="23" Font="Tahoma, 8pt" TabIndex="99" Text="Cancelar" DialogResult="Cancel"/>
+    <DateTimePickerControl Name="CDataInicial" Left="8" Top="88" Width="236" Height="24" Font="Tahoma, 8pt" TabIndex="2" Text="06/09/2019" Format="Short" Value="09/06/2019 13:32:52"/>
+    <LabelControl Name="Label1" Left="8" Top="64" Width="88" Height="21" Font="Tahoma, 8pt" TabIndex="3" Text="Periodo inicial"/>
+    <DateTimePickerControl Name="CDataFinal" Left="284" Top="88" Width="236" Height="24" Font="Tahoma, 8pt" TabIndex="3" Text="06/09/2019" Format="Short" Value="09/06/2019 13:31:29"/>
+    <LabelControl Name="Label2" Left="284" Top="68" Width="80" Height="21" Font="Tahoma, 8pt" TabIndex="3" Text="Periodo final"/>
+    <LabelControl Name="Label3" Left="8" Top="12" Width="118" Height="21" Font="Tahoma, 8pt" TabIndex="3" Text="Escolha a empresa" ClickEvent="Label3_Click"/>
+    <ComboBoxControl Name="CbEmpresa" Left="8" Top="32" Width="513" Height="24" Font="Tahoma, 8pt" TabIndex="1" Text="Escolha uma empresa" DataColumn="Empresa.nome" DropDownWidth="513" ItemHeight="16"/>
+    <LabelControl Name="Label4" Left="8" Top="120" Width="262" Height="21" Font="Tahoma, 8pt" TabIndex="3" Text="Cod/Id do Cliente (deixe vazio para todos)" ClickEvent="Label4_Click"/>
+    <TextBoxControl Name="TbClienteId" Left="8" Top="140" Width="112" Height="24" Font="Tahoma, 8pt" TabIndex="4" KeyDownEvent="" KeyPressEvent="TbClienteId_KeyPress" MaxLength="11"/>
+  </DialogPage>
+  <ReportPage Name="Page1" RawPaperSize="9" BottomMargin="5" Guides="716.31,0,0" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PgHeader" Width="718.2" Height="88.83" Border.Lines="All" Border.Width="0.25" BeforePrintEvent="PgHeader_BeforePrint">
+      <PictureObject Name="Picture1" Left="1" Top="5.67" Width="113.4" Height="65.39" DataColumn="Empresa.logo"/>
+      <TextObject Name="Text35" Left="113.4" Top="5.67" Width="602.91" Height="17.01" Text="[Empresa.nomeFantasia]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text36" Left="113.4" Top="22.68" Width="602.91" Height="17.01" Text="CNPJ / CPF: [Empresa.cpfnpj]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text37" Left="113.4" Top="39.69" Width="602.91" Height="17.01" Text="Endereço: [Empresa.logradouro], [Empresa.numero], [Empresa.bairro], [Empresa.cep]" Font="Arial Narrow, 10pt"/>
+      <TextObject Name="Text38" Left="113.4" Top="56.7" Width="602.91" Height="17.01" Text="Fone 1: [Empresa.fone1] / Fone 2: [Empresa.fone2]" Font="Arial Narrow, 10pt"/>
+      <ChildBand Name="PgTitulo" Top="90.99" Width="718.2" Height="37.8">
+        <TextObject Name="Text27" Top="18.9" Width="716.31" Height="13.23" Text="Periodo das emissões: [DataInicio] à [DataFim]" HorzAlign="Center" Font="Arial Narrow, 9pt, style=Italic">
+          <Formats>
+            <DateFormat/>
+            <DateFormat/>
+          </Formats>
+        </TextObject>
+        <TextObject Name="Text22" Top="1.89" Width="716.31" Height="17.01" Text="[DescricaoRelatorio]" HorzAlign="Center" Font="Arial Narrow, 11pt, style=Bold"/>
+      </ChildBand>
+    </PageHeaderBand>
+    <DataBand Name="PgGrafico" Top="130.95" Width="718.2" Height="194.67" VisibleExpression="[ClienteId] == 0" CanGrow="true" CanShrink="true" CanBreak="true">
+      <MSChartObject Name="MSChart1" Left="5.67" Top="1.89" Width="704.97" Height="189" DataSource="Table" Filter="" AutoSeriesColumn="" AutoSeriesColor="" ChartData="PENoYXJ0IFBhbGV0dGU9IlBhc3RlbCIgU2l6ZT0iMzYwLCAyOTAiIEJhY2tTZWNvbmRhcnlDb2xvcj0iVHJhbnNwYXJlbnQiIEJvcmRlcmxpbmVDb2xvcj0iTGlnaHRHcmF5IiBCb3JkZXJsaW5lRGFzaFN0eWxlPSJTb2xpZCI+DQogIDxTZXJpZXM+DQogICAgPFNlcmllcyBOYW1lPSJTZXJpZXMxIiBMZWdlbmQ9IkRlZmF1bHQiIFhWYWx1ZVR5cGU9IlN0cmluZyIgWVZhbHVlVHlwZT0iRG91YmxlIiBDaGFydFR5cGU9IlBpZSIgQ2hhcnRBcmVhPSJEZWZhdWx0IiBMYWJlbD0iI1ZBTFg6ICNWQUxZe0MyfSIgRm9udD0iTHVjaWRhIFNhbnMsIDZwdCIgTGFiZWxGb3JlQ29sb3I9IkRpbUdyYXkiIEN1c3RvbVByb3BlcnRpZXM9IlBpZUxhYmVsU3R5bGU9T3V0c2lkZSwgUGllTGluZUNvbG9yPUxpZ2h0R3JheSI+DQogICAgICA8UG9pbnRzPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjEiIEF4aXNMYWJlbD0iQSIgLz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSIzIiBBeGlzTGFiZWw9IkIiIC8+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iMiIgQXhpc0xhYmVsPSJDIiAvPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjQiIEF4aXNMYWJlbD0iRCIgLz4NCiAgICAgIDwvUG9pbnRzPg0KICAgIDwvU2VyaWVzPg0KICA8L1Nlcmllcz4NCiAgPExlZ2VuZHM+DQogICAgPExlZ2VuZCBOYW1lPSJEZWZhdWx0IiBJc1RleHRBdXRvRml0PSJGYWxzZSIgSXNEb2NrZWRJbnNpZGVDaGFydEFyZWE9IkZhbHNlIiBFbmFibGVkPSJGYWxzZSIgRm9udD0iTHVjaWRhIFNhbnMsIDZwdCIgRG9ja2luZz0iTGVmdCI+DQogICAgPC9MZWdlbmQ+DQogIDwvTGVnZW5kcz4NCiAgPFRpdGxlcz4NCiAgICA8VGl0bGUgTmFtZT0iVGl0bGUxIiBUZXh0PSJUb3AgMTAgY2xpZW50ZXMgcXVlIG1haXMgY29tcHJhcmFtIiBCb3JkZXJXaWR0aD0iMCIgRm9udD0iVGFob21hLCA3LjgwMDAwMDY3cHQiIEZvcmVDb2xvcj0iV2luZG93VGV4dCI+DQogICAgPC9UaXRsZT4NCiAgPC9UaXRsZXM+DQogIDxDaGFydEFyZWFzPg0KICAgIDxDaGFydEFyZWEgTmFtZT0iRGVmYXVsdCI+DQogICAgICA8QXhpc1kgSXNMYWJlbEF1dG9GaXQ9IkZhbHNlIj4NCiAgICAgIDwvQXhpc1k+DQogICAgICA8QXhpc1ggSXNMYWJlbEF1dG9GaXQ9IkZhbHNlIj4NCiAgICAgIDwvQXhpc1g+DQogICAgICA8QXhpc1gyIElzTGFiZWxBdXRvRml0PSJGYWxzZSI+DQogICAgICA8L0F4aXNYMj4NCiAgICAgIDxBeGlzWTIgSXNMYWJlbEF1dG9GaXQ9IkZhbHNlIj4NCiAgICAgIDwvQXhpc1kyPg0KICAgICAgPEFyZWEzRFN0eWxlIEVuYWJsZTNEPSJUcnVlIiBJc1JpZ2h0QW5nbGVBeGVzPSJGYWxzZSIgTGlnaHRTdHlsZT0iUmVhbGlzdGljIiBQZXJzcGVjdGl2ZT0iMTAiIFJvdGF0aW9uPSIwIiAvPg0KICAgIDwvQ2hhcnRBcmVhPg0KICA8L0NoYXJ0QXJlYXM+DQo8L0NoYXJ0Pg==">
+        <MSChartSeries Name="Series1" Filter="[Itens.estadoVenda]==1" SortBy="YValue" GroupBy="XValue" Collect="TopN" CollectValue="10" PieExplode="BiggestValue" XValue="Format(&quot;{0} - {1}&quot;, [Itens.clienteId], CutString([Itens.nomeCliente], 20))" YValue1="[Itens.itemTotal]"/>
+      </MSChartObject>
+      <ChildBand Name="PgGraficoSeparador" Top="327.79" Width="718.2" Height="11.34"/>
+    </DataBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="341.29" Width="718.2" Height="26.46" Fill.Color="LightBlue" CanGrow="true" Condition="[Itens.agrupador]">
+      <TextObject Name="Text46" Top="1.89" Width="716.31" Height="22.68" CanGrow="true" GrowToBottom="true" Text="[Itens.clienteId] - [Itens.nomeCliente]" Font="Arial Rounded MT Bold, 12pt, style=Bold">
+        <Formats>
+          <CustomFormat Format="00000"/>
+          <GeneralFormat/>
+        </Formats>
+      </TextObject>
+      <DataBand Name="Data1" Top="402.31" Width="718.2" Height="24.57" CanGrow="true" CanShrink="true" EvenStyle="EvenRows" DataSource="Table">
+        <TextObject Name="Text39" Width="69.93" Height="11.34" CanShrink="true" Text="[Itens.dataVenda]" Format="Date" Format.Format="d" Font="Arial, 7.5pt"/>
+        <TextObject Name="Text42" Left="627.48" Width="88.83" Height="11.34" CanShrink="true" Text="[Itens.itemTotal]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 7.5pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text43" Left="568.89" Width="58.59" Height="11.34" CanShrink="true" Text="[Itens.itemDesconto]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 7.5pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text53" Left="171.99" Width="270.27" Height="11.34" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[Itens.nomeProduto]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" Font="Arial, 7.5pt"/>
+        <TextObject Name="Text49" Left="69.93" Width="64.26" Height="11.34" CanShrink="true" Text="[Itens.numeroDocumento]" Format="Custom" Format.Format="000000000" Font="Arial, 7.5pt"/>
+        <TextObject Name="Text51" Left="134.19" Width="37.8" Height="11.34" CanShrink="true" Text="[Itens.serieDocumento]" Format="Custom" Format.Format="000" Font="Arial, 7.5pt"/>
+        <TextObject Name="Text57" Left="442.26" Width="66.15" Height="11.34" CanShrink="true" Text="[Itens.itemPrecoUnitario]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 7.5pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text55" Left="508.41" Width="60.48" Height="11.34" CanShrink="true" Text="[Itens.itemQuantidade]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 7.5pt" Trimming="EllipsisCharacter"/>
+        <DataHeaderBand Name="DataHeader1" Top="369.91" Width="718.2" Height="30.24" RepeatOnEveryPage="true">
+          <TextObject Name="Text1" Width="69.93" Height="26.46" Text="Data &#13;&#10;Operação" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text4" Left="627.48" Width="88.83" Height="26.46" Text="Total" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text5" Left="568.89" Width="58.59" Height="26.46" Text="Desconto" HorzAlign="Right" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text54" Left="171.99" Width="270.27" Height="26.46" Text="Nome do produto" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text50" Left="69.93" Width="64.26" Height="26.46" Text="Número" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text52" Left="134.19" Width="37.8" Height="26.46" Text="Série" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text58" Left="442.26" Width="66.15" Height="26.46" Text="Preço&#13;&#10;Unitário" HorzAlign="Right" Font="Arial, 8pt, style=Bold"/>
+          <TextObject Name="Text56" Left="508.41" Width="60.48" Height="26.46" Text="Qtde" HorzAlign="Right" Font="Arial, 8pt, style=Bold"/>
+        </DataHeaderBand>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="429.05" Width="718.2" Height="20.79" Border.Lines="Top" Border.Style="Dash" Border.Width="0.25">
+        <TextObject Name="Text59" Left="627.48" Top="0.89" Width="88.83" Height="15.12" Text="[SomaTotal]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" Font="Arial, 7.5pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text44" Left="527.31" Top="0.89" Width="41.58" Height="15.12" Text="[SomaQuantidade]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" Font="Arial, 7.5pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text60" Left="568.89" Top="0.89" Width="58.59" Height="15.12" Text="[SomaDesconto]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" Font="Arial, 7.5pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text61" Left="88.83" Top="0.89" Width="75.6" Height="17.01" Fill.Color="LemonChiffon" Text="[[SomaTotal]/[SomaQuantidade]]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt" Trimming="EllipsisCharacter"/>
+        <TextObject Name="Text62" Top="0.89" Width="88.83" Height="17.01" Fill.Color="LemonChiffon" Text="Ticket médio:" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" VertAlign="Center" Font="Arial, 8pt, style=Bold" Trimming="EllipsisCharacter"/>
+      </GroupFooterBand>
+    </GroupHeaderBand>
+    <PageFooterBand Name="PgFooter" Top="452" Width="718.2" Height="13.23" CanShrink="true">
+      <TextObject Name="Text34" Left="561.33" Width="154.98" Height="13.23" Text="Pagina: [Page#]/[TotalPages#]" HorzAlign="Right" Font="Arial Narrow, 8pt, style=Italic"/>
+      <TextObject Name="Text24" Width="349.65" Height="13.23" Text="Impresso em: [Date]" Font="Arial Narrow, 8pt, style=Italic"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

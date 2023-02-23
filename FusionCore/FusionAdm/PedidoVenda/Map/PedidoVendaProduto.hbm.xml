@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.PedidoVenda"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PedidoVendaProduto" table="pedido_produto">
+    <id name="Id" column="id" generator="identity" unsaved-value="0" />
+
+    <many-to-one name="PedidoVenda" cascade="none" not-null="true" column="pedidoVenda_id" />
+
+    <property name="Numero" not-null="true" column="numero" />
+
+    <many-to-one name="Produto" cascade="none" not-null="true" column="produto_id" />
+
+    <property name="Quantidade" not-null="true" column="quantidade" />
+
+    <property name="SiglaUnidade" not-null="true" column="siglaUnidade" />
+
+    <property name="PrecoUnitario" not-null="true" column="precoUnitario" />
+
+    <property name="TotalBruto" not-null="true" column="totalBruto" />
+
+    <property name="PercentualDesconto" not-null="true">
+      <column name="percentualDesconto" precision="9" scale="6" />
+    </property>
+
+    <property name="TotalDesconto" not-null="true">
+      <column name="totalDesconto" precision="15" scale="2" />
+    </property>
+
+    <property name="Total" not-null="true" column="total" />
+
+    <property name="CriadoEm" not-null="true" column="criadoEm" />
+
+    <many-to-one name="Usuario" not-null="true" column="usuario_id" cascade="none" />
+
+    <property name="Observacao" not-null="true" column="observacao" />
+
+    <property name="PrecoCusto" not-null="true" column="precoCusto" />
+
+    <property name="PrecoVenda" not-null="true" column="precoVenda" />
+
+  </class>
+</hibernate-mapping>

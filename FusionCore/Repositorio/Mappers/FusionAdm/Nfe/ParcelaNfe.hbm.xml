@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF.Pagamentos"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ParcelaNfe" table="nfe_forma_pagamento_parcela">
+    <id name="Id" column="id" generator="identity" unsaved-value="0" />
+
+    <many-to-one name="Prazo" not-null="true" cascade="none" column="nfeFormaPagamento_id" />
+    <property name="Numero" not-null="true" column="numero" />
+    <property name="Vencimento" column="vencimento" not-null="true" />
+    <property name="Valor" column="valor" not-null="true" />
+
+  </class>
+
+</hibernate-mapping>

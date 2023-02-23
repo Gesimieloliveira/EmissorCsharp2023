@@ -1,0 +1,69 @@
+﻿<fuc:FusionWindow x:Class="FusionWPF.Configuracao.ConfigurarConexaoView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:fa="http://schemas.fontawesome.io/icons/"
+                  xmlns:fuc="clr-namespace:FusionWPF.Controles"
+                  Title="Configuração de Conexão"
+                  Width="514.334" SizeToContent="Height"
+                  Loaded="LoadedHandler"
+                  ResizeMode="NoResize">
+
+    <DockPanel LastChildFill="False" Margin="5">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="135" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="100">
+                <fa:ImageAwesome Icon="Gears" Width="120" Height="100" Foreground="{DynamicResource AccentColorBrush3}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Width="170">
+                        <TextBlock Text="IP/Nome do servidor" />
+                        <TextBox Text="{Binding Servidor}"
+                                 MaxLength="15"
+                                 CharacterCasing="Normal"
+                                 x:Name="CServidor" />
+                    </StackPanel>
+
+                    <StackPanel Margin="5,0,0,0" Width="100">
+                        <TextBlock Text="Instância" />
+                        <TextBox Text="{Binding Instancia}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="5,0,0,0">
+                        <TextBlock Text="Porta (opcional)" />
+                        <TextBox Text="{Binding Porta, TargetNullValue=''}" />
+                    </StackPanel>
+
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Usuário" />
+                    <TextBox Text="{Binding Usuario}" MaxLength="75" CharacterCasing="Normal" />
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Senha" />
+                    <TextBox CharacterCasing="Normal" Text="{Binding Senha}" />
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Banco de Dados" />
+                    <TextBox Text="{Binding BancoDados}" CharacterCasing="Normal" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <Grid DockPanel.Dock="Top" Margin="0,10,0,0" MinHeight="50" Background="{DynamicResource AccentColorBrush4}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button
+                    Content="Salvar alterações na conexão"
+                    Width="Auto" Click="ClickSalvarHandler"
+                    Style="{DynamicResource FusionAccentedButton}" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</fuc:FusionWindow>

@@ -1,0 +1,42 @@
+﻿<controls:MetroWindow x:Class="FusionNfce.Visao.ConfiguracaoTerminal.ConfiguracaoTerminalForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:configuracaoTerminal="clr-namespace:FusionNfce.Visao.ConfiguracaoTerminal"
+        mc:Ignorable="d"
+        Style="{DynamicResource MetroWindowDialogStyle}"
+        WindowStartupLocation="CenterScreen"
+        ContentRendered="ConfiguracaoTerminalForm_OnContentRendered"
+        Title="Configuração Inicial" 
+        Width="650" SizeToContent="Height"
+        Closing="ConfiguracaoTerminalForm_OnClosing"
+        d:DataContext="{d:DesignInstance configuracaoTerminal:ConfiguracaoTerminalFormModel}">
+
+    <AdornerDecorator>
+        <Grid>
+            <StackPanel Grid.Row="0">
+                <GroupBox Header="Configuração do terminal">
+                    <StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Terminais disponíveis" />
+                            <ComboBox ItemsSource="{Binding Path=ListaTerminalDisponivel}"
+                                      DisplayMemberPath="Descricao"
+                                      SelectedItem="{Binding TerminalOffline, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                                      SelectedValuePath="Id" IsEditable="False"
+                                      SelectedValue="{Binding TerminalOffline.Id}" />
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" VerticalAlignment="Center"
+                                HorizontalAlignment="Center" Margin="5">
+                    <Button Content="Salvar" Width="90" Click="OnClickSalvar" Margin="0,0,5,0" IsEnabled="{Binding BotaoSalvar}"/>
+                    <Button Content="Fechar" Width="150" Click="OnClick_Fechar" HorizontalAlignment="Left" Margin="0,0,5,0" />
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+    </AdornerDecorator>
+</controls:MetroWindow>

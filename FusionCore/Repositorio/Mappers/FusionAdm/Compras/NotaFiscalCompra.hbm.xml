@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.FusionAdm.Compras"
+  default-lazy="false"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NotaFiscalCompra" table="nf_compra">
+    <id name="Id" column="id" generator="identity" />
+
+    <property name="NumeroDocumento">
+      <column name="numeroDocumento" sql-type="int" not-null="true" />
+    </property>
+
+    <property name="Serie">
+      <column name="serie" sql-type="smallint" not-null="true" />
+    </property>
+
+    <component name="Chave">
+      <property name="Chave">
+        <column name="chave" sql-type="varchar" not-null="true" length="44" />
+      </property>
+    </component>
+
+    <many-to-one name="Empresa" not-null="true" cascade="none" fetch="join">
+      <column name="empresa_id" />
+    </many-to-one>
+
+    <many-to-one name="Fornecedor" not-null="true" cascade="none" fetch="join">
+      <column name="fornecedor_id" />
+    </many-to-one>
+
+    <many-to-one name="Transportadora" not-null="false" cascade="none" fetch="join">
+      <column name="transportadora_id" />
+    </many-to-one>
+
+    <property name="ModalidadeFrete">
+      <column name="modalidadeFrete" sql-type="tinyint" not-null="true" />
+    </property>
+
+    <property name="EmitidaEm">
+      <column name="emitidaEm" sql-type="datetime" not-null="true" />
+    </property>
+
+    <property name="EntradaSaidaEm">
+      <column name="entradaSaidaEm" sql-type="datetime" not-null="true" />
+    </property>
+
+    <property name="CadastradoEm">
+      <column name="cadastradoEm" sql-type="datetime" not-null="true" />
+    </property>
+
+    <property name="TotalBcIcms">
+      <column name="totalBcIcms" sql-type="decimal" not-null="true" precision="12" scale="2" />
+    </property>
+
+    <property name="ValorTotalIcms">
+      <column name="valorTotalIcms" sql-type="decimal" not-null="true" precision="12" scale="2" />
+    </property>
+
+    <property name="TotalBcIcmsSt">
+      <column name="totalBcIcmsSt" sql-type="decimal" not-null="true" precision="12" scale="2" />
+    </property>
+
+    <property name="ValorTotalIcmsSt">
+      <column name="valorTotalIcmsSt" sql-type="decimal" not-null="true" precision="12" scale="2" />
+    </property>
+
+    <property name="ValorTotalItens">
+      <column name="valorTotalItens" sql-type="decimal" not-null="true" precision="12" scale="2" />
+    </property>
+
+    <property name="ValorTotalIpi">
+      <column name="valorTotalIpi" sql-type="decimal" not-null="true" precision="12" scale="2" />
+    </property>
+
+    <property name="ValorTotalFrete">
+      <column name="valorTotalFrete" sql-type="decimal" not-null="true" precision="12" scale="2" />
+    </property>
+
+    <property name="ValorTotalSeguro">
+      <column name="valorTotalSeguro" sql-type="decimal" not-null="true" precision="12" scale="2" />
+    </property>
+
+    <property name="ValorTotalDesconto">
+      <column name="valorTotalDesconto" sql-type="decimal" not-null="true" precision="12" scale="2" />
+    </property>
+
+    <property name="ValorTotalOutros">
+      <column name="valorTotalOutros" sql-type="decimal" not-null="true" precision="12" scale="2" />
+    </property>
+
+    <property name="ValorTotal">
+      <column name="valorTotal" sql-type="decimal" not-null="true" precision="12" scale="2" />
+    </property>
+
+    <property name="ImportadoDeXml">
+      <column name="importadoDeXml" sql-type="bit" not-null="true" />
+    </property>
+
+    <property name="Xml">
+      <column name="xml" sql-type="xml" not-null="false" length="2147483647" />
+    </property>
+    
+    <property name="Uuid">
+      <column name="uuid" not-null="true"></column>
+    </property>
+    
+    <many-to-one name="Malote" cascade="none" not-null="false">
+      <column name="malote_id" not-null="false" />
+    </many-to-one>
+
+    <bag access="field.camelcase-underscore" name="Itens" table="nf_compra_item" 
+         cascade="all-delete-orphan" lazy="true" inverse="true" fetch="select">
+      <key column="nfCompra_id" />
+      <one-to-many class="ItemCompra" />
+    </bag>
+    
+    <bag access="field.camelcase-underscore" name="Duplicatas" table="nf_compra_duplicata"
+         cascade="all-delete-orphan" lazy="true" inverse="true" fetch="select">
+      <key column="nfCompra_id" />
+      <one-to-many class="DuplicataCompra" />
+    </bag>
+  </class>
+</hibernate-mapping>

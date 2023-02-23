@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal.SatFiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CancelamentoSat" table="cancelamento_sat">
+    <id name="NfceId" column="nfce_id">
+      <generator class="foreign">
+        <param name="property">Nfce</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfce" class="FusionCore.FusionNfce.Fiscal.Nfce" constrained="true" cascade="none" />
+
+    <property name="XmlEnvio" not-null="true">
+      <column name="xmlEnvio" sql-type="xml" length="2147483647" not-null="true"/>
+    </property>
+
+    <property name="XmlRetorno" not-null="true">
+      <column name="xmlRetorno" sql-type="xml" length="2147483647" not-null="true"/>
+    </property>
+
+    <property name="AmbienteSefaz" not-null="true">
+      <column name="ambienteSefaz" not-null="true"/>
+    </property>
+
+    <property name="EnviadoEm" not-null="true">
+      <column name="enviadoEm" not-null="true"/>
+    </property>
+
+    <property name="CodigoRetorno" not-null="true">
+      <column name="codigoRetorno" />
+    </property>
+    
+  </class>
+</hibernate-mapping>

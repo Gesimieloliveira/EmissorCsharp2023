@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mah="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
+                    xmlns:fa="http://schemas.fontawesome.io/icons/"
+                    xmlns:wl="clr-namespace:Fusion.WhiteLabel;assembly=Fusion.WhiteLabel">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro.SimpleChildWindow;component/themes/childwindow.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="ChildWindowStyle" 
+           TargetType="mah:ChildWindow" 
+           BasedOn="{StaticResource {x:Type mah:ChildWindow}}">
+
+        <Setter Property="IsOpen" Value="True" />
+        <Setter Property="IsModal" Value="True" />
+        <Setter Property="ShowCloseButton" Value="True" />
+        <Setter Property="CloseByEscape" Value="True" />
+        <Setter Property="OverlayBrush" Value="{DynamicResource AccentColorBrush4}" />
+        <Setter Property="GlowBrush" Value="{DynamicResource AccentColorBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="TitleBarBackground" Value="{DynamicResource AccentColorBrush}" />
+        <Setter Property="AllowMove" Value="True" />
+        <Setter Property="EnableDropShadow" Value="False" />
+
+        <Setter Property="Icon" >
+            <Setter.Value>
+                <Image 
+                    Margin="3"
+                    Source="{x:Static wl:MarcaWhiteLabel.ImgTituloX48}" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

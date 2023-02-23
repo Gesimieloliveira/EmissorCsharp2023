@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="Fusion.Visao.MdfeEletronico.Aba.ListaSeguro"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="900">
+
+    <DataGrid DockPanel.Dock="Top"
+              Height="330"
+              ItemsSource="{Binding ListaSeguroCarga}"
+              SelectedItem="{Binding ItemSelecionadoSeguroCarga}">
+
+        <DataGrid.Columns>
+            <controles:DataGridButtonColumn 
+                Background="{DynamicResource DangerBrush}" 
+                Icon="Trash" Click="OnClickDeletaItem" />
+
+            <DataGridTextColumn Header="Responsável" Width="Auto"
+                                Binding="{Binding ResponsavelSeguro}" />
+
+            <DataGridTextColumn Header="CNPJ Responsável" Width="Auto"
+                                Binding="{Binding CnpjResponsavel}" />
+
+            <DataGridTextColumn Header="CPF Responsável" Width="Auto"
+                                Binding="{Binding CpfResponsavel}" />
+
+            <DataGridTextColumn Header="Nome Seguradora" Width="Auto"
+                                Binding="{Binding NomeSeguradora}" />
+
+            <DataGridTextColumn Header="CNPJ Seguradora" Width="Auto"
+                                Binding="{Binding CnpjSeguradora}" />
+
+            <DataGridTextColumn Header="Número Apólice" Width="Auto"
+                                Binding="{Binding NumeroApolice}" />
+
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

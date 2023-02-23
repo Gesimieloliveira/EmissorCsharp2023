@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Autorizador.ConfiguracoesAutorizacoes"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteConfiguracaoAutorizacao" table="cte_configuracao_autorizacao">
+    <id name="Id" access="backfield">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="TempoEsperaConsultaRecibo" access="backfield">
+      <column name="tempoEsperaConsultaRecibo" not-null="true" />
+    </property>
+
+    
+  </class>
+</hibernate-mapping>

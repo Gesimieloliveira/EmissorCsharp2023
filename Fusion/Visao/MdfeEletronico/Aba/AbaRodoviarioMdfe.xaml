@@ -1,0 +1,265 @@
+﻿<UserControl x:Class="Fusion.Visao.MdfeEletronico.Aba.AbaRodoviarioMdfe"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:aba="clr-namespace:Fusion.Visao.MdfeEletronico.Aba"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:flags="clr-namespace:FusionCore.FusionAdm.MdfeEletronico;assembly=FusionCore"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="600"
+             Background="White"
+             Loaded="AbaRodoviarioMdfe_OnLoaded">
+
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Margin="10,15,10,10">
+            <WrapPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button
+                    Style="{DynamicResource FusionLargeCleanBoldButton}"
+                    Content="Adic. Veículo Tração"
+                    Click="ClickAdicionarVeiculoTracaoHandler" />
+
+                <Button
+                    Margin="5,0,0,0"
+                    Style="{DynamicResource FusionLargeCleanBoldButton}"
+                    Content="Adic. Condutor"
+                    Click="ClickAdicionarCondutorHandler" />
+
+                <Button
+                    Margin="5,0,0,0"
+                    Style="{DynamicResource FusionLargeCleanBoldButton}"
+                    Content="Adic. Veículo Reboque"
+                    Click="ClickAdicionarReboqueHandler" />
+
+                <Button
+                    Margin="5,0,0,0"
+                    Style="{DynamicResource FusionLargeCleanBoldButton}"
+                    Content="Adic. Vale Pedágio"
+                    Click="ClickAdicionarValePedagioHandler" />
+
+                <Button
+                    Margin="5,0,0,0"
+                    Style="{DynamicResource FusionLargeCleanBoldButton}"
+                    Content="Adic. Tomador"
+                    Click="ClickAdicionarContratanteHandler" />
+
+                <Button
+                    Margin="5,0,0,0"
+                    Style="{DynamicResource FusionLargeCleanBoldButton}"
+                    Content="Adic. Ciot"
+                    Click="ClickAdicionarCiotHandler" />
+
+                <Button
+                    Margin="5,0,0,0"
+                    Style="{DynamicResource FusionLargeCleanBoldButton}"
+                    Content="Adic. Pgto"
+                    Click="ClickAdicionarPagamentoHandler" />
+            </WrapPanel>
+
+            <Border Margin="0,10,0,0"
+                    BorderBrush="{DynamicResource InfoBrush}"
+                    BorderThickness="0"
+                    DockPanel.Dock="Top">
+
+                <TabControl
+                    BorderBrush="{DynamicResource InfoBrush}"
+                    BorderThickness="1,1,1,1"
+                    Height="370">
+                    <TabControl.Resources>
+                        <Style TargetType="TabItem">
+                            <Setter Property="FontSize" Value="14" />
+                            <Setter Property="Width" Value="141.71" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TabItem">
+                                        <Border BorderThickness="0"
+                                                BorderBrush="{DynamicResource WhiteBrush}">
+                                            <Grid Name="Panel">
+                                                <ContentPresenter x:Name="ContentSite"
+                                                                  VerticalAlignment="Center"
+                                                                  HorizontalAlignment="Center"
+                                                                  ContentSource="Header"
+                                                                  Margin="10,5" />
+                                            </Grid>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Panel" Property="Background"
+                                                        Value="{DynamicResource AccentColorBrush2}" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="False">
+                                                <Setter TargetName="Panel" Property="Background"
+                                                        Value="{DynamicResource InfoBrush}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TabControl.Resources>
+
+                    <TabItem Header="Veículo Tração"
+                             x:Name="TabVeiculoTracao">
+                        <aba:InformacaoVeiculoTracao />
+                    </TabItem>
+
+                    <TabItem Header="Condutor" x:Name="TabCondutor">
+                        <aba:ListaCondutor />
+                    </TabItem>
+
+                    <TabItem Header="Veíc. Reboque" x:Name="TabReboque">
+                        <aba:ListaVeiculoReboque />
+                    </TabItem>
+
+                    <TabItem Header="Vale Pedágio" x:Name="TabPedagio">
+                        <aba:ListaValePedagio />
+                    </TabItem>
+
+                    <TabItem Header="Tomador" x:Name="TabContratanteTomador">
+                        <aba:ListaContratante />
+                    </TabItem>
+
+                    <TabItem Header="CIOT" x:Name="TabCiot">
+                        <aba:ListaCiot />
+                    </TabItem>
+
+                    <TabItem Header="Pagamento" x:Name="TabPagamento">
+                        <aba:ListaPagamento />
+                    </TabItem>
+
+                </TabControl>
+            </Border>
+
+            <Grid
+                Margin="0,10,0,0"
+                Height="Auto"
+                DockPanel.Dock="Top">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <GroupBox Header="Produto Predominante">
+                    <StackPanel>
+                        <TextBlock />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Margin="0,0,5,0">
+                                <TextBlock>Tipo da Carga</TextBlock>
+                                <ComboBox
+                                    ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type flags:TipoCarga}}}"
+                                    SelectedValue="{Binding TipoCarga}"
+                                    IsEditable="False" />
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Column="1"
+                                Margin="0,0,5,0">
+                                <TextBlock>Nome do produto</TextBlock>
+                                <controles:SearchTextBox
+                                    MaxLength="120"
+                                    Text="{Binding NomeProdutoPredominante}"
+                                    ButtonClearEnabledWhenHasText="True"
+                                    SearchCommand="{Binding ComandoBuscaProduto}"
+                                    ClearCommand="{Binding ComandoLimpaProdutoPredominante}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2"
+                                        Width="130"
+                                        Margin="0,0,5,0">
+                                <TextBlock>Código de Barras (GTIN)</TextBlock>
+                                <TextBox Text="{Binding CodigoBarrasProdutoPredominante}" MaxLength="14" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="3"
+                                        Width="100"
+                                        Margin="0,0,5,0">
+                                <TextBlock>Ncm</TextBlock>
+                                <TextBox
+                                    Text="{Binding NcmProdutoPredominante}"
+                                    MaxLength="8" />
+                            </StackPanel>
+
+                        </Grid>
+                    </StackPanel>
+
+                </GroupBox>
+
+                <GroupBox Grid.Column="1" Width="270" Header="Outras informações">
+                    <StackPanel>
+                        <TextBlock />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Margin="0,0,5,0">
+                                <TextBlock
+                                    Text="RNTRC" />
+
+                                <TextBox
+                                    wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True"
+                                    MaxLength="8" Text="{Binding Rntrc}" />
+
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock
+                                    Text="Cód. Agendamento Porto" />
+
+                                <TextBox
+                                    wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True"
+                                    MaxLength="16" Text="{Binding CodigoAgendamentoPorto}" />
+
+                            </StackPanel>
+
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+
+            </Grid>
+
+        </DockPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                    <Button Height="40" Focusable="False" Click="OnClickBotaoAnterior">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Height="20" Icon="ArrowLeft" />
+                            <TextBlock Text="Passo Anterior" Margin="10,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                    <Button Style="{DynamicResource FusionSuccessButton}" Height="40" Click="EmitirMDFeOnClick">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Height="20" Icon="SendOutline" Foreground="White" />
+                            <TextBlock Text="Transmitir MDF-E" Margin="5,0,0,0" Foreground="White" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

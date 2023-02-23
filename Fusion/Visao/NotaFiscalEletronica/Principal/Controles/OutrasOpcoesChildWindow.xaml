@@ -1,0 +1,88 @@
+﻿<scw:ChildWindow x:Class="Fusion.Visao.NotaFiscalEletronica.Principal.Controles.OutrasOpcoesChildWindow"
+                               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                               xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                               xmlns:local="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Principal.Controles"
+                               xmlns:scw="http://metro.mahapps.com/winfx/xaml/simplechildwindow"
+                               mc:Ignorable="d"
+                               Style="{DynamicResource ChildWindowStyle}"
+                               d:DataContext="{d:DesignInstance local:IOutrasOpcoesContexto}"
+                               Background="White"
+                               Title="Outras opções do item da NF-e"
+                               ChildWindowWidth="550"
+                               Loaded="LoadedHandler">
+
+    <DockPanel Margin="10">
+        <GroupBox DockPanel.Dock="Top" Header="Outras opções">
+            <StackPanel>
+                <DockPanel>
+                    <mah:ToggleSwitch
+                        DockPanel.Dock="Right"
+                        OnContent="Sim" OffContent="Não" ContentDirection="LeftToRight"
+                        IsOn="{Binding AutoAjustarImposto}" />
+
+                    <TextBlock
+                        FontSize="14" VerticalAlignment="Center"
+                        Text="Utilizar cálculo de imposto automático?" />
+                </DockPanel>
+
+                <DockPanel>
+                    <mah:ToggleSwitch
+                        DockPanel.Dock="Right"
+                        OnContent="Sim" OffContent="Não" ContentDirection="LeftToRight"
+                        IsOn="{Binding AutoCalcularTotaisItem}" />
+
+                    <TextBlock
+                        FontSize="14" VerticalAlignment="Center"
+                        Text="Utilizar cálculo de totais do item automático?" />
+                </DockPanel>
+
+                <DockPanel>
+                    <mah:ToggleSwitch
+                        DockPanel.Dock="Right"
+                        OnContent="Sim" OffContent="Não" ContentDirection="LeftToRight"
+                        IsOn="{Binding EnviarInformacoesCreditoNaObsItem}" />
+
+                    <TextBlock
+                        FontSize="14" VerticalAlignment="Center"
+                        Text="Enviar informações crédito na observação do item?" />
+                </DockPanel>
+
+                <DockPanel>
+                    <mah:ToggleSwitch
+                        DockPanel.Dock="Right"
+                        OnContent="Sim" OffContent="Não" ContentDirection="LeftToRight"
+                        IsOn="{Binding GeraIcmsInterstadual}" />
+
+                    <TextBlock
+                        FontSize="14" VerticalAlignment="Center"
+                        Text="Gerar partilha de icms (DIFAL)" />
+                </DockPanel>
+
+                <DockPanel IsEnabled="{Binding NaoEditar}">
+                    <mah:ToggleSwitch
+                        DockPanel.Dock="Right"
+                        OnContent="Sim" OffContent="Não" ContentDirection="LeftToRight"
+                        IsOn="{Binding MovimentarEstoqueConfiguracao}" />
+
+                    <TextBlock
+                        FontSize="14" VerticalAlignment="Center"
+                        Text="Movimentar Estoque de Produto?" />
+                </DockPanel>
+
+                <DockPanel IsEnabled="{Binding NaoEditar}">
+                    <mah:ToggleSwitch
+                        DockPanel.Dock="Right"
+                        OnContent="Sim" OffContent="Não" ContentDirection="LeftToRight"
+                        IsOn="{Binding UsarIpiTagPropria}" />
+
+                    <TextBlock
+                        FontSize="14" VerticalAlignment="Center"
+                        Text="Usar IPI Devolução em Tag Própria" />
+                </DockPanel>
+            </StackPanel>
+        </GroupBox>
+    </DockPanel>
+</scw:ChildWindow>

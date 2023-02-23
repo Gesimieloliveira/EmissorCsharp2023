@@ -1,0 +1,43 @@
+﻿<controls:MetroWindow
+    x:Class="Fusion.Visao.ProdutoGrupo.ProdutoGrupoForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    ResizeMode="NoResize"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    WindowStartupLocation="CenterScreen"
+    Style="{DynamicResource MetroWindowStyle}"
+    FocusManager.FocusedElement="{Binding ElementName=CNome}"
+    Width="504" SizeToContent="Height"
+    Title="Cadastro de grupo para os produtos"
+    Loaded="LoadedHandler">
+
+    <DockPanel LastChildFill="true">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <GroupBox>
+                    <StackPanel>
+                        <TextBlock Text="Nome do grupo" />
+                        <TextBox
+                            Text="{Binding Nome, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            MaxLength="75"
+                            x:Name="CNome" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+            <Button Name="BotaoSalvar" Style="{DynamicResource FusionAccentedButton}" Click="OnClickSalvar">
+                <TextBlock Text="Salvar alterações" />
+            </Button>
+
+            <Button Name="BotaoDeletar" Style="{DynamicResource FusionDangerButton}" Click="OnClickDeletar" Margin="24,0,0,0">
+                <TextBlock Text="Deletar registro" />
+            </Button>
+        </StackPanel>
+    </DockPanel>
+</controls:MetroWindow>

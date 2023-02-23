@@ -1,0 +1,182 @@
+﻿<UserControl x:Class="Fusion.Visao.Produto.ProdutoGridControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+             xmlns:produto="clr-namespace:Fusion.Visao.Produto"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance produto:ProdutoGridModel}"
+             d:DesignWidth="1025"
+             Loaded="LoadedHandler">
+
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border x:Name="PainelFiltro" DockPanel.Dock="Top" Background="{DynamicResource GrayBrush9}" Padding="5">
+            <Grid HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Width="220" Margin="5,0,0,0">
+                        <TextBlock Text="Nome que contenha" />
+                        <TextBox x:Name="FiltroNomeProduto" Text="{Binding Filtro.NomeProdutoContenha}" />
+                    </StackPanel>
+
+                    <StackPanel Width="110" Margin="5,0,0,0">
+                        <TextBlock Text="Código igual á" />
+                        <TextBox Text="{Binding Filtro.CodigoIdIgualA, TargetNullValue=''}" />
+                    </StackPanel>
+
+                    <StackPanel Width="200" Margin="5,0,0,0">
+                        <TextBlock Text="Referência que contenha" />
+                        <TextBox Text="{Binding Filtro.ReferenciaContenha}" />
+                    </StackPanel>
+
+                    <StackPanel Width="130" Margin="5,0,0,0">
+                        <TextBlock Text="Código Barras igual á" />
+                        <TextBox Text="{Binding Filtro.CodigoBarrasIgualA}" />
+                    </StackPanel>
+
+                    <StackPanel Width="200" Margin="5,0,0,0">
+                        <TextBlock Text="Grupos" />
+                        <ComboBox
+                            ItemsSource="{Binding Grupos}"
+                            SelectedItem="{Binding Filtro.Grupo}"
+                            IsReadOnly="True" />
+                    </StackPanel>
+
+                    <StackPanel Width="60" Margin="5,0,0,0">
+                        <TextBlock Text="Ativos" />
+                        <ComboBox IsEditable="False" SelectedIndex="1">
+                            <ComboBoxItem Content="Sim" IsSelected="{Binding Filtro.Ativos}" />
+                            <ComboBoxItem Content="Não" />
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Width="150" VerticalAlignment="Bottom">
+                        <Button
+                            x:Name="BotaoFiltro"
+                            Margin="5,0,0,0"
+                            HorizontalAlignment="Left"
+                            Width="140"
+                            Style="{DynamicResource FusionCleanButton}"
+                            Click="AplicarFiltroManipulador">
+
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Icon="Filter" Width="15" />
+                                <TextBlock Text="Aplicar Busca" Margin="5,-2,0,-1" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+
+                </StackPanel>
+            </Grid>
+
+        </Border>
+
+        <Grid Grid.Row="1" Margin="0,5,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0.2,-0.4">
+
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Width="150"
+                            controls:VisibilityHelper.IsVisible="{Binding IsProdutoInserirAlterar}">
+                    <Button Click="ClickNovoHandler" Style="{DynamicResource FusionAccentedButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="Plus" Width="13" Height="13"
+                                             Foreground="{DynamicResource WhiteBrush}" />
+                            <TextBlock Text="Cadastrar Produto" Margin="5,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Width="180" Margin="5,0,0,0">
+                    <Button Style="{DynamicResource FusionCleanButton}" Click="ExportacaoBalancaClickHandler">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="Download" Width="13" Height="13" />
+                            <TextBlock Text="Exportação Balança" Margin="5,-1,0,-1" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5,0,0,0">
+                    <Button Style="{DynamicResource FusionCleanButton}" Click="ExportacaoBuscaRapidaClickHandler">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="Download" Width="13" Height="13" />
+                            <TextBlock Text="Exportação Busca Rápida" Margin="5,-1,0,-1" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <DataGrid
+            Margin="0,10,0,0"
+            Grid.Row="2"
+            HorizontalScrollBarVisibility="Auto"
+            ItemsSource="{Binding Produtos}"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            SelectedItem="{Binding Selecionado}">
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DoubleClickRowHandler" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="SizeToCells">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Style="{DynamicResource FusionAccentedButton}" ClickMode="Release"
+                                        Click="ClickOpcoesHandler" Padding="7,4">
+
+                                    <fa:ImageAwesome Icon="List" Foreground="{DynamicResource WhiteBrush}" Height="12" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Código" Width="60" Binding="{Binding Id, StringFormat=D6}"
+                                    helpers:DataGridColumnHelper.Align="Left" />
+                <DataGridTextColumn Header="Nome Produto" Width="400" Binding="{Binding Nome}" />
+                <DataGridTextColumn helpers:DataGridColumnHelper.Align="Right" Header="Estoque" Width="90"
+                                    Binding="{Binding Estoque, StringFormat=N4}" />
+                <DataGridTextColumn Header="Und." Width="80" Binding="{Binding Unidade}" />
+                <DataGridTextColumn helpers:DataGridColumnHelper.Align="Right" Header="Preço Venda" Width="110"
+                                    Binding="{Binding PrecoVenda, StringFormat=N4}" />
+                <DataGridTextColumn Header="Grupo" Width="120" Binding="{Binding Grupo}" />
+                <DataGridTextColumn Header="NCM" Width="100" Binding="{Binding Ncm}" />
+                <DataGridTextColumn Header="CEST" Width="100" Binding="{Binding Cest}" />
+                <DataGridTextColumn Header="CST ICMS" Width="80" Binding="{Binding CstIcms}" />
+                <DataGridTextColumn helpers:DataGridColumnHelper.Align="Right" Header="% ICMS" Width="80"
+                                    Binding="{Binding AliquotaIcms, StringFormat=N4}" />
+                <DataGridTextColumn Header="CST IPI" Width="80" Binding="{Binding CstIpi}" />
+                <DataGridTextColumn helpers:DataGridColumnHelper.Align="Right" Header="% IPI" Width="80"
+                                    Binding="{Binding AliquotaIpi, StringFormat=N4}" />
+                <DataGridTextColumn Header="CST PIS" Width="80" Binding="{Binding CstPis}" />
+                <DataGridTextColumn helpers:DataGridColumnHelper.Align="Right" Header="% PIS" Width="80"
+                                    Binding="{Binding AliquotaPis, StringFormat=N4}" />
+                <DataGridTextColumn Header="CST COFINS" Width="80" Binding="{Binding CstCofins}" />
+                <DataGridTextColumn helpers:DataGridColumnHelper.Align="Right" Header="% COFINS" Width="80"
+                                    Binding="{Binding AliquotaCofins, StringFormat=N4}" />
+                <DataGridTextColumn Header="Referência" Width="150" Binding="{Binding ReferenciaInterna}" />
+                <DataGridTextColumn helpers:DataGridColumnHelper.Align="Right" Header="Preço Compra" Width="115"
+                                    Binding="{Binding PrecoCompra, StringFormat=N4}" />
+                <DataGridTextColumn helpers:DataGridColumnHelper.Align="Right" Header="Preço Custo" Width="115"
+                                    Binding="{Binding PrecoCusto, StringFormat=N4}" />
+                <DataGridTextColumn helpers:DataGridColumnHelper.Align="Right" Header="Margem Lucro" Width="115"
+                                    Binding="{Binding MargemLucro, StringFormat=N4}" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+    </Grid>
+</UserControl>

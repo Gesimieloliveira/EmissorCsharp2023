@@ -1,0 +1,50 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:fcs="clr-namespace:FusionWPF.Controles">
+
+    <SolidColorBrush
+        x:Key="FusionWindoProgress.Backgroud"
+        Color="WhiteSmoke"
+        Opacity="0.8"/>
+
+    <Style x:Key="FusionWindowProgresso" TargetType="fcs:FusionWindowProgresso">
+        <Setter Property="Background" Value="{DynamicResource FusionWindoProgress.Backgroud}" />
+        <Setter Property="UsarProgresso" Value="False" />
+        <Setter Property="ProgressoMaximo" Value="100" />
+        <Setter Property="ProgressoAtual" Value="0" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="fcs:FusionWindowProgresso">
+                    <Border Background="{TemplateBinding Background}">
+                        <StackPanel VerticalAlignment="Center" Background="Transparent">
+                            <mah:ProgressRing
+                                Focusable="True"
+                                x:Name="PART_ProgressRing"
+                                IsActive="True" EllipseDiameterScale="1" IsLarge="True" />
+
+                            <TextBlock
+                                x:Name="PART_ProgressText"
+                                Margin="0,5,0,0"
+                                FontSize="16" FontWeight="DemiBold"
+                                TextAlignment="Center" Text="Aguarde processando..." />
+
+                            <mah:MetroProgressBar
+                                x:Name="PART_ProgessBar"
+                                MaxWidth="400"
+                                mah:VisibilityHelper.IsVisible="{TemplateBinding UsarProgresso}"
+                                Minimum="0"
+                                Maximum="{TemplateBinding ProgressoMaximo}"
+                                Value="{TemplateBinding ProgressoAtual}"
+                                Background="{DynamicResource GrayBrush5}"
+                                Foreground="{DynamicResource MahApps.Brushes.Progress}"
+                                EllipseDiameter="25" EllipseOffset="50" />
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,131 @@
+﻿<UserControl x:Class="Fusion.Visao.CteEletronicoOs.Grid.GridCteOs"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+             xmlns:componentes="clr-namespace:FusionLibrary.Wpf.Componentes;assembly=FusionLibrary"
+             xmlns:cc="clr-namespace:FusionCore.Repositorio.Dtos.Consultas;assembly=FusionCore"
+             mc:Ignorable="d"
+             Loaded="OnLoadedHanlder">
+
+    <DockPanel Margin="5">
+        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,5" VerticalAlignment="Center">
+
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" VerticalAlignment="Center"
+                        Margin="0,0,5,0"
+                        Visibility="{Binding MostraBotaoNovo, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Button Margin="0,0,5,0" 
+                        Command="{Binding NovoCommand}" Style="{DynamicResource FusionAccentedButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Plus" Width="13" Height="13" Foreground="{DynamicResource WhiteBrush}" />
+                        <TextBlock Text="Iniciar novo CT-E OS" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Left" HorizontalAlignment="Center">
+                <TextBlock Text="Pesquisar por, Descrição Serviço, Chave, Numero Fiscal, Tomador Nome, Emitente Razão Social/Fantasia" Margin="5,0,0,0" />
+                <componentes:TextBoxPesquisa OnSearch="TextBoxPesquisa_OnOnSearch" StartFocus="True" />
+            </StackPanel>
+
+        </DockPanel>
+
+        <DataGrid DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto"
+                  ItemsSource="{Binding ListaCteOs}"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  AutoGenerateColumns="False"
+                  SelectedItem="{Binding CteOsDTOSelecionado}">
+
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DoubleClickDataGridRow" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn Width="SizeToCells" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Style="{DynamicResource FusionAccentedButton}" ClickMode="Release"
+                                        Click="ClickBtnOpcoesHandler" Padding="7,4">
+                                    <fa:ImageAwesome Icon="List" Foreground="{DynamicResource WhiteBrush}" Height="12" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Codigo/ID" Binding="{Binding Id, StringFormat=D11}" 
+                                    IsReadOnly="True"
+                                    Width="100" />
+
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" 
+                                    IsReadOnly="True"
+                                    Width="140" />
+
+                <DataGridTextColumn Header="Série" Binding="{Binding SerieDocumento, StringFormat=D3}" 
+                                    IsReadOnly="True"
+                                    Width="70" />
+
+                <DataGridTextColumn Header="Número" Binding="{Binding NumeroDocumento, StringFormat=D9}" 
+                                    IsReadOnly="True"
+                                    Width="105" />
+
+                <DataGridTextColumn Header="Emitente - Razão Social" Binding="{Binding EmitenteNome}" 
+                                    IsReadOnly="True"
+                                    Width="250" />
+
+                <DataGridTextColumn Header="Tomador" Binding="{Binding TomadorNome}" 
+                                    IsReadOnly="True"
+                                    Width="250" />
+
+                <DataGridTextColumn 
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="Valor Serviço" Binding="{Binding ValorServico, StringFormat=N2}" 
+                                    IsReadOnly="True"
+                                    Width="120" />
+
+                <DataGridTextColumn Header="Valor a Receber" 
+                                    helpers:DataGridColumnHelper.Align="Right"
+                                    Width="125"
+                                    IsReadOnly="True"
+                                    Binding="{Binding ValorReceber, StringFormat=N2}"/>
+
+                <DataGridTextColumn Header="Descrição Serviço" Binding="{Binding DescricaoServico}" 
+                                    IsReadOnly="True"
+                                    Width="400" />
+
+                <DataGridTemplateColumn Header="Chave" Width="325">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type cc:GridCteOsDTO}">
+                            <StackPanel 
+                                VerticalAlignment="Center" Orientation="Horizontal">
+
+                                <TextBlock Text="{Binding Chave}" VerticalAlignment="Center" />
+
+                                <Button
+                                    Style="{DynamicResource FusionCleanButton}"
+                                    Tag="{Binding Chave}"
+                                    Margin="5,0,0,0"
+                                    ClickMode="Release"
+                                    Click="CopiarChave" Padding="7,4">
+                                    <fa:ImageAwesome Icon="Copy" Foreground="{DynamicResource BlackBrush}" Height="12" />
+                                </Button>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+
+
+        </DataGrid>
+    </DockPanel>
+</UserControl>

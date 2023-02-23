@@ -1,0 +1,47 @@
+﻿<controls:MetroWindow
+    x:Class="Fusion.Visao.ProdutoLocalizacoes.ProdutoLocalizacaoForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:local="clr-namespace:Fusion.Visao.ProdutoLocalizacoes"
+    d:DataContext="{d:DesignInstance local:ProdutoLocalizacaoFormModel}"
+    mc:Ignorable="d"
+    WindowStartupLocation="CenterScreen"
+    Style="{DynamicResource MetroWindowDialogStyle}"
+    FocusManager.FocusedElement="{Binding ElementName=CNome}"
+    Width="450" SizeToContent="Height"
+    Title="Cadastro de localização"
+    Loaded="OnLoaded">
+
+    <DockPanel LastChildFill="true">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <GroupBox>
+                    <StackPanel>
+                        <TextBlock Text="Nome da localização" />
+                        <TextBox
+                            Text="{Binding Nome, Mode=TwoWay}"
+                            MaxLength="60"
+                            x:Name="CNome" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+            <Button Style="{DynamicResource FusionAccentedButton}" Click="OnClickSalvar">
+                <TextBlock Text="Salvar alterações" />
+            </Button>
+
+            <Button Name="BotaoDeletar"  Style="{DynamicResource FusionDangerButton}" Click="OnClickDeletar" Margin="24,0,0,0">
+                <TextBlock Text="Deletar registro" />
+            </Button>
+        </StackPanel>
+    </DockPanel>
+</controls:MetroWindow>

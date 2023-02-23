@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{65D22DA1-5362-42D6-BEF3-DE780ECB0306}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FusionCore.Gerado</RootNamespace>
+    <AssemblyName>FusionCore.Gerado</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cte\ItemChoiceType.cs" />
+    <Compile Include="Cte\ItemChoiceType1.cs" />
+    <Compile Include="Cte\ItemChoiceType2.cs" />
+    <Compile Include="Cte\ItemChoiceType3.cs" />
+    <Compile Include="Cte\ItemChoiceType4.cs" />
+    <Compile Include="Cte\ItemChoiceType5.cs" />
+    <Compile Include="Cte\ItemChoiceType6.cs" />
+    <Compile Include="Cte\ItemChoiceType7.cs" />
+    <Compile Include="Cte\ItemChoiceType8.cs" />
+    <Compile Include="Cte\KeyInfoType.cs" />
+    <Compile Include="Cte\ReferenceType.cs" />
+    <Compile Include="Cte\ReferenceTypeDigestMethod.cs" />
+    <Compile Include="Cte\SignatureType.cs" />
+    <Compile Include="Cte\SignatureValueType.cs" />
+    <Compile Include="Cte\SignedInfoType.cs" />
+    <Compile Include="Cte\SignedInfoTypeCanonicalizationMethod.cs" />
+    <Compile Include="Cte\SignedInfoTypeSignatureMethod.cs" />
+    <Compile Include="Cte\TAmb.cs" />
+    <Compile Include="Cte\TCodUfIBGE.cs" />
+    <Compile Include="Cte\TCTe.cs" />
+    <Compile Include="Cte\TCTeInfCte.cs" />
+    <Compile Include="Cte\TCTeInfCteAutXML.cs" />
+    <Compile Include="Cte\TCTeInfCteCompl.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntrega.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntregaComData.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntregaComDataTpPer.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntregaComHora.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntregaComHoraTpHor.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntregaNoInter.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntregaNoInterTpHor.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntregaNoPeriodo.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntregaNoPeriodoTpPer.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntregaSemData.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntregaSemDataTpPer.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntregaSemHora.cs" />
+    <Compile Include="Cte\TCTeInfCteComplEntregaSemHoraTpHor.cs" />
+    <Compile Include="Cte\TCTeInfCteComplFluxo.cs" />
+    <Compile Include="Cte\TCTeInfCteComplFluxoPass.cs" />
+    <Compile Include="Cte\TCTeInfCteComplObsCont.cs" />
+    <Compile Include="Cte\TCTeInfCteComplObsFisco.cs" />
+    <Compile Include="Cte\TCTeInfCteDest.cs" />
+    <Compile Include="Cte\TCTeInfCteEmit.cs" />
+    <Compile Include="Cte\TCTeInfCteExped.cs" />
+    <Compile Include="Cte\TCTeInfCteIde.cs" />
+    <Compile Include="Cte\TCTeInfCteIdeForPag.cs" />
+    <Compile Include="Cte\TCTeInfCteIdeRetira.cs" />
+    <Compile Include="Cte\TCTeInfCteIdeToma03.cs" />
+    <Compile Include="Cte\TCTeInfCteIdeToma03Toma.cs" />
+    <Compile Include="Cte\TCTeInfCteIdeToma4.cs" />
+    <Compile Include="Cte\TCTeInfCteIdeToma4Toma.cs" />
+    <Compile Include="Cte\TCTeInfCteIdeTpEmis.cs" />
+    <Compile Include="Cte\TCTeInfCteIdeTpImp.cs" />
+    <Compile Include="Cte\TCTeInfCteIdeTpServ.cs" />
+    <Compile Include="Cte\TCTeInfCteImp.cs" />
+    <Compile Include="Cte\TCTeInfCteImpICMSUFFim.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCteAnu.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCteComp.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNorm.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormCobr.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormCobrDup.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormCobrFat.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormEmiDocAnt.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormEmiDocAntIdDocAnt.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormEmiDocAntIdDocAntIdDocAntEle.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormEmiDocAntIdDocAntIdDocAntPap.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfCarga.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfCargaInfQ.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfCargaInfQCUnid.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfCteSub.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfCteSubTomaICMS.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfCteSubTomaICMSRefNF.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfCteSubTomaNaoICMS.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfDoc.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfDocInfNF.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfDocInfNFe.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfDocInfOutros.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfDocInfOutrosTpDoc.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormInfModal.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormPeri.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormSeg.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormSegRespSeg.cs" />
+    <Compile Include="Cte\TCTeInfCteInfCTeNormVeicNovos.cs" />
+    <Compile Include="Cte\TCTeInfCteReceb.cs" />
+    <Compile Include="Cte\TCTeInfCteRem.cs" />
+    <Compile Include="Cte\TCTeInfCteVPrest.cs" />
+    <Compile Include="Cte\TCTeInfCteVPrestComp.cs" />
+    <Compile Include="Cte\TDocAssoc.cs" />
+    <Compile Include="Cte\TEndeEmi.cs" />
+    <Compile Include="Cte\TEndereco.cs" />
+    <Compile Include="Cte\TFinCTe.cs" />
+    <Compile Include="Cte\TImp.cs" />
+    <Compile Include="Cte\TImpICMS00.cs" />
+    <Compile Include="Cte\TImpICMS00CST.cs" />
+    <Compile Include="Cte\TImpICMS20.cs" />
+    <Compile Include="Cte\TImpICMS20CST.cs" />
+    <Compile Include="Cte\TImpICMS45.cs" />
+    <Compile Include="Cte\TImpICMS45CST.cs" />
+    <Compile Include="Cte\TImpICMS60.cs" />
+    <Compile Include="Cte\TImpICMS60CST.cs" />
+    <Compile Include="Cte\TImpICMS90.cs" />
+    <Compile Include="Cte\TImpICMS90CST.cs" />
+    <Compile Include="Cte\TImpICMSOutraUF.cs" />
+    <Compile Include="Cte\TImpICMSOutraUFCST.cs" />
+    <Compile Include="Cte\TImpICMSSN.cs" />
+    <Compile Include="Cte\TImpICMSSNIndSN.cs" />
+    <Compile Include="Cte\TModCT.cs" />
+    <Compile Include="Cte\TModDoc.cs" />
+    <Compile Include="Cte\TModNF.cs" />
+    <Compile Include="Cte\TModTransp.cs" />
+    <Compile Include="Cte\TProcEmi.cs" />
+    <Compile Include="Cte\TransformType.cs" />
+    <Compile Include="Cte\TtipoUnidCarga.cs" />
+    <Compile Include="Cte\TtipoUnidTransp.cs" />
+    <Compile Include="Cte\TTransformURI.cs" />
+    <Compile Include="Cte\TUf.cs" />
+    <Compile Include="Cte\TUF_sem_EX.cs" />
+    <Compile Include="Cte\TUnidadeTransp.cs" />
+    <Compile Include="Cte\TUnidadeTranspLacUnidTransp.cs" />
+    <Compile Include="Cte\TUnidCarga.cs" />
+    <Compile Include="Cte\TUnidCargaLacUnidCarga.cs" />
+    <Compile Include="Cte\X509DataType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

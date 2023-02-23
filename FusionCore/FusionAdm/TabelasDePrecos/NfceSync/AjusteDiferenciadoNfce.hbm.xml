@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.TabelasDePrecos.NfceSync"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="AjusteDiferenciadoNfce" table="ajuste_diferenciado">
+
+    <id name="Id" column="id" />
+
+    <many-to-one name="TabelaPreco" class="FusionCore.FusionAdm.TabelasDePrecos.NfceSync.TabelaPrecoNfce" cascade="none">
+      <column name="tabelaPreco_id" sql-type="int" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="Produto" class="FusionCore.FusionNfce.Produto.ProdutoNfce" cascade="none">
+      <column name="produto_id" sql-type="int" not-null="true" />
+    </many-to-one>
+
+    <property name="PercentualAjuste" column="percentualAjuste" not-null="true" />
+
+  </class>
+</hibernate-mapping>

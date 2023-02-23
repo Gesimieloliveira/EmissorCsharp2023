@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteDocumentoOutro" table="cte_documento_outro">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="Cte" cascade="none">
+      <column name="cte_id" not-null="true" />
+    </many-to-one>
+
+    <property name="TipoDocumento" not-null="true">
+      <column name="tipoDocumento"/>
+    </property>
+
+    <property name="DescricaoOutro" not-null="true">
+      <column name="descricaoOutro"/>
+    </property>
+
+    <property name="Numero" not-null="true">
+      <column name="numero"/>
+    </property>
+
+    <property name="EmitidoEm" not-null="false">
+      <column name="emitidoEm"/>
+    </property>
+
+    <property name="Valor" not-null="true">
+      <column name="valor"/>
+    </property>
+
+    <property name="PrevisaoEntregaEm" not-null="false">
+      <column name="previsaoEntregaEm"/>
+    </property>
+
+  </class>
+</hibernate-mapping>

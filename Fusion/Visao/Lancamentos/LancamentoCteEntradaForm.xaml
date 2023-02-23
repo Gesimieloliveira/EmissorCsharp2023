@@ -1,0 +1,224 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.Lancamentos.LancamentoCteEntradaForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fusion.Visao.Lancamentos"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+        xmlns:entradaOutras="clr-namespace:FusionCore.FusionAdm.EntradaOutras;assembly=FusionCore"
+        xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+        xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+        mc:Ignorable="d"
+        Title="Lançamento Ct-e/CteOs Entrada"
+        Style="{DynamicResource MetroWindowDialogStyle}"
+        SizeToContent="Height"
+        Width="1020"
+        WindowStartupLocation="CenterScreen"
+        Loaded="LancamentoCteEntradaForm_OnLoaded">
+
+    <StackPanel Margin="5">
+        <StackPanel Margin="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+
+                <StackPanel Grid.Row="0" Grid.Column="0" >
+                    <TextBlock>Modelo Documento</TextBlock>
+                    <ComboBox
+                        Focusable="False"
+                        ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type entradaOutras:ModeloDocumentoCteEntrada}}}"
+                        SelectedValue="{Binding ModeloDocumento}"
+                        IsEditable="False"
+                        />
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Margin="5,0,0,0">
+                    <TextBlock>Situação Fiscal</TextBlock>
+                    <ComboBox
+                        Focusable="False"
+                        ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type entradaOutras:SituacaoFiscal}}}"
+                        SelectedValue="{Binding SituacaoFiscal}"
+                        IsEditable="False"
+                    />
+                </StackPanel>
+
+                <StackPanel  Grid.Row="1" Grid.Column="0">
+                    <TextBlock>Série</TextBlock>
+                    <TextBox Text="{Binding Serie}" wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" MaxLength="4"></TextBox>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="5,0,0,0" Grid.Row="1">
+                    <TextBlock>Subsérie</TextBlock>
+                    <TextBox Text="{Binding Subserie}" wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" MaxLength="10"></TextBox>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Margin="5,0,0,0" Grid.Row="1">
+                    <TextBlock>Número</TextBlock>
+                    <TextBox Text="{Binding Numero}" wpf:TextBoxAcceptHelper.AcceptOnlyNumbers="True" MaxLength="10"></TextBox>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Margin="5,0,0,0" Grid.Row="0">
+                    <TextBlock>Emissão Em</TextBlock>
+                    <controls:DateTimePicker
+                        controls:TextBoxHelper.Watermark="Data emissão"
+                        SelectedDateTime="{Binding EmissaoEm}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="3" Margin="5,0,0,0" Grid.Row="0">
+                    <TextBlock>Utilização Em</TextBlock>
+                    <controls:DateTimePicker
+                        controls:TextBoxHelper.Watermark="Recebimento Em"
+                        SelectedDateTime="{Binding UtilizacaoEm}" />
+                </StackPanel>
+
+
+            </Grid>
+        </StackPanel>
+
+
+        <GroupBox Header="Tomador/Empresa" DockPanel.Dock="Right">
+            <StackPanel Margin="-5">
+                <Border>
+                    <StackPanel Margin="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="150" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Nome" />
+
+                                <controles:SearchTextBox
+                                                Text="{Binding NomeTomador}"
+                                                IsReadOnly="True" 
+                                                SearchCommand="{Binding CommandPesquisarTomador}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="5,0,0,0" IsEnabled="False">
+                                <TextBlock Text="Documento" />
+                                <TextBox Text="{Binding DocumentoUnicoTomador}"  />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Margin="5,0,0,0" IsEnabled="False">
+                                <TextBlock Text="Inscrição Estadual" />
+                                <TextBox Text="{Binding InscricaoEstadualTomador}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="150" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" IsEnabled="False">
+                                <TextBlock Text="UF" />
+                                <TextBox Text="{Binding UfTomador}"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="5,0,0,0" IsEnabled="False">
+                                <TextBlock Text="Cidade" />
+                                <TextBox Text="{Binding NomeCidadeTomador}"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Margin="5,0,0,0" IsEnabled="False">
+                                <TextBlock Text="Endereço" />
+                                <TextBox Text="{Binding EnderecoTomador}" MaxLength="60" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="3" Margin="5,0,0,0" IsEnabled="False">
+                                <TextBlock Text="Telefone" />
+                                <TextBox Text="{Binding TelefoneTomador}" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </GroupBox>
+
+
+        <GroupBox Header="Informações Fiscais">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock Text="CFOP" />
+                    <controles:SearchTextBox
+                        Text="{Binding CfopCodigoDescricao, UpdateSourceTrigger=LostFocus}"
+                        SearchCommand="{Binding CommandPesquisarCfop}"
+                        SelectAllOnFocus="True"
+                        IsReadOnly="True"/>
+                </StackPanel>
+
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Situação tributária do ICMS" />
+                    <ComboBox
+                        IsEditable="False"
+                        ItemsSource="{Binding TributacoesIcms}"
+                        SelectedItem="{Binding Icms}"
+                        SelectedValuePath="Cst"
+                        SelectedValue="{Binding Icms.Cst}"
+                        DisplayMemberPath="DescricaoCompleta" />
+                </StackPanel>
+
+                <StackPanel Margin="0,5,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                            <TextBlock>Valor Total</TextBlock>
+                            <controles:DecimalTextBox Text="{Binding ValorTotal, StringFormat=C, UpdateSourceTrigger=LostFocus}"></controles:DecimalTextBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                            <TextBlock>Base Cálculo ICMS</TextBlock>
+                            <controles:DecimalTextBox Text="{Binding BaseCalculoIcms, StringFormat=C, UpdateSourceTrigger=LostFocus}"></controles:DecimalTextBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" >
+                            <TextBlock>Valor ICMS</TextBlock>
+                            <controles:DecimalTextBox Text="{Binding ValorIcms, StringFormat=C, UpdateSourceTrigger=LostFocus}"></controles:DecimalTextBox>
+                        </StackPanel>
+
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Margin="0,5,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="501*"></ColumnDefinition>
+                    <ColumnDefinition Width="176*"></ColumnDefinition>
+                    <ColumnDefinition Width="17*"/>
+                    <ColumnDefinition Width="308*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Width="200" Command="{Binding CommandSalvar}" Margin="150,0,150.8,-0.2">Salvar</Button>
+                <Button 
+                    controls:VisibilityHelper.IsVisible="{Binding IsExcluir}"
+                    Grid.Column="1"
+                    Style="{StaticResource FusionDangerButton}"
+                    Width="200" Command="{Binding CommandExcluir}" Grid.ColumnSpan="3" Margin="150.2,0,150.6,-0.2">Excluir</Button>
+
+            </Grid>
+        </StackPanel>
+
+    </StackPanel>
+</controls:MetroWindow>

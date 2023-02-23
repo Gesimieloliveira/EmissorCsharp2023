@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Fusion.Visao.Pessoa.Aba.PessoaClienteAba"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:wpf="clr-namespace:FusionLibrary.Helper.Wpf;assembly=FusionLibrary"
+             mc:Ignorable="d" d:DesignWidth="700"
+             Language="pt-BR">
+
+    <DockPanel LastChildFill="False">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Column="0" Grid.Row="0">
+                <TextBlock Text="Aplica limite de crédito?" />
+                <ComboBox SelectedValue="{Binding AplicaLimiteCredito}"
+                          SelectedValuePath="Tag"
+                          Margin="0,0,5,0">
+                    <ComboBoxItem Content="Sim" Tag="True" />
+                    <ComboBoxItem Content="Não" Tag="False" />
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Grid.Row="0">
+                <TextBlock Text="Limite de crétido a aplicar" />
+                <TextBox Text="{Binding LimiteCredito, StringFormat=N2}"
+                         TextAlignment="Right"
+                         wpf:TextBoxAcceptHelper.AcceptDecimalFormat="True"
+                         controls:TextBoxHelper.SelectAllOnFocus="True" 
+                         MaxLength="18"/>
+            </StackPanel>
+
+            <StackPanel Margin="5" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0">
+                <TextBlock Text="Solicita pedido na nota" />
+                <CheckBox 
+                    IsChecked="{Binding SolicitaPedido}" Height="21" Margin="0,0,0.4,0">
+                </CheckBox>
+            </StackPanel>
+
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1">
+                <TextBlock Text="Observação" />
+                <TextBox Text="{Binding ObservacaoCliente}" Height="100" AcceptsReturn="True"
+                         VerticalContentAlignment="Top"
+                         TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto"
+                         AutoWordSelection="True"
+                         MaxLength="1024"
+                         MaxLines="15" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</UserControl>

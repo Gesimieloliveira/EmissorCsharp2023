@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping
+  assembly="FusionCore"
+  namespace="FusionCore.FusionAdm.Automoveis"
+  default-lazy="false"
+  xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="Veiculo" table="veiculo">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <property name="TransportadoraId">
+      <column name="pessoa_id" not-null="false" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="Descricao">
+      <column name="descricao" sql-type="varchar" length="75" not-null="true" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="SiglaUf">
+      <column name="siglaUf" sql-type="varchar" length="2" not-null="true" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="Placa">
+      <column name="placa" sql-type="varchar" length="10" not-null="true" />
+    </property>
+
+    <property name="IsPrincipal">
+      <column name="flagPrincipal" sql-type="bit" not-null="true" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="TipoProprietario" not-null="true">
+      <column name="tipoProprietario"></column>
+    </property>
+
+    <property name="TipoVeiculo" not-null="true">
+      <column name="tipoVeiculo"></column>
+    </property>
+
+    <property name="TipoRodado" not-null="true">
+      <column name="tipoRodado"></column>
+    </property>
+
+    <property name="TipoCarroceria" not-null="true">
+      <column name="tipoCarroceria"></column>
+    </property>
+
+    <property name="Renavam" not-null="true">
+      <column name="renavam"></column>
+    </property>
+
+    <property name="TaraEmKg" not-null="true">
+      <column name="taraEmKg"></column>
+    </property>
+
+    <property name="CapacidadeEmKg" not-null="true">
+      <column name="capacidadeEmKg"></column>
+    </property>
+
+    <property name="CapacidadeEmM3" not-null="true">
+      <column name="capacidadeEmM3"></column>
+    </property>
+  </class>
+</hibernate-mapping>

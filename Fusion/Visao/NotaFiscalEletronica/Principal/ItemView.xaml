@@ -1,0 +1,54 @@
+﻿<fcs:FusionWindow x:Class="Fusion.Visao.NotaFiscalEletronica.Principal.ItemView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:fcs="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                  xmlns:cnfe="clr-namespace:Fusion.Visao.NotaFiscalEletronica.Principal.Controles"
+                  xmlns:fa="http://schemas.fontawesome.io/icons/"
+                  mc:Ignorable="d"
+                  Title="Gerenciar item da NF-e"
+                  Width="990" MaxHeight="720" 
+                  SizeToContent="Height"
+                  WindowStartupLocation="CenterScreen"
+                  Loaded="LoadedHandler"
+                  KeyDown="ViewKeyDownHandler">
+
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto">
+
+        <DockPanel Margin="7,0,7,7">
+            <StackPanel DockPanel.Dock="Top">
+                <cnfe:ItemControl x:Name="ItemControl" />
+                <cnfe:IpiControl x:Name="IpiControl" />
+                <cnfe:IcmsControl x:Name="IcmsControl" />
+                <cnfe:PisCofinsControl x:Name="PisCofinsControl" />
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <StackPanel Focusable="False" VerticalAlignment="Center" MouseUp="OutraConfigMouseUpHandler" Cursor="Hand">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <fa:ImageAwesome 
+                                Icon="Gear" Height="19" Foreground="{DynamicResource AccentColorBrush}" />
+
+                            <TextBlock 
+                                Margin="5,0,0,0"
+                                FontSize="13" FontWeight="Bold" TextDecorations="Underline"
+                                Foreground="{DynamicResource AccentColorBrush}"
+                                Text="[F3] - Outras configurações do item" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Button
+                        x:Name="BtnSalvar"
+                        Margin="15,0,0,0"
+                        Click="SalvarClickHandler"
+                        Style="{DynamicResource FusionAccentedButton}"
+                        Content="[F2] - Salvar alterações" />
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
+    </ScrollViewer>
+</fcs:FusionWindow>

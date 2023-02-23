@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.EntradaOutras"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfCteEntrada" table="nf_cte_entrada">
+
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one
+      name="EmpresaTomador"
+      not-null="true"
+      cascade="none"
+      class="FusionCore.Repositorio.Legacy.Entidades.Adm.EmpresaDTO"
+      column="empresaTomador_id" />
+
+    <property name="EmissaoEm"
+              column="emissaoEm"
+              not-null="true" />
+
+    <property name="UtilizacaoEm"
+              column="utilizacaoEm"
+              not-null="true" />
+
+    <property name="ModeloDocumento"
+              column="modelo"
+              not-null="true" />
+
+    <property name="Serie"
+              column="serie"
+              not-null="true" />
+
+    <property name="Subserie"
+              column="subserie"
+              not-null="true" />
+
+    <property name="Numero"
+              column="numero"
+              not-null="true" />
+
+    <many-to-one
+      name="Cfop"
+      not-null="true"
+      cascade="none"
+      class="FusionCore.Repositorio.Legacy.Entidades.Adm.CfopDTO"
+      column="cfop_id" />
+
+    <property name="SituacaoFiscal"
+              not-null="true"
+              column="situacaoFiscal" />
+
+    <many-to-one 
+      name="IcmsCst"
+      not-null="true"
+      cascade="none"
+      column="tributacaoCst_id" />
+
+    <property name="ValorTotal"
+              not-null="true"
+              column="valorTotal" />
+
+    <property name="BaseCalculoIcms"
+              not-null="true"
+              column="baseCalculoIcms" />
+
+    <property name="ValorIcms"
+              not-null="true"
+              column="valorIcms" />
+
+  </class>
+  
+</hibernate-mapping>

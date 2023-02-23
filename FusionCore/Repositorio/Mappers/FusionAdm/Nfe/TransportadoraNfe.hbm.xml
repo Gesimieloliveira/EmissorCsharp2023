@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="TransportadoraNfe" table="nfe_transportadora">
+    <id access="field" name="_nfeId" column="nfe_id" unsaved-value="0">
+      <generator class="foreign">
+        <param name="property">Nfe</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfe" constrained="true" cascade="none" />
+
+    <property access="field" name="_pessoaId">
+      <column name="pessoa_id" sql-type="int" not-null="false" />
+    </property>
+
+    <property access="field" name="_documentoUnico">
+      <column name="documentoUnico" sql-type="varchar" length="14" not-null="true" />
+    </property>
+
+    <property name="Nome">
+      <column name="nome" sql-type="varchar" length="60" not-null="true" />
+    </property>
+
+    <property name="InscricaoEstadual">
+      <column name="inscricaoEstadual" sql-type="varchar" length="14" not-null="true" />
+    </property>
+
+    <property name="EnderecoCompleto">
+      <column name="endereco" sql-type="varchar" length="60" not-null="true" />
+    </property>
+
+    <property name="NomeMunicipio">
+      <column name="municipio" sql-type="varchar" length="60" not-null="true" />
+    </property>
+
+    <property name="SiglaUf">
+      <column name="siglaUf" sql-type="char" length="2" not-null="true" />
+    </property>
+
+    <component name="Veiculo" class="VeiculoTransporte">
+      <property name="Placa">
+        <column name="placa" sql-type="varchar" length="8" not-null="true" />
+      </property>
+
+      <property name="SiglaUF">
+        <column name="siglaUfVeiculo" sql-type="char" length="2" not-null="true" />
+      </property>
+    </component>
+  </class>
+</hibernate-mapping>

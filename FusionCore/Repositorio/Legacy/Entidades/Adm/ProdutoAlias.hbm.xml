@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Repositorio.Legacy.Entidades.Adm"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="ProdutoAlias" table="produto_alias">
+    <id name="Id" column="id" generator="identity" type="Int32" />
+
+    <many-to-one name="Produto" cascade="none" fetch="join" update="false">
+      <column name="produto_id" not-null="true" />
+    </many-to-one>
+
+    <property name="Alias" update="false" type="AnsiString" length="25">
+      <column name="alias" not-null="true" />
+    </property>
+
+    <property name="IsCodigoBarras">
+      <column name="isCodigoBarra" not-null="true" />
+    </property>
+
+	<property name="IsGtin">
+	  <column name="isGtin" not-null="true" />
+	</property>
+  </class>
+</hibernate-mapping>

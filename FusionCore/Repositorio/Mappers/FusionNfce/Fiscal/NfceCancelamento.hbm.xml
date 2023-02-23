@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionNfce.Fiscal"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NfceCancelamento" table="nfce_cancelamento">
+    <id name="NfceId" column="nfce_id">
+      <generator class="foreign">
+        <param name="property">Nfce</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Nfce" class="Nfce" constrained="true" cascade="none" />
+
+    <property name="DocumentoUnico">
+      <column name="documentoUnico" length="14" />
+    </property>
+
+    <property name="VersaoAplicacao">
+      <column name="versaoAplicacao" length="20" />
+    </property>
+
+    <property name="Ambiente">
+      <column name="ambiente"/>
+    </property>
+
+    <property name="CodigoUf">
+      <column name="codigoUf" />
+    </property>
+
+    <property name="StatusRetorno">
+      <column name="statusRetorno"/>
+    </property>
+
+    <property name="Chave">
+      <column name="chave" length="44"/>
+    </property>
+
+    <property name="TipoEvento">
+      <column name="tipoEvento" />
+    </property>
+
+    <property name="OcorreuEm">
+      <column name="ocorreuEm"/>
+    </property>
+
+    <property name="Protocolo">
+      <column name="protocolo" length="15"/>
+    </property>
+
+    <property name="Justificativa">
+      <column name="justificativa"/>
+    </property>
+  </class>
+</hibernate-mapping>

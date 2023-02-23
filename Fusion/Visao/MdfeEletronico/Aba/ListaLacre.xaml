@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Fusion.Visao.MdfeEletronico.Aba.ListaLacre"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="900">
+
+    <DataGrid DockPanel.Dock="Top"
+              Height="330"
+              ItemsSource="{Binding ListaLacres}"
+              SelectedItem="{Binding ItemSelecionadoLacre}">
+
+        <DataGrid.RowStyle>
+            <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                <EventSetter Event="MouseDoubleClick" Handler="OnDoubleClickItem" />
+            </Style>
+        </DataGrid.RowStyle>
+
+        <DataGrid.Columns>
+            <controles:DataGridButtonColumn
+                Background="{DynamicResource DangerBrush}"
+                Icon="Trash" Click="OnClickDeletaItem" />
+
+            <DataGridTextColumn
+                Header="Número lacre" Width="Auto"
+                Binding="{Binding Numero}" />
+
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Papeis"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PapelPermissao" table="papel_permissao">
+    <id name="Id" column="id" />
+
+    <many-to-one name="Papel" column="papel_id" cascade="none" not-null="true" />
+
+    <property name="Permissao" column="permissao_numero_enum" not-null="true" />
+
+    <property name="PermissaoString" column="permissao_descricao_enum" not-null="true"/>
+    
+  </class>
+</hibernate-mapping>

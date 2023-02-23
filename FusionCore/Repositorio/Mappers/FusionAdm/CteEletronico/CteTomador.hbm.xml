@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteTomador" table="cte_tomador">
+    <id name="CteId" column="cte_id">
+      <generator class="foreign">
+        <param name="property">Cte</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Cte" class="Cte" constrained="true" cascade="none" />
+
+    <many-to-one name="Tomador" not-null="true">
+      <column name="pessoa_id" />
+    </many-to-one>
+  </class>
+</hibernate-mapping>

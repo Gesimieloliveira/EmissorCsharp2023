@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Financeiro"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CentroLucro" table="centro_lucro">
+    <id name="Id" generator="identity" unsaved-value="0">
+      <column name="id" not-null="true" />
+    </id>
+
+    <property name="Descricao">
+      <column name="descricao" sql-type="varchar" length="60" not-null="true" />
+    </property>
+  
+    <many-to-one name="CentroLucroPai" cascade="all-delete-orphan" fetch="join">
+      <column name="centroLucro_id" sql-type="smallint" not-null="false" />
+    </many-to-one>
+
+    <property name="Nivel">
+      <column name="nivel" sql-type="varchar" length="60" not-null="true" />
+    </property>
+
+    <property name="Ordenacao">
+      <column name="ordenacao" sql-type="varchar" length="60" not-null="true" />
+    </property>
+    
+    <bag access="field" name="_itens" table="centro_lucro" cascade="none" inverse="true">
+      <key column="centroLucro_id" />
+      <one-to-many class="CentroLucro" />
+    </bag>
+    
+  </class>
+</hibernate-mapping>

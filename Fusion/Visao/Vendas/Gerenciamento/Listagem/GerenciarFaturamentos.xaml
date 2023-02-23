@@ -1,0 +1,198 @@
+﻿<UserControl x:Class="Fusion.Visao.Vendas.Gerenciamento.Listagem.GerenciarFaturamentos"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:faturamento="clr-namespace:FusionCore.Vendas.Faturamentos;assembly=FusionCore"
+             xmlns:helpers="clr-namespace:FusionWPF.Helpers;assembly=FusionWPF"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+             xmlns:conversores="clr-namespace:FusionLibrary.Wpf.Conversores;assembly=FusionLibrary"
+             xmlns:local="clr-namespace:Fusion.Visao.Vendas.Gerenciamento.Listagem"
+             mc:Ignorable="d" d:DesignWidth="980"
+             d:DataContext="{d:DesignInstance local:GerenciarFaturamentosContexto, IsDesignTimeCreatable=True}"
+             Loaded="LoadedHandler"
+             Margin="0,10,0,0" Background="White">
+
+    <DockPanel>
+        <Border x:Name="PainelFiltro" DockPanel.Dock="Top" Background="{DynamicResource GrayBrush9}" Padding="5">
+            <StackPanel>
+                <Grid HorizontalAlignment="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Width="125">
+                            <TextBlock Text="Estado igual á" />
+                            <ComboBox
+                                SelectedItem="{Binding FiltroEstado}"
+                                ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type faturamento:Estado}}}" />
+                        </StackPanel>
+
+                        <StackPanel Width="130" Margin="5,0,0,0">
+                            <TextBlock Text="Criados apartir de" />
+                            <DatePicker SelectedDate="{Binding FiltroCriadoApartir}" />
+                        </StackPanel>
+
+                        <StackPanel Width="110" Margin="5,0,0,0">
+                            <TextBlock Text="Número igual á" />
+                            <TextBox Text="{Binding FiltroNumero, Converter={conversores:TextToDecimalOrNull}}" />
+                        </StackPanel>
+
+                        <StackPanel Width="270" Margin="5,0,0,0">
+                            <TextBlock Text="Nome do cliente contenha" />
+                            <TextBox Text="{Binding FiltroNomeCliente}" />
+                        </StackPanel>
+
+                        <StackPanel DockPanel.Dock="Top" Margin="0,5,0,0" Orientation="Horizontal">
+                            <Button
+                                x:Name="BotaoFiltro"
+                                Margin="5,10,0,0" HorizontalAlignment="Left" Width="140" Height="27"
+                                Style="{DynamicResource FusionCleanButton}"
+                                Click="AplicarFiltroHandler">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome Icon="Filter" Width="14" />
+                                    <TextBlock Text="Aplicar o filtro" Margin="5,-3,0,0" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <DataGrid
+            Margin="0,10,0,0"
+            DockPanel.Dock="Top"
+            d:DataContext="{d:DesignInstance local:GerenciarFaturamentosContexto}"
+            ItemsSource="{Binding Faturamentos}"
+            SelectedItem="{Binding Selecionado}"
+            AutoGenerateColumns="False"
+            IsReadOnly="True">
+
+            <DataGrid.Resources>
+                <DataTemplate x:Key="CellEstadoFaturamento" DataType="{x:Type faturamento:FaturamentoSlim}">
+                    <Grid>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding EstadoAtual}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextAlignment" Value="Center" />
+                                    <Setter Property="MinWidth" Value="90" />
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                    <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+                                    <Setter Property="Background" Value="{DynamicResource GrayBrush5}" />
+                                    <Setter Property="Padding" Value="3,1" />
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding EstadoAtual}"
+                                                     Value="{x:Static faturamento:Estado.Aberto}">
+                                            <Setter Property="Background" Value="{DynamicResource SuccessBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding EstadoAtual}"
+                                                     Value="{x:Static faturamento:Estado.Cancelado}">
+                                            <Setter Property="Background" Value="{DynamicResource DangerBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding EstadoAtual}"
+                                                     Value="{x:Static faturamento:Estado.Finalizado}">
+                                            <Setter Property="Background" Value="{DynamicResource InfoBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="CellSituacaoFiscalFaturamento" DataType="{x:Type faturamento:FaturamentoSlim}">
+                    <Grid>
+                        <TextBlock Margin="5,0,0,0" Text="{Binding SituacaoFiscal}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextAlignment" Value="Center" />
+                                    <Setter Property="MinWidth" Value="90" />
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                    <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+                                    <Setter Property="Background" Value="{DynamicResource GrayBrush5}" />
+                                    <Setter Property="Padding" Value="3,1" />
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsNaoEnviado}"
+                                                     Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource SuccessBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding IsCancelado}"
+                                                     Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource DangerBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding IsAutorizado}"
+                                                     Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource InfoBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding IsAutorizadoDenegada}"
+                                                     Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource DangerBrush2}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding IsAutorizadoSemInternet}"
+                                                     Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource WarningBrush}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding IsRejeicao}"
+                                                     Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource DangerBrush2}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </DataGrid.Resources>
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DoubleClickRowHandler" />
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn
+                    helpers:DataGridColumnHelper.Align="Center"
+                    Header="Estado" Width="Auto" CellTemplate="{StaticResource CellEstadoFaturamento}" />
+
+                <DataGridTemplateColumn
+                    helpers:DataGridColumnHelper.Align="Center"
+                    Header="Situação Fiscal" Width="Auto" CellTemplate="{StaticResource CellSituacaoFiscalFaturamento}" />
+
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Center"
+                    Header="Número" Width="120" Binding="{Binding Id, StringFormat=0000}" />
+
+                <DataGridTextColumn
+                    Header="Cliente" MinWidth="300" Binding="{Binding NomeCliente}" />
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="T. Produtos" Width="130" Binding="{Binding TotalProdutos, StringFormat=N2}" />
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="% Desconto" Width="130" Binding="{Binding PercentualDesconto, StringFormat=N2}" />
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Right"
+                    Header="T. Faturamento" Width="130" Binding="{Binding Total, StringFormat=N2}" />
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Center"
+                    Header="Criado em" Width="130" Binding="{Binding CriadoEm, StringFormat=dd/MM/yyyy}" />
+                <DataGridTextColumn
+                    helpers:DataGridColumnHelper.Align="Center"
+                    Header="Finalizado em" Width="130" Binding="{Binding FinalizadoEm, StringFormat=dd/MM/yyyy}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

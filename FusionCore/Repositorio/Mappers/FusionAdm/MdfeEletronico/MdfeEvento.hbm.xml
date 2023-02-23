@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.MdfeEletronico"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="MDFeEvento" table="mdfe_evento">
+    <id column="id" name="Id">
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="Mdfe" class="MDFeEletronico"
+                 cascade="none" column="mdfe_id" not-null="true"/>
+    
+    <property name="XmlEnvio">
+      <column name="xmlEnvio" sql-type="xml" not-null="true" length="2147483647" />
+    </property>
+
+    <property name="XmlRetorno">
+      <column name="xmlRetorno" sql-type="xml" not-null="true" length="2147483647" />
+    </property>
+
+    <property name="Evento">
+      <column name="tipoEvento" not-null="true" />
+    </property>
+
+    <property name="FeitoEm">
+      <column name="feitoEm" not-null="true" />
+    </property>
+    
+  </class>
+  
+
+</hibernate-mapping>

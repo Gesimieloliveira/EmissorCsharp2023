@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.Vendas.Autorizadores.Nfce"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CupomFiscalHistorico" table="cupom_fiscal_historico">
+	<id access="backfield" name="Id" column="id" generator="identity" unsaved-value="0" />
+
+	<property access="backfield" name="CriadoEm" column="criadoEm" not-null="true" />
+
+    <property access="backfield" name="NumeroFiscal" column="numeroFiscal" not-null="true" />
+
+    <property access="backfield" name="Serie" column="serie" not-null="true" />
+
+    <property access="backfield" name="CodigoNumerico" column="codigoNumerico" not-null="true" />
+
+	<property access="backfield" name="AmbienteSefaz" column="ambienteSefaz" not-null="true" />
+
+    <property access="backfield" name="TentouEm" column="tentouEm" not-null="true" />
+
+    <property access="backfield" name="FalhaEnvioLote" column="falhaEnvioLote" not-null="true" />
+
+    <property access="backfield" name="Finalizado" column="finalizado" not-null="true" />
+
+    <property access="backfield" name="Chave" column="chave" not-null="true" />
+
+	<property access="backfield" name="RespostaLote" not-null="false">
+	  <column name="respostaLote" sql-type="xml" length="2147483647"></column>
+	</property>
+
+	<property access="backfield" name="Envio" not-null="true">
+	  <column name="envio" sql-type="xml" length="2147483647"></column>
+	</property>
+
+	<property access="backfield" name="Resposta" not-null="false">
+	  <column name="resposta" sql-type="xml" length="2147483647"></column>
+	</property>
+
+	<many-to-one
+	  name="CupomFiscal"
+	  class="CupomFiscal"
+	  column="cupomFiscal_id"
+	  access="backfield"
+	  not-null="true"></many-to-one>
+
+  </class>
+
+</hibernate-mapping>

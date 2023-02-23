@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteEmissao" table="cte_emissao">
+    <id name="CteId" column="cte_id">
+      <generator class="foreign">
+        <param name="property">Cte</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Cte" class="Cte" constrained="true" cascade="none" />
+
+    <property name="CodigoNumerico" not-null="true">
+      <column name="codigoNumerico"></column>
+    </property>
+
+    <property name="Modelo" not-null="true">
+      <column name="modeloDocumento"></column>
+    </property>
+
+    <property name="Serie" not-null="true">
+      <column name="serie"></column>
+    </property>
+
+    <property name="Numero" not-null="true">
+      <column name="numero"></column>
+    </property>
+
+    <property name="EmitidaEm" not-null="true">
+      <column name="emitidaEm"></column>
+    </property>
+
+    <property name="DigitoVerificador" not-null="true">
+      <column name="digitoVerificador"></column>
+    </property>
+
+    <property name="Ambiente" not-null="true">
+      <column name="tipoAmbiente"></column>
+    </property>
+
+    <property name="Autorizado" not-null="true">
+      <column name="autorizado"></column>
+    </property>
+
+    <property name="Chave" not-null="true">
+      <column name="chave"></column>
+    </property>
+
+    <property name="TagId" not-null="true">
+      <column name="tagId"></column>
+    </property>
+
+    <property name="XmlAssinado" not-null="true">
+      <column name="xmlAssinado" sql-type="xml" length="2147483647"></column>
+    </property>
+
+    <property name="XmlAutorizado" not-null="true">
+      <column name="xmlAutorizado" sql-type="xml" length="2147483647"></column>
+    </property>
+
+    <property name="CodigoAutorizacao" not-null="true">
+      <column name="codigoAutorizacao"></column>
+    </property>
+
+    <property name="RecebidoEm" not-null="true">
+      <column name="recebidoEm"></column>
+    </property>
+
+    <property name="VersaoAplicativoAutorizacao" not-null="true">
+      <column name="versaoAplicacao"></column>
+    </property>
+
+    <property name="DigestValue" not-null="true">
+      <column name="digestVal"></column>
+    </property>
+
+    <property name="Protocolo" not-null="true">
+      <column name="protocolo"></column>
+    </property>
+
+    <property name="NumeroRecibo" not-null="true">
+      <column name="numeroRecibo"></column>
+    </property>
+
+    <property name="Motivo" not-null="true">
+      <column name="motivo"></column>
+    </property>
+
+    <property name="StatusConsultaRecibo" not-null="true">
+      <column name="statusConsultaRecibo"/>
+    </property>
+
+  </class>
+</hibernate-mapping>

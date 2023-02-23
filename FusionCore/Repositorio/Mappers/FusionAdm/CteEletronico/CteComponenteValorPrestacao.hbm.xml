@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteComponenteValorPrestacao" table="cte_componente_valor_prestacao">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="Cte" cascade="none">
+      <column name="cte_id" not-null="true" />
+    </many-to-one>
+
+    <property name="Nome" not-null="true">
+      <column name="nome"/>
+    </property>
+
+    <property name="Valor" not-null="true">
+      <column name="valor"/>
+    </property>
+  </class>
+</hibernate-mapping>

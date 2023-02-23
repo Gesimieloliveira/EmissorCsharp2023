@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Pessoas"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PessoaEmail" table="pessoa_email">
+    <id name="Id" column="id" unsaved-value="0" generator="identity" />
+
+    <many-to-one name="Pessoa" lazy="no-proxy" cascade="none">
+      <column name="pessoa_id" not-null="true" />
+    </many-to-one>
+
+    <component name="Email">
+      <property access="nosetter.camelcase-underscore" name="Valor">
+        <column name="email" length="255" not-null="true" />
+      </property>
+    </component>
+  </class>
+</hibernate-mapping>

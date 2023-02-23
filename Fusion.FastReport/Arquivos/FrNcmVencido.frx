@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/24/2018 13:44:07" ReportInfo.Modified="04/18/2022 11:09:19" ReportInfo.CreatorVersion="2021.4.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {    
+  }
+}
+
+</ScriptText>
+  <Styles>
+    <Style Name="EvenStyle" Fill.Color="White" Font="Arial, 10pt" ApplyBorder="false" ApplyTextFill="false" ApplyFont="false"/>
+  </Styles>
+  <Dictionary>
+    <MsSqlDataConnection Name="ConexaoFusion" ConnectionString="rijcmlqQCvPe4FpvnvBlIamOKV2gTpQzfDk9lNbkuuT7gcNQMmNFCNDN+nJeqXkzSSw6D1z9eMhwX4bsicSLoZZk6QA1/Z+ySIswQvd6fbn0DOQJrenvycsXBeYhVs0LE5BMHRZ9DH06+/OSqQzVwM1IQ4IO3nesBltcLQGoQB+ZwvL1J19MG8Nf6k3g/eVw7hJZB8oOl55+KD+gSmFv7fGLcHGCblbW+JHYT2LFwt+y4vjEC2P/04AawS7vF/8CuuzMqaJ">
+      <TableDataSource Name="Table" Alias="NcmVencidos" DataType="System.Int32" Enabled="true" SelectCommand="select * from tabela_ncm ncm&#13;&#10;where ncm.vencido = 1">
+        <Column Name="id" DataType="System.String"/>
+        <Column Name="descricao" DataType="System.String"/>
+        <Column Name="cest" DataType="System.String"/>
+        <Column Name="inicioVigencia" DataType="System.DateTime"/>
+        <Column Name="fimVigencia" DataType="System.DateTime"/>
+        <Column Name="vencido" DataType="System.Boolean" BindableControl="CheckBox"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="EmpresaId" DataType="System.Int32"/>
+    <Parameter Name="DescricaoRelatorio" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" RawPaperSize="9" LeftMargin="5" RightMargin="5" Watermark.Font="Arial, 60pt">
+    <DataBand Name="Data1" Top="19.4" Width="756" Height="20.79" CanGrow="true" CanShrink="true" CanBreak="true" DataSource="Table">
+      <TextObject Name="Text1" Left="1.89" Width="94.5" Height="18.9" Text="[NcmVencidos.id]" Font="Arial, 10pt"/>
+      <TextObject Name="Text3" Left="98.28" Width="532.98" Height="18.9" CanGrow="true" CanShrink="true" GrowToBottom="true" Text="[NcmVencidos.descricao]" Font="Arial, 10pt"/>
+      <TextObject Name="Text5" Left="633.15" Width="120.96" Height="18.9" Text="[NcmVencidos.fimVigencia]" Format="Date" Format.Format="d" Font="Arial, 10pt"/>
+      <DataHeaderBand Name="DataHeader1" Width="756" Height="18.9">
+        <TextObject Name="Text2" Left="1.89" Width="94.5" Height="18.9" Text="Ncm" Font="Arial, 10pt, style=Bold"/>
+        <TextObject Name="Text4" Left="98.28" Width="532.98" Height="18.9" Text="Descricao" Font="Arial, 10pt, style=Bold"/>
+        <TextObject Name="Text6" Left="633.15" Width="120.96" Height="18.9" Text="Fim de Vigência" Font="Arial, 10pt, style=Bold"/>
+      </DataHeaderBand>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="40.69" Width="756" Height="13.23" CanShrink="true">
+      <TextObject Name="TextPage" Left="599.13" Width="154.98" Height="13.23" Text="Pagina: [Page#]/[TotalPages#]" HorzAlign="Right" Font="Arial Narrow, 8pt, style=Italic"/>
+      <TextObject Name="TextDate" Left="1.89" Width="347.76" Height="13.23" Text="Impresso em: [Date]" Font="Arial Narrow, 8pt, style=Italic"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

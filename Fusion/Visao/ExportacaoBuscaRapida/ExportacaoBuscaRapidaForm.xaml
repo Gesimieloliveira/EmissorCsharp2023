@@ -1,0 +1,75 @@
+﻿<mah:MetroWindow x:Class="Fusion.Visao.ExportacaoBuscaRapida.ExportacaoBuscaRapidaForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:Fusion.Visao.ExportacaoBuscaRapida"
+                      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                      xmlns:itensBuscaRapida="clr-namespace:FusionCore.Exportacao.ItensBuscaRapida;assembly=FusionCore"
+                      mc:Ignorable="d"
+                      Title="Exportação de produtos para importação busca rápida!" 
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      WindowStartupLocation="CenterScreen"
+                      Width="650" SizeToContent="Height"
+                      Loaded="LoadedHandler">
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top" Header="Configuração de exportação">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Escolha o layout do arquivo a ser exportado" />
+                    <ComboBox 
+                        IsEditable="False"
+                        SelectionChanged="LayoutChangedHandler"
+                        DisplayMemberPath="Descricao"
+                        ItemsSource="{Binding OpcoesExportacao}" 
+                        SelectedItem="{Binding ExportacaoSelecionada}"/>
+
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Quanidade de Casas Decimais" />
+                    <ComboBox IsEditable="False"
+                              ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type itensBuscaRapida:CasasDecimais}}}"
+                              SelectedItem="{Binding CasaDecimalSelecionada}" />
+
+                </StackPanel>
+
+
+                <GroupBox Header="Loacal de exportação" Margin="0,10,0,0" Background="White">
+                    <StackPanel>
+                        <Button
+                            Click="ClickAddDestinoCopia"
+                            HorizontalAlignment="Right"
+                            Style="{DynamicResource FusionSuccessButton}"
+                            Content="adicionar novo local" />
+
+                        <ListBox Margin="0,7,0,0" ItemsSource="{Binding ArquivoLocais}" MaxHeight="280" Height="100">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{DynamicResource FusionDangerButton}" Tag="{Binding}" Padding="6,4" 
+                                                ClickMode="Release" Click="RemoverLocalHandler">
+                                            <fa:ImageAwesome Icon="TrashOutline" Height="15" Foreground="White" />
+                                        </Button>
+
+                                        <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding Localizacao}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,5">
+            <Button
+                Width="200"
+                Content="Exportar agora" 
+                Style="{DynamicResource FusionAccentedButton}"
+                Click="ExportarClickHandler"/>
+        </StackPanel>
+    </DockPanel>
+</mah:MetroWindow>

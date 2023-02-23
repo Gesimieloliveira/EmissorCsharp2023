@@ -1,0 +1,33 @@
+﻿<controles:FusionWindow x:Class="Fusion.Visao.ControlarNfces.ResolverNfceFaturamentosForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fusion.Visao.ControlarNfces"
+        xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Style="{DynamicResource MetroWindowStyle}"
+        WindowStartupLocation="CenterScreen"
+        Title="Resolver NFC-es Faturamentos" SizeToContent="Height" Width="800">
+    <StackPanel Margin="24">
+        <TextBlock FontSize="16">
+            <Run Text="Foram selecionadas"></Run>
+            <Run FontWeight="Bold"
+                 Text="{Binding QuantidadeNfce}"></Run>
+            <Run Text="NFC-e"></Run>
+        </TextBlock>
+
+        <StackPanel Margin="0,20,0,0" Width="250" HorizontalAlignment="Left">
+            <TextBlock Text="Nova data emissão para todas NFC-e" />
+            <mah:DateTimePicker
+                mah:TextBoxHelper.Watermark="Data emissão"
+                SelectedDateTime="{Binding NovaDataEmissao}" />
+        </StackPanel>
+
+        <Button 
+            Margin="0,16"
+            Click="EnviarTodasNfce_Click"
+            Style="{StaticResource FusionSuccessButton}">Enviar Todas NFC-e</Button>
+    </StackPanel>
+</controles:FusionWindow>

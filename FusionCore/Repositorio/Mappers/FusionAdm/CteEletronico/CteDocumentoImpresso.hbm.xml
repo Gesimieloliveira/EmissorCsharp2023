@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteDocumentoImpresso" table="cte_documento_nf_impressa">
+    <id name="Id" column="id">
+      <generator class="identity"/>
+    </id>
+
+    <many-to-one name="Cte" cascade="none">
+      <column name="cte_id" not-null="true" />
+    </many-to-one>
+
+    <many-to-one name="PerfilCfop" class="FusionCore.Repositorio.Legacy.Entidades.Adm.PerfilCfopDTO" not-null="true">
+      <column name="perfilCfop_id"></column>
+    </many-to-one>
+
+    <property name="NumeroRomaneiro" not-null="true">
+      <column name="numeroRomaneiro"/>
+    </property>
+
+    <property name="NumeroPedido" not-null="true">
+      <column name="numeroPedido"/>
+    </property>
+
+    <property name="ModeloNotaFiscal" not-null="true">
+      <column name="modelo"/>
+    </property>
+
+    <property name="Serie" not-null="true">
+      <column name="serie"/>
+    </property>
+
+    <property name="Numero" not-null="true">
+      <column name="numero"/>
+    </property>
+
+    <property name="EmitidaEm" not-null="false">
+      <column name="emitidaEm"/>
+    </property>
+
+    <property name="BaseCalculoIcms" not-null="true">
+      <column name="bcIcms"/>
+    </property>
+
+    <property name="TotalBaseCalculoIcms" not-null="true">
+      <column name="totalIcms"/>
+    </property>
+
+    <property name="BaseCalculoIcmsSt" not-null="true">
+      <column name="valorBcIcmsST"/>
+    </property>
+
+    <property name="TotalBaseCalculoIcmsSt" not-null="true">
+      <column name="totalIcmsST"/>
+    </property>
+
+    <property name="TotalProdutos" not-null="true">
+      <column name="totalProdutos"/>
+    </property>
+
+    <property name="TotalNf" not-null="true">
+      <column name="totalNf"/>
+    </property>
+
+    <property name="TotalPesoKg" not-null="true">
+      <column name="pesoTotalKg"/>
+    </property>
+
+    <property name="PinSuframa" not-null="true">
+      <column name="pinSuframa"/>
+    </property>
+
+    <property name="PrevisaoEntregaEm" not-null="true">
+      <column name="previsaoEntregaEm"/>
+    </property>
+
+  </class>
+</hibernate-mapping>

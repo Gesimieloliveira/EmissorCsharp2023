@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Fiscal.NF.Perfil"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+	
+	<class name="PerfilNfe" table="perfil_nfe">
+	<id name="Id" column="id">
+	  <generator class="identity" />
+	</id>
+
+	<many-to-one name="EmissorFiscal" cascade="none">
+	  <column name="emissorFiscal_id" sql-type="tinyint" not-null="true" />
+	</many-to-one>
+
+	<property name="Ativo">
+	  <column name="ativo" sql-type="bit" not-null="true" />
+	</property>
+
+	<property name="Descricao">
+	  <column name="descricao" sql-type="varchar" not-null="true" length="255" />
+	</property>
+
+	<property name="TipoOperacao">
+	  <column name="tipoOperacao" sql-type="tinyint" not-null="true" />
+	</property>
+
+	<property name="FinalidadeEmissao">
+	  <column name="finalidadeEmissao" sql-type="tinyint" not-null="true" />
+	</property>
+
+	<property name="NaturezaOperacao">
+	  <column name="naturezaOperacao" sql-type="varchar" not-null="true" length="60" />
+	</property>
+
+	<property name="Observacao">
+	  <column name="observacao" sql-type="text" />
+	</property>
+
+	<many-to-one name="Cfop">
+	  <column name="perfilCfop_id" sql-type="smallint" not-null="false" />
+	</many-to-one>
+
+	<property name="AutoAtivarPartilhaIcms">
+	  <column name="autoAtivarPartilhaIcms" not-null="true" />
+	</property>
+	  
+	<property name="MovimentarEstoqueProduto">
+	  <column name="movimentarEstoqueProduto" not-null="true" />
+	</property>
+
+	<property name="UsarIpiTagPropria">
+	  <column name="usarIpiTagPropria" not-null="true" />
+	</property>
+
+	<property name="DesativarInfoCreditoItem" type="bool">
+		<column name="desativarInfoCreditoItem" sql-type="bool" />
+	</property>
+
+
+	<one-to-one class="PerfilNfeDestinatario" name="Destinatario" cascade="all-delete-orphan" fetch="join" />
+
+	<one-to-one class="PerfilNfeTransportadora" name="Transportadora" cascade="all-delete-orphan" fetch="join" />
+
+	<one-to-one class="PerfilNfeSimplesNacional" name="SimplesNacional" cascade="all-delete-orphan" fetch="join" />
+
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,822 @@
+﻿<controles:FusionWindow x:Class="FusionNfce.Visao.Principal.VendaCaixa"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                        xmlns:fa="http://schemas.fontawesome.io/icons/"
+                        xmlns:principal="clr-namespace:FusionNfce.Visao.Principal"
+                        xmlns:tools="clr-namespace:FusionLibrary.Wpf.Tools;assembly=FusionLibrary"
+                        xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                        Title="Frente de Caixa - Venda"
+                        WindowState="Maximized" mc:Ignorable="d"
+                        d:DesignWidth="990" d:DesignHeight="720"
+                        Style="{DynamicResource MetroWindowStyle}"
+                        KeyDown="Venda_OnKeyDown"
+                        Focusable="False" MinWidth="990" MinHeight="720"
+                        Closing="VendaCaixa_OnClosing"
+                        PreviewKeyDown="VendaCaixa_OnPreviewKeyDown"
+                        Loaded="VendaCaixa_OnLoaded"
+                        ContentRendered="VendaCaixa_OnContentRendered"
+                        d:DataContext="{d:DesignInstance principal:VendaModel}">
+
+    <controles:FusionWindow.Resources>
+        <Style x:Key="ListBoxItemCustomizado"
+           TargetType="{x:Type ListBoxItem}"
+           BasedOn="{StaticResource {x:Type ListBoxItem}}">
+
+            <EventSetter Event="MouseDoubleClick" Handler="DoubleClickDataGridRow"></EventSetter>
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Grid Background="{TemplateBinding Background}"
+                          RenderOptions.ClearTypeHint="{TemplateBinding RenderOptions.ClearTypeHint}">
+
+                            <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                            <Grid Margin="{TemplateBinding BorderThickness}">
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Grid>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource GrayBrush}" />
+                                <Setter TargetName="Border" Property="Background" Value="Transparent" />
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="Transparent" />
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource GrayBrush7}" />
+                            </Trigger>
+
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsEnabled" Value="False" />
+                                    <Condition Property="IsSelected" Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Foreground" Value="Transparent" />
+                                <Setter TargetName="Border" Property="Background" Value="Transparent" />
+                            </MultiTrigger>
+
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="True" />
+                                    <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                </MultiTrigger.Conditions>
+
+                                <Setter TargetName="Border" Property="Background" Value="Transparent" />
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="VerticalContentAlignment"
+                Value="{Binding VerticalContentAlignment, Mode=OneWay, FallbackValue=Center, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        </Style>
+    </controles:FusionWindow.Resources>
+
+    <controles:FusionWindow.RightWindowCommands>
+        <controls:WindowCommands Focusable="False">
+            <Menu VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" Focusable="False"
+                  Margin="5,0">
+
+                <MenuItem
+                    Focusable="False"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Foreground="{StaticResource IdealForegroundColorBrush}"
+                    FontSize="12">
+
+                    <MenuItem.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Height="14" Icon="List" Foreground="{DynamicResource WhiteBrush}" />
+                                <TextBlock Margin="5,0" Text="Outras Opções" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </MenuItem.HeaderTemplate>
+
+                    <MenuItem Header="Abrir caixa"
+                              x:Name="MenuItemAbrirCaixa"
+                              Click="AbrirCaixaClickHandler"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Ver caixa aberto"
+                              x:Name="MenuItemGerenciarCaixa"
+                              Click="FecharCaixaAbertoClickHandler"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Lançamentos avulsos no caixa"
+                              x:Name="MenuItemLancamentoCaixa"
+                              Click="GerenciarLancamentosDeCaixaClickHandler"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Imprimir caixas fechados"
+                              x:Name="MenuItemImprimirCaixasFechados"
+                              Click="ImprimirCaixasFechadosClickHandler"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Avançar Númeração"
+                              controls:VisibilityHelper.IsVisible="{Binding IsNfce}"
+                              Click="AvancarNumeracao_OnClick"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Contingência Offline"
+                              controls:VisibilityHelper.IsVisible="{Binding IsNfce}"
+                              Click="Contigencia_OnClick"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Sincronizar NFc-e Offline"
+                              Focusable="False"
+                              controls:VisibilityHelper.IsVisible="{Binding IsNfce}"
+                              Click="SincronizarNfceOffline_Click"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Extrair Logs"
+                              Focusable="False"
+                              controls:VisibilityHelper.IsVisible="{Binding IsSat}"
+                              Click="ExtrairLogs_Click"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Consultar Status Operacional"
+                              Focusable="False"
+                              controls:VisibilityHelper.IsVisible="{Binding IsSat}"
+                              Click="ConsultarStatusOperacionalSAT_Click"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Trocar código de ativação"
+                              Focusable="False"
+                              controls:VisibilityHelper.IsVisible="{Binding IsSat}"
+                              Click="TrocarCodigoDeAtivacao_Click"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Bloquear SAT"
+                              Focusable="False"
+                              controls:VisibilityHelper.IsVisible="{Binding IsSat}"
+                              Click="BloquearSAT_Click"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Desbloquear SAT"
+                              Focusable="False"
+                              controls:VisibilityHelper.IsVisible="{Binding IsSat}"
+                              Click="DesbloquearSAT_Click"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Atualizar SAT"
+                              Focusable="False"
+                              controls:VisibilityHelper.IsVisible="{Binding IsSat}"
+                              Click="AtualizarSAT_Click"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Configuração SAT"
+                              controls:VisibilityHelper.IsVisible="{Binding IsSat}"
+                              Click="ConfiguracaosSAT_OnClick"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Trocar Certificado Digital"
+                              Click="CertificadoDigital_OnClick"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Conexão Direta Impressora"
+                              Click="ConexaoDiretaImpressora_OnClick"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="TEF - Administratio"
+                              Click="TefAdministrativo_OnClick"
+                              Focusable="False"
+                              controls:VisibilityHelper.IsVisible="{Binding IsTefAtivo}"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Configura TEF"
+                              Click="TefConfigura_OnClick"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Backup"
+                              Click="Backup_OnClick"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Logout"
+                              Click="Logout_OnClick"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                    <MenuItem Header="Sobre"
+                              Click="Sobre_OnClick"
+                              Focusable="False"
+                              Foreground="{StaticResource BlackBrush}" />
+
+                </MenuItem>
+            </Menu>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0">
+                <fa:ImageAwesome
+                    Icon="{Binding StatusServidor}" Height="15" Foreground="{Binding CorStatus}" />
+
+                <TextBlock Margin="5,0" Text="Status Servidor" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="5,0">
+                <fa:ImageAwesome
+                    Icon="User" Height="15" Foreground="{StaticResource WhiteBrush}" />
+
+                <TextBlock
+                    Text="{Binding LoginUsuario}" Margin="5,0"
+                    Foreground="{StaticResource WhiteBrush}" VerticalAlignment="Center" />
+
+            </StackPanel>
+
+            <Button Click="Avisos_OnClick" ToolTip="Avisos" controls:VisibilityHelper.IsVisible="{Binding AtivaAvisos}"
+                    Focusable="False">
+                <StackPanel Orientation="Horizontal" Focusable="False">
+                    <fa:ImageAwesome Icon="BellOutline" Height="15" Focusable="False"
+                                     Foreground="{StaticResource IdealForegroundColorBrush}" />
+                </StackPanel>
+            </Button>
+
+        </controls:WindowCommands>
+    </controles:FusionWindow.RightWindowCommands>
+
+    <DockPanel LastChildFill="True">
+        <Grid Background="White" DockPanel.Dock="Bottom" Focusable="False">
+            <Border Background="{DynamicResource AccentColorBrush2}" Padding="2">
+                <Border.Resources>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="FontSize" Value="16" />
+                        <Setter Property="FontWeight" Value="DemiBold" />
+                    </Style>
+                </Border.Resources>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock 
+                            Text="{Binding VersaoSistema, StringFormat='versão: {0}'}" 
+                            VerticalAlignment="Center" Margin="20,0,0,0" />
+
+                        <TextBlock 
+                            Text="{Binding NomeUsuarioLogado, StringFormat='usuário online: {0}'}" 
+                            VerticalAlignment="Center" Margin="20,0,0,0" />
+
+                        <TextBlock 
+                            Text="{Binding NomeTerminal, StringFormat='terminal: {0}'}" 
+                            VerticalAlignment="Center" Margin="20,0,0,0" />
+
+                        <TextBlock 
+                            Text="{Binding NomeEmpresaEmissora, StringFormat='empresa emissora: {0}'}" 
+                            VerticalAlignment="Center" Margin="20,0,0,0" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <StackPanel Height="50" DockPanel.Dock="Bottom" Focusable="False" Margin="0,0,0,-5">
+            <TextBlock Text="{Binding InformacaoCaixa}"
+                       Background="{DynamicResource SuccessBrush}"
+                       FontSize="34"
+                       TextAlignment="Center"
+                       Foreground="{DynamicResource WhiteBrush}" />
+        </StackPanel>
+
+        <DockPanel LastChildFill="True" DockPanel.Dock="Top">
+            <DockPanel Width="300" DockPanel.Dock="Left" Background="{DynamicResource AccentColorBrush2}">
+                <StackPanel DockPanel.Dock="Top" Height="150">
+                    <Image Source="{Binding Logo}" Margin="5" />
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Top" VerticalAlignment="Bottom">
+                    <WrapPanel>
+                        <WrapPanel.Resources>
+                            <Style TargetType="controls:Tile">
+                                <Setter Property="Height" Value="70" />
+                                <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+                                <Setter Property="Foreground" Value="{DynamicResource GrayBrush1}" />
+                                <Setter Property="VerticalContentAlignment" Value="Top" />
+                                <Setter Property="TitleFontSize" Value="16" />
+                            </Style>
+                        </WrapPanel.Resources>
+
+                        <controls:Tile Count="F2"
+                                       Title="Cancelar Item"
+                                       Click="RemoverItem_OnClick"
+                                       Focusable="False" />
+
+                        <controls:Tile Count="F3"
+                                       Title="Cancela Venda"
+                                       Height="Auto"
+                                       Focusable="False"
+                                       Click="CancelarVendaEmAndamento_OnClick" />
+
+                        <controls:Tile Count="F4"
+                                       Title="Finalizar"
+                                       Height="Auto"
+                                       Click="Finalizar_OnClick"
+                                       Focusable="False" />
+
+                        <controls:Tile Count="F5"
+                                       Title="Recuperar Venda"
+                                       Focusable="False"
+                                       Click="RecuperarVenda_OnClick" />
+
+                        <controls:Tile Count="F6"
+                                       Title="Produtos"
+                                       Focusable="False"
+                                       Click="ConsultarProduto_Click" />
+
+                        <controls:Tile Count="F7"
+                                       Title="Altera Item"
+                                       Focusable="False"
+                                       Click="AlteraItem_Click" />
+
+                        <controls:Tile Count="F8"
+                                       Title="Quantidade"
+                                       Focusable="False"
+                                       Click="AdicionaQuantidade_OnClick" />
+
+                        <controls:Tile Count="F9"
+                                       Title="Consulta Preços"
+                                       Focusable="False"
+                                       Click="ConsultaPrecoProduto_OnClick" />
+
+                        <controls:Tile Count="F11"
+                                       Title="Status Sefaz"
+                                       Click="ConsultarStatusSefaz_OnClick"
+                                       Focusable="False" />
+
+                        <controls:Tile Count="F12"
+                                       Title="Mais Opções"
+                                       Click="MaisOpcoes_OnClick"
+                                       Focusable="False" />
+
+                        <controls:Tile Count="Ctrl  G"
+                                       controls:VisibilityHelper.IsVisible="{Binding IsImpressaoDiretaAtiva}"
+                                       Title="Abrir Gaveta"
+                                       Click="AbrirGaveta_Click"
+                                       Focusable="False" />
+
+                        <controls:Tile Count="Ctrl  R"
+                                       x:Name="ButtonFinalizacaoRapida"
+                                       Background="{StaticResource DangerBrush}"
+                                       Foreground="White"
+                                       TitleFontSize="14"
+                                       FontWeight="Bold"
+                                       Title="Finalização Rápida"
+                                       Click="FinalizacaoRapida_Click"
+                                       Focusable="False" />
+                    </WrapPanel>
+                </StackPanel>
+            </DockPanel>
+
+            <Grid DockPanel.Dock="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="0,5,0,0">
+                    <StackPanel HorizontalAlignment="Right">
+                        <Button 
+                            Focusable="False"
+                            Style="{DynamicResource FusionCleanBoldButton}"
+                            Padding="5,1" BorderThickness="0"
+                            Click="ClickConfigurarPreferenciasTerminal">
+
+                            <StackPanel Orientation="Horizontal">
+                                <fa:ImageAwesome Icon="Cog" Height="15" Margin="5,0" />
+                                <TextBlock Text="Configurar preferências do terminal" TextDecorations="Underline" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <Grid Margin="5,5,5,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" MinWidth="220">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock
+                                    FontSize="18"
+                                    Text="{Binding InformacaoAcaoBarras}"
+                                    VerticalAlignment="Center" FontWeight="Bold"
+                                    Foreground="{DynamicResource AccentColorBrush}" />
+
+                                <fa:ImageAwesome
+                                    DockPanel.Dock="Right" Icon="ArrowRight" Height="20" Margin="5"
+                                    Foreground="{DynamicResource AccentColorBrush}" />
+                            </StackPanel>
+                        </Border>
+
+                        <TextBox
+                            Grid.Column="1"
+                            FontSize="24"
+                            AcceptsTab="False"
+                            TabIndex="0"
+                            KeyDown="CodigoBarras_OnKeyDown"
+                            ContextMenu="{x:Null}"
+                            IsEnabled="{Binding HabilitarCodigoBarras}"
+                            Focusable="{Binding HabilitarCodigoBarras}"
+                            Text="{Binding CodigoBarras, UpdateSourceTrigger=PropertyChanged}"
+                            tools:FocusAdvancement.AdvancesByEnterKey="False"
+                            x:Name="TbCodigoBarras" />
+
+                        <TextBlock
+                            Grid.Column="2"
+                            VerticalAlignment="Center" HorizontalAlignment="Left"
+                            FontWeight="DemiBold" FontSize="20"
+                            Text="{Binding Quantidade, StringFormat=x {0:N4}}" />
+                    </Grid>
+
+                    <Grid Margin="5,5,5,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <GroupBox Header="Informações da venda">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <StackPanel>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="ID/Código:" />
+                                            <TextBlock 
+                                                Margin="5,0" Grid.Column="1" 
+                                                Text="{Binding IdCodigoVenda, StringFormat=D9}" />
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="25,0,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="Data venda:" />
+                                            <TextBlock 
+                                                Margin="5,0" Grid.Column="1" 
+                                                Text="{Binding DataCriacaoVenda}"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Margin="0,5,0,0">
+                                    <DockPanel>
+                                        <TextBlock 
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Left"
+                                            Text="Tabela de preços:"
+                                            Margin="0,0,5,0" />
+
+                                        <ComboBox
+                                            TabIndex="-1"
+                                            DockPanel.Dock="Left"
+                                            x:Name="CbTabelaPrecos"
+                                            GotFocus="OnGotFocusTabelaPrecos"
+                                            ItemsSource="{Binding TabelasPrecosLista}"
+                                            SelectedItem="{Binding TabelaPrecoSelecionada}" />
+                                    </DockPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Grid.Column="1" Header="Dados do vendedor">
+                            <StackPanel 
+                                Focusable="False"
+                                DockPanel.Dock="Top" controls:VisibilityHelper.IsVisible="True">
+                            
+                                <TextBlock>Escolha um vendedor</TextBlock>
+                                <controles:SearchTextBox
+                                    IsReadOnly="True"
+                                    Focusable="False"
+                                    Text="{Binding NomeVendedor, UpdateSourceTrigger=PropertyChanged}"
+                                    MouseDown="ClickAdicionarVendedor" 
+                                    SearchEvent="ClickAdicionarVendedor"/>
+
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+                </StackPanel>
+
+                <DockPanel Grid.Row="1" Margin="5,5,5,0">
+                    <StackPanel DockPanel.Dock="Top" Background="{DynamicResource AccentColorBrush2}">
+                        <StackPanel.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize" Value="18" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Style>
+                        </StackPanel.Resources>
+
+                        <StackPanel Margin="30,0,0,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="8*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Text="ID GTIN" Margin="0,0,5,0" />
+                                    <TextBlock Grid.Row="1" Margin="0,0,5,0">
+                                        <Run Text="{Binding LabelCst}" />
+                                        <Run Text=" CFOP" />
+                                    </TextBlock>
+                                </Grid>
+
+                                <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <TextBlock TextAlignment="Right" Width="80" Text="Qtde" Margin="0,0,5,0" />
+                                        <TextBlock TextAlignment="Right" Width="100" Text="Unitário" />
+                                        <TextBlock TextAlignment="Right" Width="100" Text="Desconto" />
+                                        <TextBlock TextAlignment="Right" Width="100" />
+                                        <TextBlock TextAlignment="Right" Width="100" Text="Total" Margin="0,0,5,0" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <ListBox
+                        x:Name="ListaDeItens"
+                        HorizontalContentAlignment="Stretch"
+                        DockPanel.Dock="Top" ItemsSource="{Binding Itens}"
+                        Focusable="False"
+                        SelectedItem="{Binding NfceItemSelecionado}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                        ItemContainerStyle="{DynamicResource ListBoxItemCustomizado}">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <DataTemplate.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="17" />
+                                    </Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="FontSize" Value="17" />
+                                    </Style>
+                                </DataTemplate.Resources>
+
+                                <Border
+                                    Margin="0,1.5"
+                                    BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1"
+                                    Background="{DynamicResource GrayBrush10}">
+
+                                    <DockPanel>
+                                        <StackPanel DockPanel.Dock="Top"
+                                            controls:VisibilityHelper.IsCollapsed="{Binding Produto.Ativo}">
+
+                                            <TextBlock 
+                                                FontSize="16"
+                                                FontWeight="Bold"
+                                                TextAlignment="Center"
+                                                Foreground="White"
+                                                Background="{DynamicResource DangerBrush}">Produto Inativo</TextBlock>
+                                        </StackPanel>
+                                        <DockPanel DockPanel.Dock="Left" Width="30"
+                                                   Background="{DynamicResource AccentColorBrush}">
+
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource WhiteBrush}"
+                                                       Text="{Binding NumeroItem}" />
+                                        </DockPanel>
+
+                                        <StackPanel DockPanel.Dock="Left" Focusable="False" Margin="3,0,0,0">
+                                            <Grid Focusable="False">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="60" />
+                                                    <ColumnDefinition Width="140" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Text="{Binding Produto.Id, StringFormat=0000}" />
+
+                                                <TextBlock Focusable="False" Grid.Column="1"
+                                                           Text="{Binding CodigoBarrasOuCodigo}" />
+
+                                                <TextBlock
+                                                    Margin="0,0,35,0" TextTrimming="CharacterEllipsis"
+                                                    Focusable="False" Grid.Column="2" Text="{Binding Nome}"
+                                                    FontWeight="Bold" />
+                                            </Grid>
+
+                                            <StackPanel>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="110" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <StackPanel>
+                                                        <TextBlock>
+                                                            <TextBlock.Inlines>
+                                                                <Run Text="{Binding ImpostoIcms.CodigoCsosn}" />
+                                                                <Run Text="     " />
+                                                                <Run Text="{Binding Cfop.Id}" />
+                                                            </TextBlock.Inlines>
+                                                        </TextBlock>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Column="1" Orientation="Horizontal"
+                                                                HorizontalAlignment="Right">
+                                                        <TextBlock TextAlignment="Right" MinWidth="70"
+                                                                   Text="{Binding Quantidade, StringFormat=N4}" />
+                                                        <TextBlock Width="25" Text="{Binding SiglaUnidade}" />
+                                                        <TextBlock Text=" x " />
+                                                        <TextBlock TextAlignment="Right" MinWidth="110"
+                                                                   Text="{Binding ValorUnitario, StringFormat=C4}" />
+                                                        <TextBlock TextAlignment="Right" MinWidth="110"
+                                                                   Text="{Binding DescontoTotal, StringFormat=C4}" />
+
+                                                        <TextBlock TextAlignment="Right" MinWidth="100" />
+
+                                                        <TextBlock FontWeight="DemiBold" TextAlignment="Right"
+                                                                   MinWidth="100"
+                                                                   Text="{Binding TotalUnitario, StringFormat=C2, Mode=OneWay}" />
+                                                    </StackPanel>
+                                                </Grid>
+                                            </StackPanel>
+
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+
+                <DockPanel Grid.Row="2">
+                    <Border controls:VisibilityHelper.IsVisible="{Binding IsVendasPendenteOffline}"
+                            Height="50" Background="{StaticResource DangerBrush}" DockPanel.Dock="Bottom"
+                            Focusable="False"
+                            BorderThickness="0,2,0,0" BorderBrush="{StaticResource AccentColorBrush2}">
+
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    FontSize="34"
+                                    TextAlignment="Center"
+                                    Foreground="{DynamicResource WhiteBrush}"
+                                    Text="Notas em contingência com falha no envio" />
+
+                                <StackPanel Margin="0,0,5,0" VerticalAlignment="Center" Grid.Column="1">
+                                    <Button Click="RecuperarVenda_OnClick"
+                                            Style="{StaticResource FusionAccentedButton}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <fa:ImageAwesome Foreground="White" Icon="Asterisk" Height="18"
+                                                             Width="18" Margin="0,0,5,0" />
+                                            <TextBlock FontWeight="Bold">Resolver</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border controls:VisibilityHelper.IsVisible="{Binding IsVendasPendente}"
+                            Height="50" Background="{StaticResource DangerBrush}" DockPanel.Dock="Bottom"
+                            Focusable="False"
+                            BorderThickness="0,2,0,0" BorderBrush="{StaticResource AccentColorBrush2}">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    FontSize="34"
+                                    TextAlignment="Center"
+                                    Foreground="{DynamicResource WhiteBrush}"
+                                    Text="Existem vendas não finalizadas" />
+
+                                <StackPanel Margin="0,0,5,0" VerticalAlignment="Center" Grid.Column="1">
+                                    <Button Click="RecuperarVenda_OnClick"
+                                            Style="{StaticResource FusionAccentedButton}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <fa:ImageAwesome Foreground="White" Icon="Asterisk" Height="18"
+                                                             Width="18" Margin="0,0,5,0" />
+                                            <TextBlock FontWeight="Bold">Resolver</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border controls:VisibilityHelper.IsVisible="{Binding IsContingencia}"
+                            Height="50" Background="{StaticResource DangerBrush}" DockPanel.Dock="Bottom"
+                            Focusable="False" BorderThickness="0,2,0,0"
+                            BorderBrush="{DynamicResource AccentColorBrush2}">
+
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    FontSize="34"
+                                    TextAlignment="Center"
+                                    Foreground="{DynamicResource WhiteBrush}"
+                                    Text="{Binding MensagemContingencia}" />
+
+                                <StackPanel controls:VisibilityHelper.IsVisible="{Binding IsBotaoResolverProblema}"
+                                            Margin="0,0,5,0" VerticalAlignment="Center" Grid.Column="1">
+                                    <Button Command="{Binding CommandResolverProblema}"
+                                            Style="{StaticResource FusionAccentedButton}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <fa:ImageAwesome Foreground="White" Icon="Asterisk" Height="18"
+                                                             Width="18" Margin="0,0,5,0" />
+                                            <TextBlock FontWeight="Bold">Resolver</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </DockPanel>
+
+                <DockPanel
+                    Grid.Row="3"
+                    Background="{DynamicResource AccentColorBrush2}" 
+                    LastChildFill="False">
+
+                    <TextBlock DockPanel.Dock="Left"
+                               Focusable="False"
+                               FontSize="38"
+                               MouseDown="FinalizarVenda_OnMouseDown" Text="Finalizar (F4)"
+                               Foreground="{DynamicResource GrayBrush1}"
+                               FontWeight="Bold" />
+
+                    <TextBlock DockPanel.Dock="Right"
+                               Focusable="False"
+                               FontSize="38"
+                               FontWeight="Bold"
+                               Text="{Binding Total, StringFormat=C2}"
+                               Foreground="{DynamicResource GrayBrush1}"
+                               Margin="0,0,5,0" />
+                </DockPanel>
+            </Grid>
+        </DockPanel>
+    </DockPanel>
+</controles:FusionWindow>

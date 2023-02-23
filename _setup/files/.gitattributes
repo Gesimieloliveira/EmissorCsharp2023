@@ -1,0 +1,2 @@
+*.exe filter=lfs diff=lfs merge=lfs -text
+_setup/files/SQLSetup2008_R2.exe filter=lfs diff=lfs merge=lfs -text

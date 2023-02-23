@@ -1,0 +1,133 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+trigger:
+  - refs/tags/v*
+
+pool:
+  vmImage: 'windows-latest'
+  
+variables:
+  BuildPlatform: 'any cpu'
+  BuildConfiguration: 'release'
+  
+steps:
+  - task: NuGetToolInstaller@0
+    displayName: 'Use NuGet 4.4.1'
+    inputs:
+      versionSpec: 4.4.1
+  
+  - task: NuGetCommand@2
+    displayName: 'NuGet restore'
+    inputs:
+      command: 'restore'
+      restoreSolution: '**\*.sln'
+      feedsToUse: 'select'
+      verbosityRestore: 'Quiet'
+
+  - task: PowerShell@2
+    displayName: 'Painel Releases API: Auth'
+    name: PSAuth
+    inputs:
+      targetType: filePath
+      filePath: '.\_setup\scripts\api-auth.ps1'
+      arguments: '-Uri "$(ReleasesApi.Uri)" -UserEmail "$(ReleasesApi.UserEmail)" -UserPass "$(ReleasesApi.UserPass)"'
+      pwsh: true
+  
+  - task: PowerShell@2
+    displayName: 'Set AssemblyInfo Version'
+    inputs:
+      targetType: filePath
+      filePath: '.\_setup\scripts\set-assembly-version.ps1'
+      pwsh: true
+  
+  - task: VSBuild@1
+    displayName: 'Build solution **\*.sln'
+    inputs:
+      solution: '**\*.sln'
+      msbuildArgs: '-p:OutDir=bin\Build'
+      platform: '$(BuildPlatform)'
+      configuration: '$(BuildConfiguration)'
+  
+  - task: VSTest@2
+    displayName: 'VsTest - testAssemblies'
+    inputs:
+      testAssemblyVer2: |
+       **\$(BuildConfiguration)\*test*.dll
+       !**\obj\**
+      platform: '$(BuildPlatform)'
+      configuration: '$(BuildConfiguration)'
+  
+  - task: S3Download@1
+    displayName: 'Download S3 - Full Setup Files'
+    inputs:
+      awsCredentials: 'AWS-S3'
+      regionName: 'us-east-1'
+      bucketName: 'sistemafusion.pipelines'
+      sourceFolder: 'SetupFiles'
+      globExpressions: '**'
+      targetFolder: '$(Agent.TempDirectory)'
+      flattenFolders: true
+  
+  - task: PowerShell@2
+    displayName: 'Prepare White Label Files'
+    inputs:
+      targetType: filePath
+      filePath: '.\_setup\scripts\prepare-wl-files.ps1'
+      pwsh: true
+  
+  - task: PowerShell@2
+    displayName: 'Make Setup: Fusion'
+    inputs:
+      targetType: filePath
+      filePath: '.\_setup\scripts\make-setup.ps1'
+      arguments: '-SetupName "Fusion"'
+      pwsh: true
+  
+  - task: PowerShell@2
+    displayName: 'Make Setup: Fusion Full'
+    inputs:
+      targetType: filePath
+      filePath: '.\_setup\scripts\make-setup.ps1'
+      arguments: '-SetupName "Fusion-Completo" -SetupFull 1 -AssistentFilesPath "$(Agent.TempDirectory)"'
+      pwsh: true
+  
+  - task: PowerShell@2
+    displayName: 'Make Setup: White Label'
+    inputs:
+      targetType: filePath
+      filePath: '.\_setup\scripts\make-setup.ps1'
+      arguments: '-SetupName "Custom-Setup" -WhiteLabel 1'
+      pwsh: true
+  
+  - task: PowerShell@2
+    displayName: 'Make Setup: White Label Full'
+    inputs:
+      targetType: filePath
+      filePath: '.\_setup\scripts\make-setup.ps1'
+      arguments: '-SetupName "Custom-Setup-Completo" -WhiteLabel 1 -SetupFull 1 -AssistentFilesPath "$(Agent.TempDirectory)"'
+      pwsh: true
+  
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: setups'
+    inputs:
+      PathtoPublish: '_setup\Output\'
+      ArtifactName: setups
+  
+  - task: PowerShell@2
+    displayName: 'Painel Releases API: Create or Get Release'
+    name: PSRelease
+    inputs:
+      targetType: filePath
+      filePath: '.\_setup\scripts\api-create-release.ps1'
+      arguments: '-Uri "$(ReleasesApi.Uri)" -Jwt "$(PSAuth.AuthToken)"'
+      pwsh: true
+  
+  - task: PowerShell@2
+    displayName: 'Painel Releases API: Attach Files'
+    inputs:
+      targetType: filePath
+      filePath: '.\_setup\scripts\api-publish-files.ps1'
+      arguments: '-Uri "$(ReleasesApi.Uri)" -Jwt "$(PSAuth.AuthToken)" -ReleaseId "$(PSRelease.CurrentReleaseId)" -FilesPath "_setup\Output\"'
+      pwsh: true

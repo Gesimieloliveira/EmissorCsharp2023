@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.CteEletronico.Emissao"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="CteImpostoCst" table="cte_imposto_cst">
+    <id name="CteId" column="cte_id">
+      <generator class="foreign">
+        <param name="property">Cte</param>
+      </generator>
+    </id>
+
+    <one-to-one name="Cte" class="Cte" constrained="true" cascade="none" />
+
+    <many-to-one name="TributacaoIcms" 
+                 cascade="none"
+                 fetch="join"
+                 class="FusionCore.Tributacoes.Estadual.TributacaoIcms" not-null="true">
+      <column name="situacaoTributariaIcms_id"></column>
+    </many-to-one>
+    
+    <property name="PercentualCredito" column="percentualCredito" not-null="true" />
+
+    <property name="ValorCredito" column="valorCredito" not-null="true" />
+    
+    <property name="BaseCalculoIcms" column="baseCalculoIcms" not-null="true" />
+    
+    <property name="BaseCalculoIcmsSt" column="baseCalculoIcmsSt" not-null="true" />
+    
+    <property name="PercentualIcms" column="percentualIcms" not-null="true" />
+
+    <property name="PercentualIcmsSt" column="percentualIcmsSt" not-null="true" />
+    
+    <property name="ValorIcms" column="valorIcms" not-null="true" />
+
+    <property name="ValorIcmsSt" column="valorIcmsSt" not-null="true" />
+    
+    <property name="PercentualReducaoBc" column="percentualReducaoBc" not-null="true" />
+
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,127 @@
+﻿<controles:FusionWindow x:Class="Fusion.Visao.Sintegra.SintegraForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                      xmlns:mes="clr-namespace:FusionCore.Core.Flags;assembly=FusionCore"
+                      xmlns:finalidade="clr-namespace:FusionCore.FusionAdm.EntradaOutras;assembly=FusionCore"
+                      xmlns:sintegra="clr-namespace:Fusion.Visao.Sintegra"
+                      xmlns:controles="clr-namespace:FusionWPF.Controles;assembly=FusionWPF"
+                      mc:Ignorable="d"
+                      Title="Sintegra"
+                      Style="{DynamicResource MetroWindowDialogStyle}"
+                      d:DataContext="{d:DesignInstance sintegra:SintegraFormModel}"
+                      SizeToContent="Height" Width="650"
+                      WindowStartupLocation="CenterScreen"
+                      Loaded="SintegraForm_OnLoaded">
+
+    <StackPanel Margin="5">
+
+        <StackPanel>
+            <TextBlock>Selecione uma empresa</TextBlock>
+            <ComboBox
+                IsEditable="False"
+                ItemsSource="{Binding EmpresasDisponiveis}"
+                SelectedItem="{Binding EmpresaSelecionada}" />
+        </StackPanel>
+
+        <StackPanel Margin="0,5,0,0">
+            <TextBlock>Finalidade</TextBlock>
+            <ComboBox
+                Focusable="False"
+                ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type finalidade:FinalidadeArquivo}}}"
+                SelectedValue="{Binding FinalidadeArquivo}"
+                IsEditable="False" />
+        </StackPanel>
+
+        <GroupBox Header="Registro de movimentações" Margin="0,5,0,0">
+            <StackPanel>
+                <DockPanel>
+                    <TextBlock Text="Qual periodo: " VerticalAlignment="Center" Width="133" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0" HorizontalAlignment="Right">
+                        <ComboBox
+                            Width="150"
+                            Margin="0,0,5,0"
+                            Focusable="False"
+                            ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type mes:Mes}}}"
+                            SelectedValue="{Binding Mes}"
+                            IsEditable="False" />
+
+                        <DatePicker Width="130" SelectedDate="{Binding FiltroDataInicio}" />
+                        <TextBlock Text="à" VerticalAlignment="Center" Margin="10,0" />
+                        <DatePicker Width="130" SelectedDate="{Binding FiltroDataFinal}" />
+                    </StackPanel>
+                </DockPanel>
+
+                <StackPanel Margin="0,5,0,0">
+                    <DockPanel>
+                        <TextBlock Text="Registros 50, 53 e 54" VerticalAlignment="Center" />
+
+                        <controls:ToggleSwitch
+                            IsOn="{Binding IsRegistros50, UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Sim" OffContent="Não"
+                            ContentDirection="LeftToRight"
+                            HorizontalAlignment="Right" />
+                    </DockPanel>
+
+                    <DockPanel>
+                        <TextBlock Text="Registros 61, 61R" VerticalAlignment="Center" />
+
+                        <controls:ToggleSwitch
+                            IsOn="{Binding IsRegistros61, UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Sim" OffContent="Não"
+                            ContentDirection="LeftToRight"
+                            HorizontalAlignment="Right" />
+                    </DockPanel>
+                </StackPanel>
+
+                <StackPanel>
+                    <DockPanel>
+                        <TextBlock 
+                            VerticalAlignment="Center" 
+                            Text="Zerar ICMS (BC, Aliquota e Valor) nas Compras (Registros 50, 54)" />
+
+                        <controls:ToggleSwitch
+                            IsOn="{Binding NaoIncluirImpostosComprasRegistros50, UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Sim" OffContent="Não"
+                            ContentDirection="LeftToRight"
+                            HorizontalAlignment="Right" />
+                    </DockPanel>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Registro do iventário" Margin="0,5,0,0">
+            <StackPanel>
+                <DockPanel>
+                    <TextBlock Text="Incluir registro do iventário (Registro 74)" VerticalAlignment="Center" />
+
+                    <controls:ToggleSwitch
+                        IsOn="{Binding IsRegistros74, UpdateSourceTrigger=PropertyChanged}"
+                        OnContent="Sim" OffContent="Não"
+                        ContentDirection="LeftToRight"
+                        HorizontalAlignment="Right" />
+                </DockPanel>
+
+                <DockPanel Margin="0,5,0,0">
+                    <TextBlock Text="Data do inventário: " VerticalAlignment="Center"/>
+                    <DatePicker Width="167" SelectedDate="{Binding DataIventario}" HorizontalAlignment="Right" />
+                </DockPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Bottom" Margin="0,15,0,0">
+            <Button 
+                Style="{DynamicResource FusionAccentedButton}"
+                Click="ClickProcessarIventarioHandler"
+                HorizontalAlignment="Center"
+                Width="180"
+                Content="Processar Sintegra" />
+        </StackPanel>
+
+    </StackPanel>
+
+</controles:FusionWindow>

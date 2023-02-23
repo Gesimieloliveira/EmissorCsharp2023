@@ -1,0 +1,121 @@
+﻿<controls:MetroWindow x:Class="Fusion.Visao.Produto.Estoque.AjusteSaldoForm"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:c="clr-namespace:FusionLibrary.Wpf.Componentes;assembly=FusionLibrary"
+                      xmlns:tipoEvento="clr-namespace:FusionCore.Repositorio.Legacy.Flags;assembly=FusionCore"
+                      xmlns:markup="clr-namespace:FusionLibrary.Wpf.Markup;assembly=FusionLibrary"
+                      Title="Ajuste de estoque e valores"
+                      SizeToContent="Height"
+                      Width="571.324"
+                      WindowStartupLocation="CenterScreen"
+                      ResizeMode="NoResize"
+                      Style="{DynamicResource MetroWindowStyle}"
+                      Loaded="OnLoadedForm">
+
+    <DockPanel LastChildFill="False" FocusManager.FocusedElement="{Binding ElementName=TextBoxQuantidade}">
+        <GroupBox DockPanel.Dock="Top"
+                  Header="Detalhes do produto">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3">
+                    <TextBlock Text="Nome do produto" />
+                    <TextBlock Text="{Binding ProdutoAdm.Nome}"
+                               FontWeight="Bold"
+                               FontSize="13" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,0,5,0">
+                    <TextBlock Text="Preço de compra" />
+                    <TextBlock Text="{Binding ProdutoAdm.PrecoCompra, StringFormat=N2}"
+                               HorizontalAlignment="Right"
+                               FontWeight="Bold" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,0,5,0">
+                    <TextBlock Text="Preço de venda" />
+                    <TextBlock Text="{Binding ProdutoAdm.PrecoVenda, StringFormat=N2}"
+                               HorizontalAlignment="Right"
+                               FontWeight="Bold" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Grid.Row="1">
+                    <TextBlock Text="Quantidade em estoque" />
+                    <TextBlock Text="{Binding ProdutoEstoque.Estoque, StringFormat=N2}"
+                               HorizontalAlignment="Right"
+                               FontWeight="Bold" />
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <DockPanel Dock="Top" LastChildFill="True" Margin="30,3"
+                   Width="350"
+                   HorizontalAlignment="Left">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0"
+                           Text="Tipo da movimentação: "
+                           VerticalAlignment="Center" />
+
+                <ComboBox Grid.Column="1" Grid.Row="0"
+                    Focusable="False"
+                    ItemsSource="{Binding Source={markup:EnumBindingSource {x:Type tipoEvento:TipoEventoEstoque}}}"
+                    SelectedValue="{Binding TipoEvento}"
+                    IsEditable="False" />
+
+                <TextBlock Grid.Column="0" Grid.Row="1"
+                           Text="Quantidade: "
+                           VerticalAlignment="Center" />
+                
+                <TextBox Grid.Column="1" Grid.Row="1"
+                         x:Name="TextBoxQuantidade"
+                         Text="{Binding Quantidade, StringFormat=N4}"
+                         controls:TextBoxHelper.SelectAllOnFocus="True"
+                         Margin="0,3"
+                         HorizontalContentAlignment="Right" />
+
+                <TextBlock Grid.Column="0" Grid.Row="2"
+                           Text="Preço de compra: "
+                           VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" Grid.Row="2"
+                         Text="{Binding PrecoCompra, StringFormat=N2}"
+                         controls:TextBoxHelper.SelectAllOnFocus="True"
+                         Margin="0,3"
+                         HorizontalContentAlignment="Right" />
+
+                <TextBlock Grid.Column="0" Grid.Row="3"
+                           Text="Preço de venda:"
+                           VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" Grid.Row="3"
+                         Text="{Binding PrecoVenda, StringFormat=N2}"
+                         controls:TextBoxHelper.SelectAllOnFocus="True"
+                         Margin="0,3"
+                         HorizontalContentAlignment="Right" />
+            </Grid>
+        </DockPanel>
+        <StackPanel DockPanel.Dock="Bottom">
+            <c:ToolbarFormulario ShowDelete="False"
+                                 OnClose="OnClickFechar"
+                                 OnSave="OnClickSalvar" />
+        </StackPanel>
+    </DockPanel>
+</controls:MetroWindow>

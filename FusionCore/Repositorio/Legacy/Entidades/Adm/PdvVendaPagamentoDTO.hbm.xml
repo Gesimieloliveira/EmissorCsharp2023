@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore" namespace="FusionCore.Repositorio.Legacy.Entidades.Adm" default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+  <class name="PdvVendaPagamentoDTO" table="pdv_venda_ecf_pagamento">
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+    
+    <many-to-one name="PdvVendaDTO" column="pdvVendaEcf_id" not-null="true" />
+    
+    <many-to-one name="PdvFormaPagamentoDTO" not-null="true">
+      <column name="pdvFormaPagamentoEcf_id" sql-type="tinyint"></column>
+    </many-to-one>
+    
+    <property name="SerieEcf" column="serieEcf" not-null="true" length="20" />
+    
+    <property name="Cco" not-null="true">
+      <column name="cco" sql-type="int" />
+    </property>
+    
+    <property name="Ccf" not-null="true">
+      <column name="ccf" sql-type="int" />
+    </property>
+    
+    
+    <property name="Valor" column="valor" not-null="true" length="18" />
+    
+    <property name="Nsu" column="nsu" not-null="true" length="30" />
+    
+    <property name="Estorno" not-null="true">
+      <column name="estorno" sql-type="bit" />
+    </property>
+    
+    <property name="Rede" column="rede" not-null="true" length="30" />
+    
+    <property name="CartaoDebito" not-null="true">
+      <column name="cartaoDebito" sql-type="bit" />
+    </property>
+    
+    <property name="CartaoCredito" not-null="true">
+      <column name="cartaoCredito" sql-type="bit" />
+    </property>
+    
+    <property name="AlteradoEm" column="alteradoEm" not-null="true" />
+    
+    <property name="CodigoAutorizacao" column="codigoAutorizacao" not-null="true" />
+    
+    <property name="QuantidadeParcelas" column="quantidadeParcelas" not-null="true" />
+    
+    <property name="ComprovanteEmitidoEm" column="comprovanteEmitidoEm" not-null="false" />
+    
+    <property name="Desconto" column="desconto" not-null="true" />
+    
+    <property name="Saque" column="saque" not-null="true" />
+    
+    <property name="TipoTransacao" column="tipoTransacao" not-null="true" />
+    
+    <property name="TipoParcelamento" column="tipoParcelamento" not-null="true" />
+    
+    <property name="NomeAdministradora" column="nomeAdministradora" not-null="true" />
+    
+    <property name="BandeiraCartao" column="bandeiraCartao" not-null="true" />
+
+  </class>
+</hibernate-mapping>

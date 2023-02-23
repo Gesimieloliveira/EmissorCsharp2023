@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping assembly="FusionCore"
+                   namespace="FusionCore.FusionAdm.Pessoas"
+                   default-lazy="false"
+                   xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="PessoaTelefone" table="pessoa_telefone">
+    <id name="Id" column="id" unsaved-value="0" generator="identity" />
+
+    <many-to-one name="Contato" cascade="none" lazy="no-proxy">
+      <column name="pessoa_id" not-null="true" sql-type="int" />
+    </many-to-one>
+
+    <property access="field.camelcase-underscore" name="Descricao">
+      <column name="descricao" length="30" not-null="true" />
+    </property>
+
+    <property access="field.camelcase-underscore" name="Numero">
+      <column name="numero" length="11" not-null="true" />
+    </property>
+
+  </class>
+</hibernate-mapping>
