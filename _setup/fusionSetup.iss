@@ -21,13 +21,13 @@
 
 #ifndef Release
   // #define Full "" ;Ativar para simular instalador full
-  // #define ThirdPath "C:\ProgramData\FusionSetup\3rd" ;Definir pasta a uxiliar para executaveis
   #define AppVersion "v0.0.0"
   #define BuildPath "bin\Release"
   #define Workspace GetEnv("PROJETO_FUSION")
 #endif
 
 ; define fusion path
+#define ThirdPath Workspace + "\_setup\files";
 #define FusionCorePath Workspace + "\FusionCore\" + BuildPath
 #define FusionPath Workspace + "\Fusion\" + BuildPath
 #define FusionBackgroundPath Workspace + "\Fusion.Background.App\" + BuildPath
@@ -582,7 +582,6 @@ begin
   Edit := TNewEdit.Create(Page);
   Edit.Width := Page.SurfaceWidth;
   Edit.Parent := Page.Surface;
-  Edit.MaxLength := 14;
   SetTop(Edit);
 
   EditCnpj := Edit;
@@ -822,7 +821,7 @@ end;
 
 procedure InitializeWizard();
 begin
-  if (not InstaladorWhiteLabel) then CnpjParceiro := '21025760000123';
+  if (not InstaladorWhiteLabel) then CnpjParceiro := '0001';
   
   CarregarVariaveisRegedit();
   CriarPaginaWhiteLabel();
@@ -968,13 +967,8 @@ function NextButtonClick(CurPageID : Integer) : Boolean ;
 begin
   if (CurPageID = Page1.ID) then begin
     try
-      if (Length(EditCnpj.Text) <> 14) then begin
-        Result := False;
-        MsgBox('CNPJ Parciero Precisa ter 14 dígitos', mbError, MB_OK);
-      end else begin
-        CnpjParceiro := EditCnpj.Text;
-        Result := True;
-      end;
+      CnpjParceiro := EditCnpj.Text;
+      Result := True;
     except
       Result := False;
       MsgBox(GetExceptionMessage(),mbError, MB_OK);

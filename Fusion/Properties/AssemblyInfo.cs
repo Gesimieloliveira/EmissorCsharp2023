@@ -6,12 +6,12 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Sistema Fusion")]
+[assembly: AssemblyTitle("Sistema Comercial")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("AGIL4 TECNOLOGIA")]
-[assembly: AssemblyProduct("Sistema Fusion")]
-[assembly: AssemblyCopyright("Copyright © AGIL4 TECNOLOGIA LTDA ME 2016-2021")]
+[assembly: AssemblyCompany("ROBERTO ALVES PEREIRA")]
+[assembly: AssemblyProduct("Sistema Comercial2023")]
+[assembly: AssemblyCopyright("Copyright Â© ROBERTO ALVES PEREIRA 2016-2023")]
 [assembly: AssemblyTrademark("SISTEMA FUSION")]
 [assembly: AssemblyCulture("")]
 

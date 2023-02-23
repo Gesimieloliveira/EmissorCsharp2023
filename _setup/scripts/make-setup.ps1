@@ -30,7 +30,12 @@ if ($AppVersion -eq "") {
 
 $FileVersion = $AppVersion.Replace(".", "-")
 $SetupNameOutput = $SetupName + "-" + $FileVersion
-$ParamWhiteLabel = $WhiteLabel ? "WhiteLabel=1" : ""
+
+$ParamWhiteLabel = "0"
+
+if ($WhiteLabel) {
+  $ParamWhiteLabel = "WhiteLabel=1"
+}
 
 Write-Host "AppVersion: $AppVersion"
 Write-Host "FileVersion: $FileVersion"
